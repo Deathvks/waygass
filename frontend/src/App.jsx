@@ -179,7 +179,7 @@ export default function App() {
   }, [settings, cookieConsent]);
 
   const defaultFilters = {
-    fuelType: 'g95', province: 'auto', radius: 20, sortBy: 'price',
+    fuelType: 'g95', province: 'auto', radius: 10, sortBy: 'price',
     priceCategory: 'all',
     openNow: false,
     brand: 'all'
@@ -363,7 +363,7 @@ export default function App() {
     setLoading(true);
     try {
       // Si el usuario busca manualmente, asegurarnos de que el radio sea amplio para que vea resultados (ej: islas enteras)
-      setFilters(prev => ({ ...prev, radius: 20 }));
+      setFilters(prev => ({ ...prev, radius: 10 }));
       
       const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&countrycodes=es&q=${encodeURIComponent(query)}&email=hola@waygas.com`);
       if (res.data && res.data.length > 0) {
