@@ -76,7 +76,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
-      <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center">
+      <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20 md:opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
         
@@ -86,9 +86,6 @@ export default function AuthScreen({ onLoginSuccess }) {
             <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
           </svg>
         </div>
-
-        {/* Decoración en PC */}
-        <div className="hidden md:block absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-white dark:from-[#0f172a] to-transparent z-10"></div>
 
         {/* Contenido Izquierdo */}
         <div className="absolute md:relative top-12 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
