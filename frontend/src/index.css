@@ -4,6 +4,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @layer base {
+  html, body {
+    overscroll-behavior-y: none;
+  }
+  
   body {
     font-family: 'Inter', sans-serif;
     background-color: #f8fafc;
