@@ -76,7 +76,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
-      <div className="relative w-full h-[40vh] sm:h-[45vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
+      <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90"></div>
         
@@ -88,9 +88,9 @@ export default function AuthScreen({ onLoginSuccess }) {
         </div>
 
         {/* Contenido Izquierdo */}
-        <div className="absolute md:relative top-12 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
-           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-md brightness-0 invert" />
-           <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-sm md:text-xl">WAYGASS</span>
+        <div className="absolute md:relative top-8 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
+           <img src="/logo.svg" alt="WayGass" className="w-10 h-10 md:w-16 md:h-16 drop-shadow-md brightness-0 invert" />
+           <span className="text-white font-black tracking-widest mt-1 md:mt-4 text-xs md:text-xl">WAYGASS</span>
            
            <h2 className="hidden md:block text-white text-4xl lg:text-5xl font-bold leading-tight drop-shadow-lg mt-12">
              Tu combustible,<br/>tu ruta,<br/><span className="text-orange-200">al mejor precio.</span>
@@ -102,20 +102,20 @@ export default function AuthScreen({ onLoginSuccess }) {
       </div>
 
       {/* Contenedor del Formulario (Derecha en PC) */}
-      <div className="flex-1 flex flex-col md:justify-center px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
-        <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
+      <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
+        <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
+          <h1 className="text-2xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
             {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
           </h1>
-          <div className="w-12 h-1 bg-orange-500 rounded-full mb-6"></div>
+          <div className="w-12 h-1 bg-orange-500 rounded-full mb-4 md:mb-6"></div>
 
         {error && (
-          <div className="text-rose-500 text-sm font-medium mb-4 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
+          <div className="text-rose-500 text-sm font-medium mb-3 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
           
           {!isLogin && (
             <div className="flex gap-4">
@@ -229,7 +229,7 @@ export default function AuthScreen({ onLoginSuccess }) {
             </div>
           )}
 
-          <div className="mt-auto pt-6 flex flex-col gap-6">
+          <div className="mt-auto pt-4 md:pt-6 flex flex-col gap-4 md:gap-6">
             <button 
               type="submit" 
               disabled={loading}
