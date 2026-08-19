@@ -12,6 +12,8 @@ import NavigationDock from './components/NavigationDock';
 import AuthScreen from './components/AuthScreen';
 import LogoutModal from './components/LogoutModal';
 import ProfileModal from './components/ProfileModal';
+import CookiesBanner from './components/CookiesBanner';
+import LegalModal from './components/LegalModal';
 
 const API_BASE = 'https://unsnap-causing-affluent.ngrok-free.dev/api/gas';
 const SETTINGS_API = 'https://unsnap-causing-affluent.ngrok-free.dev/api/settings';
@@ -112,6 +114,30 @@ const PROVINCE_MAP = {
 };
 
 export default function App() {
+  const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent'));
+  const [legalType, setLegalType] = useState(null);
+
+  const safeSetItem = (key, value) => {
+    // Auth is essential, allow it always
+    if (key === 'waygas_token' || key === 'waygas_user') {
+      localStorage.setItem(key, value);
+      return;
+    }
+    // Only save preferences if cookies are accepted
+    if (cookieConsent === 'accepted') {
+      localStorage.setItem(key, value);
+    }
+  };
+
+  const handleRejectCookies = () => {
+    setCookieConsent('rejected');
+    ['waygas_settings', 'waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => localStorage.removeItem(k));
+  };
+
+  const handleAcceptCookies = () => {
+    setCookieConsent('accepted');
+  };
+
   const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token'));
   const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('waygas_user') || 'null'));
   
@@ -145,8 +171,8 @@ export default function App() {
 
   // Persistir ajustes localmente cada vez que cambien para que no se pierdan al recargar
   useEffect(() => {
-    localStorage.setItem('waygas_settings', JSON.stringify(settings));
-  }, [settings]);
+    safeSetItem('waygas_settings', JSON.stringify(settings));
+  }, [settings, cookieConsent]);
 
   const defaultFilters = {
     fuelType: 'g95', province: 'auto', radius: 20, sortBy: 'price',
@@ -195,14 +221,14 @@ export default function App() {
 
   // Persistir estado (solo campos fijos para los filtros)
   useEffect(() => { 
-    localStorage.setItem('waygas_filters', JSON.stringify({
+    safeSetItem('waygas_filters', JSON.stringify({
       fuelType: filters.fuelType,
       radius: filters.radius
     })); 
-  }, [filters.fuelType, filters.radius]);
-  useEffect(() => { localStorage.setItem('waygas_viewMode', viewMode); }, [viewMode]);
-  useEffect(() => { localStorage.setItem('waygas_province', currentProvince); }, [currentProvince]);
-  useEffect(() => { localStorage.setItem('waygas_location', JSON.stringify(userLocation)); }, [userLocation]);
+  }, [filters.fuelType, filters.radius, cookieConsent]);
+  useEffect(() => { safeSetItem('waygas_viewMode', viewMode); }, [viewMode, cookieConsent]);
+  useEffect(() => { safeSetItem('waygas_province', currentProvince); }, [currentProvince, cookieConsent]);
+  useEffect(() => { safeSetItem('waygas_location', JSON.stringify(userLocation)); }, [userLocation, cookieConsent]);
 
   // Fetch Favoritos
   const fetchFavorites = async () => {
@@ -723,6 +749,7 @@ export default function App() {
         onSave={saveSettings}
         openSub={() => setSubOpen(true)}
         user={authUser}
+        onShowLegal={setLegalType}
       />
 
       <SubscriptionModal 
@@ -746,6 +773,17 @@ export default function App() {
         user={authUser}
         onLogout={() => setLogoutOpen(true)}
         openSub={() => setSubOpen(true)}
+      />
+
+      <CookiesBanner 
+        onAccept={handleAcceptCookies} 
+        onReject={handleRejectCookies} 
+        onShowLegal={setLegalType} 
+      />
+      
+      <LegalModal 
+        type={legalType} 
+        onClose={() => setLegalType(null)} 
       />
     </div>
   );
