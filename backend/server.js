@@ -107,7 +107,7 @@ const fetchAndStoreDailyPrices = async () => {
         
         if (id && (p95 || pdiesel)) {
           // Upsert en SQLite (insertar o ignorar si ya existe para hoy)
-          await PriceHistory.upsert({
+          await db.PriceHistory.upsert({
             stationId: id.toString(),
             date: today,
             price95: p95,
@@ -134,7 +134,7 @@ app.get('/api/history/:id', async (req, res) => {
     const { id } = req.params;
     
     // Buscar historial en BD
-    let history = await PriceHistory.findAll({
+    let history = await db.PriceHistory.findAll({
       where: { stationId: id.toString() },
       order: [['date', 'ASC']],
       limit: 30
