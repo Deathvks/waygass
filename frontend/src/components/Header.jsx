@@ -8,7 +8,7 @@ export default function Header({ isPro, openSettings, openSub, user, openProfile
         {/* Izquierda: Logo y Marca */}
         <div className="flex items-center gap-2.5 text-white">
           <div className="w-8 h-8 rounded-xl bg-white shadow-sm overflow-hidden flex items-center justify-center">
-            <img src="/logo.svg" alt="WayGass Logo" className="w-full h-full object-cover" />
+            <img src="/logo.png" alt="WayGass Logo" className="w-full h-full object-cover" />
           </div>
           <h1 className="font-bold text-2xl tracking-tight leading-none flex items-center gap-2">
             <span>WayGass</span>

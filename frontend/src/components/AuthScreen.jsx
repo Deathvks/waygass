@@ -130,8 +130,8 @@ export default function AuthScreen({ onLoginSuccess }) {
 
         {/* Contenido Izquierdo */}
         <div className="absolute md:relative top-8 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
-           <img src="/logo.svg" alt="WayGass" className="w-10 h-10 md:w-16 md:h-16 drop-shadow-md brightness-0 invert" />
-           <span className="text-white font-black tracking-widest mt-1 md:mt-4 text-xs md:text-xl">WAYGASS</span>
+           <img src="/logo.png" alt="WayGass" className="w-12 h-12 md:w-20 md:h-20 drop-shadow-lg rounded-2xl" />
+           <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-xs md:text-xl">WAYGASS</span>
            
            <h2 className="hidden md:block text-white text-4xl lg:text-5xl font-bold leading-tight drop-shadow-lg mt-12">
              Tu combustible,<br/>tu ruta,<br/><span className="text-orange-200">al mejor precio.</span>
