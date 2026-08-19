@@ -1,0 +1,557 @@
+const express = require('express');
+const cors = require('cors');
+const axios = require('axios');
+const db = require('./models');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cron = require('node-cron');
+
+const User = db.users; 
+const PriceHistory = db.PriceHistory;
+const Favorite = db.Favorite;
+const Validation = db.Validation;
+
+const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
+
+const app = express();
+const PORT = process.env.PORT || 3002;
+
+app.use(cors());
+app.use(express.json());
+
+// Sincronizar Base de Datos
+db.sequelize.sync({ force: false }).then(() => {
+  console.log("Conectado a la base de datos SQLite.");
+}).catch(err => {
+  console.error("Error al conectar con la base de datos: ", err.message);
+});
+
+// ==========================================
+// Proxy para la API de MITECO (Evitar CORS)
+// ==========================================
+const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/';
+
+app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
+  try {
+    const { provincia } = req.params;
+    const response = await axios.get(`${API_BASE}FiltroProvincia/${provincia}`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    // El MITECO a veces devuelve un string JSON, otras veces un objeto. Axios suele parsearlo automáticamente si está bien formado.
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error obteniendo datos del MITECO:", error.message);
+    res.status(500).json({ error: "No se pudo obtener la información de las gasolineras" });
+  }
+});
+
+// ==========================================
+// Histórico y Auto-alimentación (Cron)
+// ==========================================
+
+// Parsear número español (ej: "1,452" -> 1.452)
+const parsePrice = (str) => {
+  if (!str) return null;
+  const val = parseFloat(str.toString().replace(',', '.').trim());
+  return isNaN(val) || val <= 0 ? null : val;
+};
+
+// Función para guardar los precios actuales en la DB
+const fetchAndStoreDailyPrices = async () => {
+  try {
+    console.log("[CRON] Iniciando descarga diaria de precios para el histórico...");
+    const response = await axios.get(`${API_BASE}FiltroProvincia/`, { // Fetches all Spain (or we can use FiltroProvincia with no ID to get all, actually the API for all is different, but for simplicity let's use the general endpoint if available. The MITECO general is /PreciosCarburantes/EstacionesTerrestres/
+      headers: { 'Accept': 'application/json' }
+    });
+    
+    // El endpoint para TODA España es: 
+    // https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/
+    const allStationsRes = await axios.get(API_BASE, { headers: { 'Accept': 'application/json' }});
+    
+    if (allStationsRes.data && allStationsRes.data.ListaEESSPrecio) {
+      const stations = allStationsRes.data.ListaEESSPrecio;
+      const today = new Date().toISOString().split('T')[0];
+      
+      let inserted = 0;
+      for (const s of stations) {
+        const id = s['IDEESS'];
+        const p95 = parsePrice(s['Precio Gasolina 95 E5']);
+        const pdiesel = parsePrice(s['Precio Gasoleo A']);
+        
+        if (id && (p95 || pdiesel)) {
+          // Upsert en SQLite (insertar o ignorar si ya existe para hoy)
+          await PriceHistory.upsert({
+            stationId: id.toString(),
+            date: today,
+            price95: p95,
+            priceDiesel: pdiesel
+          });
+          inserted++;
+        }
+      }
+      console.log(`[CRON] Histórico guardado correctamente. ${inserted} estaciones procesadas para ${today}.`);
+    }
+  } catch (error) {
+    console.error("[CRON] Error descargando precios diarios:", error.message);
+  }
+};
+
+// Ejecutar todos los días a las 03:00 AM
+cron.schedule('0 3 * * *', () => {
+  fetchAndStoreDailyPrices();
+});
+
+// Endpoint para obtener histórico de 30 días de una estación
+app.get('/api/history/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Buscar historial en BD
+    let history = await PriceHistory.findAll({
+      where: { stationId: id.toString() },
+      order: [['date', 'ASC']],
+      limit: 30
+    });
+
+    res.json(history);
+  } catch (error) {
+    console.error("Error obteniendo histórico:", error.message);
+    res.status(500).json({ error: "Error obteniendo el histórico" });
+  }
+});
+
+// ==========================================
+// Middleware de Autenticación
+// ==========================================
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: "Acceso denegado. Token no proporcionado." });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // { id, role }
+    next();
+  } catch (err) {
+    res.status(401).json({ error: "Token inválido o expirado." });
+  }
+};
+
+const verifyAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user && req.user.role === 'admin') {
+      next();
+    } else {
+      res.status(403).json({ error: "Acceso denegado. Se requieren permisos de administrador." });
+    }
+  });
+};
+
+// ==========================================
+// Endpoints de Administración (Protegidos)
+// ==========================================
+app.get('/api/admin/force-history-sync', verifyAdmin, async (req, res) => {
+  try {
+    fetchAndStoreDailyPrices(); // Iniciar en segundo plano
+    res.json({ message: "Sincronización de precios iniciada en segundo plano." });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
+  try {
+    const totalUsers = await User.count();
+    const proUsers = await User.count({ where: { subscription: 'pro' } });
+    const totalValidations = await Validation.count();
+    
+    res.json({
+      totalUsers,
+      proUsers,
+      totalValidations
+    });
+  } catch (e) {
+    res.status(500).json({ error: "Error obteniendo estadísticas." });
+  }
+});
+
+app.get('/api/admin/users', verifyAdmin, async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'lastName', 'email', 'subscription', 'role', 'createdAt']
+    });
+    res.json(users);
+  } catch (e) {
+    res.status(500).json({ error: "Error obteniendo usuarios." });
+  }
+});
+
+app.delete('/api/admin/users/:id', verifyAdmin, async (req, res) => {
+  try {
+    const userId = parseInt(req.params.id);
+    if (userId === req.user.id) {
+      return res.status(400).json({ error: "No puedes eliminar tu propia cuenta de administrador." });
+    }
+    
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+    
+    await user.destroy();
+    res.json({ message: "Usuario eliminado correctamente." });
+  } catch (e) {
+    res.status(500).json({ error: "Error eliminando usuario." });
+  }
+});
+
+app.patch('/api/admin/users/:id/role', verifyAdmin, async (req, res) => {
+  try {
+    const userId = parseInt(req.params.id);
+    const { role } = req.body;
+    
+    if (userId === req.user.id) {
+      return res.status(400).json({ error: "No puedes cambiarte el rol a ti mismo." });
+    }
+    
+    if (role !== 'admin' && role !== 'user') {
+      return res.status(400).json({ error: "Rol inválido." });
+    }
+    
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Usuario no encontrado." });
+    }
+    
+    user.role = role;
+    await user.save();
+    res.json({ message: "Rol actualizado correctamente.", user });
+  } catch (e) {
+    res.status(500).json({ error: "Error actualizando rol." });
+  }
+});
+
+// Endpoint temporal para convertir un usuario en administrador (Solo para pruebas/inicialización)
+app.get('/api/admin/make-me-admin/:email', async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { email: req.params.email } });
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+    
+    user.role = 'admin';
+    await user.save();
+    res.json({ message: `¡Usuario ${user.email} ascendido a Administrador!` });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ==========================================
+// Rutas de Autenticación
+// ==========================================
+app.post('/api/register', async (req, res) => {
+  try {
+    const { name, lastName, email, password } = req.body;
+    
+    console.log(`[AUTH] Intento de registro para email: ${email}`);
+
+    // Validación básica
+    if (!name || !lastName || !email || !password) {
+      console.warn(`[AUTH-ERROR] Registro fallido: Campos incompletos.`);
+      return res.status(400).json({ error: "Todos los campos son obligatorios." });
+    }
+
+    const passwordRules = {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      number: /[0-9]/.test(password),
+      special: /[^A-Za-z0-9]/.test(password)
+    };
+
+    if (!Object.values(passwordRules).every(Boolean)) {
+      console.warn(`[AUTH-ERROR] Registro fallido: Contraseña débil para ${email}.`);
+      return res.status(400).json({ error: "La contraseña no cumple todos los requisitos de seguridad." });
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      console.warn(`[AUTH-ERROR] Registro fallido: Formato de email inválido (${email}).`);
+      return res.status(400).json({ error: "Formato de correo electrónico inválido." });
+    }
+    
+    // Verificar si existe
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      console.warn(`[AUTH-ERROR] Registro fallido: El email ya existe (${email}).`);
+      return res.status(400).json({ error: "El correo electrónico ya está registrado." });
+    }
+
+    // Hashear contraseña
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Crear usuario
+    const newUser = await User.create({
+      name,
+      lastName,
+      email,
+      password: hashedPassword
+    });
+
+    console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email})`);
+
+    // Generar JWT
+    const token = jwt.sign({ id: newUser.id, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
+    
+    res.json({
+      token,
+      user: { id: newUser.id, name: newUser.name, lastName: newUser.lastName, email: newUser.email, subscription: newUser.subscription, role: newUser.role }
+    });
+  } catch (error) {
+    console.error("Error en registro:", error);
+    res.status(500).json({ error: "Error interno del servidor al registrarse." });
+  }
+});
+
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    console.log(`[AUTH] Intento de login para email: ${email}`);
+
+    if (!email || !password) {
+      console.warn(`[AUTH-ERROR] Login fallido: Campos incompletos.`);
+      return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
+    }
+
+    // Buscar usuario
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      console.warn(`[AUTH-ERROR] Login fallido: Usuario no encontrado (${email}).`);
+      return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
+    }
+
+    // Validar contraseña
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      console.warn(`[AUTH-ERROR] Login fallido: Contraseña incorrecta para ${email}.`);
+      return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
+    }
+
+    console.log(`[AUTH-SUCCESS] Login exitoso: ${user.id} (${email})`);
+
+    // Generar JWT
+    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    
+    res.json({
+      token,
+      user: { id: user.id, name: user.name, lastName: user.lastName, email: user.email, subscription: user.subscription, role: user.role }
+    });
+  } catch (error) {
+    console.error("Error en login:", error);
+    res.status(500).json({ error: "Error interno del servidor al iniciar sesión." });
+  }
+});
+
+// ==========================================
+// Endpoints de Usuario (Ajustes, Favoritos y Validación)
+// ==========================================
+
+app.get('/api/ranking', async (req, res) => {
+  try {
+    const [results] = await db.sequelize.query(`
+      SELECT u.id, u.name, u.lastName, COUNT(v.id) as score
+      FROM users u
+      JOIN Validations v ON u.id = v.userId
+      GROUP BY u.id
+      ORDER BY score DESC
+      LIMIT 10
+    `);
+    res.json(results);
+  } catch (e) {
+    console.error("Error obteniendo ranking:", e);
+    res.status(500).json({ error: "Error obteniendo ranking" });
+  }
+});
+
+// Obtener recuento de validaciones para todas las gasolineras (bulk)
+app.get('/api/validations/all', async (req, res) => {
+  try {
+    const validations = await Validation.findAll();
+    const result = {};
+    validations.forEach(v => {
+      if (!result[v.stationId]) {
+        result[v.stationId] = { PRICE_CORRECT: 0, WRONG_PRICE: 0, CLOSED: 0 };
+      }
+      if (result[v.stationId][v.type] !== undefined) {
+        result[v.stationId][v.type]++;
+      }
+    });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Error obteniendo validaciones globales." });
+  }
+});
+
+// Obtener recuento de validaciones para una gasolinera
+app.get('/api/stations/:id/validations', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const validations = await Validation.findAll({ where: { stationId: id.toString() } });
+    
+    const counts = { PRICE_CORRECT: 0, WRONG_PRICE: 0, CLOSED: 0 };
+    validations.forEach(v => {
+      if (counts[v.type] !== undefined) counts[v.type]++;
+    });
+    
+    res.json(counts);
+  } catch (error) {
+    res.status(500).json({ error: "Error obteniendo validaciones." });
+  }
+});
+
+  // Obtener mis validaciones (Anónima o Logueada)
+  app.get('/api/validations/me', async (req, res) => {
+    try {
+      const ipAddress = req.ip || req.connection.remoteAddress;
+      
+      let userId = null;
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        try {
+          const token = authHeader.split(' ')[1];
+          const decoded = jwt.verify(token, JWT_SECRET);
+          userId = decoded.id;
+        } catch (e) {} 
+      }
+
+      const whereClause = userId ? { userId } : { ipAddress };
+      const myValidations = await Validation.findAll({ where: whereClause });
+      
+      res.json(myValidations);
+    } catch (error) {
+      res.status(500).json({ error: "Error obteniendo mis validaciones." });
+    }
+  });
+
+// Enviar una validación (Anónima o Logueada)
+app.post('/api/stations/:id/validate', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { type } = req.body; // 'PRICE_CORRECT', 'WRONG_PRICE', 'CLOSED'
+    const ipAddress = req.ip || req.connection.remoteAddress;
+    
+    // Check if token exists to get userId, but don't require it
+    let userId = null;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.split(' ')[1];
+        const decoded = jwt.verify(token, JWT_SECRET);
+        userId = decoded.id;
+      } catch (e) {} // Ignorar token inválido aquí, permitimos voto anónimo
+    }
+
+    // Regla anti-spam: 1 voto por IP o usuario por gasolinera por día. Para el prototipo, lo simplificamos a 1 voto total.
+    const whereClause = userId ? { userId, stationId: id.toString() } : { ipAddress, stationId: id.toString() };
+    const existing = await Validation.findOne({ where: whereClause });
+    
+    if (existing) {
+      if (type === 'CANCEL') {
+        await existing.destroy();
+      } else {
+        // Si ya votó, actualizamos su voto
+        existing.type = type;
+        await existing.save();
+      }
+    } else if (type !== 'CANCEL') {
+      await Validation.create({
+        stationId: id.toString(),
+        userId,
+        ipAddress,
+        type
+      });
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: "Error guardando validación." });
+  }
+});
+
+// Obtener favoritos del usuario
+app.get('/api/favorites', verifyToken, async (req, res) => {
+  try {
+    const favorites = await Favorite.findAll({ where: { userId: req.user.id } });
+    const favoriteIds = favorites.map(f => f.stationId);
+    res.json(favoriteIds);
+  } catch (error) {
+    res.status(500).json({ error: "Error obteniendo favoritos." });
+  }
+});
+
+// Añadir/Quitar favorito
+app.post('/api/favorites/toggle', verifyToken, async (req, res) => {
+  try {
+    const { stationId } = req.body;
+    if (!stationId) return res.status(400).json({ error: "stationId requerido" });
+
+    const existing = await Favorite.findOne({ 
+      where: { userId: req.user.id, stationId: stationId.toString() } 
+    });
+
+    if (existing) {
+      await existing.destroy();
+      res.json({ action: 'removed', stationId });
+    } else {
+      await Favorite.create({ userId: req.user.id, stationId: stationId.toString() });
+      res.json({ action: 'added', stationId });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Error modificando favoritos." });
+  }
+});
+
+// Obtener configuración del usuario logueado
+app.get('/api/settings', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Actualizar configuración del usuario logueado
+app.put('/api/settings', verifyToken, async (req, res) => {
+  try {
+    // VULNERABILIDAD CORREGIDA: Solo permitimos actualizar campos específicos (Whitelisting).
+    // Si usáramos "...updateData", un hacker podría enviar { "subscription": "pro" } y hacerse premium gratis.
+    const { name, lastName } = req.body;
+    
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (lastName) updateData.lastName = lastName;
+    
+    if (Object.keys(updateData).length > 0) {
+      await User.update(updateData, {
+        where: { id: req.user.id }
+      });
+    }
+    
+    const updatedUser = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor Backend corriendo en el puerto ${PORT}.`);
+});

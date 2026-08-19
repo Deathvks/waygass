@@ -1,0 +1,19 @@
+{
+  "development": {
+    "username": "root",
+    "password": "1234",
+    "database": "waygas",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ":memory:"
+  },
+  "production": {
+    "dialect": "sqlite",
+    "storage": "./waygas.sqlite",
+    "logging": false
+  }
+}
