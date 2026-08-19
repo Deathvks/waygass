@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function AuthScreen({ onLoginSuccess }) {
@@ -7,6 +7,29 @@ export default function AuthScreen({ onLoginSuccess }) {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Set notch color to orange for auth screen on mobile
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+      metaThemeColor = document.createElement('meta');
+      metaThemeColor.name = 'theme-color';
+      document.head.appendChild(metaThemeColor);
+    }
+    const previousColor = metaThemeColor.getAttribute('content');
+    metaThemeColor.setAttribute('content', '#f97316'); // Tailwind orange-500
+
+    return () => {
+      // Restore or remove on unmount so the main app uses its own color
+      if (previousColor) {
+        metaThemeColor.setAttribute('content', previousColor);
+      } else {
+        // Reset to match standard app background (white in light, dark in dark mode)
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        metaThemeColor.setAttribute('content', isDarkMode ? '#0f172a' : '#ffffff');
+      }
+    };
+  }, []);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -74,7 +97,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
       <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
