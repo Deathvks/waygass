@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
 export default function StationList({ stations, totalStations, minPrice, avgPrice, tankSize, radius, getGpsUrl, activeFuelLabel, favoriteIds = [], onToggleFavorite, selectedStationId, onSelectStation, lastUpdate }) {

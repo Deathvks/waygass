@@ -15,6 +15,7 @@ import ProfileModal from './components/ProfileModal';
 import CookiesBanner from './components/CookiesBanner';
 import LegalModal from './components/LegalModal';
 import VerifyEmail from './components/VerifyEmail';
+import { Toaster, toast } from 'react-hot-toast';
 
 const API_BASE = '/api/gas';
 const SETTINGS_API = '/api/settings';
@@ -636,7 +637,36 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col antialiased text-slate-900 dark:text-slate-100 relative">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col antialiased text-slate-900 
+dark:text-slate-100 relative">
+
+        <Toaster 
+          position="bottom-center"
+          toastOptions={{
+            duration: 3500,
+            style: {
+              background: '#0f172a',
+              color: '#fff',
+              borderRadius: '16px',
+              padding: '12px 20px',
+              fontWeight: 'bold',
+              fontSize: '14px',
+              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
+            },
+            success: {
+              iconTheme: {
+                primary: '#10b981',
+                secondary: '#fff',
+              },
+            },
+            error: {
+              iconTheme: {
+                primary: '#f43f5e',
+                secondary: '#fff',
+              },
+            }
+          }} 
+        />
       
       {/* Área Principal: Mapa para Desktop (Fondo completo) */}
       <div className="hidden lg:block absolute inset-0 z-0 bg-slate-100 dark:bg-slate-950">

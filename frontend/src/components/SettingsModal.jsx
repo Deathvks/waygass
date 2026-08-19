@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function SettingsModal({ 
   isOpen, 
@@ -71,7 +72,7 @@ export default function SettingsModal({
 
   const handleDeleteClick = (u) => {
     if (u.id === user?.id) {
-      alert("No puedes borrarte a ti mismo.");
+      toast.error("No puedes borrarte a ti mismo.");
       return;
     }
     setDeleteModalUser(u);
@@ -87,8 +88,9 @@ export default function SettingsModal({
       setUsersList(prev => prev.filter(u => u.id !== deleteModalUser.id));
       setAdminStats(prev => ({ ...prev, totalUsers: prev.totalUsers - 1 }));
       setDeleteModalUser(null);
+      toast.success("Usuario eliminado permanentemente");
     } catch (e) {
-      alert(e.response?.data?.error || "Error eliminando usuario.");
+      toast.error(e.response?.data?.error || "Error eliminando usuario.");
     }
   };
 
@@ -105,8 +107,9 @@ export default function SettingsModal({
       // Update local state
       setUsersList(prev => prev.map(usr => usr.id === roleModalUser.id ? { ...usr, role: newRole } : usr));
       setRoleModalUser(null);
+      toast.success("Rol actualizado exitosamente");
     } catch (e) {
-      alert(e.response?.data?.error || "Error cambiando rol.");
+      toast.error(e.response?.data?.error || "Error cambiando rol.");
     }
   };
 
