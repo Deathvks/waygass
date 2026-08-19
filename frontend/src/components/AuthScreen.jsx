@@ -3,12 +3,15 @@ import axios from 'axios';
 
 export default function AuthScreen({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ name: '', lastName: '', email: '', password: '' });
+  const [formData, setFormData] = useState(() => {
+    const savedEmail = sessionStorage.getItem('waygas_pending_verification');
+    return { name: '', lastName: '', email: savedEmail || '', password: '' };
+  });
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [verificationSent, setVerificationSent] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(() => !!sessionStorage.getItem('waygas_pending_verification'));
   const [resendTimer, setResendTimer] = useState(20);
   const [resendMessage, setResendMessage] = useState("");
 
@@ -131,6 +134,7 @@ export default function AuthScreen({ onLoginSuccess }) {
       
       if (res.data.status === 'verification_required') {
         setVerificationSent(true);
+        sessionStorage.setItem('waygas_pending_verification', formData.email);
         setResendTimer(20);
         setError("");
         setResendMessage("");
@@ -210,6 +214,7 @@ export default function AuthScreen({ onLoginSuccess }) {
                 <button 
                   onClick={() => {
                     setVerificationSent(false);
+                    sessionStorage.removeItem('waygas_pending_verification');
                     setIsLogin(true);
                     setError("");
                     setResendMessage("");
