@@ -230,27 +230,27 @@ export default function AuthScreen({ onLoginSuccess }) {
           </div>
 
           {/* Remember Me & Forgot Password */}
-          {isLogin && (
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs mt-2 w-full">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
-                <div className="relative flex items-center justify-center">
-                  <input 
-                    type="checkbox" 
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 appearance-none bg-white dark:bg-slate-800 checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
-                  />
-                  <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
-              </label>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs mt-2 w-full">
+            <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
+              <div className="relative flex items-center justify-center">
+                <input 
+                  type="checkbox" 
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 appearance-none bg-white dark:bg-slate-800 checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
+                />
+                <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
+            </label>
+            {isLogin && (
               <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
                 ¿Olvidaste la contraseña?
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
           <div className="mt-auto pt-4 md:pt-6 flex flex-col gap-4 md:gap-6">
             <button 
