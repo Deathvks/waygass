@@ -250,11 +250,12 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
 // ==========================================
 // Rutas de Autenticación
 // ==========================================
-app.post('/api/register', async (req, res) => {
-  try {
-    const { name, lastName, email, password } = req.body;
-    
-    console.log(`[AUTH] Intento de registro para email: ${email}`);
+  app.post('/api/register', async (req, res) => {
+    try {
+      const { name, lastName, email, password, rememberMe } = req.body;
+      const expiresIn = rememberMe ? '30d' : '7d';
+      
+      console.log(`[AUTH] Intento de registro para email: ${email}`);
 
     // Validación básica
     if (!name || !lastName || !email || !password) {
@@ -302,7 +303,7 @@ app.post('/api/register', async (req, res) => {
     console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email})`);
 
     // Generar JWT
-    const token = jwt.sign({ id: newUser.id, role: newUser.role }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: newUser.id, role: newUser.role }, JWT_SECRET, { expiresIn: rememberMe ? '365d' : '1d' });
     
     res.json({
       token,
@@ -316,7 +317,7 @@ app.post('/api/register', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, rememberMe } = req.body;
     
     console.log(`[AUTH] Intento de login para email: ${email}`);
 
@@ -342,7 +343,7 @@ app.post('/api/login', async (req, res) => {
     console.log(`[AUTH-SUCCESS] Login exitoso: ${user.id} (${email})`);
 
     // Generar JWT
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: rememberMe ? '365d' : '1d' });
     
     res.json({
       token,

@@ -56,7 +56,8 @@ export default function AuthScreen({ onLoginSuccess }) {
     
     try {
       const endpoint = isLogin ? '/api/login' : '/api/register';
-      const res = await axios.post(`${endpoint}`, formData);
+      const payload = { ...formData, rememberMe };
+      const res = await axios.post(`${endpoint}`, payload);
       
       const { token, user } = res.data;
       
