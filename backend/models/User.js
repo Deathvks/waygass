@@ -10,8 +10,7 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false
     },
     lastName: {
-      type: Sequelize.STRING,
-      allowNull: false
+      type: Sequelize.STRING
     },
     email: {
       type: Sequelize.STRING,
@@ -24,12 +23,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     role: {
       type: Sequelize.STRING,
-      allowNull: false,
       defaultValue: 'user'
     },
     subscription: {
       type: Sequelize.STRING,
-      allowNull: false,
       defaultValue: 'basic'
     },
     tankSize: {
