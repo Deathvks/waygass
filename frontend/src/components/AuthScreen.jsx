@@ -75,7 +75,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
-      <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
+      <div className="relative w-full h-[40vh] sm:h-[45vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20 md:opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
         
@@ -101,7 +101,7 @@ export default function AuthScreen({ onLoginSuccess }) {
       </div>
 
       {/* Contenedor del Formulario (Derecha en PC) */}
-      <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
+      <div className="flex-1 flex flex-col md:justify-center px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
         <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
             {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
