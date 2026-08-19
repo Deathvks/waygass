@@ -93,8 +93,8 @@ const MemoizedStationMarker = React.memo(({ s, minPrice, isSelected, activeFuelL
         }
       }}
     >
-      <Popup>
-        <div style={{ fontFamily: 'system-ui, sans-serif', padding: '2px' }}>
+      <Popup maxWidth={260}>
+        <div style={{ fontFamily: 'system-ui, sans-serif', padding: '2px', maxWidth: '250px', wordWrap: 'break-word' }}>
           <strong style={{ fontSize: '13px', color: '#0f172a' }}>{s.brand}</strong><br/>
           <span style={{ fontSize: '11px', color: '#64748b' }}>{s.address}</span>
           <div style={{ marginTop: '4px', fontWeight: 700, color: '#0f172a', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
