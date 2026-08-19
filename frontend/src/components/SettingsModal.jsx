@@ -267,15 +267,21 @@ export default function SettingsModal({
           {/* Capacidad Depósito */}
           <div className="flex flex-col gap-3">
             <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Capacidad del Depósito</label>
-            <div className="flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl">
-              <input 
-                type="range" 
-                min="20" max="100" step="5" 
-                value={settings.tankSize} 
-                onChange={(e) => setSettings({ ...settings, tankSize: Number(e.target.value) })}
-                className="flex-1 accent-orange-500 cursor-pointer"
-              />
-              <span className="font-black text-lg text-slate-800 dark:text-white w-16 text-right">{settings.tankSize} <span className="text-sm font-semibold text-slate-400">L</span></span>
+            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <input 
+                  type="range" 
+                  min="20" max="100" step="5" 
+                  value={settings.tankSize} 
+                  onChange={(e) => setSettings({ ...settings, tankSize: Number(e.target.value) })}
+                  className="flex-1 accent-orange-500 cursor-pointer"
+                />
+                <span className="font-black text-lg text-slate-800 dark:text-white w-16 text-right">{settings.tankSize} <span className="text-sm font-semibold text-slate-400">L</span></span>
+              </div>
+              <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                <span>20L</span>
+                <span>100L</span>
+              </div>
             </div>
           </div>
 
@@ -359,7 +365,9 @@ export default function SettingsModal({
               </button>
             </div>
           </div>
-        ) : (
+        )}
+
+        {activeTab === 'admin' && (
           <div className="flex flex-col gap-6 animate-in fade-in">
             {loadingStats ? (
               <div className="flex justify-center p-8"><div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div></div>
