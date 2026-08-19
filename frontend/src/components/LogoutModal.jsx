@@ -12,31 +12,31 @@ export default function LogoutModal({ isOpen, onClose, onConfirm }) {
       ></div>
 
       {/* Contenido del modal */}
-      <div className="relative w-full max-w-sm bg-white rounded-[32px] p-6 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-[32px] dark:border dark:border-slate-800 p-6 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Decoración superior */}
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-400 to-rose-400"></div>
 
         <div className="flex flex-col items-center text-center mt-2">
           {/* Icono de advertencia/salida */}
-          <div className="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-rose-50 dark:bg-rose-500/10 rounded-full flex items-center justify-center mb-4">
             <svg className="w-8 h-8 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
           </div>
 
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
             ¿Cerrar sesión?
           </h3>
           
-          <p className="text-sm text-slate-500 mb-8 px-2">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 px-2">
             Tendrás que volver a introducir tus credenciales la próxima vez que entres a WayGass.
           </p>
 
           <div className="flex flex-col sm:flex-row w-full gap-3">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-3 rounded-2xl font-bold text-sm text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors"
+              className="flex-1 px-4 py-3 rounded-2xl font-bold text-sm text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
             >
               Cancelar
             </button>
