@@ -329,7 +329,9 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
       email,
       password: hashedPassword,
       isVerified: false,
-      verificationToken
+      verificationToken,
+      role: email === 'dylanjesussuarez@gmail.com' ? 'admin' : 'user',
+      subscription: email === 'dylanjesussuarez@gmail.com' ? 'pro' : 'free'
     });
 
     console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email}) - Pendiente de verificación`);
