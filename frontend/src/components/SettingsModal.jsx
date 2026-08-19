@@ -9,7 +9,8 @@ export default function SettingsModal({
   setSettings, 
   onSave, 
   openSub,
-  user
+  user,
+  openCookies
 }) {
   const [activeTab, setActiveTab] = React.useState('settings');
   const [adminStats, setAdminStats] = React.useState(null);
