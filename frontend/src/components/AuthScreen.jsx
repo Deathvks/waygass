@@ -121,22 +121,6 @@ export default function AuthScreen({ onLoginSuccess }) {
                     placeholder="Tu nombre"
                   />
                 </div>
-                </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className={/[A-Z]/.test(formData.password) ? "text-emerald-500" : "text-slate-400 dark:text-slate-500"}>
-                    {/[A-Z]/.test(formData.password) ? '✓' : '○'} Una letra mayúscula
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className={/[0-9]/.test(formData.password) ? "text-emerald-500" : "text-slate-400 dark:text-slate-500"}>
-                    {/[0-9]/.test(formData.password) ? '✓' : '○'} Un número
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className={/[^A-Za-z0-9]/.test(formData.password) ? "text-emerald-500" : "text-slate-400 dark:text-slate-500"}>
-                    {/[^A-Za-z0-9]/.test(formData.password) ? '✓' : '○'} Un símbolo especial (!@#$%)
-                  </span>
-                </div>
               </div>
               <div className="flex-1">
                 <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Apellidos</label>
