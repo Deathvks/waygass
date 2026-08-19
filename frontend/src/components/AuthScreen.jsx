@@ -76,7 +76,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col relative overflow-hidden">
       {/* Fondo Superior Curvo */}
-      <div className="relative w-full h-[25vh] sm:h-[30vh] shrink-0 bg-orange-500 dark:bg-slate-900">
+      <div className="relative w-full h-[35vh] sm:h-[40vh] shrink-0 bg-orange-500 dark:bg-slate-900">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
         
@@ -88,14 +88,14 @@ export default function AuthScreen({ onLoginSuccess }) {
         </div>
 
         {/* Logo flotante (Opcional, para dar toque de marca) */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
-           <img src="/logo.svg" alt="WayGass" className="w-10 h-10 drop-shadow-md brightness-0 invert" />
-           <span className="text-white font-black text-sm tracking-widest mt-1">WAYGASS</span>
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
+           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 drop-shadow-md brightness-0 invert" />
+           <span className="text-white font-black tracking-widest mt-2">WAYGASS</span>
         </div>
       </div>
 
       {/* Contenedor del Formulario (Centrado en desktop, ancho completo en móvil) */}
-      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-0 relative z-10 w-full max-w-md mx-auto">
+      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-0 -mt-10 sm:-mt-16 relative z-10 w-full max-w-md mx-auto">
         <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
           {isLogin ? 'Sign in' : 'Welcome'}
         </h1>
