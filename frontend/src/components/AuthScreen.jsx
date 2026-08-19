@@ -205,23 +205,23 @@ export default function AuthScreen({ onLoginSuccess }) {
 
           {/* Remember Me & Forgot Password */}
           {isLogin && (
-            <div className="flex justify-between items-center text-xs mt-2">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
+            <div className="flex justify-between items-center text-[10px] sm:text-xs mt-2 w-full gap-2">
+              <label className="flex items-center gap-1.5 cursor-pointer text-slate-500 dark:text-slate-400 group shrink-0">
                 <div className="relative flex items-center justify-center">
                   <input 
                     type="checkbox" 
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded-full border-slate-300 dark:border-slate-600 appearance-none bg-transparent checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
+                    className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-slate-300 dark:border-slate-600 appearance-none bg-transparent checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer shrink-0" 
                   />
                   <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
+                <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors whitespace-nowrap">Recordar sesión</span>
               </label>
-              <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
-                ¿Olvidaste tu contraseña?
+              <button type="button" className="font-bold text-orange-500 hover:text-orange-600 whitespace-nowrap text-right shrink-1 truncate ml-1">
+                ¿Olvidaste la contraseña?
               </button>
             </div>
           )}
