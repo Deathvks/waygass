@@ -76,7 +76,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col relative overflow-hidden">
       {/* Fondo Superior Curvo */}
-      <div className="relative w-full h-[40vh] sm:h-[45vh] shrink-0 bg-orange-500 dark:bg-slate-900">
+      <div className="relative w-full h-[25vh] sm:h-[30vh] shrink-0 bg-orange-500 dark:bg-slate-900">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
         
@@ -88,18 +88,18 @@ export default function AuthScreen({ onLoginSuccess }) {
         </div>
 
         {/* Logo flotante (Opcional, para dar toque de marca) */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
-           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 drop-shadow-md brightness-0 invert" />
-           <span className="text-white font-black tracking-widest mt-2">WAYGASS</span>
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 flex flex-col items-center">
+           <img src="/logo.svg" alt="WayGass" className="w-10 h-10 drop-shadow-md brightness-0 invert" />
+           <span className="text-white font-black text-sm tracking-widest mt-1">WAYGASS</span>
         </div>
       </div>
 
       {/* Contenedor del Formulario (Centrado en desktop, ancho completo en móvil) */}
-      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-4 relative z-10 w-full max-w-md mx-auto">
+      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-0 relative z-10 w-full max-w-md mx-auto">
         <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
           {isLogin ? 'Sign in' : 'Welcome'}
         </h1>
-        <div className="w-12 h-1 bg-orange-500 rounded-full mb-8"></div>
+        <div className="w-12 h-1 bg-orange-500 rounded-full mb-6"></div>
 
         {error && (
           <div className="text-rose-500 text-sm font-medium mb-4 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
@@ -162,6 +162,38 @@ export default function AuthScreen({ onLoginSuccess }) {
                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
               </button>
             </div>
+            
+            {!isLogin && (
+              <div className="mt-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Requisitos de contraseña</p>
+                <ul className="text-xs flex flex-col gap-2.5 font-medium">
+                  <li className={`flex items-center gap-2.5 transition-colors ${formData.password.length >= 8 ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${formData.password.length >= 8 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={formData.password.length >= 8 ? "M5 13l4 4L19 7" : ""}/></svg>
+                    </div>
+                    Mínimo 8 caracteres
+                  </li>
+                  <li className={`flex items-center gap-2.5 transition-colors ${/[A-Z]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[A-Z]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[A-Z]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+                    </div>
+                    Al menos una letra mayúscula
+                  </li>
+                  <li className={`flex items-center gap-2.5 transition-colors ${/[0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+                    </div>
+                    Al menos un número
+                  </li>
+                  <li className={`flex items-center gap-2.5 transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[^A-Za-z0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+                    </div>
+                    Al menos un carácter especial
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* Remember Me & Forgot Password */}
