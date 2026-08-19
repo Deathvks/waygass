@@ -97,23 +97,29 @@ const fetchAndStoreDailyPrices = async () => {
       const stations = allStationsRes.data.ListaEESSPrecio;
       const today = new Date().toISOString().split('T')[0];
       
-      let inserted = 0;
+      const today = new Date().toISOString().split('T')[0];
+      const records = [];
       for (const s of stations) {
         const id = s['IDEESS'];
         const p95 = parsePrice(s['Precio Gasolina 95 E5']);
         const pdiesel = parsePrice(s['Precio Gasoleo A']);
         
         if (id && (p95 || pdiesel)) {
-          // Upsert en SQLite (insertar o ignorar si ya existe para hoy)
-          await db.PriceHistory.upsert({
+          records.push({
             stationId: id.toString(),
             date: today,
             price95: p95,
             priceDiesel: pdiesel
           });
-          inserted++;
         }
       }
+      
+      // Upsert masivo (muchísimo más rápido en SQLite que insertar uno a uno)
+      await db.PriceHistory.bulkCreate(records, {
+        updateOnDuplicate: ['price95', 'priceDiesel']
+      });
+      
+      const inserted = records.length;
       console.log(`[CRON] Histórico guardado correctamente. ${inserted} estaciones procesadas para ${today}.`);
     }
   } catch (error) {
