@@ -195,13 +195,13 @@ app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
     const totalValidations = await Validation.count();
     
     // Nmero de gasolineras nicas en el histrico
-    const totalStations = await PriceHistory.count({
+    const totalStations = await db.PriceHistory.count({
       col: 'stationId',
       distinct: true
     });
     
     // ltima actualizacin
-    const lastUpdate = await PriceHistory.max('createdAt');
+    const lastUpdate = await db.PriceHistory.max('createdAt');
 
     res.json({
       totalUsers,
