@@ -74,101 +74,53 @@ export default function AuthScreen({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0f172a] flex">
-      {/* Columna Izquierda: Ilustración (Solo Desktop) */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-slate-100 dark:bg-slate-900 overflow-hidden items-center justify-center">
-        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-        <div className="absolute bottom-16 left-16 text-white z-10">
-          <h2 className="text-5xl font-black mb-3 tracking-tight">Tu repostaje,<br/>más inteligente.</h2>
-          <p className="text-white/80 text-lg max-w-md">Encuentra los mejores precios, optimiza tus rutas y ahorra en cada depósito.</p>
+    <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col relative overflow-hidden">
+      {/* Fondo Superior Curvo */}
+      <div className="relative w-full h-[40vh] sm:h-[45vh] shrink-0 bg-orange-500 dark:bg-slate-900">
+        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
+        
+        {/* Curva SVG en la base */}
+        <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px]">
+          <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#0f172a] fill-current" preserveAspectRatio="none">
+            <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
+        </div>
+
+        {/* Logo flotante (Opcional, para dar toque de marca) */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
+           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 drop-shadow-md brightness-0 invert" />
+           <span className="text-white font-black tracking-widest mt-2">WAYGASS</span>
         </div>
       </div>
 
-      {/* Columna Derecha: Formulario */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
-        {/* Fondo móvil (Solo visible en móviles) */}
-        <div className="lg:hidden absolute top-0 left-0 w-full h-[45vh] overflow-hidden z-0">
-           <img src="/auth_bg.jpg" alt="WayGass Map" className="w-full h-full object-cover" />
-           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-50/90 dark:via-[#0f172a]/90 to-slate-50 dark:to-[#0f172a]"></div>
-        </div>
+      {/* Contenedor del Formulario (Centrado en desktop, ancho completo en móvil) */}
+      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-4 relative z-10 w-full max-w-md mx-auto">
+        <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
+          {isLogin ? 'Sign in' : 'Welcome'}
+        </h1>
+        <div className="w-12 h-1 bg-orange-500 rounded-full mb-8"></div>
 
-        <div className="bg-white/95 dark:bg-[#1e293b]/95 backdrop-blur-2xl rounded-[32px] p-6 sm:p-8 max-w-sm w-full shadow-2xl sm:shadow-xl border border-white/50 dark:border-slate-700/50 relative z-10 mt-16 sm:mt-0">
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 rounded-2xl brand-gradient-bg flex items-center justify-center shadow-lg shadow-orange-500/20 mb-4">
-              <img src="/logo.svg" alt="WayGass" className="w-10 h-10" />
-            </div>
-            <h1 className="text-2xl font-black text-slate-800 dark:text-slate-100 tracking-tight">WayGass</h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 text-center">
-              {isLogin ? 'Inicia sesión para continuar' : 'Crea tu cuenta gratuita'}
-            </p>
+        {error && (
+          <div className="text-rose-500 text-sm font-medium mb-4 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
+            {error}
           </div>
+        )}
 
-          {error && (
-            <div className="bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 text-sm p-3 rounded-xl mb-4 font-medium border border-rose-100 dark:border-rose-500/20">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {!isLogin && (
-              <div className="flex gap-4">
-                <div className="flex-1">
-                  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Nombre</label>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 flex-1">
+          
+          {!isLogin && (
+            <div className="flex gap-4">
+              <div className="flex-1">
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Nombre</label>
+                <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
+                  <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                   <input 
-                    type="text" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    className="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition"
+                    type="text" name="name" value={formData.name} onChange={handleChange} 
+                    className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
                     placeholder="Tu nombre"
                   />
                 </div>
-                <div className="flex-1">
-                  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Apellidos</label>
-                  <input 
-                    type="text" 
-                    name="lastName" 
-                    value={formData.lastName} 
-                    onChange={handleChange} 
-                    className="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition"
-                    placeholder="Tus apellidos"
-                  />
-                </div>
-              </div>
-            )}
-            
-            <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
-              <input 
-                type="text" 
-                name="email" 
-                value={formData.email} 
-                onChange={handleChange} 
-                className="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition"
-                placeholder="nombre@ejemplo.com"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Contraseña</label>
-              <input 
-                type="password" 
-                name="password" 
-                value={formData.password} 
-                onChange={handleChange} 
-                className="w-full bg-slate-50 dark:bg-[#0f172a] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition"
-                placeholder="••••••••"
-              />
-            </div>
-
-            {!isLogin && (
-              <div className="bg-slate-50 dark:bg-[#0f172a]/50 rounded-xl p-3 border border-slate-100 dark:border-slate-700/50 flex flex-col gap-1.5 mt-1">
-                <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Requisitos de seguridad</p>
-                <div className="flex items-center gap-2 text-xs">
-                  <span className={formData.password.length >= 8 ? "text-emerald-500" : "text-slate-400 dark:text-slate-500"}>
-                    {formData.password.length >= 8 ? '✓' : '○'} Mínimo 8 caracteres
-                  </span>
                 </div>
                 <div className="flex items-center gap-2 text-xs">
                   <span className={/[A-Z]/.test(formData.password) ? "text-emerald-500" : "text-slate-400 dark:text-slate-500"}>
@@ -186,29 +138,90 @@ export default function AuthScreen({ onLoginSuccess }) {
                   </span>
                 </div>
               </div>
-            )}
+              <div className="flex-1">
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Apellidos</label>
+                <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
+                  <input 
+                    type="text" name="lastName" value={formData.lastName} onChange={handleChange} 
+                    className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+                    placeholder="Apellidos"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
+          {/* Email */}
+          <div>
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Email</label>
+            <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
+              <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <input 
+                type="text" name="email" value={formData.email} onChange={handleChange} 
+                className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+                placeholder="demo@email.com"
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Password</label>
+            <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
+              <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              <input 
+                type="password" name="password" value={formData.password} onChange={handleChange} 
+                className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+                placeholder="Ingresa tu contraseña"
+              />
+              <button type="button" className="text-slate-300 dark:text-slate-600 ml-2">
+                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Remember Me & Forgot Password */}
+          {isLogin && (
+            <div className="flex justify-between items-center text-xs mt-2">
+              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400">
+                <input type="checkbox" className="w-3.5 h-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-500 bg-transparent" />
+                <span className="font-medium">Remember Me</span>
+              </label>
+              <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
+                Forgot Password?
+              </button>
+            </div>
+          )}
+
+          <div className="mt-auto pt-6 flex flex-col gap-6">
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full mt-2 bg-slate-900 dark:bg-orange-500 hover:bg-slate-800 dark:hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-slate-900/20 dark:shadow-orange-500/20 disabled:opacity-70"
+              className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-orange-500 text-white font-bold text-sm shadow-[0_8px_20px_rgba(249,115,22,0.3)] hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {loading ? 'Cargando...' : (isLogin ? 'Entrar' : 'Registrarse')}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Procesando...
+                </span>
+              ) : (isLogin ? 'Login' : 'Crear Cuenta')}
             </button>
-          </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
+            <div className="text-center text-xs text-slate-500 dark:text-slate-400">
+              {isLogin ? "Don't have an Account ? " : "¿Ya tienes cuenta? "}
               <button 
-                onClick={() => { setIsLogin(!isLogin); setError(''); }}
-                className="ml-1 font-bold text-orange-500 hover:text-orange-600 transition"
+                type="button"
+                onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
+                className="font-bold text-orange-500 hover:text-orange-600 transition"
               >
-                {isLogin ? 'Regístrate aquí' : 'Inicia sesión'}
+                {isLogin ? 'Sign up' : 'Sign in'}
               </button>
-            </p>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
