@@ -287,16 +287,17 @@ export default function AuthScreen({ onLoginSuccess }) {
               ) : (isLogin ? 'Entrar' : 'Crear Cuenta')}
             </button>
 
-            <div className="text-center text-xs text-slate-500 dark:text-slate-400">
-              {isLogin ? "¿No tienes una cuenta? " : "¿Ya tienes cuenta? "}
-              <button 
-                type="button"
-                onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
-                className="font-bold text-orange-500 hover:text-orange-600 transition"
-              >
-                {isLogin ? 'Regístrate' : 'Inicia sesión'}
-              </button>
-            </div>
+              <div className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2">
+                <span>{isLogin ? "¿No tienes una cuenta?" : "¿Ya tienes cuenta?"}</span>
+                <span className="mx-1"></span>
+                <button 
+                  type="button"
+                  onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
+                  className="font-bold text-orange-500 hover:text-orange-600 transition"
+                >
+                  {isLogin ? 'Regístrate' : 'Inicia sesión'}
+                </button>
+              </div>
           </div>
         </form>
         </div>
