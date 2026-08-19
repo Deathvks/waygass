@@ -8,6 +8,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [verificationSent, setVerificationSent] = useState(false);
 
   useEffect(() => {
     // Set notch color to orange for auth screen on mobile
@@ -96,9 +97,12 @@ export default function AuthScreen({ onLoginSuccess }) {
       const payload = { ...formData, rememberMe };
       const res = await axios.post(`${endpoint}`, payload);
       
-      const { token, user } = res.data;
-      
-      onLoginSuccess(token, user, rememberMe);
+      if (res.data.status === 'verification_required') {
+        setVerificationSent(true);
+      } else {
+        const { token, user } = res.data;
+        onLoginSuccess(token, user, rememberMe);
+      }
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
         setError(err.response.data.error);
@@ -141,18 +145,47 @@ export default function AuthScreen({ onLoginSuccess }) {
       {/* Contenedor del Formulario (Derecha en PC) */}
       <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
         <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
-          <h1 className="text-2xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
-            {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
-          </h1>
-          <div className="w-12 h-1 bg-orange-500 rounded-full mb-4 md:mb-6"></div>
+          
+          {verificationSent ? (
+            <div className="text-center py-8">
+              <div className="w-20 h-20 bg-orange-100 dark:bg-orange-500/20 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                ¡Revisa tu correo!
+              </h1>
+              <p className="text-slate-500 dark:text-slate-400 mb-8">
+                Hemos enviado un enlace de verificación a <br/>
+                <strong className="text-slate-700 dark:text-slate-300">{formData.email}</strong>. 
+                Haz clic en el enlace para activar tu cuenta.
+              </p>
+              <button 
+                onClick={() => {
+                  setVerificationSent(false);
+                  setIsLogin(true);
+                  setError('');
+                }}
+                className="w-full py-3.5 rounded-xl bg-orange-500 text-white font-bold text-sm shadow-[0_8px_20px_rgba(249,115,22,0.3)] hover:opacity-90 transition-opacity"
+              >
+                Ya lo he verificado, Iniciar sesión
+              </button>
+            </div>
+          ) : (
+            <>
+              <h1 className="text-2xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
+                {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
+              </h1>
+              <div className="w-12 h-1 bg-orange-500 rounded-full mb-4 md:mb-6"></div>
 
-        {error && (
-          <div className="text-rose-500 text-sm font-medium mb-3 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
-            {error}
-          </div>
-        )}
+            {error && (
+              <div className="text-rose-500 text-sm font-medium mb-3 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
+                {error}
+              </div>
+            )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
           
           {!isLogin && (
             <div className="flex gap-4">
@@ -299,7 +332,9 @@ export default function AuthScreen({ onLoginSuccess }) {
                 </button>
               </div>
           </div>
-        </form>
+          </form>
+          </>
+          )}
         </div>
       </div>
     </div>

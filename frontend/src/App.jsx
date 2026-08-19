@@ -14,6 +14,7 @@ import LogoutModal from './components/LogoutModal';
 import ProfileModal from './components/ProfileModal';
 import CookiesBanner from './components/CookiesBanner';
 import LegalModal from './components/LegalModal';
+import VerifyEmail from './components/VerifyEmail';
 
 const API_BASE = '/api/gas';
 const SETTINGS_API = '/api/settings';
@@ -625,6 +626,10 @@ export default function App() {
     // Hard reload to completely wipe React memory state for the next user
     window.location.reload();
   };
+
+  if (window.location.pathname === '/verify') {
+    return <VerifyEmail />;
+  }
 
   if (!authToken) {
     return <AuthScreen onLoginSuccess={handleLoginSuccess} />;

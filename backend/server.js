@@ -5,6 +5,8 @@ const db = require('./models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cron = require('node-cron');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const User = db.users; 
 const PriceHistory = db.PriceHistory;
@@ -12,6 +14,17 @@ const Favorite = db.Favorite;
 const Validation = db.Validation;
 
 const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
+
+// Configuración SMTP
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.dondominio.com',
+  port: process.env.SMTP_PORT || 587,
+  secure: process.env.SMTP_PORT == 465, // true for 465, false for other ports
+  auth: {
+    user: process.env.SMTP_USER || 'info@waygass.es',
+    pass: process.env.SMTP_PASS || 'TUPASSWORD_AQUI'
+  }
+});
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -292,22 +305,50 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Generar token de verificación
+    const verificationToken = crypto.randomBytes(32).toString('hex');
+
     // Crear usuario
     const newUser = await User.create({
       name,
       lastName,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      isVerified: false,
+      verificationToken
     });
 
-    console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email})`);
+    console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email}) - Pendiente de verificación`);
 
-    // Generar JWT
-    const token = jwt.sign({ id: newUser.id, role: newUser.role }, JWT_SECRET, { expiresIn: rememberMe ? '365d' : '1d' });
+    // Enviar correo de verificación
+    const frontendUrl = process.env.NODE_ENV === 'production' ? 'https://waygass.es' : 'http://localhost:5173';
+    const verifyUrl = `${frontendUrl}/verify?token=${verificationToken}`;
+
+    const mailOptions = {
+      from: process.env.SMTP_USER || 'info@waygass.es',
+      to: email,
+      subject: 'Verifica tu cuenta en WayGass',
+      html: `
+        <div style="font-family: Arial, sans-serif; text-align: center; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+          <h2 style="color: #f97316;">¡Bienvenido a WayGass, ${name}!</h2>
+          <p>Gracias por registrarte. Para poder iniciar sesión y empezar a ahorrar en combustible, por favor verifica tu cuenta haciendo clic en el siguiente botón:</p>
+          <a href="${verifyUrl}" style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #f97316; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Verificar Cuenta</a>
+          <p style="font-size: 12px; color: #666;">Si no te has registrado en WayGass, puedes ignorar este correo.</p>
+        </div>
+      `
+    };
+
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log(`[AUTH-MAIL] Correo de verificación enviado a ${email}`);
+    } catch (mailError) {
+      console.error(`[AUTH-MAIL-ERROR] No se pudo enviar el correo a ${email}:`, mailError);
+      // Opcional: Podríamos borrar el usuario o decirle que lo intente luego, pero para este caso lo dejamos registrado
+    }
     
     res.json({
-      token,
-      user: { id: newUser.id, name: newUser.name, lastName: newUser.lastName, email: newUser.email, subscription: newUser.subscription, role: newUser.role }
+      status: 'verification_required',
+      message: 'Usuario registrado. Por favor, revisa tu correo electrónico para verificar tu cuenta.'
     });
   } catch (error) {
     console.error("Error en registro:", error);
@@ -315,6 +356,27 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
   }
 });
 
+  // Verificar email
+  app.get('/api/verify', async (req, res) => {
+    try {
+      const { token } = req.query;
+      if (!token) return res.status(400).json({ error: 'Token no proporcionado.' });
+
+      const user = await User.findOne({ where: { verificationToken: token } });
+      if (!user) {
+        return res.status(400).json({ error: 'Token inválido o expirado.' });
+      }
+
+      user.isVerified = true;
+      user.verificationToken = null;
+      await user.save();
+
+      res.json({ message: 'Correo verificado exitosamente.' });
+    } catch (error) {
+      console.error('Error verificando email:', error);
+      res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+  });
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
@@ -340,7 +402,12 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
-    console.log(`[AUTH-SUCCESS] Login exitoso: ${user.id} (${email})`);
+    if (user.isVerified === false) {
+      console.warn(`[AUTH-ERROR] Login fallido: Email no verificado (${email}).`);
+      return res.status(403).json({ error: "Por favor, verifica tu correo electrnico antes de iniciar sesin." });
+    }
+
+    console.log(`[AUTH-SUCCESS] Login exitoso:  ()`);
 
     // Generar JWT
     const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: rememberMe ? '365d' : '1d' });
@@ -556,3 +623,5 @@ app.put('/api/settings', verifyToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor Backend corriendo en el puerto ${PORT}.`);
 });
+
+
