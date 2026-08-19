@@ -609,12 +609,21 @@ export default function App() {
   };
 
   const handleLogout = () => {
+    // Auth data
     localStorage.removeItem('waygas_token');
     localStorage.removeItem('waygas_user');
     sessionStorage.removeItem('waygas_token');
     sessionStorage.removeItem('waygas_user');
-    setAuthToken(null);
-    setAuthUser(null);
+    
+    // User preferences
+    localStorage.removeItem('waygas_settings');
+    localStorage.removeItem('waygas_filters');
+    localStorage.removeItem('waygas_province');
+    localStorage.removeItem('waygas_location');
+    localStorage.removeItem('waygas_viewMode');
+    
+    // Hard reload to completely wipe React memory state for the next user
+    window.location.reload();
   };
 
   if (!authToken) {
