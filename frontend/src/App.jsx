@@ -281,7 +281,7 @@ export default function App() {
       }
     } catch (e) {
       console.error("Error cargando perfil", e);
-      if (e.response && e.response.status === 401) {
+      if (e.response && (e.response.status === 401 || e.response.status === 404)) {
         handleLogout();
       }
     }
@@ -806,3 +806,4 @@ export default function App() {
     </div>
   );
 }
+
