@@ -45,13 +45,26 @@ db.sequelize.sync({ alter: true }).then(() => {
 // ==========================================
 const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/';
 
+const apiCache = {};
+
 app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
   try {
     const { provincia } = req.params;
+    const now = Date.now();
+    
+    if (apiCache[provincia] && (now - apiCache[provincia].timestamp < 1800000)) {
+      return res.json(apiCache[provincia].data);
+    }
+
     const response = await axios.get(`${API_BASE}FiltroProvincia/${provincia}`, {
       headers: { 'Accept': 'application/json' }
     });
-    // El MITECO a veces devuelve un string JSON, otras veces un objeto. Axios suele parsearlo automáticamente si está bien formado.
+    
+    apiCache[provincia] = {
+      data: response.data,
+      timestamp: now
+    };
+    
     res.json(response.data);
   } catch (error) {
     console.error("Error obteniendo datos del MITECO:", error.message);
