@@ -22,7 +22,13 @@ export default function AuthScreen({ onLoginSuccess }) {
 
     // Set body background to match AuthScreen to fix bottom safe area color in Safari
     const originalBodyBg = document.body.style.backgroundColor;
-    const isDarkMode = document.documentElement.classList.contains('dark');
+    let isDarkMode = false;
+    try {
+      const settings = JSON.parse(localStorage.getItem('waygas_settings') || '{"theme":"system"}');
+      isDarkMode = settings.theme === 'dark' || (settings.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    } catch (e) {
+      isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
     document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
 
     return () => {
