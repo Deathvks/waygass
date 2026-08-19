@@ -295,7 +295,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
 
               {/* Botón de Histórico Prominente */}
               <button 
-                onClick={() => toggleExpand(s, activeFuelLabel.toLowerCase().includes('diésel') ? 'diesel' : '95')}
+                onClick={(e) => { e.stopPropagation(); toggleExpand(s, activeFuelLabel.toLowerCase().includes('diésel') ? 'diesel' : '95'); }}
                 className={`w-full flex items-center justify-center gap-2 py-2 mt-1 transition-colors rounded-xl text-xs font-bold ${
                   isExpanded ? 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400' : 'bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300'
                 }`}
@@ -388,7 +388,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
               </div>
               <div className="flex gap-1.5 sm:gap-2">
                 <button 
-                  onClick={() => handleValidate(s.id, 'PRICE_CORRECT')}
+                  onClick={(e) => { e.stopPropagation(); handleValidate(s.id, 'PRICE_CORRECT'); }}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-[11px] sm:text-xs font-semibold transition-all ${
                     userVotes[s.id] === 'PRICE_CORRECT'
                       ? 'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-500/40 shadow-sm' 
@@ -401,7 +401,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
                 </button>
 
                 <button 
-                  onClick={() => handleValidate(s.id, 'WRONG_PRICE')}
+                  onClick={(e) => { e.stopPropagation(); handleValidate(s.id, 'WRONG_PRICE'); }}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-[11px] sm:text-xs font-semibold transition-all ${
                     userVotes[s.id] === 'WRONG_PRICE'
                       ? 'bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-500/40 shadow-sm' 
@@ -414,7 +414,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
                 </button>
                 
                 <button 
-                  onClick={() => handleValidate(s.id, 'CLOSED')}
+                  onClick={(e) => { e.stopPropagation(); handleValidate(s.id, 'CLOSED'); }}
                   className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-[11px] sm:text-xs font-semibold transition-all ${
                     userVotes[s.id] === 'CLOSED'
                       ? 'bg-rose-50 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 border border-rose-300 dark:border-rose-500/40 shadow-sm' 
