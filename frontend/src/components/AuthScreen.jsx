@@ -214,7 +214,7 @@ export default function AuthScreen({ onLoginSuccess }) {
                     type="checkbox" 
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded-full border-slate-300 dark:border-slate-600 appearance-none bg-transparent checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
+                    className="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 appearance-none bg-white dark:bg-slate-800 checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
                   />
                   <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
