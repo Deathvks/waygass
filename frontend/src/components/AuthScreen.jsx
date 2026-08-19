@@ -19,13 +19,20 @@ export default function AuthScreen({ onLoginSuccess }) {
     const previousColor = metaThemeColor.getAttribute('content');
     metaThemeColor.setAttribute('content', '#f97316'); // Tailwind orange-500
 
+    // Set body background to match AuthScreen to fix bottom safe area color in Safari
+    const originalBodyBg = document.body.style.backgroundColor;
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
+
     return () => {
+      // Restore original body color
+      document.body.style.backgroundColor = originalBodyBg;
+      
       // Restore or remove on unmount so the main app uses its own color
       if (previousColor) {
         metaThemeColor.setAttribute('content', previousColor);
       } else {
         // Reset to match standard app background (white in light, dark in dark mode)
-        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         metaThemeColor.setAttribute('content', isDarkMode ? '#0f172a' : '#ffffff');
       }
     };
