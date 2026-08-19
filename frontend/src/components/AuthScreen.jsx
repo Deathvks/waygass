@@ -108,7 +108,7 @@ export default function AuthScreen({ onLoginSuccess }) {
       <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
         <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
-            {isLogin ? 'Sign in' : 'Welcome'}
+            {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
           </h1>
           <div className="w-12 h-1 bg-orange-500 rounded-full mb-6"></div>
 
@@ -161,7 +161,7 @@ export default function AuthScreen({ onLoginSuccess }) {
 
           {/* Password */}
           <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Password</label>
+            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Contraseña</label>
             <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
               <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
               <input 
@@ -212,10 +212,10 @@ export default function AuthScreen({ onLoginSuccess }) {
             <div className="flex justify-between items-center text-xs mt-2">
               <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400">
                 <input type="checkbox" className="w-3.5 h-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-500 bg-transparent" />
-                <span className="font-medium">Remember Me</span>
+                <span className="font-medium">Recordar sesión</span>
               </label>
               <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
-                Forgot Password?
+                ¿Olvidaste tu contraseña?
               </button>
             </div>
           )}
@@ -234,17 +234,17 @@ export default function AuthScreen({ onLoginSuccess }) {
                   </svg>
                   Procesando...
                 </span>
-              ) : (isLogin ? 'Login' : 'Crear Cuenta')}
+              ) : (isLogin ? 'Entrar' : 'Crear Cuenta')}
             </button>
 
             <div className="text-center text-xs text-slate-500 dark:text-slate-400">
-              {isLogin ? "Don't have an Account ? " : "¿Ya tienes cuenta? "}
+              {isLogin ? "¿No tienes una cuenta? " : "¿Ya tienes cuenta? "}
               <button 
                 type="button"
                 onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
                 className="font-bold text-orange-500 hover:text-orange-600 transition"
               >
-                {isLogin ? 'Sign up' : 'Sign in'}
+                {isLogin ? 'Regístrate' : 'Inicia sesión'}
               </button>
             </div>
           </div>
