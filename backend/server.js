@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 // Sincronizar Base de Datos
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ alter: true }).then(() => {
   console.log("Conectado a la base de datos SQLite.");
 }).catch(err => {
   console.error("Error al conectar con la base de datos: ", err.message);
