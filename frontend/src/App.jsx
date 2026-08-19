@@ -142,8 +142,8 @@ export default function App() {
     setShowCookiesBanner(false);
   };
 
-  const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token'));
-  const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('waygas_user') || 'null'));
+  const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
+  const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('waygas_user') || sessionStorage.getItem('waygas_user') || 'null'));
   
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('waygas_settings');
@@ -596,9 +596,14 @@ export default function App() {
   };
   const activeFuelLabel = FUELS.find(f => f.id === filters.fuelType)?.label || 'Carburante';
 
-  const handleLoginSuccess = (token, user) => {
-    localStorage.setItem('waygas_token', token);
-    localStorage.setItem('waygas_user', JSON.stringify(user));
+  const handleLoginSuccess = (token, user, rememberMe) => {
+    if (rememberMe) {
+      localStorage.setItem('waygas_token', token);
+      localStorage.setItem('waygas_user', JSON.stringify(user));
+    } else {
+      sessionStorage.setItem('waygas_token', token);
+      sessionStorage.setItem('waygas_user', JSON.stringify(user));
+    }
     setAuthToken(token);
     setAuthUser(user);
   };
@@ -606,6 +611,8 @@ export default function App() {
   const handleLogout = () => {
     localStorage.removeItem('waygas_token');
     localStorage.removeItem('waygas_user');
+    sessionStorage.removeItem('waygas_token');
+    sessionStorage.removeItem('waygas_user');
     setAuthToken(null);
     setAuthUser(null);
   };

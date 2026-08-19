@@ -4,6 +4,7 @@ import axios from 'axios';
 export default function AuthScreen({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ name: '', lastName: '', email: '', password: '' });
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -58,10 +59,8 @@ export default function AuthScreen({ onLoginSuccess }) {
       const res = await axios.post(`${endpoint}`, formData);
       
       const { token, user } = res.data;
-      localStorage.setItem('waygas_token', token);
-      localStorage.setItem('waygas_user', JSON.stringify(user));
       
-      onLoginSuccess(token, user);
+      onLoginSuccess(token, user, rememberMe);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {
         setError(err.response.data.error);
@@ -207,9 +206,19 @@ export default function AuthScreen({ onLoginSuccess }) {
           {/* Remember Me & Forgot Password */}
           {isLogin && (
             <div className="flex justify-between items-center text-xs mt-2">
-              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400">
-                <input type="checkbox" className="w-3.5 h-3.5 rounded border-slate-300 text-orange-500 focus:ring-orange-500 bg-transparent" />
-                <span className="font-medium">Recordar sesión</span>
+              <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
+                <div className="relative flex items-center justify-center">
+                  <input 
+                    type="checkbox" 
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="w-4 h-4 rounded-full border-slate-300 dark:border-slate-600 appearance-none bg-transparent checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
+                  />
+                  <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
               </label>
               <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
                 ¿Olvidaste tu contraseña?
