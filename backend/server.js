@@ -401,20 +401,20 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
 
       // Enviar correo de verificación
       const frontendUrl = process.env.NODE_ENV === 'production' ? 'https://waygass.es' : 'http://localhost:5173';
-      const verifyUrl = ${frontendUrl}/verify?token= + verificationToken;
+      const verifyUrl = `${frontendUrl}/verify?token=${verificationToken}`;
 
       const mailOptions = {
         from: process.env.SMTP_USER || 'info@waygass.es',
         to: email,
         subject: 'Verifica tu cuenta en WayGass (Reenvío)',
-        html: 
+        html: `
           <div style="font-family: Arial, sans-serif; text-align: center; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-            <h2 style="color: #f97316;">¡Hola de nuevo, \!</h2>
+            <h2 style="color: #f97316;">¡Hola de nuevo, ${user.name}!</h2>
             <p>Has solicitado un nuevo enlace para verificar tu cuenta en WayGass.</p>
-            <a href="\" style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #f97316; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Verificar Cuenta</a>
+            <a href="${verifyUrl}" style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #f97316; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Verificar Cuenta</a>
             <p style="font-size: 12px; color: #666;">Si no has solicitado este correo, puedes ignorarlo.</p>
           </div>
-        
+        `
       };
 
       await transporter.sendMail(mailOptions);
