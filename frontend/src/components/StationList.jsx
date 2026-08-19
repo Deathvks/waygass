@@ -148,10 +148,11 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
       // - Asumimos un repostaje medio de 50 Litros.
       // - Asumimos un consumo de 7 L / 100 km (0.07 L / km).
       // - El coste de desplazamiento es de ida y vuelta (distancia * 2).
-      const costOfFuel = 50 * s.price;
-      const travelCost = (s.distance * 2) * 0.07 * s.price;
+      const capacity = tankSize || 50;
+      const costOfFuel = capacity * s.price;
+      const costPerKm = (0.07 * s.price) + 0.15;
+      const travelCost = (s.distance * 2) * costPerKm;
       
-      // La puntuación es el gasto total estimado en euros (cuanto más bajo, mejor)
       const trueCost = costOfFuel + travelCost;
       
       return { id: s.id, score: trueCost };
