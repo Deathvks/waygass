@@ -378,6 +378,52 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor.' });
     }
   });
+  // Reenviar email de verificación
+  app.post('/api/resend-verification', async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) return res.status(400).json({ error: 'Email requerido.' });
+
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        // Por seguridad no decimos si existe o no
+        return res.json({ message: 'Si el correo está registrado, se ha enviado un nuevo enlace.' });
+      }
+
+      if (user.isVerified) {
+        return res.status(400).json({ error: 'La cuenta ya está verificada.' });
+      }
+
+      // Generar nuevo token
+      const verificationToken = crypto.randomBytes(32).toString('hex');
+      user.verificationToken = verificationToken;
+      await user.save();
+
+      // Enviar correo de verificación
+      const frontendUrl = process.env.NODE_ENV === 'production' ? 'https://waygass.es' : 'http://localhost:5173';
+      const verifyUrl = ${frontendUrl}/verify?token= + verificationToken;
+
+      const mailOptions = {
+        from: process.env.SMTP_USER || 'info@waygass.es',
+        to: email,
+        subject: 'Verifica tu cuenta en WayGass (Reenvío)',
+        html: 
+          <div style="font-family: Arial, sans-serif; text-align: center; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+            <h2 style="color: #f97316;">¡Hola de nuevo, \!</h2>
+            <p>Has solicitado un nuevo enlace para verificar tu cuenta en WayGass.</p>
+            <a href="\" style="display: inline-block; margin: 20px 0; padding: 12px 24px; background-color: #f97316; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">Verificar Cuenta</a>
+            <p style="font-size: 12px; color: #666;">Si no has solicitado este correo, puedes ignorarlo.</p>
+          </div>
+        
+      };
+
+      await transporter.sendMail(mailOptions);
+      res.json({ message: 'Se ha reenviado el correo de verificación.' });
+    } catch (error) {
+      console.error('Error reenviando email:', error);
+      res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+  });
 app.post('/api/login', async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
@@ -624,5 +670,6 @@ app.put('/api/settings', verifyToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor Backend corriendo en el puerto ${PORT}.`);
 });
+
 
 
