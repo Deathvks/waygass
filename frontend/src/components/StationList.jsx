@@ -9,19 +9,9 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
   const [expandedId, setExpandedId] = useState(null);
   const [historyData, setHistoryData] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(25);
+  const [visibleCount, setVisibleCount] = useState(10);
 
-  useEffect(() => {
-    if (!loadMoreRef.current) return;
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && visibleCount < stations.length) {
-        setVisibleCount(v => v + 25);
-      }
-    }, { rootMargin: '400px' });
-    
-    observer.observe(loadMoreRef.current);
-    return () => observer.disconnect();
-  }, [visibleCount, stations.length]);
+  
   
   // Validaciones Globales
   const [globalValidations, setGlobalValidations] = useState({});
@@ -459,9 +449,12 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
       })}
       
       {visibleCount < stations.length && (
-        <div ref={loadMoreRef} className="h-10 w-full flex items-center justify-center">
-          <div className="w-5 h-5 border-2 border-slate-300 dark:border-slate-600 border-t-orange-500 rounded-full animate-spin"></div>
-        </div>
+        <button 
+          onClick={(e) => { e.stopPropagation(); setVisibleCount(v => v + 10); }}
+          className="w-full py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold rounded-xl mt-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+        >
+          Mostrar más gasolineras
+        </button>
       )}
     </div>
   );

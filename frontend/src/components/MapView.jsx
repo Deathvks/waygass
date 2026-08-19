@@ -45,7 +45,7 @@ function MapUpdater({ center, zoom, bounds, activeTab }) {
 }
 
 // Componente que vuela al pin seleccionado desde la lista
-function FlyToSelected({ selectedStation }) {
+function FlyToSelected({ selectedStation, activeTab }) {
   const map = useMap();
   useEffect(() => {
     if (!selectedStation) return;
@@ -62,7 +62,7 @@ function FlyToSelected({ selectedStation }) {
       // Fallback silencioso si flyTo falla
       try { map.setView([selectedStation.lat, selectedStation.lng], 15); } catch (_) {}
     }
-  }, [selectedStation, map]);
+  }, [selectedStation, map, activeTab]);
   return null;
 }
 
@@ -161,7 +161,7 @@ export default function MapView({
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} />
         <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
-        <FlyToSelected selectedStation={selectedStation} />
+        <FlyToSelected selectedStation={selectedStation} activeTab={activeTab} />
         
         <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon} />
 
