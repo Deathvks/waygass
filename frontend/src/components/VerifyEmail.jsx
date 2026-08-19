@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 
 export default function VerifyEmail() {
   const [status, setStatus] = useState('loading');
+  const called = useRef(false);
   const [message, setMessage] = useState('Verificando tu cuenta...');
 
   useEffect(() => {
+    if (called.current) return;
+    called.current = true;
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
@@ -62,3 +65,5 @@ export default function VerifyEmail() {
     </div>
   );
 }
+
+
