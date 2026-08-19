@@ -234,7 +234,7 @@ export default function SettingsModal({
           )}
         </div>
 
-        {activeTab === 'settings' ? (
+        {activeTab === 'settings' && (
           <div className="flex flex-col gap-6">
           {/* Apariencia */}
           <div className="flex flex-col gap-3">
