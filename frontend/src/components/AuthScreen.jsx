@@ -74,30 +74,40 @@ export default function AuthScreen({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col relative overflow-hidden">
-      {/* Fondo Superior Curvo */}
-      <div className="relative w-full h-[40vh] sm:h-[45vh] shrink-0 bg-orange-500 dark:bg-slate-900">
-        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20" />
+    <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
+      {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
+      <div className="relative w-full h-[35vh] sm:h-[40vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center">
+        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20 md:opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
         
-        {/* Curva SVG en la base */}
-        <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px]">
+        {/* Curva SVG en la base (SOLO MÓVIL) */}
+        <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px] md:hidden">
           <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#0f172a] fill-current" preserveAspectRatio="none">
             <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
           </svg>
         </div>
 
-        {/* Logo flotante (Opcional, para dar toque de marca) */}
-        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex flex-col items-center">
-           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 drop-shadow-md brightness-0 invert" />
-           <span className="text-white font-black tracking-widest mt-2">WAYGASS</span>
+        {/* Decoración en PC */}
+        <div className="hidden md:block absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-white dark:from-[#0f172a] to-transparent z-10"></div>
+
+        {/* Contenido Izquierdo */}
+        <div className="absolute md:relative top-12 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
+           <img src="/logo.svg" alt="WayGass" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-md brightness-0 invert" />
+           <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-sm md:text-xl">WAYGASS</span>
+           
+           <h2 className="hidden md:block text-white text-4xl lg:text-5xl font-bold leading-tight drop-shadow-lg mt-12">
+             Tu combustible,<br/>tu ruta,<br/><span className="text-orange-200">al mejor precio.</span>
+           </h2>
+           <p className="hidden md:block text-orange-100 mt-6 text-lg max-w-sm">
+             Encuentra las estaciones más baratas en tiempo real y optimiza tus repostajes en España.
+           </p>
         </div>
       </div>
 
-      {/* Contenedor del Formulario (Centrado en desktop, ancho completo en móvil) */}
-      <div className="flex-1 flex flex-col px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 relative z-10 w-full max-w-md mx-auto">
-        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-8 rounded-[32px] shadow-2xl border border-white/20 dark:border-slate-700/30">
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">
+      {/* Contenedor del Formulario (Derecha en PC) */}
+      <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 pb-8 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
+        <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-8 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
             {isLogin ? 'Sign in' : 'Welcome'}
           </h1>
           <div className="w-12 h-1 bg-orange-500 rounded-full mb-6"></div>
