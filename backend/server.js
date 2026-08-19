@@ -87,9 +87,7 @@ const parsePrice = (str) => {
 const fetchAndStoreDailyPrices = async () => {
   try {
     console.log("[CRON] Iniciando descarga diaria de precios para el histórico...");
-    const response = await axios.get(`${API_BASE}FiltroProvincia/`, { // Fetches all Spain (or we can use FiltroProvincia with no ID to get all, actually the API for all is different, but for simplicity let's use the general endpoint if available. The MITECO general is /PreciosCarburantes/EstacionesTerrestres/
-      headers: { 'Accept': 'application/json' }
-    });
+    
     
     // El endpoint para TODA España es: 
     // https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/
