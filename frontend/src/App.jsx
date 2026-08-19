@@ -381,17 +381,11 @@ export default function App() {
       const code = (filters.province !== 'auto' && filters.province !== 'all') ? filters.province : currentProvince;
       const endpoint = filters.province === 'all' ? '' : `FiltroProvincia/${code}`;
       
-      console.log(`[fetchGasStations] Fetching province: ${code}, endpoint: ${endpoint}`);
-      
       setLoading(true);
       setStationsData([]); // Clear previous stations
       try {
         const res = await axios.get(`${API_BASE}/${endpoint}`, { signal: controller.signal });
         if (res.data && res.data.ListaEESSPrecio) {
-          console.log(`[fetchGasStations] Success! Received ${res.data.ListaEESSPrecio.length} stations from backend.`);
-          if (res.data.ListaEESSPrecio.length > 0) {
-            console.log(`[fetchGasStations] Sample station (first):`, res.data.ListaEESSPrecio[0]);
-          }
           setStationsData(res.data.ListaEESSPrecio);
           // Convertir la fecha del API (hora peninsular Europe/Madrid) a la hora local del usuario
           if (res.data.Fecha) {
@@ -423,16 +417,13 @@ export default function App() {
             setLastUpdate(null);
           }
         } else {
-          console.warn(`[fetchGasStations] API returned success but ListaEESSPrecio is missing or empty.`, res.data);
           setStationsData([]);
           setLastUpdate(null);
         }
       } catch (e) {
         if (!axios.isCancel(e)) {
-          console.error(`[fetchGasStations] Error fetching data:`, e);
+          console.error(`Error fetching data:`, e);
           setStationsData([]);
-        } else {
-          console.log(`[fetchGasStations] Fetch aborted due to new request.`);
         }
       } finally {
         if (!controller.signal.aborted) {
