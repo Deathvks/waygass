@@ -115,6 +115,7 @@ const PROVINCE_MAP = {
 
 export default function App() {
   const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent'));
+  const [showCookiesBanner, setShowCookiesBanner] = useState(!localStorage.getItem('waygass_cookie_consent'));
   const [legalType, setLegalType] = useState(null);
 
   const safeSetItem = (key, value) => {
@@ -124,18 +125,21 @@ export default function App() {
       return;
     }
     // Only save preferences if cookies are accepted
-    if (cookieConsent === 'accepted') {
+    // Note: Dark mode (theme) is explicitly exempted as functional
+    if (cookieConsent === 'accepted' || key === 'waygas_settings') {
       localStorage.setItem(key, value);
     }
   };
 
   const handleRejectCookies = () => {
     setCookieConsent('rejected');
-    ['waygas_settings', 'waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => localStorage.removeItem(k));
+    setShowCookiesBanner(false);
+    ['waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => localStorage.removeItem(k));
   };
 
   const handleAcceptCookies = () => {
     setCookieConsent('accepted');
+    setShowCookiesBanner(false);
   };
 
   const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token'));
@@ -750,6 +754,7 @@ export default function App() {
         openSub={() => setSubOpen(true)}
         user={authUser}
         onShowLegal={setLegalType}
+        openCookies={() => { setSettingsOpen(false); setShowCookiesBanner(true); }}
       />
 
       <SubscriptionModal 
@@ -776,6 +781,7 @@ export default function App() {
       />
 
       <CookiesBanner 
+        isVisible={showCookiesBanner}
         onAccept={handleAcceptCookies} 
         onReject={handleRejectCookies} 
         onShowLegal={setLegalType} 

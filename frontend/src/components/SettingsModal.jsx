@@ -355,6 +355,23 @@ export default function SettingsModal({
               </div>
             </div>
           </div>
+
+          {/* Privacidad y Legal */}
+          <div className="flex flex-col gap-3 pt-2">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">Privacidad</label>
+            <button 
+              onClick={openCookies}
+              className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700/50 transition"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <span className="font-bold text-slate-800 dark:text-white text-sm">Gestionar Permisos de Cookies</span>
+              </div>
+              <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
           
             <div className="pt-2">
               <button 

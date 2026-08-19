@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-export default function CookiesBanner({ onAccept, onReject, onShowLegal }) {
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem('waygass_cookie_consent');
-    if (!consent) {
-      setIsVisible(true);
-    }
-  }, []);
-
+export default function CookiesBanner({ isVisible, onAccept, onReject, onShowLegal }) {
   const handleAccept = () => {
     localStorage.setItem('waygass_cookie_consent', 'accepted');
-    setIsVisible(false);
     if (onAccept) onAccept();
   };
 
   const handleReject = () => {
     localStorage.setItem('waygass_cookie_consent', 'rejected');
-    setIsVisible(false);
     if (onReject) onReject();
   };
 
