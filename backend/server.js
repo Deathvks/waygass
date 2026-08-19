@@ -480,6 +480,17 @@ app.post('/api/login', async (req, res) => {
       return res.status(403).json({ error: "Por favor, verifica tu correo electrónico antes de iniciar sesión." });
     }
 
+    // Auto-upgrade a ADMIN en login (para entorno de producción si la cuenta ya existía)
+    if (email === 'dylanjesussuarez@gmail.com') {
+      let updated = false;
+      if (user.role !== 'admin') { user.role = 'admin'; updated = true; }
+      if (user.subscription !== 'pro') { user.subscription = 'pro'; updated = true; }
+      if (updated) {
+        await user.save();
+        console.log(`[AUTH] Actualizados privilegios a ADMIN/PRO automáticamente para ${email}`);
+      }
+    }
+
     console.log(`[AUTH-SUCCESS] Login exitoso:  ()`);
 
     // Generar JWT
