@@ -392,6 +392,15 @@ export default function SettingsModal({
             ) : adminStats ? (
               <>
                 <div className="grid grid-cols-2 gap-3">
+                  <div className="col-span-2 bg-blue-50 dark:bg-blue-500/10 border border-blue-100 dark:border-blue-500/20 p-4 rounded-2xl text-center flex items-center justify-between">
+                    <div className="text-left">
+                      <div className="text-2xl font-black text-blue-600 dark:text-blue-400">{new Intl.NumberFormat('es-ES').format(adminStats.totalStations || 0)}</div>
+                      <div className="text-[10px] font-bold text-blue-500 uppercase tracking-widest mt-0.5">Gasolineras Registradas</div>
+                    </div>
+                    <div className="text-right text-[10px] text-blue-500 font-medium">
+                      Última sincro:<br/><span className="font-bold">{adminStats.lastStationUpdate ? new Date(adminStats.lastStationUpdate).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Nunca'}</span>
+                    </div>
+                  </div>
                   <div className="bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-4 rounded-2xl text-center">
                     <div className="text-3xl font-black text-slate-800 dark:text-white">{adminStats.totalUsers}</div>
                     <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Usuarios</div>

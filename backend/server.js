@@ -194,10 +194,21 @@ app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
     const proUsers = await User.count({ where: { subscription: 'pro' } });
     const totalValidations = await Validation.count();
     
+    // Nmero de gasolineras nicas en el histrico
+    const totalStations = await PriceHistory.count({
+      col: 'stationId',
+      distinct: true
+    });
+    
+    // ltima actualizacin
+    const lastUpdate = await PriceHistory.max('createdAt');
+
     res.json({
       totalUsers,
       proUsers,
-      totalValidations
+      totalValidations,
+      totalStations: totalStations || 0,
+      lastStationUpdate: lastUpdate || null
     });
   } catch (e) {
     res.status(500).json({ error: "Error obteniendo estadísticas." });
