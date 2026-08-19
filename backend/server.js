@@ -96,8 +96,6 @@ const fetchAndStoreDailyPrices = async () => {
     if (allStationsRes.data && allStationsRes.data.ListaEESSPrecio) {
       const stations = allStationsRes.data.ListaEESSPrecio;
       const today = new Date().toISOString().split('T')[0];
-      
-      const today = new Date().toISOString().split('T')[0];
       const records = [];
       for (const s of stations) {
         const id = s['IDEESS'];
