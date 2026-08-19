@@ -451,7 +451,7 @@ app.post('/api/login', async (req, res) => {
 
     if (user.isVerified === false) {
       console.warn(`[AUTH-ERROR] Login fallido: Email no verificado (${email}).`);
-      return res.status(403).json({ error: "Por favor, verifica tu correo electrnico antes de iniciar sesin." });
+      return res.status(403).json({ error: "Por favor, verifica tu correo electrónico antes de iniciar sesión." });
     }
 
     console.log(`[AUTH-SUCCESS] Login exitoso:  ()`);
