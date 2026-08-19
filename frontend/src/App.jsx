@@ -15,8 +15,8 @@ import ProfileModal from './components/ProfileModal';
 import CookiesBanner from './components/CookiesBanner';
 import LegalModal from './components/LegalModal';
 
-const API_BASE = 'https://unsnap-causing-affluent.ngrok-free.dev/api/gas';
-const SETTINGS_API = 'https://unsnap-causing-affluent.ngrok-free.dev/api/settings';
+const API_BASE = '/api/gas';
+const SETTINGS_API = '/api/settings';
 
 // Coordenadas aproximadas del centro de cada provincia para usar como fallback
 const PROVINCE_CENTERS = {
@@ -234,7 +234,7 @@ export default function App() {
   const fetchFavorites = async () => {
     if (!authToken) return;
     try {
-      const res = await axios.get('https://unsnap-causing-affluent.ngrok-free.dev/api/favorites', {
+      const res = await axios.get('/api/favorites', {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       setFavoriteIds(res.data);
@@ -250,7 +250,7 @@ export default function App() {
       return;
     }
     try {
-      const res = await axios.post('https://unsnap-causing-affluent.ngrok-free.dev/api/favorites/toggle', { stationId }, {
+      const res = await axios.post('/api/favorites/toggle', { stationId }, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
       if (res.data.action === 'added') {

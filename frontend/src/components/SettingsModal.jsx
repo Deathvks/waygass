@@ -24,7 +24,7 @@ export default function SettingsModal({
       const fetchRanking = async () => {
         setLoadingRanking(true);
         try {
-          const res = await axios.get('https://unsnap-causing-affluent.ngrok-free.dev/api/ranking');
+          const res = await axios.get('/api/ranking');
           setRankingData(res.data);
         } catch (e) {
           console.error("Error fetching ranking", e);
@@ -42,8 +42,8 @@ export default function SettingsModal({
         try {
           const token = localStorage.getItem('waygas_token');
           const [statsRes, usersRes] = await Promise.all([
-            axios.get('https://unsnap-causing-affluent.ngrok-free.dev/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } }),
-            axios.get('https://unsnap-causing-affluent.ngrok-free.dev/api/admin/users', { headers: { Authorization: `Bearer ${token}` } })
+            axios.get('/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } }),
+            axios.get('/api/admin/users', { headers: { Authorization: `Bearer ${token}` } })
           ]);
           setAdminStats(statsRes.data);
           setUsersList(usersRes.data);
@@ -78,7 +78,7 @@ export default function SettingsModal({
     
     try {
       const token = localStorage.getItem('waygas_token');
-      await axios.delete(`https://unsnap-causing-affluent.ngrok-free.dev/api/admin/users/${userId}`, {
+      await axios.delete(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -98,7 +98,7 @@ export default function SettingsModal({
     
     try {
       const token = localStorage.getItem('waygas_token');
-      await axios.patch(`https://unsnap-causing-affluent.ngrok-free.dev/api/admin/users/${roleModalUser.id}/role`, 
+      await axios.patch(`/api/admin/users/${roleModalUser.id}/role`, 
         { role: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -114,7 +114,7 @@ export default function SettingsModal({
   const handleForceSync = async () => {
     try {
       const token = localStorage.getItem('waygas_token');
-      await axios.get('https://unsnap-causing-affluent.ngrok-free.dev/api/admin/force-history-sync', {
+      await axios.get('/api/admin/force-history-sync', {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('Sincronización iniciada en el servidor.');

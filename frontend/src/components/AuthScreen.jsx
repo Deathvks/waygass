@@ -55,7 +55,7 @@ export default function AuthScreen({ onLoginSuccess }) {
     
     try {
       const endpoint = isLogin ? '/api/login' : '/api/register';
-      const res = await axios.post(`https://unsnap-causing-affluent.ngrok-free.dev${endpoint}`, formData);
+      const res = await axios.post(`${endpoint}`, formData);
       
       const { token, user } = res.data;
       localStorage.setItem('waygas_token', token);

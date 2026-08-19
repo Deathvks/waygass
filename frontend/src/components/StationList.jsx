@@ -31,7 +31,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
   useEffect(() => {
     const fetchValidations = async () => {
       try {
-        const res = await axios.get(`https://unsnap-causing-affluent.ngrok-free.dev/api/validations/all`);
+        const res = await axios.get(`/api/validations/all`);
         setGlobalValidations(res.data);
       } catch (e) {
         console.error("Error cargando validaciones globales", e);
@@ -41,7 +41,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
     const fetchMyVotes = async () => {
       try {
         const token = localStorage.getItem('waygas_token');
-        const res = await axios.get(`https://unsnap-causing-affluent.ngrok-free.dev/api/validations/me`, {
+        const res = await axios.get(`/api/validations/me`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {}
         });
         const myVotesMap = {};
@@ -68,7 +68,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
     setLoadingHistory(true);
     
     try {
-      const res = await axios.get(`https://unsnap-causing-affluent.ngrok-free.dev/api/history/${station.id}`);
+      const res = await axios.get(`/api/history/${station.id}`);
       
       const mappedData = res.data.map(d => {
         const dateObj = new Date(d.date);
@@ -110,7 +110,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
       const isCancelling = currentVote === type;
       const targetType = isCancelling ? 'CANCEL' : type;
 
-      await axios.post(`https://unsnap-causing-affluent.ngrok-free.dev/api/stations/${stationId}/validate`, { type: targetType }, {
+      await axios.post(`/api/stations/${stationId}/validate`, { type: targetType }, {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       });
       
