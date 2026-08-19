@@ -76,9 +76,9 @@ export default function AuthScreen({ onLoginSuccess }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
-      <div className="relative w-full h-[40vh] sm:h-[45vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 dark:bg-slate-900 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
-        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 dark:opacity-20 md:opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90 dark:from-slate-800/90 dark:to-slate-900/90"></div>
+      <div className="relative w-full h-[40vh] sm:h-[45vh] md:h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
+        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90"></div>
         
         {/* Curva SVG en la base (SOLO MÓVIL) */}
         <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px] md:hidden">
