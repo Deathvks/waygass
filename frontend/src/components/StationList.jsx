@@ -31,7 +31,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
     
     const fetchMyVotes = async () => {
       try {
-        const token = localStorage.getItem('waygas_token');
+        const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
         const res = await axios.get(`/api/validations/me`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {}
         });
@@ -95,7 +95,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
 
   const handleValidate = async (stationId, type) => {
     try {
-      const token = localStorage.getItem('waygas_token');
+      const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
       
       const currentVote = userVotes[stationId];
       const isCancelling = currentVote === type;

@@ -43,7 +43,7 @@ export default function SettingsModal({
       const fetchData = async () => {
         setLoadingStats(true);
         try {
-          const token = localStorage.getItem('waygas_token');
+          const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
           const [statsRes, usersRes] = await Promise.all([
             axios.get('/api/admin/stats', { headers: { Authorization: `Bearer ${token}` } }),
             axios.get('/api/admin/users', { headers: { Authorization: `Bearer ${token}` } })
@@ -81,7 +81,7 @@ export default function SettingsModal({
   const confirmDeleteUser = async () => {
     if (!deleteModalUser) return;
     try {
-      const token = localStorage.getItem('waygas_token');
+      const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
       await axios.delete(`/api/admin/users/${deleteModalUser.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -98,7 +98,7 @@ export default function SettingsModal({
     if (!roleModalUser) return;
     
     try {
-      const token = localStorage.getItem('waygas_token');
+      const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
       await axios.patch(`/api/admin/users/${roleModalUser.id}/role`, 
         { role: newRole },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -115,7 +115,7 @@ export default function SettingsModal({
 
   const handleForceSync = async () => {
     try {
-      const token = localStorage.getItem('waygas_token');
+      const token = (localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
       await axios.get('/api/admin/force-history-sync', {
         headers: { Authorization: `Bearer ${token}` }
       });
