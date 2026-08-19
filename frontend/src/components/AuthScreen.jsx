@@ -12,7 +12,12 @@ export default function AuthScreen({ onLoginSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [verificationSent, setVerificationSent] = useState(() => !!sessionStorage.getItem('waygas_pending_verification'));
-  const [resendTimer, setResendTimer] = useState(20);
+  const [resendTimer, setResendTimer] = useState(() => {
+    const lastSent = sessionStorage.getItem('waygas_email_time');
+    if (!lastSent) return 0;
+    const diff = Math.floor((Date.now() - parseInt(lastSent)) / 1000);
+    return diff < 20 ? 20 - diff : 0;
+  });
   const [resendMessage, setResendMessage] = useState("");
 
   
