@@ -103,9 +103,16 @@ const fetchAndStoreDailyPrices = async () => {
     
     // El endpoint para TODA España es: 
     // https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/
-    const allStationsRes = await axios.get(API_BASE, { headers: { 'Accept': 'application/json' }});
+    const allStationsRes = await axios.get(API_BASE, { 
+        headers: { 
+          'Accept': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36',
+          'Accept-Language': 'es-ES,es;q=0.9,en;q=0.8'
+        }
+      });
     
     if (allStationsRes.data && allStationsRes.data.ListaEESSPrecio) {
+
       const stations = allStationsRes.data.ListaEESSPrecio;
       const today = new Date().toISOString().split('T')[0];
       const records = [];
@@ -132,10 +139,16 @@ const fetchAndStoreDailyPrices = async () => {
       lastCronError = null;
         const inserted = records.length;
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
-      success = true;
-      message = `${inserted} gasolineras guardadas.`;
-    }
-    return { success, message };
+      
+        success = true;
+        message = `${inserted} gasolineras guardadas.`;
+      } else {
+        const errorMsg = "La API de MITECO no devolvió la lista esperada. Respuesta: " + (typeof allStationsRes.data === 'string' ? allStationsRes.data.substring(0, 100) : JSON.stringify(allStationsRes.data).substring(0, 100));
+        console.error("[CRON]", errorMsg);
+        lastCronError = errorMsg;
+        message = errorMsg;
+      }
+      return { success, message };
   } catch (error) {
     console.error("[CRON] Error descargando precios diarios:", error.message);
   }
