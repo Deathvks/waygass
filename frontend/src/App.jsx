@@ -349,7 +349,7 @@ export default function App() {
     return currentProvince;
   };
 
-  const getUserGPS = () => {
+  const getUserGPS = (isManual = false) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (pos) => {
@@ -357,7 +357,16 @@ export default function App() {
           setUserLocation(loc);
           await detectProvince(loc.lat, loc.lng);
         },
-        () => detectProvince(userLocation.lat, userLocation.lng),
+        (err) => {
+          if (isManual && err.code === 1) {
+            alert("⚠️ Permiso bloqueado.\n\nPara usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación.");
+          } else if (isManual && err.code === 2) {
+            alert("No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo.");
+          } else if (isManual && err.code === 3) {
+            alert("Tiempo de espera agotado al intentar buscar tu ubicación.");
+          }
+          detectProvince(userLocation.lat, userLocation.lng);
+        },
         { timeout: 8000 }
       );
     }
@@ -712,7 +721,7 @@ dark:text-slate-100 relative">
                 <SummaryCards stats={stats} tankSize={settings.tankSize} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} />
               </div>
               <div className="flex-shrink-0">
-                <SearchBar onSearch={handleSearch} onGps={getUserGPS} loadingSearch={loading} />
+                <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} />
               </div>
             </div>
           </div>
