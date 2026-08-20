@@ -144,7 +144,7 @@ const fetchAndStoreDailyPrices = async () => {
         }
         
         await db.PriceHistory.bulkCreate(uniqueRecords, {
-          updateOnDuplicate: ['price95', 'priceDiesel'],
+          ignoreDuplicates: true,
           validate: false
         });
         
@@ -164,7 +164,7 @@ const fetchAndStoreDailyPrices = async () => {
       }
       return { success, message };
   } catch (error) {
-    console.error("[CRON] Error descargando precios diarios:", error.message);
+    console.error("[CRON] Error descargando precios diarios:", error.name, error.message, "PARENT:", error.parent ? error.parent.message : "No parent", "SQL:", error.sql || "No SQL");
   }
 };
 
