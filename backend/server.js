@@ -518,6 +518,53 @@ app.post('/api/login', async (req, res) => {
     if (!email || !password) {
       console.warn(`[AUTH-ERROR] Login fallido: Campos incompletos.`);
       return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
+
+app.post('/api/auth/google', async (req, res) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) return res.status(400).json({ error: "Token de Google no proporcionado" });
+    
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID);
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID
+    });
+    
+    const payload = ticket.getPayload();
+    const email = payload.email;
+    const name = payload.given_name || payload.name;
+    const lastName = payload.family_name || "";
+    
+    // Buscar si el usuario ya existe
+    let user = await db.User.findOne({ where: { email } });
+    
+    if (!user) {
+      // Crear cuenta nueva con contraseña aleatoria indescifrable
+      const randomPassword = crypto.randomBytes(32).toString('hex');
+      const hashedPassword = await bcrypt.hash(randomPassword, 10);
+      user = await db.User.create({
+        name,
+        lastName,
+        email,
+        password: hashedPassword,
+        isVerified: true
+      });
+    }
+    
+    // Generar nuestro token JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.isVerified },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+    
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, isVerified: user.isVerified } });
+  } catch (error) {
+    console.error("[AUTH] Error en Google Login:", error.message);
+    res.status(401).json({ error: "Fallo de autenticación con Google" });
+  }
+});
+
     }
 
     // Buscar usuario
