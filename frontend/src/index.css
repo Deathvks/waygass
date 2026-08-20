@@ -6,6 +6,7 @@
 @layer base {
   html, body {
     overscroll-behavior-y: none;
+    background-color: #f8fafc;
   }
   
   body {
@@ -19,7 +20,8 @@
   }
 
   /* Base styles that react to dark mode classes on the html element */
-  html.dark body {
+  html.dark, html.dark body {
+    color-scheme: dark;
     background-color: #020617; /* slate-950 */
     color: #f8fafc; /* slate-50 */
   }
