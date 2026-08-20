@@ -218,7 +218,7 @@ export default function AuthScreen({ onLoginSuccess }) {
 
       {/* Contenedor del Formulario (Derecha en PC) */}
       <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
-        <div className="bg-white/80 dark:bg-slate-950 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl dark:backdrop-blur-none md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-transparent md:border-none w-full max-w-lg mx-auto">
+        <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
           
           {verificationSent ? (
             <div className="text-center py-8">
