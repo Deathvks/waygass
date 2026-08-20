@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function AuthScreen({ onLoginSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
@@ -90,6 +91,30 @@ export default function AuthScreen({ onLoginSuccess }) {
     }
   };
 
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      setError('');
+      const res = await axios.post('/api/auth/google', {
+        credential: credentialResponse.credential
+      });
+      const data = res.data;
+      if (rememberMe) {
+        localStorage.setItem('waygas_token', data.token);
+        localStorage.setItem('waygas_user', JSON.stringify(data.user));
+      } else {
+        sessionStorage.setItem('waygas_token', data.token);
+        sessionStorage.setItem('waygas_user', JSON.stringify(data.user));
+      }
+      onLoginSuccess(data.user);
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.error || 'Error al iniciar sesión con Google');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -258,6 +283,23 @@ export default function AuthScreen({ onLoginSuccess }) {
                 {error}
               </div>
             )}
+
+            <div className="w-full flex justify-center mb-6 mt-2">
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={() => setError('Error al conectar con Google')}
+                useOneTap
+                theme="outline"
+                shape="pill"
+                text={isLogin ? "signin_with" : "signup_with"}
+              />
+            </div>
+            
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">o usa tu email</span>
+              <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+            </div>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
           
