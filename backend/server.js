@@ -132,12 +132,26 @@ const fetchAndStoreDailyPrices = async () => {
       }
       
       // Upsert masivo (muchísimo más rápido en SQLite que insertar uno a uno)
-      await db.PriceHistory.bulkCreate(records, {
-        updateOnDuplicate: ['price95', 'priceDiesel']
-      });
+      // Eliminar duplicados en el mismo array por si MITECO devuelve la misma gasolinera 2 veces hoy
+        const seen = new Set();
+        const uniqueRecords = [];
+        for (const r of records) {
+          const key = r.stationId + '_' + r.date;
+          if (!seen.has(key)) {
+            seen.add(key);
+            uniqueRecords.push(r);
+          }
+        }
+        
+        await db.PriceHistory.bulkCreate(uniqueRecords, {
+          updateOnDuplicate: ['price95', 'priceDiesel'],
+          validate: false
+        });
+        
+        const inserted = uniqueRecords.length;
       
       lastCronError = null;
-        const inserted = records.length;
+        
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
       
         success = true;
