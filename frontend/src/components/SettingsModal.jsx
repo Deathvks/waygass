@@ -119,9 +119,9 @@ export default function SettingsModal({
       await axios.get('/api/admin/force-history-sync', {
         headers: { Authorization: `Bearer ${token}` }
       });
-      alert('Sincronización iniciada en el servidor.');
+      toast.success('¡Sincronización completada! Cierra y vuelve a abrir este panel para ver los datos actualizados.');
     } catch (e) {
-      alert('Error al sincronizar');
+      toast.error(e.response?.data?.error || 'Error al sincronizar.');
     }
   };
 

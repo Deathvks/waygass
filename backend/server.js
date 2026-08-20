@@ -67,8 +67,9 @@ app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
     
     res.json(response.data);
   } catch (error) {
-    console.error("Error obteniendo datos del MITECO:", error.message);
-    res.status(500).json({ error: "No se pudo obtener la información de las gasolineras" });
+    console.error("[CRON] Error descargando precios diarios:", error.message);
+    return { success: false, message: error.message };
+  });
   }
 });
 
@@ -85,6 +86,8 @@ const parsePrice = (str) => {
 
 // Función para guardar los precios actuales en la DB
 const fetchAndStoreDailyPrices = async () => {
+  let success = false;
+  let message = "";
   try {
     console.log("[CRON] Iniciando descarga diaria de precios para el histórico...");
     
@@ -118,8 +121,11 @@ const fetchAndStoreDailyPrices = async () => {
       });
       
       const inserted = records.length;
-      console.log(`[CRON] Histórico guardado correctamente. ${inserted} estaciones procesadas para ${today}.`);
+      console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
+      success = true;
+      message = `${inserted} gasolineras guardadas.`;
     }
+    return { success, message };
   } catch (error) {
     console.error("[CRON] Error descargando precios diarios:", error.message);
   }
@@ -183,8 +189,12 @@ const verifyAdmin = (req, res, next) => {
 // ==========================================
 app.get('/api/admin/force-history-sync', verifyAdmin, async (req, res) => {
   try {
-    fetchAndStoreDailyPrices(); // Iniciar en segundo plano
-    res.json({ message: "Sincronización de precios iniciada en segundo plano." });
+    const result = await fetchAndStoreDailyPrices();
+    if (result && result.success) {
+      res.json({ message: result.message });
+    } else {
+      res.status(500).json({ error: "Error de la API del Ministerio: " + (result ? result.message : "Desconocido") });
+    }
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
