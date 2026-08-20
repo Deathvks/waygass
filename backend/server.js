@@ -153,6 +153,10 @@ const fetchAndStoreDailyPrices = async () => {
       lastCronError = null;
         
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
+const totalRows = await db.PriceHistory.count();
+console.log(`[CRON] TOTAL ROWS IN DB NOW: ${totalRows}`);
+const schema = await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT });
+console.log(`[CRON] SCHEMA: ${JSON.stringify(schema)}`);
       
         success = true;
         message = `${inserted} gasolineras guardadas.`;
@@ -257,8 +261,11 @@ app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
         proUsers,
         totalValidations,
         totalStations: totalStations || 0,
+        debugTotalRows: await db.PriceHistory.count(),
+        debugSchema: await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT }),
+
         lastStationUpdate: lastUpdate || null,
-        lastCronError
+        lastCronError: lastCronError || ("Rows: " + await db.PriceHistory.count() + " | Schema: " + JSON.stringify(await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT })))
       });
   } catch (e) {
     res.status(500).json({ error: "Error obteniendo estadísticas." });
