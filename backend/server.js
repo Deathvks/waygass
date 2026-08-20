@@ -67,9 +67,8 @@ app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
     
     res.json(response.data);
   } catch (error) {
-    console.error("[CRON] Error descargando precios diarios:", error.message);
-    return { success: false, message: error.message };
-  });
+    console.error("Error en el proxy de MITECO:", error.message);
+    res.status(500).json({ error: "Error obteniendo datos de MITECO" });
   }
 });
 
