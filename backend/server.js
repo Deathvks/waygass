@@ -34,8 +34,17 @@ app.use(cors());
 app.use(express.json());
 
 // Sincronizar Base de Datos
-db.sequelize.sync().then(() => {
+db.sequelize.sync().then(async () => {
   console.log("Conectado a la base de datos SQLite.");
+  try {
+    const count = await db.PriceHistory.count();
+    if (count === 0) {
+      console.log("[INIT] Base de datos de histórico vacía. Ejecutando primera sincronización en segundo plano...");
+      fetchAndStoreDailyPrices();
+    }
+  } catch(e) {
+    console.error("Error al comprobar el histórico en el arranque:", e.message);
+  }
 }).catch(err => {
   console.error("Error al conectar con la base de datos: ", err.message);
 });
