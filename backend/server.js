@@ -35,6 +35,10 @@ app.use(express.json());
 
 // Sincronizar Base de Datos
 db.sequelize.sync().then(async () => {
+  // BORRAR y recrear la tabla PriceHistory para arreglar el schema roto en producción
+  console.log("Forzando recreación de la tabla PriceHistory...");
+  await db.PriceHistory.sync({ force: true });
+
   console.log("Conectado a la base de datos SQLite.");
   try {
     const count = await db.PriceHistory.count();
