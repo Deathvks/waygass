@@ -43,8 +43,8 @@ export default function AuthScreen({ onLoginSuccess }) {
     }
     const previousColor = metaThemeColor.getAttribute('content');
     metaThemeColor.setAttribute('content', '#f97316'); // Tailwind orange-500
-
-    // Set body background to match AuthScreen to fix bottom safe area color in Safari
+    
+    // Fix bottom safe area color in Safari/Brave
     const originalBodyBg = document.body.style.backgroundColor;
     let isDarkMode = false;
     try {
@@ -53,12 +53,10 @@ export default function AuthScreen({ onLoginSuccess }) {
     } catch (e) {
       isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
-    // bg logic removed
+    document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
 
     return () => {
-      // Restore original body color
-      // bg logic removed
-      
+      document.body.style.backgroundColor = originalBodyBg;
       // Restore or remove on unmount so the main app uses its own color
       if (previousColor) {
         metaThemeColor.setAttribute('content', previousColor);
@@ -189,7 +187,7 @@ export default function AuthScreen({ onLoginSuccess }) {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-950 flex flex-col md:flex-row relative overflow-hidden">
+    <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row relative overflow-hidden">
       {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
       <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
         <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
