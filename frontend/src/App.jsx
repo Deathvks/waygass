@@ -145,7 +145,17 @@ export default function App() {
   };
 
   const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
-  const [authUser, setAuthUser] = useState(JSON.parse(localStorage.getItem('waygas_user') || sessionStorage.getItem('waygas_user') || 'null'));
+  const [authUser, setAuthUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem('waygas_user') || sessionStorage.getItem('waygas_user');
+      if (!stored || stored === 'undefined') return null;
+      return JSON.parse(stored);
+    } catch (e) {
+      localStorage.removeItem('waygas_user');
+      sessionStorage.removeItem('waygas_user');
+      return null;
+    }
+  });
   
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('waygas_settings');
