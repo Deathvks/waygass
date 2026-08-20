@@ -55,6 +55,7 @@ db.sequelize.sync().then(async () => {
 const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/';
 
 const apiCache = {};
+let lastCronError = null;
 
 app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
   try {
@@ -128,7 +129,8 @@ const fetchAndStoreDailyPrices = async () => {
         updateOnDuplicate: ['price95', 'priceDiesel']
       });
       
-      const inserted = records.length;
+      lastCronError = null;
+        const inserted = records.length;
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
       success = true;
       message = `${inserted} gasolineras guardadas.`;
@@ -224,12 +226,13 @@ app.get('/api/admin/stats', verifyAdmin, async (req, res) => {
     const lastUpdate = await db.PriceHistory.max('createdAt');
 
     res.json({
-      totalUsers,
-      proUsers,
-      totalValidations,
-      totalStations: totalStations || 0,
-      lastStationUpdate: lastUpdate || null
-    });
+        totalUsers,
+        proUsers,
+        totalValidations,
+        totalStations: totalStations || 0,
+        lastStationUpdate: lastUpdate || null,
+        lastCronError
+      });
   } catch (e) {
     res.status(500).json({ error: "Error obteniendo estadísticas." });
   }
