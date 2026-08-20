@@ -381,6 +381,9 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
     // Verificar si existe
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
+      if (existingUser.authProvider === 'google') {
+        return res.status(400).json({ error: "Este correo ya está registrado mediante Google. Por favor, inicia sesión con Google." });
+      }
       console.warn(`[AUTH-ERROR] Registro fallido: El email ya existe (${email}).`);
       return res.status(400).json({ error: "El correo electrónico ya está registrado." });
     }
@@ -470,7 +473,10 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
       if (!email) return res.status(400).json({ error: 'Email requerido.' });
 
       const user = await User.findOne({ where: { email } });
-      if (!user) {
+    if (user && user.authProvider === 'google') {
+      return res.status(403).json({ error: "Esta cuenta se creó con Google. Por favor, usa el botón de Iniciar sesión con Google." });
+    }
+    if (!user) {
         // Por seguridad no decimos si existe o no
         return res.json({ message: 'Si el correo está registrado, se ha enviado un nuevo enlace.' });
       }
@@ -542,7 +548,8 @@ app.post('/api/auth/google', async (req, res) => {
         lastName,
         email,
         password: hashedPassword,
-        isVerified: true
+        isVerified: true,
+        authProvider: 'google'
       });
     }
     

@@ -25,6 +25,10 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN,
       defaultValue: false
     },
+    authProvider: {
+      type: Sequelize.STRING,
+      defaultValue: 'local'
+    },
     verificationToken: {
       type: Sequelize.STRING,
       allowNull: true
