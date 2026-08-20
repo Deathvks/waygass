@@ -57,6 +57,18 @@ const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburant
 const apiCache = {};
 let lastCronError = null;
 
+app.get('/api/debug-db', async (req, res) => {
+  try {
+    const totalRows = await db.PriceHistory.count();
+    const distinctStations = await db.PriceHistory.count({ col: 'stationId', distinct: true });
+    const schema = await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT });
+    const records = await db.PriceHistory.findAll({ limit: 5 });
+    res.json({ totalRows, distinctStations, schema, records });
+  } catch(e) {
+    res.json({ error: e.message });
+  }
+});
+
 app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
   try {
     const { provincia } = req.params;
