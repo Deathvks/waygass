@@ -511,6 +511,10 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
   });
 
 app.post('/api/auth/google', async (req, res) => {
+  console.log("[AUTH-GOOGLE] ========================================");
+  console.log("[AUTH-GOOGLE] Recibida nueva petición de inicio de sesión con Google!");
+  console.log("[AUTH-GOOGLE] IP del cliente:", req.ip);
+  console.log("[AUTH-GOOGLE] Origin de la petición:", req.headers.origin);
   try {
     const { credential } = req.body;
     if (!credential) return res.status(400).json({ error: "Token de Google no proporcionado" });
@@ -521,7 +525,9 @@ app.post('/api/auth/google', async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID
     });
     
+    console.log("[AUTH-GOOGLE] Token recibido, verificando con Google...");
     const payload = ticket.getPayload();
+    console.log("[AUTH-GOOGLE] Verificación exitosa. Usuario de Google:", payload.email);
     const email = payload.email;
     const name = payload.given_name || payload.name;
     const lastName = payload.family_name || "";
@@ -546,9 +552,12 @@ app.post('/api/auth/google', async (req, res) => {
       { expiresIn: "7d" }
     );
     
+    console.log("[AUTH-GOOGLE] Autenticación completada. Generando token para:", user.email);
+    console.log("[AUTH-GOOGLE] ========================================");
     res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, isVerified: user.isVerified } });
   } catch (error) {
-    console.error("[AUTH] Error en Google Login:", error.message);
+    console.error("[AUTH-GOOGLE] [ERROR CRÍTICO] Error en Google Login:", error.message);
+    console.error("[AUTH-GOOGLE] Pila de error:", error.stack);
     res.status(401).json({ error: "Fallo de autenticación con Google" });
   }
 });
