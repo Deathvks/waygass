@@ -100,14 +100,11 @@ export default function AuthScreen({ onLoginSuccess }) {
         credential: credentialResponse.credential
       });
       const data = res.data;
-      if (rememberMe) {
-        localStorage.setItem('waygas_token', data.token);
-        localStorage.setItem('waygas_user', JSON.stringify(data.user));
-      } else {
-        sessionStorage.setItem('waygas_token', data.token);
-        sessionStorage.setItem('waygas_user', JSON.stringify(data.user));
-      }
-      onLoginSuccess(data.user);
+      
+      console.log("[FRONTEND-GOOGLE] Recibido token y usuario del backend:", data);
+      
+      // Pasar los datos correctos a App.jsx
+      onLoginSuccess(data.token, data.user, rememberMe);
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.error || 'Error al iniciar sesión con Google');
