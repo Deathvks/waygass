@@ -35,9 +35,6 @@ app.use(express.json());
 
 // Sincronizar Base de Datos
 db.sequelize.sync().then(async () => {
-  // BORRAR y recrear la tabla PriceHistory para arreglar el schema roto en producción
-  console.log("Forzando recreación de la tabla PriceHistory...");
-  await db.PriceHistory.sync({ force: true });
 
   console.log("Conectado a la base de datos SQLite.");
   try {
@@ -60,18 +57,6 @@ const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburant
 
 const apiCache = {};
 let lastCronError = null;
-
-app.get('/api/debug-db', async (req, res) => {
-  try {
-    const totalRows = await db.PriceHistory.count();
-    const distinctStations = await db.PriceHistory.count({ col: 'stationId', distinct: true });
-    const schema = await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT });
-    const records = await db.PriceHistory.findAll({ limit: 5 });
-    res.json({ totalRows, distinctStations, schema, records });
-  } catch(e) {
-    res.json({ error: e.message });
-  }
-});
 
 app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
   try {
