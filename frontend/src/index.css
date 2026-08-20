@@ -94,3 +94,19 @@
   border-radius: 50%; 
   box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.2); 
 }
+
+/* Evitar el cambio de color de fondo al autocompletar en Chrome/Webkit */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: inherit !important;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover, 
+html.dark input:-webkit-autofill:focus, 
+html.dark input:-webkit-autofill:active {
+    -webkit-text-fill-color: #f8fafc !important; /* text-slate-50 */
+}
