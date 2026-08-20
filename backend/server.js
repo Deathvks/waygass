@@ -509,15 +509,6 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
       res.status(500).json({ error: 'Error interno del servidor.' });
     }
   });
-app.post('/api/login', async (req, res) => {
-  try {
-    const { email, password, rememberMe } = req.body;
-    
-    console.log(`[AUTH] Intento de login para email: ${email}`);
-
-    if (!email || !password) {
-      console.warn(`[AUTH-ERROR] Login fallido: Campos incompletos.`);
-      return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
 
 app.post('/api/auth/google', async (req, res) => {
   try {
@@ -535,14 +526,12 @@ app.post('/api/auth/google', async (req, res) => {
     const name = payload.given_name || payload.name;
     const lastName = payload.family_name || "";
     
-    // Buscar si el usuario ya existe
-    let user = await db.User.findOne({ where: { email } });
+    let user = await User.findOne({ where: { email } });
     
     if (!user) {
-      // Crear cuenta nueva con contraseña aleatoria indescifrable
       const randomPassword = crypto.randomBytes(32).toString('hex');
       const hashedPassword = await bcrypt.hash(randomPassword, 10);
-      user = await db.User.create({
+      user = await User.create({
         name,
         lastName,
         email,
@@ -551,7 +540,6 @@ app.post('/api/auth/google', async (req, res) => {
       });
     }
     
-    // Generar nuestro token JWT
     const token = jwt.sign(
       { id: user.id, email: user.email, role: user.role, name: user.name, isVerified: user.isVerified },
       JWT_SECRET,
@@ -565,6 +553,15 @@ app.post('/api/auth/google', async (req, res) => {
   }
 });
 
+app.post('/api/login', async (req, res) => {
+  try {
+    const { email, password, rememberMe } = req.body;
+    
+    console.log(`[AUTH] Intento de login para email: ${email}`);
+
+    if (!email || !password) {
+      console.warn(`[AUTH-ERROR] Login fallido: Campos incompletos.`);
+      return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
     }
 
     // Buscar usuario
