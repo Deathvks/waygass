@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Select from 'react-select';
 
 export const FUELS = [
@@ -79,8 +80,8 @@ export default function Filters({ filters, setFilters }) {
       border: state.isFocused ? (isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(0,0,0,0.2)') : (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)'),
       borderRadius: '0.75rem',
       boxShadow: 'none',
-      minHeight: '44px',
-      fontSize: '0.875rem',
+      minHeight: '36px',
+      fontSize: '0.75rem',
       fontWeight: 600,
       cursor: 'pointer',
       color: isDark ? '#fff' : '#0f172a',
@@ -99,10 +100,10 @@ export default function Filters({ filters, setFilters }) {
       ...base,
       backgroundColor: isSelected ? (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)') : isFocused ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent',
       color: isDark ? '#fff' : '#0f172a',
-      fontSize: '0.875rem',
+      fontSize: '0.75rem',
       fontWeight: 500,
       cursor: 'pointer',
-      padding: '10px 12px',
+      padding: '8px 12px',
       borderRadius: '0.5rem',
       marginBottom: '2px'
     }),
@@ -137,7 +138,7 @@ export default function Filters({ filters, setFilters }) {
       <div className="flex overflow-x-auto no-scrollbar gap-2 py-2 items-center px-1 -mx-2 sm:mx-0">
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="shrink-0 px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-200 flex items-center gap-2 glass-core border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 hover:bg-black/5 dark:hover:bg-white/5"
+          className="shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-2 border border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -149,14 +150,14 @@ export default function Filters({ filters, setFilters }) {
           <button 
             key={fuel.id}
             onClick={() => handleChange('fuelType', fuel.id)}
-            className={`shrink-0 px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-200 ${fuelType === fuel.id ? 'bg-primary text-white shadow-md' : 'glass-core border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5'}`}
+            className={`shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${fuelType === fuel.id ? 'font-bold bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5 shadow-sm' : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-transparent border border-slate-200 dark:border-white/5 dark:hover:bg-slate-700/50'}`}
           >
             {fuel.label}
           </button>
         ))}
       </div>
 
-      {isModalOpen && (
+      {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)}></div>
           <div className="relative bg-white dark:bg-[#121212] w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in border border-white/10">
@@ -192,15 +193,12 @@ export default function Filters({ filters, setFilters }) {
               </div>
             </div>
             
-            <div className="mt-2 border-t border-slate-200 dark:border-white/10 pt-4">
-               <label className="flex items-center justify-between cursor-pointer bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 px-4 py-3 rounded-2xl transition">
-                  <div className="flex flex-col">
-                     <span className="font-bold text-slate-900 dark:text-white text-sm">Abierto Ahora</span>
-                     <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Mostrar solo gasolineras abiertas</span>
-                  </div>
+            <div className="mt-2 border-t border-slate-200/50 dark:border-white/5 pt-4">
+               <label className="flex items-center justify-between cursor-pointer glass-core border border-slate-200/50 dark:border-white/5 px-3 py-2 rounded-xl transition h-[36px]">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300 text-xs">Abierto Ahora</span>
                   <div className="relative inline-flex items-center">
                     <input type="checkbox" checked={openNow || false} onChange={(e) => handleChange('openNow', e.target.checked)} className="sr-only peer" />
-                    <div className="w-11 h-6 bg-slate-300 dark:bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary dark:peer-checked:bg-primary dark:after:border-none shadow-inner"></div>
+                    <div className="w-8 h-4 bg-slate-200 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[100%] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary border border-slate-200/50 dark:border-white/10"></div>
                   </div>
                </label>
             </div>
@@ -210,7 +208,7 @@ export default function Filters({ filters, setFilters }) {
             </button>
           </div>
         </div>
-      )}
+      , document.body)}
     </>
   );
 }
