@@ -31,6 +31,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const app = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 3002;
 
 app.use(cors());
@@ -50,7 +51,8 @@ db.sequelize.sync().then(() => {
 
 // Middleware Global de Seguridad
 app.use((req, res, next) => {
-  const ip = req.ip || req.connection?.remoteAddress || 'unknown';
+  const forwarded = req.headers["x-forwarded-for"];
+    const ip = (forwarded ? forwarded.split(",")[0] : null) || req.ip || req.connection?.remoteAddress || "unknown";
   req.clientIP = ip;
 
   if (blockedIPsCache.has(ip)) {
