@@ -150,7 +150,7 @@ export default function Filters({ filters, setFilters }) {
           <button 
             key={fuel.id}
             onClick={() => handleChange('fuelType', fuel.id)}
-            className={`shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${fuelType === fuel.id ? 'font-bold bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5 shadow-sm' : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-transparent border border-slate-200 dark:border-white/5 dark:hover:bg-slate-700/50'}`}
+            className={`shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${fuelType === fuel.id ? 'font-bold bg-primary text-white shadow-md border-none' : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-transparent border border-slate-200 dark:border-white/5 dark:hover:bg-slate-700/50'}`}
           >
             {fuel.label}
           </button>
