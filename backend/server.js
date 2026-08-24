@@ -697,7 +697,6 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
 
 app.post('/api/auth/google', async (req, res) => {
   console.log("[AUTH-GOOGLE] ========================================");
-      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/auth/google", statusCode: 200, userAgent: req.headers["user-agent"], userId: user.id, eventType: "LOGIN_OK", detail: "Google Login exitoso: " + user.email }).catch(()=>{});
   console.log("[AUTH-GOOGLE] Recibida nueva petición de inicio de sesión con Google!");
   console.log("[AUTH-GOOGLE] IP del cliente:", req.ip);
   console.log("[AUTH-GOOGLE] Origin de la petición:", req.headers.origin);
