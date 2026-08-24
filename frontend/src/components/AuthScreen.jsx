@@ -99,7 +99,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  });
  const data = res.data;
  
- console.log("[FRONTEND-GOOGLE] Recibido token y usuario del backend:", data);
+ 
  
  // Pasar los datos correctos a App.jsx
  onLoginSuccess(data.token, data.user, rememberMe);
