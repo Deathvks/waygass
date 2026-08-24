@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Select from 'react-select';
 
 export const FUELS = [
@@ -11,61 +12,14 @@ export const FUELS = [
 ];
 
 export default function Filters({ filters, setFilters }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const { fuelType, province, radius, sortBy, priceCategory, openNow } = filters;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { fuelType, province, radius, sortBy, priceCategory, openNow, brand } = filters;
 
   const handleChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const isDark = document.documentElement.classList.contains('dark');
-
-  const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.8)' : 'rgba(241, 245, 249, 0.8)', // slate-800/80 vs slate-100/80
-      border: state.isFocused ? (isDark ? '2px solid rgba(255, 255, 255, 0.1)' : '2px solid rgba(15, 23, 42, 0.1)') : '2px solid transparent',
-      borderRadius: '0.75rem',
-      boxShadow: 'none',
-      minHeight: '36px',
-      fontSize: '0.75rem',
-      fontWeight: 500,
-      cursor: 'pointer',
-      '&:hover': {
-        border: state.isFocused ? (isDark ? '2px solid rgba(255, 255, 255, 0.1)' : '2px solid rgba(15, 23, 42, 0.1)') : '2px solid transparent'
-      }
-    }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      backgroundColor: isSelected ? '#0f172a' : isFocused ? (isDark ? '#334155' : '#f1f5f9') : 'transparent',
-      color: isSelected ? 'white' : (isDark ? '#f8fafc' : '#1e293b'),
-      fontSize: '0.75rem',
-      fontWeight: 500,
-      cursor: 'pointer',
-      padding: '8px 12px'
-    }),
-    singleValue: (base) => ({
-      ...base,
-      color: isDark ? '#f8fafc' : '#1e293b'
-    }),
-    menu: (base) => ({
-      ...base,
-      borderRadius: '0.75rem',
-      overflow: 'hidden',
-      backgroundColor: isDark ? 'rgba(30, 41, 59, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-      backdropFilter: 'blur(16px)',
-      border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(255, 255, 255, 0.8)',
-      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
-    }),
-    menuPortal: base => ({ ...base, zIndex: 9999 }),
-    indicatorSeparator: () => ({ display: 'none' }),
-    dropdownIndicator: (base) => ({
-      ...base,
-      color: isDark ? '#94a3b8' : '#64748b',
-      padding: '4px 8px',
-      '&:hover': { color: isDark ? '#f8fafc' : '#0f172a' }
-    })
-  };
 
   const provinceOptions = [
     { value: 'auto', label: 'Detectar por GPS' },
@@ -79,17 +33,15 @@ export default function Filters({ filters, setFilters }) {
     { value: '16', label: 'Cuenca' }, { value: '17', label: 'Girona' }, { value: '18', label: 'Granada' },
     { value: '19', label: 'Guadalajara' }, { value: '20', label: 'Guipúzcoa' }, { value: '21', label: 'Huelva' },
     { value: '22', label: 'Huesca' }, { value: '23', label: 'Jaén' }, { value: '24', label: 'León' },
-    { value: '25', label: 'Lleida' }, { value: '26', label: 'La Rioja' }, { value: '27', label: 'Lugo' },
-    { value: '28', label: 'Madrid' }, { value: '29', label: 'Málaga' }, { value: '52', label: 'Melilla' },
-    { value: '30', label: 'Murcia' }, { value: '31', label: 'Navarra' }, { value: '32', label: 'Ourense' },
-    { value: '34', label: 'Palencia' }, { value: '35', label: 'Las Palmas' }, { value: '36', label: 'Pontevedra' },
-    { value: '37', label: 'Salamanca' }, { value: '38', label: 'S.C. Tenerife' }, { value: '40', label: 'Segovia' },
+    { value: '25', label: 'Lleida' }, { value: '27', label: 'Lugo' }, { value: '28', label: 'Madrid' },
+    { value: '29', label: 'Málaga' }, { value: '52', label: 'Melilla' }, { value: '30', label: 'Murcia' },
+    { value: '31', label: 'Navarra' }, { value: '32', label: 'Ourense' }, { value: '34', label: 'Palencia' },
+    { value: '35', label: 'Las Palmas' }, { value: '36', label: 'Pontevedra' }, { value: '26', label: 'La Rioja' },
+    { value: '37', label: 'Salamanca' }, { value: '38', label: 'S.C. de Tenerife' }, { value: '40', label: 'Segovia' },
     { value: '41', label: 'Sevilla' }, { value: '42', label: 'Soria' }, { value: '43', label: 'Tarragona' },
     { value: '44', label: 'Teruel' }, { value: '45', label: 'Toledo' }, { value: '46', label: 'Valencia' },
-    { value: '47', label: 'Valladolid' }, { value: '48', label: 'Vizcaya' }, { value: '49', label: 'Zamora' },
-    { value: '50', label: 'Zaragoza' }
+    { value: '47', label: 'Valladolid' }, { value: '49', label: 'Zamora' }, { value: '50', label: 'Zaragoza' }
   ];
-
   const radiusOptions = [
     { value: 5, label: '5 km' },
     { value: 10, label: '10 km' },
@@ -97,18 +49,15 @@ export default function Filters({ filters, setFilters }) {
     { value: 50, label: '50 km' },
     { value: 0, label: 'Sin límite' }
   ];
-
   const sortOptions = [
     { value: 'price', label: 'Más baratas' },
     { value: 'distance', label: 'Más cercanas' }
   ];
-
   const priceCategoryOptions = [
     { value: 'all', label: 'Todas' },
     { value: 'cheap', label: 'Solo Económicas' },
     { value: 'cheap_avg', label: 'Económicas y Medias' }
   ];
-
   const brandOptions = [
     { value: 'all', label: 'Todas las marcas' },
     { value: 'REPSOL', label: 'Repsol' },
@@ -122,148 +71,145 @@ export default function Filters({ filters, setFilters }) {
     { value: 'Otras', label: 'Otras marcas' }
   ];
 
-  // Helper function to get current active fuel label
-  const getActiveFuelLabel = () => {
-    return FUELS.find(f => f.id === fuelType)?.label || 'Filtros';
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      backgroundColor: isDark ? 'rgba(30, 41, 59, 1)' : 'rgba(241, 245, 249, 1)',
+      border: state.isFocused ? '2px solid var(--color-primary)' : (isDark ? '2px solid rgba(255,255,255,0.05)' : '2px solid rgba(0,0,0,0.05)'),
+      borderRadius: '0.75rem',
+      boxShadow: 'none',
+      minHeight: '40px',
+      fontSize: '0.875rem',
+      fontWeight: 600,
+      cursor: 'pointer',
+      color: isDark ? '#fff' : '#0f172a',
+    }),
+    menuList: (base) => ({
+      ...base,
+      padding: '4px'
+    }),
+    option: (base, { isFocused, isSelected }) => ({
+      ...base,
+      backgroundColor: isSelected ? 'var(--color-primary)' : isFocused ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent',
+      color: isSelected ? '#fff' : (isDark ? '#fff' : '#0f172a'),
+      fontSize: '0.875rem',
+      fontWeight: 500,
+      cursor: 'pointer',
+      padding: '10px 14px',
+      borderRadius: '0.5rem',
+      marginBottom: '2px'
+    }),
+    singleValue: (base) => ({
+      ...base,
+      color: isDark ? '#fff' : '#0f172a',
+      fontWeight: 600
+    }),
+    menuPortal: base => ({ ...base, zIndex: 9999999 }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: isDark ? 'rgba(15, 23, 42, 1)' : 'rgba(255, 255, 255, 1)',
+      borderRadius: '0.75rem',
+      border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+      boxShadow: '0 10px 40px -10px rgba(0,0,0,0.3)',
+      overflow: 'hidden',
+      zIndex: 99999
+    })
   };
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isModalOpen]);
+
   return (
-    <section className="native-card flex flex-col">
+    <div className="flex flex-col gap-3">
+      {/* SOLID FUEL CONTAINER */}
+      <div className="flex flex-wrap items-center gap-2 bg-slate-100 dark:bg-slate-800 p-2 rounded-2xl">
+        {FUELS.map(fuel => (
+          <button 
+            key={fuel.id}
+            onClick={() => handleChange('fuelType', fuel.id)}
+            className={`flex-1 min-w-[100px] text-center px-2 py-2 rounded-xl text-xs sm:text-sm transition ${
+              fuelType === fuel.id 
+              ? 'font-bold bg-primary text-white shadow-md' 
+              : 'font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            }`}
+          >
+            {fuel.label}
+          </button>
+        ))}
+      </div>
+
+      {/* SOLID FILTROS BUTTON */}
       <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-4 flex items-center justify-between font-bold text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition rounded-[24px]"
+        onClick={() => setIsModalOpen(true)}
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700"
       >
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-8 h-8 rounded-full brand-gradient-bg flex items-center justify-center text-white shadow-sm shrink-0">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-          </div>
-          <div className="flex flex-col items-start min-w-0 pr-2">
-            <span className="text-sm truncate max-w-full">Opciones de Búsqueda</span>
-            <span className="text-[10px] font-medium text-orange-500 uppercase tracking-wider truncate max-w-full">{getActiveFuelLabel()}</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {!isOpen && <span className="hidden sm:block text-xs font-medium text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">Desplegar</span>}
-          <svg className={`w-5 h-5 shrink-0 text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
+        <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+        Más Filtros y Opciones
       </button>
 
-      <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="p-4 pt-0 flex flex-col gap-4">
-          <div>
-            <div className="flex flex-wrap items-center gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl">
-              {FUELS.map(fuel => (
-                <button 
-                  key={fuel.id}
-                  onClick={() => handleChange('fuelType', fuel.id)}
-                  className={`flex-1 min-w-[100px] text-center px-2 py-1.5 rounded-xl text-xs sm:text-sm transition ${
-                    fuelType === fuel.id 
-                      ? 'font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm border border-slate-200 dark:border-slate-600' 
-                      : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-200/50 dark:hover:bg-slate-700/50'
-                  }`}
-                >
-                  {fuel.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs relative z-50">
-            <div>
-              <label className="block text-slate-500 dark:text-slate-400 mb-1 font-medium">Marca</label>
-              <Select 
-                styles={customStyles}
-                options={brandOptions}
-                value={brandOptions.find(o => o.value === filters.brand) || brandOptions[0]}
-                onChange={(selected) => handleChange('brand', selected.value)}
-                isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed"
-                menuPortalTarget={document.body}
-                menuPosition="fixed"
-                menuPlacement="auto"
-                maxMenuHeight={500}
-                classNamePrefix="rs"
-              />
+      {/* MODAL */}
+      {isModalOpen && createPortal(
+        <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
+          <div className="absolute inset-0 bg-black/60 transition-opacity" onClick={() => setIsModalOpen(false)}></div>
+          <div className="relative bg-white dark:bg-slate-900 w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
+            <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-4 sm:hidden"></div>
+            
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Opciones de Búsqueda</h2>
+              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
             </div>
 
-            <div>
-              <label className="block text-slate-500 dark:text-slate-400 mb-1 font-medium">Provincia</label>
-              <Select 
-                styles={customStyles}
-                options={provinceOptions}
-                value={provinceOptions.find(o => o.value === province) || provinceOptions[0]}
-                onChange={(selected) => handleChange('province', selected.value)}
-                isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed"
-                menuPortalTarget={document.body}
-                menuPosition="fixed"
-                menuPlacement="auto"
-                classNamePrefix="rs"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-50">
+              <div>
+                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Marca</label>
+                <Select styles={customStyles} options={brandOptions} value={brandOptions.find(o => o.value === brand) || brandOptions[0]} onChange={(s) => handleChange('brand', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              </div>
+              <div>
+                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Provincia</label>
+                <Select styles={customStyles} options={provinceOptions} value={provinceOptions.find(o => o.value === province) || provinceOptions[0]} onChange={(s) => handleChange('province', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              </div>
+              <div>
+                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Radio Máximo</label>
+                <Select styles={customStyles} options={radiusOptions} value={radiusOptions.find(o => o.value === radius) || radiusOptions[1]} onChange={(s) => handleChange('radius', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              </div>
+              <div>
+                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Categoría</label>
+                <Select styles={customStyles} options={priceCategoryOptions} value={priceCategoryOptions.find(o => o.value === priceCategory) || priceCategoryOptions[0]} onChange={(s) => handleChange('priceCategory', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Ordenación</label>
+                <Select styles={customStyles} options={sortOptions} value={sortOptions.find(o => o.value === sortBy) || sortOptions[0]} onChange={(s) => handleChange('sortBy', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              </div>
+            </div>
+            
+            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+               <label className="flex items-center justify-between cursor-pointer bg-slate-100 dark:bg-slate-800 px-4 py-3 rounded-2xl transition">
+                  <div className="flex flex-col">
+                     <span className="font-bold text-slate-900 dark:text-white text-sm">Abierto Ahora</span>
+                  </div>
+                  <div className="relative inline-flex items-center">
+                    <input type="checkbox" checked={openNow || false} onChange={(e) => handleChange('openNow', e.target.checked)} className="sr-only peer" />
+                    <div className="w-11 h-6 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                  </div>
+               </label>
             </div>
 
-            <div>
-              <label className="block text-slate-500 dark:text-slate-400 mb-1 font-medium">Radio Máximo</label>
-              <Select 
-                styles={customStyles}
-                options={radiusOptions}
-                value={radiusOptions.find(o => o.value === radius) || radiusOptions[1]}
-                onChange={(selected) => handleChange('radius', selected.value)}
-                isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed"
-                menuPortalTarget={document.body}
-                menuPosition="fixed"
-                menuPlacement="auto"
-                classNamePrefix="rs"
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-500 dark:text-slate-400 mb-1 font-medium">Categoría</label>
-              <Select 
-                styles={customStyles}
-                options={priceCategoryOptions}
-                value={priceCategoryOptions.find(o => o.value === priceCategory) || priceCategoryOptions[0]}
-                onChange={(selected) => handleChange('priceCategory', selected.value)}
-                isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed"
-                menuPortalTarget={document.body}
-                menuPosition="fixed"
-                menuPlacement="auto"
-                classNamePrefix="rs"
-              />
-            </div>
-
-            <div>
-              <label className="block text-slate-500 dark:text-slate-400 mb-1 font-medium">Ordenación</label>
-              <Select 
-                styles={customStyles}
-                options={sortOptions}
-                value={sortOptions.find(o => o.value === sortBy) || sortOptions[0]}
-                onChange={(selected) => handleChange('sortBy', selected.value)}
-                isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed"
-                menuPortalTarget={document.body}
-                menuPosition="fixed"
-                menuPlacement="auto"
-                classNamePrefix="rs"
-              />
-            </div>
-
-            <div className="flex flex-col justify-end mt-1">
-              <label className="flex items-center justify-between cursor-pointer bg-slate-100/80 dark:bg-slate-800/80 px-3 py-2 rounded-xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition h-[36px]">
-                <span className="font-semibold text-slate-700 dark:text-slate-300">Abierto Ahora</span>
-                <div className="relative inline-flex items-center">
-                  <input 
-                    type="checkbox" 
-                    checked={openNow || false} 
-                    onChange={(e) => handleChange('openNow', e.target.checked)} 
-                    className="sr-only peer" 
-                  />
-                  <div className="w-8 h-4 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-slate-900 dark:peer-checked:bg-slate-400 shadow-inner"></div>
-                </div>
-              </label>
-            </div>
+            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px]">
+              Ver Resultados
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      , document.body)}
+    </div>
   );
 }
