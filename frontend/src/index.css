@@ -5,10 +5,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #00dbe9;
-  --color-primary-container: #00f0ff;
-  --color-primary-dark: #006970;
-  --color-secondary: #0088ff;
+  --color-primary: #ff3b30;
+  --color-primary-container: #ff6961;
+  --color-primary-dark: #c71a10;
+  --color-secondary: #ff2d55;
   
   --font-body: Inter, sans-serif;
   --font-display: Inter, sans-serif;
