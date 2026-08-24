@@ -50,21 +50,30 @@
   }
 
   .glass-core {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+@supports (backdrop-filter: blur(40px)) or (-webkit-backdrop-filter: blur(40px)) {
+  .glass-core {
     background: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(40px) saturate(180%);
     -webkit-backdrop-filter: blur(40px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: none;
   }
-  
+}
+
+html.dark .glass-core {
+  background: rgba(10, 10, 12, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+@supports (backdrop-filter: blur(64px)) or (-webkit-backdrop-filter: blur(64px)) {
   html.dark .glass-core {
     background: rgba(10, 10, 12, 0.3);
     backdrop-filter: blur(64px) saturate(200%);
     -webkit-backdrop-filter: blur(64px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: none;
   }
+}
 
   .aether-glow {
     box-shadow: 0 0 15px rgba(0, 219, 233, 0.3);
