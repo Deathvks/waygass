@@ -182,7 +182,7 @@ export default function MapView({
  {showSearchBtn && (
  <button 
  onClick={executeSearch}
- className="absolute top-24 lg:top-6 left-1/2 -translate-x-1/2 z-[500] bg-slate-900/90 backdrop-blur-md text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg transition hover:bg-slate-800 active:scale-95"
+ className="absolute top-24 lg:top-6 left-1/2 -translate-x-1/2 z-[500] glass-core bg-primary/90 text-white shadow-[0_4px_15px_rgba(255,59,48,0.4)] border-none text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg transition hover:bg-primary active:scale-95"
  >
  Buscar en esta zona
  </button>
