@@ -112,6 +112,7 @@ export default function Filters({ filters, setFilters }) {
       color: isDark ? '#fff' : '#0f172a',
       fontWeight: 600
     }),
+    menuPortal: base => ({ ...base, zIndex: 9999999 }),
     menu: (base) => ({
       ...base,
       backgroundColor: isDark ? 'rgba(30, 30, 32, 0.95)' : 'rgba(255, 255, 255, 0.95)',
@@ -160,10 +161,10 @@ export default function Filters({ filters, setFilters }) {
       {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative bg-white dark:bg-[#121212] w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in border border-white/10">
-            <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-6 sm:hidden"></div>
+          <div className="relative bg-white dark:bg-[#121212] w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-3 sm:pt-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in border border-white/10">
+            <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-3 mt-1 sm:hidden"></div>
             
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Opciones de Búsqueda</h2>
               <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
