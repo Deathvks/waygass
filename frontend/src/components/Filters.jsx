@@ -135,33 +135,40 @@ export default function Filters({ filters, setFilters }) {
   }, [isModalOpen]);
 
   return (
-    <>
-      <div className="flex overflow-x-auto no-scrollbar gap-2 py-2 items-center px-1 -mx-2 sm:mx-0">
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="shrink-0 px-5 py-2.5 rounded-full text-[14px] font-bold transition-all duration-300 flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md hover:scale-105 active:scale-95"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-          </svg>
-          Filtros
-        </button>
-
+    <div className="flex flex-col gap-3">
+      {/* RESTORED EXACT ORIGINAL FUEL CONTAINER */}
+      <div className="flex flex-wrap items-center gap-2 bg-slate-100/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 p-1.5 rounded-[16px]">
         {FUELS.map(fuel => (
           <button 
             key={fuel.id}
             onClick={() => handleChange('fuelType', fuel.id)}
-            className={`shrink-0 px-5 py-2.5 rounded-full text-[14px] transition-all duration-300 ${fuelType === fuel.id ? 'font-bold bg-primary text-white shadow-lg shadow-primary/30 border border-primary' : 'font-semibold text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200/80 dark:border-white/10 backdrop-blur-md'}`}
+            className={`flex-1 min-w-[100px] text-center px-2 py-2 rounded-lg text-xs sm:text-sm transition ${
+              fuelType === fuel.id 
+              ? 'font-bold bg-primary text-white shadow-md border border-primary' 
+              : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-transparent border border-slate-200 dark:border-white/5 dark:hover:bg-slate-700/50'
+            }`}
           >
             {fuel.label}
           </button>
         ))}
       </div>
 
+      {/* FILTER BUTTON */}
+      <button 
+        onClick={() => setIsModalOpen(true)}
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-[16px] font-bold text-sm transition-all duration-200 glass-core border border-slate-200/50 dark:border-white/10 text-slate-800 dark:text-white hover:bg-slate-50 dark:hover:bg-white/5"
+      >
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+        Más Filtros y Opciones
+      </button>
+
+      {/* MODAL */}
       {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative bg-white dark:bg-[#121212] w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-3 sm:pt-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in border border-white/10">
+          <div className="relative bg-white dark:bg-[#1c1c1e] w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-3 sm:pt-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in border border-white/10">
             <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-3 mt-1 sm:hidden"></div>
             
             <div className="flex justify-between items-center mb-4">
@@ -194,22 +201,22 @@ export default function Filters({ filters, setFilters }) {
               </div>
             </div>
             
-            <div className="mt-2 border-t border-slate-200/50 dark:border-white/5 pt-4">
-               <label className="flex items-center justify-between cursor-pointer glass-core border border-slate-200/50 dark:border-white/5 px-3 py-2 rounded-xl transition h-[36px]">
-                  <span className="font-semibold text-slate-700 dark:text-slate-300 text-xs">Abierto Ahora</span>
+            <div className="mt-4 border-t border-slate-200/50 dark:border-white/5 pt-4">
+               <label className="flex items-center justify-between cursor-pointer glass-core border border-slate-200/50 dark:border-white/5 px-3 py-2 rounded-xl transition h-[42px]">
+                  <span className="font-semibold text-slate-700 dark:text-slate-300 text-[13px]">Abierto Ahora</span>
                   <div className="relative inline-flex items-center">
                     <input type="checkbox" checked={openNow || false} onChange={(e) => handleChange('openNow', e.target.checked)} className="sr-only peer" />
-                    <div className="w-8 h-4 bg-slate-200 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[100%] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary border border-slate-200/50 dark:border-white/10"></div>
+                    <div className="w-9 h-5 bg-slate-200 dark:bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-[100%] after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary border border-slate-200/50 dark:border-white/10"></div>
                   </div>
                </label>
             </div>
 
-            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-[0_4px_15px_rgba(255,59,48,0.4)] active:scale-95 transition-transform text-[15px]">
+            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-transform text-[15px]">
               Ver Resultados
             </button>
           </div>
         </div>
       , document.body)}
-    </>
+    </div>
   );
 }
