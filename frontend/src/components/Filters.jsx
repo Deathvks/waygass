@@ -74,8 +74,8 @@ export default function Filters({ filters, setFilters }) {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      backgroundColor: isDark ? 'rgba(30, 41, 59, 1)' : 'rgba(241, 245, 249, 1)',
-      border: state.isFocused ? '2px solid var(--color-primary)' : (isDark ? '2px solid rgba(255,255,255,0.05)' : '2px solid rgba(0,0,0,0.05)'),
+      backgroundColor: isDark ? '#111' : '#fff',
+      border: state.isFocused ? '2px solid var(--color-primary)' : '2px solid transparent',
       borderRadius: '0.75rem',
       boxShadow: 'none',
       minHeight: '40px',
@@ -107,9 +107,9 @@ export default function Filters({ filters, setFilters }) {
     menuPortal: base => ({ ...base, zIndex: 9999999 }),
     menu: (base) => ({
       ...base,
-      backgroundColor: isDark ? 'rgba(15, 23, 42, 1)' : 'rgba(255, 255, 255, 1)',
+      backgroundColor: isDark ? '#000' : '#fff',
       borderRadius: '0.75rem',
-      border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+      border: 'none',
       boxShadow: '0 10px 40px -10px rgba(0,0,0,0.3)',
       overflow: 'hidden',
       zIndex: 99999
@@ -128,7 +128,7 @@ export default function Filters({ filters, setFilters }) {
   return (
     <div className="flex flex-col gap-3">
       {/* SOLID FUEL CONTAINER */}
-      <div className="flex flex-wrap items-center gap-2 bg-slate-100 dark:bg-slate-800 p-2 rounded-2xl">
+      <div className="flex flex-wrap items-center gap-2 bg-black/5 dark:bg-white/5 p-1 rounded-2xl">
         {FUELS.map(fuel => (
           <button 
             key={fuel.id}
@@ -136,7 +136,7 @@ export default function Filters({ filters, setFilters }) {
             className={`flex-1 min-w-[100px] text-center px-2 py-2 rounded-xl text-xs sm:text-sm transition ${
               fuelType === fuel.id 
               ? 'font-bold bg-primary text-white shadow-md' 
-              : 'font-medium text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+              : 'font-medium text-slate-500 dark:text-slate-300 hover:bg-black/10 dark:hover:bg-white/10'
             }`}
           >
             {fuel.label}
@@ -147,7 +147,7 @@ export default function Filters({ filters, setFilters }) {
       {/* SOLID FILTROS BUTTON */}
       <button 
         onClick={() => setIsModalOpen(true)}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white hover:bg-slate-200 dark:hover:bg-slate-700"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
       >
         <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -159,12 +159,12 @@ export default function Filters({ filters, setFilters }) {
       {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/60 transition-opacity" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative bg-white dark:bg-slate-900 w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
-            <div className="w-12 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full mx-auto mb-4 sm:hidden"></div>
+          <div className="relative bg-[#f5f5f7] dark:bg-black w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-4 pt-2 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
+            <div className="w-12 h-1.5 bg-slate-300 dark:bg-white/20 rounded-full mx-auto mb-2 mt-1 sm:hidden"></div>
             
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-3">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">Opciones de Búsqueda</h2>
-              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">
+              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
@@ -192,8 +192,8 @@ export default function Filters({ filters, setFilters }) {
               </div>
             </div>
             
-            <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800">
-               <label className="flex items-center justify-between cursor-pointer bg-slate-100 dark:bg-slate-800 px-4 py-3 rounded-2xl transition">
+            <div className="mt-4 pt-4 border-t border-black/10 dark:border-white/10">
+               <label className="flex items-center justify-between cursor-pointer bg-black/5 dark:bg-white/5 px-4 py-3 rounded-2xl transition">
                   <div className="flex flex-col">
                      <span className="font-bold text-slate-900 dark:text-white text-sm">Abierto Ahora</span>
                   </div>
