@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      selfDestroying: true,
       includeAssets: ['favicon.svg', 'logo.png', 'auth_bg.jpg'],
       manifest: {
         name: 'WayGass',

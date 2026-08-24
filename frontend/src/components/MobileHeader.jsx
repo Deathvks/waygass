@@ -61,7 +61,7 @@ export default function MobileHeader({ user, openProfile, onSearch, loadingSearc
   };
 
   return (
-    <div className={`relative flex items-center glass-core bg-white/90 dark:bg-[#1c1c1e]/90 shadow-md border-slate-200/60 dark:border-white/10 rounded-full px-4 py-1.5 gap-2 pointer-events-auto w-full mx-auto shadow-sm transition-all duration-300 ${isFocused || query.length > 0 ? "max-w-[95%]" : "max-w-[340px]"}`}>
+    <div className={`relative flex items-center bg-white dark:bg-[#111] bg-white/90 dark:bg-[#1c1c1e]/90 shadow-md border-slate-200/60 dark:border-white/10 rounded-full px-4 py-1.5 gap-2 pointer-events-auto w-full mx-auto shadow-sm transition-all duration-300 ${isFocused || query.length > 0 ? "max-w-[95%]" : "max-w-[340px]"}`}>
       
       {/* Search Icon */}
       <svg className="w-5 h-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

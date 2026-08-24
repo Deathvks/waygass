@@ -9,7 +9,7 @@ export default function NavigationDock({ activeTab, setActiveTab, isAdmin }) {
   ];
 
  return (
- <div className="flex justify-around items-center h-14 px-2 w-full max-w-md mx-auto rounded-2xl glass-core border border-slate-200/50 dark:border-white/10">
+ <div className="flex justify-around items-center h-14 px-2 w-full max-w-md mx-auto rounded-2xl bg-white dark:bg-[#111] border border-slate-200/50 dark:border-white/10">
  {tabs.map(tab => (
  <button
  key={tab.id}
