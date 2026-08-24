@@ -763,7 +763,7 @@ app.post('/api/login', async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (!user) {
       console.warn(`[AUTH-ERROR] Login fallido: Usuario no encontrado (${email}).`);
-      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "AUTH_FAILED", detail: "Email no encontrado: " + email }).catch(()=>{});
+      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Email no encontrado: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
@@ -771,7 +771,7 @@ app.post('/api/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.warn(`[AUTH-ERROR] Login fallido: Contraseña incorrecta para ${email}.`);
-      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "AUTH_FAILED", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
+      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
@@ -780,7 +780,10 @@ app.post('/api/login', async (req, res) => {
       return res.status(403).json({ error: "Por favor, verifica tu correo electrónico antes de iniciar sesión." });
     }
 
-    // Auto-upgrade a ADMIN en login (para entorno de producción si la cuenta ya existía)
+    // Registrar login exitoso
+      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 200, userAgent: req.headers["user-agent"], userId: user.id, eventType: "LOGIN_OK", detail: "Login exitoso: " + user.email }).catch(()=>{});
+
+      // Auto-upgrade a ADMIN en login (para entorno de producción si la cuenta ya existía)
     if (email === 'dylanjesussuarez@gmail.com') {
       let updated = false;
       if (user.role !== 'admin') { user.role = 'admin'; updated = true; }
