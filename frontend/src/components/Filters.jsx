@@ -77,7 +77,7 @@ export default function Filters({ filters, setFilters }) {
       ...base,
       backgroundColor: isDark ? 'rgba(10, 10, 12, 0.3)' : 'rgba(255, 255, 255, 0.5)',
       backdropFilter: 'blur(64px)',
-      border: state.isFocused ? (isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(0,0,0,0.2)') : (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)'),
+      border: state.isFocused ? '1px solid var(--color-primary)' : (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)'),
       borderRadius: '0.75rem',
       boxShadow: 'none',
       minHeight: '36px',
@@ -86,7 +86,7 @@ export default function Filters({ filters, setFilters }) {
       cursor: 'pointer',
       color: isDark ? '#fff' : '#0f172a',
       '&:hover': {
-        border: isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(0,0,0,0.2)'
+        border: '1px solid var(--color-primary)'
       }
     }),
     menuList: (base) => ({
@@ -98,8 +98,8 @@ export default function Filters({ filters, setFilters }) {
     }),
     option: (base, { isFocused, isSelected }) => ({
       ...base,
-      backgroundColor: isSelected ? (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)') : isFocused ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent',
-      color: isDark ? '#fff' : '#0f172a',
+      backgroundColor: isSelected ? 'var(--color-primary)' : isFocused ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent',
+      color: isSelected ? '#fff' : (isDark ? '#fff' : '#0f172a'),
       fontSize: '0.75rem',
       fontWeight: 500,
       cursor: 'pointer',
@@ -170,26 +170,26 @@ export default function Filters({ filters, setFilters }) {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-6 relative z-50">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-50">
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Marca</label>
-                <Select styles={customStyles} options={brandOptions} value={brandOptions.find(o => o.value === brand) || brandOptions[0]} onChange={(s) => handleChange('brand', s.value)} isSearchable={false} menuPortalTarget={document.body} classNamePrefix="rs" />
+                <Select styles={customStyles} options={brandOptions} value={brandOptions.find(o => o.value === brand) || brandOptions[0]} onChange={(s) => handleChange('brand', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Provincia</label>
-                <Select styles={customStyles} options={provinceOptions} value={provinceOptions.find(o => o.value === province) || provinceOptions[0]} onChange={(s) => handleChange('province', s.value)} isSearchable={false} menuPortalTarget={document.body} classNamePrefix="rs" />
+                <Select styles={customStyles} options={provinceOptions} value={provinceOptions.find(o => o.value === province) || provinceOptions[0]} onChange={(s) => handleChange('province', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Radio Máximo</label>
-                <Select styles={customStyles} options={radiusOptions} value={radiusOptions.find(o => o.value === radius) || radiusOptions[1]} onChange={(s) => handleChange('radius', s.value)} isSearchable={false} menuPortalTarget={document.body} classNamePrefix="rs" />
+                <Select styles={customStyles} options={radiusOptions} value={radiusOptions.find(o => o.value === radius) || radiusOptions[1]} onChange={(s) => handleChange('radius', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Categoría</label>
-                <Select styles={customStyles} options={priceCategoryOptions} value={priceCategoryOptions.find(o => o.value === priceCategory) || priceCategoryOptions[0]} onChange={(s) => handleChange('priceCategory', s.value)} isSearchable={false} menuPortalTarget={document.body} classNamePrefix="rs" />
+                <Select styles={customStyles} options={priceCategoryOptions} value={priceCategoryOptions.find(o => o.value === priceCategory) || priceCategoryOptions[0]} onChange={(s) => handleChange('priceCategory', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Ordenación</label>
-                <Select styles={customStyles} options={sortOptions} value={sortOptions.find(o => o.value === sortBy) || sortOptions[0]} onChange={(s) => handleChange('sortBy', s.value)} isSearchable={false} menuPortalTarget={document.body} classNamePrefix="rs" />
+                <Select styles={customStyles} options={sortOptions} value={sortOptions.find(o => o.value === sortBy) || sortOptions[0]} onChange={(s) => handleChange('sortBy', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
             </div>
             
