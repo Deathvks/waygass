@@ -79,9 +79,9 @@ export default function Filters({ filters, setFilters }) {
       backdropFilter: 'blur(64px)',
       border: state.isFocused ? '1px solid var(--color-primary)' : (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.05)'),
       borderRadius: '0.75rem',
-      boxShadow: 'none',
-      minHeight: '36px',
-      fontSize: '0.75rem',
+      boxShadow: state.isFocused ? '0 0 0 3px rgba(255,59,48,0.2)' : 'none',
+      minHeight: '42px',
+      fontSize: '0.875rem',
       fontWeight: 600,
       cursor: 'pointer',
       color: isDark ? '#fff' : '#0f172a',
@@ -100,11 +100,11 @@ export default function Filters({ filters, setFilters }) {
       ...base,
       backgroundColor: isSelected ? 'var(--color-primary)' : isFocused ? (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)') : 'transparent',
       color: isSelected ? '#fff' : (isDark ? '#fff' : '#0f172a'),
-      fontSize: '0.75rem',
+      fontSize: '0.875rem',
       fontWeight: 500,
       cursor: 'pointer',
-      padding: '8px 12px',
-      borderRadius: '0.5rem',
+      padding: '10px 14px',
+      borderRadius: '0.75rem',
       marginBottom: '2px'
     }),
     singleValue: (base) => ({
@@ -139,7 +139,7 @@ export default function Filters({ filters, setFilters }) {
       <div className="flex overflow-x-auto no-scrollbar gap-2 py-2 items-center px-1 -mx-2 sm:mx-0">
         <button 
           onClick={() => setIsModalOpen(true)}
-          className="shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 flex items-center gap-2 border border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/5"
+          className="shrink-0 px-5 py-2.5 rounded-full text-[14px] font-bold transition-all duration-300 flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md hover:scale-105 active:scale-95"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -151,7 +151,7 @@ export default function Filters({ filters, setFilters }) {
           <button 
             key={fuel.id}
             onClick={() => handleChange('fuelType', fuel.id)}
-            className={`shrink-0 px-4 py-1.5 rounded-full text-xs sm:text-sm transition-all duration-200 ${fuelType === fuel.id ? 'font-bold bg-primary text-white shadow-md border-none' : 'font-medium text-slate-500 dark:text-slate-400 hover:bg-transparent border border-slate-200 dark:border-white/5 dark:hover:bg-slate-700/50'}`}
+            className={`shrink-0 px-5 py-2.5 rounded-full text-[14px] transition-all duration-300 ${fuelType === fuel.id ? 'font-bold bg-primary text-white shadow-lg shadow-primary/30 border border-primary' : 'font-semibold text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 border border-slate-200/80 dark:border-white/10 backdrop-blur-md'}`}
           >
             {fuel.label}
           </button>
