@@ -697,6 +697,7 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
 
 app.post('/api/auth/google', async (req, res) => {
   console.log("[AUTH-GOOGLE] ========================================");
+      SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/auth/google", statusCode: 200, userAgent: req.headers["user-agent"], userId: user.id, eventType: "LOGIN_OK", detail: "Google Login exitoso: " + user.email }).catch(()=>{});
   console.log("[AUTH-GOOGLE] Recibida nueva petición de inicio de sesión con Google!");
   console.log("[AUTH-GOOGLE] IP del cliente:", req.ip);
   console.log("[AUTH-GOOGLE] Origin de la petición:", req.headers.origin);
@@ -744,7 +745,8 @@ app.post('/api/auth/google', async (req, res) => {
   } catch (error) {
     console.error("[AUTH-GOOGLE] [ERROR CRÍTICO] Error en Google Login:", error.message);
     console.error("[AUTH-GOOGLE] Pila de error:", error.stack);
-    res.status(401).json({ error: "Fallo de autenticación con Google" });
+    SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/auth/google", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Fallo de autenticación con Google" }).catch(()=>{});
+      res.status(401).json({ error: "Fallo de autenticación con Google" });
   }
 });
 
