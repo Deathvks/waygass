@@ -14,6 +14,8 @@ const User = db.users;
 const PriceHistory = db.PriceHistory;
 const Favorite = db.Favorite;
 const Validation = db.Validation;
+const SecurityLog = db.SecurityLog;
+const BlockedIP = db.BlockedIP;
 
 const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
 
@@ -33,6 +35,39 @@ const PORT = process.env.PORT || 3002;
 
 app.use(cors());
 app.use(express.json());
+
+// ==========================================
+// Ciberseguridad: Cache y Middleware
+// ==========================================
+let blockedIPsCache = new Set();
+
+// Cargar IPs bloqueadas al inicio (despues de sincronizar BD)
+db.sequelize.sync().then(() => {
+  BlockedIP.findAll().then(ips => {
+    ips.forEach(r => blockedIPsCache.add(r.ip));
+  }).catch(() => {});
+});
+
+// Middleware Global de Seguridad
+app.use((req, res, next) => {
+  const ip = req.ip || req.connection?.remoteAddress || 'unknown';
+  req.clientIP = ip;
+
+  if (blockedIPsCache.has(ip)) {
+    SecurityLog.create({ 
+      ip, 
+      method: req.method, 
+      path: req.path, 
+      statusCode: 403, 
+      userAgent: req.headers['user-agent'] || '', 
+      eventType: 'BLOCKED' 
+    }).catch(() => {});
+    return res.status(403).json({ error: 'Acceso denegado por políticas de seguridad.' });
+  }
+  
+  // Registrar Requests sospechosos o todos si se desea (opt-in para rutas clave)
+  next();
+});
 
 // Sincronizar Base de Datos
 db.sequelize.sync().then(async () => {
@@ -341,6 +376,150 @@ app.get('/api/admin/make-me-admin/:email', async (req, res) => {
     res.json({ message: `¡Usuario ${user.email} ascendido a Administrador!` });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+// ==========================================
+// Endpoints de Ciberseguridad (Admin)
+// ==========================================
+
+// Helper para filtros de fecha
+const getDateFilter = (from, to) => {
+  const { Op } = require('sequelize');
+  const where = {};
+  if (from && to) {
+    where.createdAt = { [Op.between]: [new Date(from), new Date(to)] };
+  } else if (from) {
+    where.createdAt = { [Op.gte]: new Date(from) };
+  } else if (to) {
+    where.createdAt = { [Op.lte]: new Date(to) };
+  }
+  return where;
+};
+
+// Logs de seguridad
+app.get('/api/admin/security/logs', verifyAdmin, async (req, res) => {
+  try {
+    const { eventType, ip, limit, from, to } = req.query;
+    const { Op } = require('sequelize');
+    
+    let where = {};
+    if (eventType) where.eventType = eventType;
+    if (ip) where.ip = ip;
+    
+    if (from || to) {
+      where = { ...where, ...getDateFilter(from, to) };
+    } else {
+      where.createdAt = { [Op.gte]: new Date(Date.now() - 24 * 60 * 60 * 1000) };
+    }
+    
+    const logs = await SecurityLog.findAll({
+      where,
+      order: [['createdAt', 'DESC']],
+      limit: parseInt(limit) || 500
+    });
+    res.json(logs);
+  } catch(e) {
+    console.error(e); res.status(500).json({ error: 'Error obteniendo logs de seguridad.' });
+  }
+});
+
+// Estadisticas de seguridad
+app.get('/api/admin/security/stats', verifyAdmin, async (req, res) => {
+  try {
+    const { Op } = require('sequelize');
+    const { from, to } = req.query;
+    
+    const dateWhere = (from || to) ? getDateFilter(from, to) : { createdAt: { [Op.gte]: new Date(Date.now() - 24 * 60 * 60 * 1000) } };
+    
+    const totalRequests = await SecurityLog.count({ where: { ...dateWhere } });
+    const uniqueIPs = await SecurityLog.count({ where: { ...dateWhere }, col: 'ip', distinct: true });
+    const loginOK = await SecurityLog.count({ where: { ...dateWhere, eventType: 'LOGIN_OK' } });
+    const loginFail = await SecurityLog.count({ where: { ...dateWhere, eventType: 'LOGIN_FAIL' } });
+    const blocked = await SecurityLog.count({ where: { ...dateWhere, eventType: 'BLOCKED' } });
+    const rateLimited = await SecurityLog.count({ where: { ...dateWhere, eventType: 'RATE_LIMITED' } });
+    
+    const topIPs = await SecurityLog.findAll({
+      attributes: ['ip', [require('sequelize').fn('COUNT', require('sequelize').col('id')), 'count']],
+      where: { ...dateWhere },
+      group: ['ip'],
+      order: [[require('sequelize').literal('count'), 'DESC']],
+      limit: 10,
+      raw: true
+    });
+    
+    const topFailIPs = await SecurityLog.findAll({
+      attributes: ['ip', [require('sequelize').fn('COUNT', require('sequelize').col('id')), 'count']],
+      where: { ...dateWhere, eventType: 'LOGIN_FAIL' },
+      group: ['ip'],
+      order: [[require('sequelize').literal('count'), 'DESC']],
+      limit: 10,
+      raw: true
+    });
+
+    res.json({ totalRequests, uniqueIPs, loginOK, loginFail, blocked, rateLimited, topIPs, topFailIPs });
+  } catch(e) {
+    console.error('Security stats error:', e);
+    res.status(500).json({ error: 'Error obteniendo estadisticas de seguridad.' });
+  }
+});
+
+// IPs bloqueadas
+app.get('/api/admin/security/blocked', verifyAdmin, async (req, res) => {
+  try {
+    const { from, to } = req.query;
+    let where = {};
+    if (from || to) {
+      where = getDateFilter(from, to);
+    }
+    const blocked = await BlockedIP.findAll({ where, order: [['createdAt', 'DESC']] });
+    res.json(blocked);
+  } catch(e) {
+    console.error(e); res.status(500).json({ error: 'Error obteniendo IPs bloqueadas.' });
+  }
+});
+
+// Bloquear IP
+app.post('/api/admin/security/block', verifyAdmin, async (req, res) => {
+  try {
+    const { ip, reason } = req.body;
+    if (!ip) return res.status(400).json({ error: 'IP requerida.' });
+    
+    const [record, created] = await BlockedIP.findOrCreate({
+      where: { ip },
+      defaults: { ip, reason: reason || 'Bloqueado manualmente', blockedBy: req.user.id }
+    });
+    
+    blockedIPsCache.add(ip);
+    SecurityLog.create({ ip: req.clientIP, method: 'POST', path: '/api/admin/security/block', statusCode: 200, userAgent: req.headers['user-agent'], userId: req.user.id, eventType: 'REQUEST', detail: 'Bloqueada IP: ' + ip }).catch(() => {});
+    
+    res.json({ success: true, created, ip });
+  } catch(e) {
+    res.status(500).json({ error: 'Error bloqueando IP.' });
+  }
+});
+
+// Desbloquear IP
+app.delete('/api/admin/security/block/:ip', verifyAdmin, async (req, res) => {
+  try {
+    const { ip } = req.params;
+    await BlockedIP.destroy({ where: { ip } });
+    blockedIPsCache.delete(ip);
+    res.json({ success: true, ip });
+  } catch(e) {
+    res.status(500).json({ error: 'Error desbloqueando IP.' });
+  }
+});
+
+// Purgar logs antiguos (mas de 30 dias)
+app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
+  try {
+    const { Op } = require('sequelize');
+    const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const deleted = await SecurityLog.destroy({ where: { createdAt: { [Op.lt]: cutoff } } });
+    res.json({ success: true, deleted });
+  } catch(e) {
+    res.status(500).json({ error: 'Error purgando logs.' });
   }
 });
 
@@ -826,6 +1005,10 @@ app.put('/api/settings', verifyToken, async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor Backend corriendo en el puerto ${PORT}.`);
 });
+
+
+
+
 
 
 

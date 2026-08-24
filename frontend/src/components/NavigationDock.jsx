@@ -1,41 +1,33 @@
 import React from 'react';
 
-export default function NavigationDock({ activeTab, setActiveTab, openProfile }) {
-  return (
-    <div className="fixed bottom-4 inset-x-0 mx-auto max-w-xs z-50 lg:hidden px-4">
-      <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-700/80 rounded-full py-2 px-6 flex items-center justify-around shadow-lg dark:shadow-none">
-        <button 
-          onClick={() => setActiveTab('list')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] transition-colors ${
-            activeTab === 'list' ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-400 dark:text-slate-500 font-medium'
-          }`}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-          </svg>
-          <span>Lista</span>
-        </button>
-        <button 
-          onClick={() => setActiveTab('map')}
-          className={`flex flex-col items-center gap-0.5 text-[10px] transition-colors ${
-            activeTab === 'map' ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-400 dark:text-slate-500 font-medium'
-          }`}
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-          </svg>
-          <span>Mapa</span>
-        </button>
-        <button 
-          onClick={openProfile}
-          className="flex flex-col items-center gap-0.5 text-[10px] text-slate-400 dark:text-slate-500 font-medium transition-colors hover:text-slate-900 dark:hover:text-white"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-          <span>Perfil</span>
-        </button>
-      </nav>
-    </div>
-  );
+export default function NavigationDock({ activeTab, setActiveTab, isAdmin }) {
+       const tabs = [
+    { id: 'map', viewBox: '0 0 24 24', icon: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>, label: 'Mapa' },
+    { id: 'list', viewBox: '0 0 24 24', icon: <><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></>, label: 'Lista' },
+    { id: 'garage', viewBox: '0 0 24 24', icon: <><path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M6 14h12"/><rect width="12" height="12" x="6" y="10"/></>, label: 'Garaje' },
+    ...(isAdmin ? [{ id: 'security', viewBox: '0 0 24 24', icon: <><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></>, label: 'Escudo' }] : [])
+  ];
+
+ return (
+ <div className="flex justify-around items-center h-14 px-2 w-full max-w-md mx-auto rounded-2xl glass-core border border-slate-200/50 dark:border-white/10">
+ {tabs.map(tab => (
+ <button
+ key={tab.id}
+ onClick={() => setActiveTab(tab.id)}
+ className={`flex items-center justify-center rounded-full px-4 h-10 transition-all duration-300 ${
+ activeTab === tab.id 
+ ? 'bg-primary/20 text-primary ' 
+ : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+ }`}
+ >
+ <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox={tab.viewBox || "0 0 24 24"}>
+ {tab.icon}
+ </svg>
+ {activeTab === tab.id && (
+ <span className="ml-1.5 text-[11px] font-bold tracking-wide font-mono">{tab.label}</span>
+ )}
+ </button>
+ ))}
+ </div>
+ );
 }

@@ -1,89 +1,52 @@
 import React from 'react';
 
-export default function Header({ isPro, openSettings, openSub, user, openProfile }) {
-  return (
-    <header className="relative z-40 px-4 lg:px-6 xl:px-8 pt-5 pb-3">
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        
-        {/* Izquierda: Logo y Marca */}
-        <div className="flex items-center gap-2.5 text-white">
-          <div className="w-8 h-8 rounded-xl bg-white shadow-sm overflow-hidden flex items-center justify-center">
-            <img src="/logo.png" alt="WayGass Logo" className="w-full h-full object-cover" />
-          </div>
-          <h1 className="font-bold text-2xl tracking-tight leading-none flex items-center gap-2">
-            <span>WayGass</span>
-            {isPro && (
-              <span className="text-[10px] bg-gradient-to-r from-amber-200 to-yellow-400 text-slate-900 font-bold px-2 py-0.5 rounded-full uppercase tracking-widest shadow-sm">
-                PRO
-              </span>
-            )}
-          </h1>
-        </div>
-
-        {/* Derecha: Acciones agrupadas */}
-        <div className="flex items-center gap-3">
-          
-          {/* Botón Hazte PRO (Móvil solamente en la fila superior) */}
-          {!isPro && (
-            <button 
-              onClick={openSub}
-              className="lg:hidden bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-amber-300 border border-slate-700/50 shadow-lg font-bold text-[11px] px-3 py-1.5 rounded-full transition active:scale-95 flex items-center gap-1.5 whitespace-nowrap"
-            >
-              <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-              <span>HAZTE PRO</span>
-            </button>
-          )}
-
-          {/* User Pill Consolidado */}
-          {user && (
-            <div className="flex items-center bg-white/10 border border-white/20 backdrop-blur-md rounded-full p-1 shadow-sm whitespace-nowrap shrink-0">
-              
-              {/* Botón Perfil (PC) */}
-              <button 
-                onClick={openProfile}
-                className="hidden lg:flex items-center gap-2 hover:bg-white/10 rounded-full pr-3 transition group cursor-pointer"
-                title="Ver Perfil"
-              >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-orange-400 to-rose-400 text-white flex items-center justify-center font-bold text-xs shadow-inner">
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-                <span className="text-white text-xs font-semibold">
-                  {user.name.split(' ')[0]}
-                </span>
-              </button>
-              
-              {/* Nombre simple (Móvil/Tablet) */}
-              <span className="lg:hidden sm:inline-block hidden text-white text-xs font-semibold px-2">
-                Hola, {user.name.split(' ')[0]}
-              </span>
-              
-              <div className="hidden sm:block w-px h-4 bg-white/20 mx-1"></div>
-              
-              <button 
-                onClick={openSettings}
-                className="w-8 h-8 rounded-full hover:bg-white/20 text-white flex items-center justify-center transition" 
-                title="Ajustes"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Botón Hazte PRO (Banner de bloque completo, solo para PC) */}
-      {!isPro && (
-        <div className="hidden lg:block mt-5">
-          <button 
-            onClick={openSub}
-            className="w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 hover:from-slate-800 hover:to-slate-700 text-amber-300 border border-slate-700/50 shadow-xl font-black text-xs px-4 py-2.5 rounded-2xl transition active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap relative overflow-hidden group"
-          >
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
-            <span>MEJORAR A PRO</span>
-          </button>
-        </div>
+export default function Header({ isPro, openSettings, openSub, user, openProfile, openSecurity }) {
+ return (
+ <header className="flex items-center justify-between w-full">
+ {/* Left: Logo */}
+ <div className="flex items-center gap-3">
+ <div className="w-10 h-10 flex items-center justify-center">
+ <img src="/logo.png" alt="WayGass" className="w-6 h-6 object-contain" />
+ </div>
+ <h1 className="font-display text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+ WayGass
+ </h1>
+ {isPro && (
+ <span className="text-[9px] bg-gradient-to-r from-amber-200 to-yellow-400 text-slate-900 font-bold px-2 py-0.5 rounded-full uppercase tracking-widest ">
+ PRO
+ </span>
+ )}
+ </div>
+ 
+ {/* Right: Actions */}
+ <div className="flex items-center gap-2">
+ {!isPro && (
+ <button 
+ onClick={openSub}
+ className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold transition hover:scale-105"
+ >
+ <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+ <span>PRO</span>
+ </button>
+ )}
+ 
+      {user?.role === 'admin' && (
+        <button onClick={openSecurity} className="w-10 h-10 rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition" title="Ciberseguridad">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </button>
       )}
-    </header>
-  );
+      <button onClick={openProfile} className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200 dark:border-slate-700 hover:border-primary transition p-0.5">
+ <div className="w-full h-full rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 font-bold text-sm">
+ {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+ </div>
+ </button>
+ 
+ <button onClick={openSettings} className="w-10 h-10 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition">
+ <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+ </button>
+ </div>
+ </header>
+ );
 }
+
+

@@ -41,6 +41,23 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       defaultValue: 'basic'
     },
+
+    garage: {
+      type: Sequelize.TEXT,
+      allowNull: true
+    },
+    activeGarageId: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    vehicleName: {
+      type: Sequelize.STRING,
+      allowNull: true
+    },
+    theme: {
+      type: Sequelize.STRING,
+      defaultValue: 'system'
+    },
     tankSize: {
       type: Sequelize.INTEGER,
       defaultValue: 50

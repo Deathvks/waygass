@@ -3,451 +3,451 @@ import axios from 'axios';
 import { GoogleLogin } from '@react-oauth/google';
 
 export default function AuthScreen({ onLoginSuccess }) {
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState(() => {
-    const savedEmail = sessionStorage.getItem('waygas_pending_verification');
-    return { name: '', lastName: '', email: savedEmail || '', password: '' };
-  });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [verificationSent, setVerificationSent] = useState(() => !!sessionStorage.getItem('waygas_pending_verification'));
-  const [resendTimer, setResendTimer] = useState(() => {
-    const lastSent = sessionStorage.getItem('waygas_email_time');
-    if (!lastSent) return 0;
-    const diff = Math.floor((Date.now() - parseInt(lastSent)) / 1000);
-    return diff < 20 ? 20 - diff : 0;
-  });
-  const [resendMessage, setResendMessage] = useState("");
+ const [isLogin, setIsLogin] = useState(true);
+ const [formData, setFormData] = useState(() => {
+ const savedEmail = sessionStorage.getItem('waygas_pending_verification');
+ return { name: '', lastName: '', email: savedEmail || '', password: '' };
+ });
+ const [rememberMe, setRememberMe] = useState(false);
+ const [showPassword, setShowPassword] = useState(false);
+ const [error, setError] = useState('');
+ const [loading, setLoading] = useState(false);
+ const [verificationSent, setVerificationSent] = useState(() => !!sessionStorage.getItem('waygas_pending_verification'));
+ const [resendTimer, setResendTimer] = useState(() => {
+ const lastSent = sessionStorage.getItem('waygas_email_time');
+ if (!lastSent) return 0;
+ const diff = Math.floor((Date.now() - parseInt(lastSent)) / 1000);
+ return diff < 20 ? 20 - diff : 0;
+ });
+ const [resendMessage, setResendMessage] = useState("");
 
-  
-  useEffect(() => {
-    let interval;
-    if (verificationSent && resendTimer > 0) {
-      interval = setInterval(() => {
-        setResendTimer((prev) => prev - 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [verificationSent, resendTimer]);
-
-
-  useEffect(() => {
-    // Set notch color to orange for auth screen on mobile
-    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
-    if (!metaThemeColor) {
-      metaThemeColor = document.createElement('meta');
-      metaThemeColor.name = 'theme-color';
-      document.head.appendChild(metaThemeColor);
-    }
-    const previousColor = metaThemeColor.getAttribute('content');
-    metaThemeColor.setAttribute('content', '#f97316'); // Tailwind orange-500
-    
-    // Fix bottom safe area color in Safari/Brave
-    const originalBodyBg = document.body.style.backgroundColor;
-    let isDarkMode = false;
-    try {
-      const settings = JSON.parse(localStorage.getItem('waygas_settings') || '{"theme":"system"}');
-      isDarkMode = settings.theme === 'dark' || (settings.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    } catch (e) {
-      isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
-
-    return () => {
-      document.body.style.backgroundColor = originalBodyBg;
-      // Restore or remove on unmount so the main app uses its own color
-      if (previousColor) {
-        metaThemeColor.setAttribute('content', previousColor);
-      } else {
-        // Reset to match standard app background (white in light, dark in dark mode)
-        metaThemeColor.setAttribute('content', isDarkMode ? '#0f172a' : '#ffffff');
-      }
-    };
-  }, []);
-
-  const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    setError('');
-  };
-
-  
-  const handleResend = async () => {
-    if (resendTimer > 0) return;
-    try {
-      await axios.post('/api/resend-verification', { email: formData.email });
-      setResendTimer(20);
-      setError("");
-      setResendMessage("¡Nuevo enlace enviado! Revisa tu bandeja.");
-    } catch (err) {
-      if (err.response?.data?.error) {
-        setError(err.response.data.error);
-      } else {
-        setError("Error al reenviar el correo.");
-      }
-    }
-  };
+ 
+ useEffect(() => {
+ let interval;
+ if (verificationSent && resendTimer > 0) {
+ interval = setInterval(() => {
+ setResendTimer((prev) => prev - 1);
+ }, 1000);
+ }
+ return () => clearInterval(interval);
+ }, [verificationSent, resendTimer]);
 
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      setLoading(true);
-      setError('');
-      const res = await axios.post('/api/auth/google', {
-        credential: credentialResponse.credential
-      });
-      const data = res.data;
-      
-      console.log("[FRONTEND-GOOGLE] Recibido token y usuario del backend:", data);
-      
-      // Pasar los datos correctos a App.jsx
-      onLoginSuccess(data.token, data.user, rememberMe);
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.error || 'Error al iniciar sesión con Google');
-    } finally {
-      setLoading(false);
-    }
-  };
+ useEffect(() => {
+ // Set notch color to orange for auth screen on mobile
+ let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+ if (!metaThemeColor) {
+ metaThemeColor = document.createElement('meta');
+ metaThemeColor.name = 'theme-color';
+ document.head.appendChild(metaThemeColor);
+ }
+ const previousColor = metaThemeColor.getAttribute('content');
+ metaThemeColor.setAttribute('content', '#00dbe9'); // Tailwind primary
+ 
+ // Fix bottom safe area color in Safari/Brave
+ const originalBodyBg = document.body.style.backgroundColor;
+ let isDarkMode = false;
+ try {
+ const settings = JSON.parse(localStorage.getItem('waygas_settings') || '{"theme":"system"}');
+ isDarkMode = settings.theme === 'dark' || (settings.theme === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+ } catch (e) {
+ isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+ }
+ document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    
-    // Client-side validation
-    if (!formData.email.trim()) {
-      setError("Por favor, introduce tu correo electrónico.");
-      return;
-    }
-    if (!formData.password) {
-      setError("Por favor, introduce tu contraseña.");
-      return;
-    }
+ return () => {
+ document.body.style.backgroundColor = originalBodyBg;
+ // Restore or remove on unmount so the main app uses its own color
+ if (previousColor) {
+ metaThemeColor.setAttribute('content', previousColor);
+ } else {
+ // Reset to match standard app background (white in light, dark in dark mode)
+ metaThemeColor.setAttribute('content', isDarkMode ? '#0f172a' : '#ffffff');
+ }
+ };
+ }, []);
 
-    if (!isLogin) {
-      if (!formData.name.trim() || !formData.lastName.trim()) {
-        setError("Por favor, rellena tu nombre y apellidos.");
-        return;
-      }
-      
-      const passwordRules = {
-        length: formData.password.length >= 8,
-        uppercase: /[A-Z]/.test(formData.password),
-        number: /[0-9]/.test(formData.password),
-        special: /[^A-Za-z0-9]/.test(formData.password)
-      };
+ const handleChange = (e) => {
+ setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+ setError('');
+ };
 
-      if (!Object.values(passwordRules).every(Boolean)) {
-        setError("La contraseña no cumple todos los requisitos de seguridad.");
-        return;
-      }
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setError("Por favor, introduce un correo electrónico válido.");
-      return;
-    }
+ 
+ const handleResend = async () => {
+ if (resendTimer > 0) return;
+ try {
+ await axios.post('/api/resend-verification', { email: formData.email });
+ setResendTimer(20);
+ setError("");
+ setResendMessage("¡Nuevo enlace enviado! Revisa tu bandeja.");
+ } catch (err) {
+ if (err.response?.data?.error) {
+ setError(err.response.data.error);
+ } else {
+ setError("Error al reenviar el correo.");
+ }
+ }
+ };
 
-    setLoading(true);
-    
-    try {
-      const endpoint = isLogin ? '/api/login' : '/api/register';
-      const payload = { ...formData, rememberMe };
-      const res = await axios.post(`${endpoint}`, payload);
-      
-      if (res.data.status === 'verification_required') {
-        setVerificationSent(true);
-        sessionStorage.setItem('waygas_pending_verification', formData.email);
-        setResendTimer(20);
-        setError("");
-        setResendMessage("");
-      } else {
-        const { token, user } = res.data;
-        onLoginSuccess(token, user, rememberMe);
-      }
-    } catch (err) {
-      if (err.response && err.response.status === 403) {
-        setVerificationSent(true);
-        sessionStorage.setItem('waygas_pending_verification', formData.email);
-        setResendTimer(0);
-        setError("");
-        setResendMessage("");
-        return;
-      }
-      if (err.response && err.response.data && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError("Error de conexión con el servidor.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  return (
-    <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row relative overflow-hidden">
-      {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
-      <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-orange-500 flex flex-col justify-center md:shadow-[4px_0_24px_rgba(0,0,0,0.05)] md:z-20">
-        <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/90 to-orange-600/90"></div>
-        
-        {/* Curva SVG en la base (SOLO MÓVIL) */}
-        <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px] md:hidden">
-          <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#0f172a] fill-current" preserveAspectRatio="none">
-            <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-          </svg>
-        </div>
+ const handleGoogleSuccess = async (credentialResponse) => {
+ try {
+ setLoading(true);
+ setError('');
+ const res = await axios.post('/api/auth/google', {
+ credential: credentialResponse.credential
+ });
+ const data = res.data;
+ 
+ console.log("[FRONTEND-GOOGLE] Recibido token y usuario del backend:", data);
+ 
+ // Pasar los datos correctos a App.jsx
+ onLoginSuccess(data.token, data.user, rememberMe);
+ } catch (err) {
+ console.error(err);
+ setError(err.response?.data?.error || 'Error al iniciar sesión con Google');
+ } finally {
+ setLoading(false);
+ }
+ };
 
-        {/* Contenido Izquierdo */}
-        <div className="absolute md:relative top-8 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
-           <img src="/logo.png" alt="WayGass" className="w-12 h-12 md:w-20 md:h-20 drop-shadow-lg rounded-2xl" />
-           <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-xs md:text-xl">WAYGASS</span>
-           
-           <h2 className="hidden md:block text-white text-4xl lg:text-5xl font-bold leading-tight drop-shadow-lg mt-12">
-             Tu combustible,<br/>tu ruta,<br/><span className="text-orange-200">al mejor precio.</span>
-           </h2>
-           <p className="hidden md:block text-orange-100 mt-6 text-lg max-w-sm">
-             Encuentra las estaciones más baratas en tiempo real y optimiza tus repostajes en España.
-           </p>
-        </div>
-      </div>
+ const handleSubmit = async (e) => {
+ e.preventDefault();
+ setError('');
+ 
+ // Client-side validation
+ if (!formData.email.trim()) {
+ setError("Por favor, introduce tu correo electrónico.");
+ return;
+ }
+ if (!formData.password) {
+ setError("Por favor, introduce tu contraseña.");
+ return;
+ }
 
-      {/* Contenedor del Formulario (Derecha en PC) */}
-      <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
-        <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none shadow-2xl md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
-          
-          {verificationSent ? (
-            <div className="text-center py-8">
-              <div className="w-20 h-20 bg-orange-100 dark:bg-orange-500/20 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-4">
-                ¡Revisa tu correo!
-              </h1>
-              <p className="text-slate-500 dark:text-slate-400 mb-8">
-                Hemos enviado un enlace de verificación a <br/>
-                <strong className="text-slate-700 dark:text-slate-300">{formData.email}</strong>. 
-                Haz clic en el enlace para activar tu cuenta.
-              </p>
-              
-                {resendMessage && (
-                  <div className="text-green-600 dark:text-green-400 text-sm font-medium mb-6 bg-green-50 dark:bg-green-500/10 p-3 rounded-lg border border-green-100 dark:border-green-500/20">
-                    {resendMessage}
-                  </div>
-                )}
-                {error && (
-                  <div className="text-rose-500 text-sm font-medium mb-6 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
-                    {error}
-                  </div>
-                )}
-                <button 
-                  onClick={() => {
-                    setVerificationSent(false);
-                    sessionStorage.removeItem('waygas_pending_verification');
-                    setIsLogin(true);
-                    setError("");
-                    setResendMessage("");
-                  }}
-                  className="w-full py-3.5 rounded-xl bg-orange-500 text-white font-bold text-sm shadow-[0_8px_20px_rgba(249,115,22,0.3)] hover:opacity-90 transition-opacity mb-4"
-                >
-                  Ya lo he verificado, Iniciar sesión
-                </button>
-                <button
-                  type="button"
-                  onClick={handleResend}
-                  disabled={resendTimer > 0}
-                  className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all ${resendTimer > 0 ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed' : 'bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700'}`}
-                >
-                  {resendTimer > 0 ? `Reenviar de nuevo en ${resendTimer}s` : 'No me ha llegado, enviar de nuevo'}
-                </button>
+ if (!isLogin) {
+ if (!formData.name.trim() || !formData.lastName.trim()) {
+ setError("Por favor, rellena tu nombre y apellidos.");
+ return;
+ }
+ 
+ const passwordRules = {
+ length: formData.password.length >= 8,
+ uppercase: /[A-Z]/.test(formData.password),
+ number: /[0-9]/.test(formData.password),
+ special: /[^A-Za-z0-9]/.test(formData.password)
+ };
 
-            </div>
-          ) : (
-            <>
-              <h1 className="text-2xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
-                {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
-              </h1>
-              <div className="w-12 h-1 bg-orange-500 rounded-full mb-4 md:mb-6"></div>
+ if (!Object.values(passwordRules).every(Boolean)) {
+ setError("La contraseña no cumple todos los requisitos de seguridad.");
+ return;
+ }
+ }
+ 
+ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+ if (!emailRegex.test(formData.email)) {
+ setError("Por favor, introduce un correo electrónico válido.");
+ return;
+ }
 
-            {error && (
-              <div className="text-rose-500 text-sm font-medium mb-3 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
-                {error}
-              </div>
-            )}
+ setLoading(true);
+ 
+ try {
+ const endpoint = isLogin ? '/api/login' : '/api/register';
+ const payload = { ...formData, rememberMe };
+ const res = await axios.post(`${endpoint}`, payload);
+ 
+ if (res.data.status === 'verification_required') {
+ setVerificationSent(true);
+ sessionStorage.setItem('waygas_pending_verification', formData.email);
+ setResendTimer(20);
+ setError("");
+ setResendMessage("");
+ } else {
+ const { token, user } = res.data;
+ onLoginSuccess(token, user, rememberMe);
+ }
+ } catch (err) {
+ if (err.response && err.response.status === 403) {
+ setVerificationSent(true);
+ sessionStorage.setItem('waygas_pending_verification', formData.email);
+ setResendTimer(0);
+ setError("");
+ setResendMessage("");
+ return;
+ }
+ if (err.response && err.response.data && err.response.data.error) {
+ setError(err.response.data.error);
+ } else {
+ setError("Error de conexión con el servidor.");
+ }
+ } finally {
+ setLoading(false);
+ }
+ };
 
-            <div className="w-full flex justify-center mb-6 mt-2">
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={() => setError('Error al conectar con Google')}
-                useOneTap
-                theme="outline"
-                shape="pill"
-                text={isLogin ? "signin_with" : "signup_with"}
-              />
-            </div>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">o usa tu email</span>
-              <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
-            </div>
+ return (
+ <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row relative overflow-hidden">
+ {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
+ <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-primary flex flex-col justify-center md: md:z-20">
+ <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
+ <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-primary-dark/90"></div>
+ 
+ {/* Curva SVG en la base (SOLO MÓVIL) */}
+ <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px] md:hidden">
+ <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#0f172a] fill-current" preserveAspectRatio="none">
+ <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+ </svg>
+ </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
-          
-          {!isLogin && (
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Nombre</label>
-                <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
-                  <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                  <input 
-                    type="text" name="name" value={formData.name} onChange={handleChange} 
-                    className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
-                    placeholder="Tu nombre"
-                  />
-                </div>
-              </div>
-              <div className="flex-1">
-                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Apellidos</label>
-                <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
-                  <input 
-                    type="text" name="lastName" value={formData.lastName} onChange={handleChange} 
-                    className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
-                    placeholder="Apellidos"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
+ {/* Contenido Izquierdo */}
+ <div className="absolute md:relative top-8 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
+ <img src="/logo.png" alt="WayGass" className="w-12 h-12 md:w-20 md:h-20 drop- rounded-2xl" />
+ <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-xs md:text-xl">WAYGASS</span>
+ 
+ <h2 className="hidden md:block text-white text-4xl lg:text-5xl font-bold leading-tight drop- mt-12">
+ Tu combustible,<br/>tu ruta,<br/><span className="text-cyan-200">al mejor precio.</span>
+ </h2>
+ <p className="hidden md:block text-white/80 mt-6 text-lg max-w-sm">
+ Encuentra las estaciones más baratas en tiempo real y optimiza tus repostajes en España.
+ </p>
+ </div>
+ </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Email</label>
-            <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
-              <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-              <input 
-                type="text" name="email" value={formData.email} onChange={handleChange} 
-                className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
-                placeholder="demo@email.com"
-              />
-            </div>
-          </div>
+ {/* Contenedor del Formulario (Derecha en PC) */}
+ <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
+ <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
+ 
+ {verificationSent ? (
+ <div className="text-center py-8">
+ <div className="w-20 h-20 bg-primary/20 dark:bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
+ <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+ <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+ </svg>
+ </div>
+ <h1 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white mb-4">
+ ¡Revisa tu correo!
+ </h1>
+ <p className="text-slate-500 dark:text-slate-400 mb-8">
+ Hemos enviado un enlace de verificación a <br/>
+ <strong className="text-slate-700 dark:text-slate-300">{formData.email}</strong>. 
+ Haz clic en el enlace para activar tu cuenta.
+ </p>
+ 
+ {resendMessage && (
+ <div className="text-green-600 dark:text-green-400 text-sm font-medium mb-6 bg-green-50 dark:bg-green-500/10 p-3 rounded-lg border border-green-100 dark:border-green-500/20">
+ {resendMessage}
+ </div>
+ )}
+ {error && (
+ <div className="text-rose-500 text-sm font-medium mb-6 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
+ {error}
+ </div>
+ )}
+ <button 
+ onClick={() => {
+ setVerificationSent(false);
+ sessionStorage.removeItem('waygas_pending_verification');
+ setIsLogin(true);
+ setError("");
+ setResendMessage("");
+ }}
+ className="w-full py-3.5 rounded-xl bg-primary text-white font-bold text-sm hover:opacity-90 transition-opacity mb-4"
+ >
+ Ya lo he verificado, Iniciar sesión
+ </button>
+ <button
+ type="button"
+ onClick={handleResend}
+ disabled={resendTimer > 0}
+ className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all ${resendTimer > 0 ? 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed' : 'bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700'}`}
+ >
+ {resendTimer > 0 ? `Reenviar de nuevo en ${resendTimer}s` : 'No me ha llegado, enviar de nuevo'}
+ </button>
 
-          {/* Password */}
-          <div>
-            <div className="flex justify-between items-center mb-1">
-              <label className="block text-xs font-bold text-slate-500 dark:text-slate-400">Contraseña</label>
-            </div>
-            <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-orange-500 dark:focus-within:border-orange-500 transition-colors">
-              <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-              <input 
-                type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} 
-                className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
-                placeholder="Ingresa tu contraseña"
-              />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 ml-2 transition-colors">
-                 {showPassword ? (
-                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
-                 ) : (
-                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                 )}
-              </button>
-            </div>
-            
-            {!isLogin && (
-              <div className="mt-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Requisitos de contraseña</p>
-                <ul className="text-xs flex flex-col gap-2.5 font-medium">
-                  <li className={`flex items-center gap-2.5 transition-colors ${formData.password.length >= 8 ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
-                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${formData.password.length >= 8 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={formData.password.length >= 8 ? "M5 13l4 4L19 7" : ""}/></svg>
-                    </div>
-                    Mínimo 8 caracteres
-                  </li>
-                  <li className={`flex items-center gap-2.5 transition-colors ${/[A-Z]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
-                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[A-Z]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[A-Z]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
-                    </div>
-                    Al menos una letra mayúscula
-                  </li>
-                  <li className={`flex items-center gap-2.5 transition-colors ${/[0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
-                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
-                    </div>
-                    Al menos un número
-                  </li>
-                  <li className={`flex items-center gap-2.5 transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
-                    <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[^A-Za-z0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
-                    </div>
-                    Al menos un carácter especial
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+ </div>
+ ) : (
+ <>
+ <h1 className="text-2xl md:text-4xl font-bold text-slate-800 dark:text-white mb-2">
+ {isLogin ? 'Iniciar Sesión' : 'Bienvenido'}
+ </h1>
+ <div className="w-12 h-1 bg-primary rounded-full mb-4 md:mb-6"></div>
 
-          {/* Remember Me & Forgot Password */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs mt-2 w-full">
-            <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
-              <div className="relative flex items-center justify-center">
-                <input 
-                  type="checkbox" 
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 appearance-none bg-white dark:bg-slate-800 checked:bg-orange-500 checked:border-orange-500 transition-colors cursor-pointer" 
-                />
-                <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
-            </label>
-            {isLogin && (
-              <button type="button" className="font-bold text-orange-500 hover:text-orange-600">
-                ¿Olvidaste la contraseña?
-              </button>
-            )}
-          </div>
+ {error && (
+ <div className="text-rose-500 text-sm font-medium mb-3 bg-rose-50 dark:bg-rose-500/10 p-3 rounded-lg border border-rose-100 dark:border-rose-500/20">
+ {error}
+ </div>
+ )}
 
-          <div className="mt-auto pt-4 md:pt-6 flex flex-col gap-4 md:gap-6">
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-orange-500 text-white font-bold text-sm shadow-[0_8px_20px_rgba(249,115,22,0.3)] hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Procesando...
-                </span>
-              ) : (isLogin ? 'Entrar' : 'Crear Cuenta')}
-            </button>
+ <div className="w-full flex justify-center mb-6 mt-2">
+ <GoogleLogin
+ onSuccess={handleGoogleSuccess}
+ onError={() => setError('Error al conectar con Google')}
+ useOneTap
+ theme="outline"
+ shape="pill"
+ text={isLogin ? "signin_with" : "signup_with"}
+ />
+ </div>
+ 
+ <div className="flex items-center gap-4 mb-6">
+ <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+ <span className="text-xs font-bold uppercase tracking-wider text-slate-400">o usa tu email</span>
+ <div className="h-px bg-slate-200 dark:bg-slate-700 flex-1"></div>
+ </div>
 
-              <div className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2">
-                <span>{isLogin ? "¿No tienes una cuenta?" : "¿Ya tienes cuenta?"}</span>
-                <span className="mx-1"></span>
-                <button 
-                  type="button"
-                  onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
-                  className="font-bold text-orange-500 hover:text-orange-600 transition"
-                >
-                  {isLogin ? 'Regístrate' : 'Inicia sesión'}
-                </button>
-              </div>
-          </div>
-          </form>
-          </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+ <form onSubmit={handleSubmit} className="flex flex-col gap-4 md:gap-6 flex-1">
+ 
+ {!isLogin && (
+ <div className="flex gap-4">
+ <div className="flex-1">
+ <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Nombre</label>
+ <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-primary dark:focus-within:border-primary transition-colors">
+ <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+ <input 
+ type="text" name="name" value={formData.name} onChange={handleChange} 
+ className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+ placeholder="Tu nombre"
+ />
+ </div>
+ </div>
+ <div className="flex-1">
+ <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Apellidos</label>
+ <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-primary dark:focus-within:border-primary transition-colors">
+ <input 
+ type="text" name="lastName" value={formData.lastName} onChange={handleChange} 
+ className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+ placeholder="Apellidos"
+ />
+ </div>
+ </div>
+ </div>
+ )}
+
+ {/* Email */}
+ <div>
+ <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 mb-1">Email</label>
+ <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-primary dark:focus-within:border-primary transition-colors">
+ <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+ <input 
+ type="text" name="email" value={formData.email} onChange={handleChange} 
+ className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+ placeholder="demo@email.com"
+ />
+ </div>
+ </div>
+
+ {/* Password */}
+ <div>
+ <div className="flex justify-between items-center mb-1">
+ <label className="block text-xs font-bold text-slate-500 dark:text-slate-400">Contraseña</label>
+ </div>
+ <div className="flex items-center border-b border-slate-200 dark:border-slate-700 py-2 focus-within:border-primary dark:focus-within:border-primary transition-colors">
+ <svg className="w-4 h-4 text-slate-400 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+ <input 
+ type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} 
+ className="w-full bg-transparent border-none focus:outline-none text-slate-800 dark:text-white text-sm placeholder:text-slate-300 dark:placeholder:text-slate-600"
+ placeholder="Ingresa tu contraseña"
+ />
+ <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 ml-2 transition-colors">
+ {showPassword ? (
+ <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+ ) : (
+ <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+ )}
+ </button>
+ </div>
+ 
+ {!isLogin && (
+ <div className="mt-4 bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+ <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Requisitos de contraseña</p>
+ <ul className="text-xs flex flex-col gap-2.5 font-medium">
+ <li className={`flex items-center gap-2.5 transition-colors ${formData.password.length >= 8 ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+ <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${formData.password.length >= 8 ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+ <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={formData.password.length >= 8 ? "M5 13l4 4L19 7" : ""}/></svg>
+ </div>
+ Mínimo 8 caracteres
+ </li>
+ <li className={`flex items-center gap-2.5 transition-colors ${/[A-Z]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+ <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[A-Z]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+ <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[A-Z]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+ </div>
+ Al menos una letra mayúscula
+ </li>
+ <li className={`flex items-center gap-2.5 transition-colors ${/[0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+ <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+ <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+ </div>
+ Al menos un número
+ </li>
+ <li className={`flex items-center gap-2.5 transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+ <div className={`w-4 h-4 rounded-full flex items-center justify-center border transition-colors ${/[^A-Za-z0-9]/.test(formData.password) ? 'border-emerald-500 bg-emerald-500/10' : 'border-slate-300 dark:border-slate-600'}`}>
+ <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d={/[^A-Za-z0-9]/.test(formData.password) ? "M5 13l4 4L19 7" : ""}/></svg>
+ </div>
+ Al menos un carácter especial
+ </li>
+ </ul>
+ </div>
+ )}
+ </div>
+
+ {/* Remember Me & Forgot Password */}
+ <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs mt-2 w-full">
+ <label className="flex items-center gap-2 cursor-pointer text-slate-500 dark:text-slate-400 group">
+ <div className="relative flex items-center justify-center">
+ <input 
+ type="checkbox" 
+ checked={rememberMe}
+ onChange={(e) => setRememberMe(e.target.checked)}
+ className="w-4 h-4 rounded-full border-2 border-slate-300 dark:border-slate-600 appearance-none bg-white dark:bg-slate-800 checked:bg-primary checked:border-primary transition-colors cursor-pointer" 
+ />
+ <svg className={`absolute w-2.5 h-2.5 text-white pointer-events-none transition-opacity ${rememberMe ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+ <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+ </svg>
+ </div>
+ <span className="font-medium group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Recordar sesión</span>
+ </label>
+ {isLogin && (
+ <button type="button" className="font-bold text-primary hover:text-primary-dark">
+ ¿Olvidaste la contraseña?
+ </button>
+ )}
+ </div>
+
+ <div className="mt-auto pt-4 md:pt-6 flex flex-col gap-4 md:gap-6">
+ <button 
+ type="submit" 
+ disabled={loading}
+ className="w-full py-3.5 rounded-xl bg-slate-900 dark:bg-primary text-white font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+ >
+ {loading ? (
+ <span className="flex items-center justify-center gap-2">
+ <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+ <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+ <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+ </svg>
+ Procesando...
+ </span>
+ ) : (isLogin ? 'Entrar' : 'Crear Cuenta')}
+ </button>
+
+ <div className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2">
+ <span>{isLogin ? "¿No tienes una cuenta?" : "¿Ya tienes cuenta?"}</span>
+ <span className="mx-1"></span>
+ <button 
+ type="button"
+ onClick={() => { setIsLogin(!isLogin); setError(''); setFormData({ name:'', lastName:'', email:'', password:'' }); }}
+ className="font-bold text-primary hover:text-primary-dark transition"
+ >
+ {isLogin ? 'Regístrate' : 'Inicia sesión'}
+ </button>
+ </div>
+ </div>
+ </form>
+ </>
+ )}
+ </div>
+ </div>
+ </div>
+ );
 }
