@@ -55,7 +55,7 @@ export default function SearchBar({ onSearch, onGps, loadingSearch, isUsingGps }
  };
 
  return (
- <form onSubmit={handleSubmit} className="glass-core flex items-center w-full rounded-2xl p-1.5 transition-all focus-within: focus-within:border-primary/50 relative z-20">
+ <form onSubmit={handleSubmit} className="bg-white dark:bg-[#111] flex items-center shadow-lg border border-slate-200/50 dark:border-white/10 w-full rounded-2xl p-1.5 transition-all focus-within: focus-within:border-primary/50 relative z-20">
  
  <div className="relative flex-1 flex items-center">
  <svg className="w-4 h-4 absolute left-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -106,7 +106,7 @@ export default function SearchBar({ onSearch, onGps, loadingSearch, isUsingGps }
  
  
         {showSuggestions && suggestions.length > 0 && (
-          <div className="absolute top-full mt-2 left-0 w-full bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-2xl rounded-xl border border-slate-200/50 dark:border-white/10 overflow-hidden z-[500]">
+          <div className="absolute top-full mt-2 left-0 w-full bg-[#f5f5f7] dark:bg-[#000000] shadow-xl rounded-xl border border-slate-200/50 dark:border-white/10 overflow-hidden z-[500]">
             {suggestions.map((s, i) => (
               <button 
                 key={i}
