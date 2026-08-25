@@ -108,8 +108,8 @@ export default function SettingsModal({
           </div>
           
           <div className="flex bg-slate-100/50 dark:bg-white/5 p-1 rounded-xl">
-            <button onClick={() => setActiveTab('settings')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${activeTab === 'settings' ? 'bg-white dark:bg-[#1a1a1c] text-slate-900 dark:text-white shadow-none border border-slate-200/50 dark:border-white/10' : 'text-slate-500 dark:text-slate-400'}`}>General</button>
-            <button onClick={() => setActiveTab('ranking')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${activeTab === 'ranking' ? 'bg-primary/10 text-primary shadow-none border border-primary/20' : 'text-slate-500 dark:text-slate-400'}`}>Ranking</button>
+            <button onClick={() => setActiveTab('settings')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${activeTab === 'settings' ? 'bg-primary text-white shadow-none' : 'text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}>General</button>
+            <button onClick={() => setActiveTab('ranking')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors ${activeTab === 'ranking' ? 'bg-primary text-white shadow-none' : 'text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}>Ranking</button>
             {user?.role === 'admin' && (
               <button onClick={() => setActiveTab('admin')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${activeTab === 'admin' ? 'bg-primary text-white shadow-none' : 'text-slate-500 hover:text-slate-700 dark:hover:text-white'}`}>Admin</button>
             )}
