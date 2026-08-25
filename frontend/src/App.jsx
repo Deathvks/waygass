@@ -767,7 +767,7 @@ function App() {
  }
  `}>
  {/* Header (Mobile & Desktop) */}
-   <div className="p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+   <div className="p-4 lg:p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
  <Header openSecurity={() => setActiveTab("security")} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
  openSettings={() => setSettingsOpen(true)} 
  openSub={() => setSubOpen(true)}
