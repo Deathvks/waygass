@@ -780,8 +780,8 @@ function App() {
  flex-col z-30 transition-transform duration-300 ease-in-out
  lg:w-[420px] xl:w-[460px] lg:h-full lg:glass-core lg:border-r lg:border-slate-200/50 dark:lg:border-white/10 lg:flex
  ${activeTab === 'list' 
- ? 'fixed inset-x-0 bottom-0 top-[88px] bg-white/90 dark:bg-[#000000]/90 backdrop-blur-2xl rounded-t-3xl flex border-t border-slate-200/50 dark:border-white/10 translate-y-0' 
- : 'fixed inset-x-0 bottom-0 top-[88px] flex translate-y-[150%]'
+ ? 'fixed inset-x-0 bottom-0 top-[88px] bg-white/90 dark:bg-[#000000]/90 backdrop-blur-2xl rounded-t-3xl flex border-t border-slate-200/50 dark:border-white/10 translate-y-0 lg:static lg:bg-white dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-none lg:border-none' 
+ : 'fixed inset-x-0 bottom-0 top-[88px] flex translate-y-[150%] lg:translate-y-0 lg:static lg:bg-white dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-none lg:border-none'
  }
  `}>
  {/* Desktop Header */}
@@ -830,9 +830,14 @@ function App() {
  onToggleFavorite={toggleFavorite}
  selectedStationId={selectedStationId}
  onSelectStation={(id) => {
- setSelectedStationId(id);
- if (window.innerWidth < 1024) setActiveTab('map');
- }}
+     setSelectedStationId(id);
+     if (id && window.innerWidth < 1024) setActiveTab('list');
+     }}
+   onSearchArea={async (center) => {
+     setIsUsingGps(false);
+     setUserLocation(center);
+     await detectProvince(center.lat, center.lng);
+   }}
  lastUpdate={lastUpdate}
  />
  )}
