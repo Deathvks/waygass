@@ -748,7 +748,7 @@ function App() {
       {authUser?.role === 'admin' && (
         <div className={`
           fixed inset-x-0 bottom-0 top-[88px] z-40 bg-white/95 dark:bg-[#000000]/95 backdrop-blur-3xl rounded-t-3xl border-t border-slate-200/50 dark:border-white/10 transition-transform duration-300 ease-in-out
-          lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl
+          lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
           ${activeTab === 'security' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
         `}>
           <SecurityPanel onClose={() => setActiveTab("list")} />
@@ -758,7 +758,7 @@ function App() {
       {/* GARAGE PANEL */}
       <div className={`
         fixed inset-x-0 bottom-0 top-[88px] z-40 bg-white/95 dark:bg-[#000000]/95 backdrop-blur-3xl rounded-t-3xl border-t border-slate-200/50 dark:border-white/10 transition-transform duration-300 ease-in-out
-        lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl
+        lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
         ${activeTab === 'garage' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
       `}>
         <GarageView settings={settings} setSettings={setSettings} />
