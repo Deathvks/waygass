@@ -693,15 +693,20 @@ function App() {
  <div className="liquid-bg"></div>
 
       {/* MOBILE GLOBAL HEADER */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-[#f5f5f7] dark:bg-[#000000] border-b border-slate-200/50 dark:border-white/5 p-4 flex items-center justify-between shadow-sm">
-        <Header 
-          openSecurity={() => setActiveTab("security")} 
-          isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
-          openSettings={() => setSettingsOpen(true)} 
-          openSub={() => setSubOpen(true)} 
-          user={authUser}
-          openProfile={() => setProfileOpen(true)}
-        />
+      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-[#f5f5f7] dark:bg-[#000000] border-b border-slate-200/50 dark:border-white/5 shadow-sm flex flex-col">
+        <div className="p-4 flex items-center justify-between">
+          <Header 
+            openSecurity={() => setActiveTab("security")} 
+            isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
+            openSettings={() => setSettingsOpen(true)} 
+            openSub={() => setSubOpen(true)} 
+            user={authUser}
+            openProfile={() => setProfileOpen(true)}
+          />
+        </div>
+        <div className="px-4 pb-4">
+          <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} isUsingGps={isUsingGps} />
+        </div>
       </div>
 
 
@@ -753,7 +758,7 @@ function App() {
       {/* SECURITY PANEL (Admin Only) */}
       {authUser?.role === 'admin' && (
         <div className={`
-          fixed inset-x-0 bottom-0 top-[73px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
+          fixed inset-x-0 bottom-0 top-[136px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
           lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
           ${activeTab === 'security' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
         `}>
@@ -763,7 +768,7 @@ function App() {
 
       {/* GARAGE PANEL */}
       <div className={`
-        fixed inset-x-0 bottom-0 top-[73px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
+        fixed inset-x-0 bottom-0 top-[136px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
         lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
         ${activeTab === 'garage' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
       `}>
@@ -775,8 +780,8 @@ function App() {
  flex-col z-30 transition-transform duration-300 ease-in-out
  lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:border lg:border-slate-200/50 dark:lg:border-white/10 lg:flex lg:shadow-2xl
  ${activeTab === 'list' 
- ? 'fixed inset-x-0 bottom-0 top-[73px] bg-[#f5f5f7] dark:bg-[#000000] flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
- : 'fixed inset-x-0 bottom-0 top-[73px] flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
+ ? 'fixed inset-x-0 bottom-0 top-[136px] bg-[#f5f5f7] dark:bg-[#000000] flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
+ : 'fixed inset-x-0 bottom-0 top-[136px] flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
  }
  `}>
  {/* DESKTOP HEADER (Inside List Panel) */}
@@ -792,12 +797,7 @@ function App() {
      </div>
    </div>
 
-   {/* MOBILE SEARCH BAR */}
-   <div className="lg:hidden p-4 border-b border-slate-200/50 dark:border-white/5 bg-[#f5f5f7] dark:bg-[#000000]">
-     <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} isUsingGps={isUsingGps} />
-   </div>
- 
- <div className="p-4 pb-24 lg:p-6 lg:pb-6 flex-1 overflow-y-auto no-scrollbar flex flex-col gap-5">
+   <div className="p-4 pb-24 lg:p-6 lg:pb-6 flex-1 overflow-y-auto no-scrollbar flex flex-col gap-5">
  <SummaryCards stats={stats} tankSize={settings.tankSize} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} />
  <Filters filters={filters} setFilters={setFilters} />
  <div className="glass-core border border-slate-200/50 dark:border-white/5 p-1 rounded-2xl flex items-center mb-1">
