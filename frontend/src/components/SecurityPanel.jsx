@@ -133,7 +133,7 @@ export default function SecurityPanel({ onClose }) {
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto no-scrollbar pb-24">
             {/* Header */}
-      <div className="p-6 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-white/80 dark:bg-[#000000]/80 backdrop-blur-xl z-10">
+      <div className="p-6 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl z-10">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
@@ -287,7 +287,7 @@ export default function SecurityPanel({ onClose }) {
             {stats.topIPs?.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{TIME_OPTIONS.find(o => o.value === timePreset)?.label || 'Últimas 24 horas'}</h4>
-                <div className="glass-core border border-slate-200/50 dark:border-white/5 rounded-xl overflow-hidden">
+                <div className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl overflow-hidden">
                   {stats.topIPs.map((item, i) => (
                     <div key={i} className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 dark:border-white/5 last:border-0">
                       <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">{item.ip}</span>
@@ -309,7 +309,7 @@ export default function SecurityPanel({ onClose }) {
             {stats.topFailIPs?.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider">⚠ IPs con Login Fallido</h4>
-                <div className="glass-core border border-red-200/50 dark:border-red-500/20 rounded-xl overflow-hidden">
+                <div className="bg-white dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl overflow-hidden">
                   {stats.topFailIPs.map((item, i) => (
                     <div key={i} className="flex items-center justify-between px-4 py-2.5 border-b border-red-100 dark:border-red-500/10 last:border-0">
                       <span className="text-xs font-mono font-bold text-red-700 dark:text-red-400">{item.ip}</span>
@@ -342,7 +342,7 @@ export default function SecurityPanel({ onClose }) {
             
             <div className="space-y-1.5">
               {logs.map((log, i) => (
-                <div key={i} className="glass-core border border-slate-200/50 dark:border-white/5 rounded-xl px-3 py-2.5 flex items-start gap-3">
+                <div key={i} className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl px-3 py-2.5 flex items-start gap-3">
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${EVENT_BADGES[log.eventType] || EVENT_BADGES.REQUEST}`}>
                     {log.eventType}
                   </span>
@@ -397,7 +397,7 @@ export default function SecurityPanel({ onClose }) {
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{TIME_OPTIONS.find(o => o.value === timePreset)?.label || 'Últimas 24 horas'}</h4>
               {blockedIPs.length > 0 ? blockedIPs.map((b, i) => (
-                <div key={i} className="glass-core border border-red-200/50 dark:border-red-500/20 rounded-xl px-4 py-3 flex items-center justify-between">
+                <div key={i} className="bg-white dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl px-4 py-3 flex items-center justify-between">
                   <div>
                     <span className="text-sm font-mono font-bold text-red-700 dark:text-red-400">{b.ip}</span>
                     <p className="text-[10px] text-slate-500 mt-0.5">{b.reason} · {formatTime(b.createdAt)}</p>
@@ -428,7 +428,7 @@ export default function SecurityPanel({ onClose }) {
 
 function StatCard({ label, value, color }) {
   return (
-    <div className="glass-core border border-slate-200/50 dark:border-white/5 rounded-xl p-4">
+    <div className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl p-4">
       <p className="text-xs font-bold text-slate-500 mb-1">{label}</p>
       <p className={`text-2xl font-black ${color}`}>{value?.toLocaleString() || 0}</p>
     </div>
