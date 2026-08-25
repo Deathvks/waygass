@@ -692,22 +692,12 @@ function App() {
  <div className="min-h-[100dvh] lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row antialiased text-slate-900 dark:text-slate-100 relative">
  <div className="liquid-bg"></div>
 
-      {/* MOBILE GLOBAL HEADER */}
-      <div className="lg:hidden fixed top-0 inset-x-0 z-50 bg-[#f5f5f7] dark:bg-[#000000] border-b border-slate-200/50 dark:border-white/5 shadow-sm flex flex-col">
-        <div className="p-4 flex items-center justify-between">
-          <Header 
-            openSecurity={() => setActiveTab("security")} 
-            isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
-            openSettings={() => setSettingsOpen(true)} 
-            openSub={() => setSubOpen(true)} 
-            user={authUser}
-            openProfile={() => setProfileOpen(true)}
-          />
-        </div>
-        <div className="px-4 pb-4">
-          <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} isUsingGps={isUsingGps} />
-        </div>
+      {/* MOBILE FLOATING SEARCH BAR (Only on Map) */}
+      <div className={"lg:hidden fixed top-3 left-3 right-3 z-30 transition-opacity duration-300 " + (activeTab === 'map' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}>
+        <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} isUsingGps={isUsingGps} />
       </div>
+
+      
 
 
  <Toaster 
@@ -758,7 +748,7 @@ function App() {
       {/* SECURITY PANEL (Admin Only) */}
       {authUser?.role === 'admin' && (
         <div className={`
-          fixed inset-x-0 bottom-0 top-[136px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
+          fixed inset-x-0 bottom-0 top-0 z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
           lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
           ${activeTab === 'security' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
         `}>
@@ -768,7 +758,7 @@ function App() {
 
       {/* GARAGE PANEL */}
       <div className={`
-        fixed inset-x-0 bottom-0 top-[136px] z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
+        fixed inset-x-0 bottom-0 top-0 z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
         lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
         ${activeTab === 'garage' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
       `}>
@@ -780,12 +770,12 @@ function App() {
  flex-col z-30 transition-transform duration-300 ease-in-out
  lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:border lg:border-slate-200/50 dark:lg:border-white/10 lg:flex lg:shadow-2xl
  ${activeTab === 'list' 
- ? 'fixed inset-x-0 bottom-0 top-[136px] bg-[#f5f5f7] dark:bg-[#000000] flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
- : 'fixed inset-x-0 bottom-0 top-[136px] flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
+ ? 'fixed inset-x-0 bottom-0 top-0 bg-[#f5f5f7] dark:bg-[#000000] flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
+ : 'fixed inset-x-0 bottom-0 top-0 flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
  }
  `}>
- {/* DESKTOP HEADER (Inside List Panel) */}
-   <div className="hidden lg:block p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+ {/* HEADER (Inside List Panel for both Mobile & Desktop) */}
+   <div className="p-4 lg:p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
      <Header openSecurity={() => setActiveTab("security")} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
        openSettings={() => setSettingsOpen(true)} 
        openSub={() => setSubOpen(true)}
