@@ -120,17 +120,6 @@ const PROVINCE_MAP = {
 
 function App() {
 
-  useEffect(() => {
-    // Check for Service Worker updates automatically on mount
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        for (let registration of registrations) {
-          registration.update();
-        }
-      });
-    }
-  }, []);
-
  const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent'));
  const [showCookiesBanner, setShowCookiesBanner] = useState(!localStorage.getItem('waygass_cookie_consent'));
  const [legalType, setLegalType] = useState(null);
