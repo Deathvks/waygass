@@ -52,7 +52,8 @@ db.sequelize.sync().then(() => {
 // Middleware Global de Seguridad
 app.use((req, res, next) => {
   const forwarded = req.headers["x-forwarded-for"];
-    const ip = (forwarded ? forwarded.split(",")[0] : null) || req.ip || req.connection?.remoteAddress || "unknown";
+    const realIp = req.headers["x-real-ip"];
+    const ip = (forwarded ? forwarded.split(",")[0] : null) || realIp || req.ip || req.connection?.remoteAddress || "unknown";
   req.clientIP = ip;
 
   if (blockedIPsCache.has(ip)) {
@@ -700,7 +701,7 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
 app.post('/api/auth/google', async (req, res) => {
   console.log("[AUTH-GOOGLE] ========================================");
   console.log("[AUTH-GOOGLE] Recibida nueva petición de inicio de sesión con Google!");
-  console.log("[AUTH-GOOGLE] IP del cliente:", req.ip);
+  console.log("[AUTH-GOOGLE] IP del cliente:", req.clientIP);
   console.log("[AUTH-GOOGLE] Origin de la petición:", req.headers.origin);
   try {
     const { credential } = req.body;
@@ -872,7 +873,7 @@ app.get('/api/stations/:id/validations', async (req, res) => {
   // Obtener mis validaciones (Anónima o Logueada)
   app.get('/api/validations/me', async (req, res) => {
     try {
-      const ipAddress = req.ip || req.connection.remoteAddress;
+      const ipAddress = req.clientIP;
       
       let userId = null;
       const authHeader = req.headers.authorization;
@@ -898,7 +899,7 @@ app.post('/api/stations/:id/validate', async (req, res) => {
   try {
     const { id } = req.params;
     const { type } = req.body; // 'PRICE_CORRECT', 'WRONG_PRICE', 'CLOSED'
-    const ipAddress = req.ip || req.connection.remoteAddress;
+    const ipAddress = req.clientIP;
     
     // Check if token exists to get userId, but don't require it
     let userId = null;
