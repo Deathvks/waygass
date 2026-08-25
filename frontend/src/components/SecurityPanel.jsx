@@ -154,7 +154,7 @@ export default function SecurityPanel({ onClose }) {
         {/* Tabs */}
         <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1">
             {['overview', 'logs', 'blocked'].map(t => (
-              <button key={t} onClick={() => setTab(t)} className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${tab === t ? 'bg-white dark:bg-slate-700 text-primary' : 'text-slate-500'}`}>
+              <button key={t} onClick={() => setTab(t)} className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
                 {t === 'overview' ? 'Resumen' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
               </button>
             ))}
@@ -251,7 +251,7 @@ export default function SecurityPanel({ onClose }) {
                     type="datetime-local" 
                     value={customFrom} 
                     onChange={e => setCustomFrom(e.target.value)} 
-                    className="w-full bg-white dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
+                    className="w-full bg-transparent dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
                   />
                 </div>
                 <div className="flex-1">
@@ -260,7 +260,7 @@ export default function SecurityPanel({ onClose }) {
                     type="datetime-local" 
                     value={customTo} 
                     onChange={e => setCustomTo(e.target.value)} 
-                    className="w-full bg-white dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
+                    className="w-full bg-transparent dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
                   />
                 </div>
               </div>
@@ -287,7 +287,7 @@ export default function SecurityPanel({ onClose }) {
             {stats.topIPs?.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{TIME_OPTIONS.find(o => o.value === timePreset)?.label || 'Últimas 24 horas'}</h4>
-                <div className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl overflow-hidden">
+                <div className="bg-white/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl overflow-hidden">
                   {stats.topIPs.map((item, i) => (
                     <div key={i} className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100 dark:border-white/5 last:border-0">
                       <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">{item.ip}</span>
@@ -309,7 +309,7 @@ export default function SecurityPanel({ onClose }) {
             {stats.topFailIPs?.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider">⚠ IPs con Login Fallido</h4>
-                <div className="bg-white dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl overflow-hidden">
+                <div className="bg-white/50 dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl overflow-hidden">
                   {stats.topFailIPs.map((item, i) => (
                     <div key={i} className="flex items-center justify-between px-4 py-2.5 border-b border-red-100 dark:border-red-500/10 last:border-0">
                       <span className="text-xs font-mono font-bold text-red-700 dark:text-red-400">{item.ip}</span>
@@ -334,7 +334,7 @@ export default function SecurityPanel({ onClose }) {
           <>
             <div className="flex gap-1.5 flex-wrap">
               {['ALL', 'REQUEST', 'LOGIN_OK', 'LOGIN_FAIL', 'BLOCKED', 'RATE_LIMITED'].map(f => (
-                <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 text-[10px] font-bold rounded-lg transition ${filter === f ? 'bg-primary text-slate-900' : 'bg-slate-100 dark:bg-white/5 text-slate-500'}`}>
+                <button key={f} onClick={() => setFilter(f)} className={`px-3 py-1.5 text-[10px] font-bold rounded-lg transition ${filter === f ? 'bg-primary text-white shadow-md' : 'bg-slate-100 dark:bg-white/5 text-slate-500'}`}>
                   {f === 'ALL' ? 'Todo' : f}
                 </button>
               ))}
@@ -342,7 +342,7 @@ export default function SecurityPanel({ onClose }) {
             
             <div className="space-y-1.5">
               {logs.map((log, i) => (
-                <div key={i} className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl px-3 py-2.5 flex items-start gap-3">
+                <div key={i} className="bg-white/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl px-3 py-2.5 flex items-start gap-3">
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${EVENT_BADGES[log.eventType] || EVENT_BADGES.REQUEST}`}>
                     {log.eventType}
                   </span>
@@ -397,7 +397,7 @@ export default function SecurityPanel({ onClose }) {
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{TIME_OPTIONS.find(o => o.value === timePreset)?.label || 'Últimas 24 horas'}</h4>
               {blockedIPs.length > 0 ? blockedIPs.map((b, i) => (
-                <div key={i} className="bg-white dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl px-4 py-3 flex items-center justify-between">
+                <div key={i} className="bg-white/50 dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl px-4 py-3 flex items-center justify-between">
                   <div>
                     <span className="text-sm font-mono font-bold text-red-700 dark:text-red-400">{b.ip}</span>
                     <p className="text-[10px] text-slate-500 mt-0.5">{b.reason} · {formatTime(b.createdAt)}</p>
@@ -428,7 +428,7 @@ export default function SecurityPanel({ onClose }) {
 
 function StatCard({ label, value, color }) {
   return (
-    <div className="bg-white dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl p-4">
+    <div className="bg-white/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl p-4">
       <p className="text-xs font-bold text-slate-500 mb-1">{label}</p>
       <p className={`text-2xl font-black ${color}`}>{value?.toLocaleString() || 0}</p>
     </div>

@@ -188,7 +188,7 @@ export default function GarageView({ settings, setSettings }) {
                         {activeGarageId === car.id && (
                           <button 
                             onClick={(e) => { e.stopPropagation(); setMode('edit_manual'); }}
-                            className="text-xs font-bold bg-white dark:bg-white/10 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-primary transition-colors text-slate-700 dark:text-slate-300"
+                            className="text-xs font-bold bg-white/50 dark:bg-white/10 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-primary transition-colors text-slate-700 dark:text-slate-300"
                           >
                             Ajustar
                           </button>
@@ -332,7 +332,7 @@ export default function GarageView({ settings, setSettings }) {
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6" onClick={() => setDeleteConfirmId(null)}>
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
             <div 
-              className="relative bg-white dark:bg-[#1c1c1e] rounded-2xl p-6 w-full max-w-sm border border-slate-200/50 dark:border-white/10"
+              className="relative bg-[#f5f5f7] dark:bg-[#1c1c1e] rounded-2xl p-6 w-full max-w-sm border border-slate-200/50 dark:border-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center mb-5">
