@@ -537,11 +537,9 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
       const { name, lastName, email, password, rememberMe } = req.body;
       const expiresIn = rememberMe ? '30d' : '7d';
       
-      console.log(`[AUTH] Intento de registro para email: ${email}`);
 
     // Validación básica
     if (!name || !lastName || !email || !password) {
-      console.warn(`[AUTH-ERROR] Registro fallido: Campos incompletos.`);
       return res.status(400).json({ error: "Todos los campos son obligatorios." });
     }
 
@@ -553,13 +551,11 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
     };
 
     if (!Object.values(passwordRules).every(Boolean)) {
-      console.warn(`[AUTH-ERROR] Registro fallido: Contraseña débil para ${email}.`);
       return res.status(400).json({ error: "La contraseña no cumple todos los requisitos de seguridad." });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      console.warn(`[AUTH-ERROR] Registro fallido: Formato de email inválido (${email}).`);
       return res.status(400).json({ error: "Formato de correo electrónico inválido." });
     }
     
@@ -569,7 +565,6 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
       if (existingUser.authProvider === 'google') {
         return res.status(400).json({ error: "Este correo ya está registrado mediante Google. Por favor, inicia sesión con Google." });
       }
-      console.warn(`[AUTH-ERROR] Registro fallido: El email ya existe (${email}).`);
       return res.status(400).json({ error: "El correo electrónico ya está registrado." });
     }
 
@@ -592,7 +587,6 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
       subscription: email === 'dylanjesussuarez@gmail.com' ? 'pro' : 'free'
     });
 
-    console.log(`[AUTH-SUCCESS] Usuario registrado correctamente: ${newUser.id} (${email}) - Pendiente de verificación`);
 
     // Enviar correo de verificación
     const frontendUrl = process.env.NODE_ENV === 'production' ? 'https://waygass.es' : 'http://localhost:5173';
@@ -614,9 +608,7 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
 
     try {
       await transporter.sendMail(mailOptions);
-      console.log(`[AUTH-MAIL] Correo de verificación enviado a ${email}`);
     } catch (mailError) {
-      console.error(`[AUTH-MAIL-ERROR] No se pudo enviar el correo a ${email}:`, mailError);
       // Opcional: Podríamos borrar el usuario o decirle que lo intente luego, pero para este caso lo dejamos registrado
     }
     
@@ -702,10 +694,6 @@ app.delete('/api/admin/security/purge', verifyAdmin, async (req, res) => {
   });
 
 app.post('/api/auth/google', async (req, res) => {
-  console.log("[AUTH-GOOGLE] ========================================");
-  console.log("[AUTH-GOOGLE] Recibida nueva petición de inicio de sesión con Google!");
-  console.log("[AUTH-GOOGLE] IP del cliente:", req.clientIP);
-  console.log("[AUTH-GOOGLE] Origin de la petición:", req.headers.origin);
   try {
     const { credential } = req.body;
     if (!credential) return res.status(400).json({ error: "Token de Google no proporcionado" });
@@ -716,9 +704,7 @@ app.post('/api/auth/google', async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID || process.env.VITE_GOOGLE_CLIENT_ID
     });
     
-    console.log("[AUTH-GOOGLE] Token recibido, verificando con Google...");
     const payload = ticket.getPayload();
-    console.log("[AUTH-GOOGLE] Verificación exitosa. Usuario de Google:", payload.email);
     const email = payload.email;
     const name = payload.given_name || payload.name;
     const lastName = payload.family_name || "";
@@ -744,12 +730,8 @@ app.post('/api/auth/google', async (req, res) => {
       { expiresIn: "7d" }
     );
     
-    console.log("[AUTH-GOOGLE] Autenticación completada. Generando token para:", user.email);
-    console.log("[AUTH-GOOGLE] ========================================");
     res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, isVerified: user.isVerified } });
   } catch (error) {
-    console.error("[AUTH-GOOGLE] [ERROR CRÍTICO] Error en Google Login:", error.message);
-    console.error("[AUTH-GOOGLE] Pila de error:", error.stack);
     SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/auth/google", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Fallo de autenticación con Google" }).catch(()=>{});
       res.status(401).json({ error: "Fallo de autenticación con Google" });
   }
@@ -759,17 +741,14 @@ app.post('/api/login', async (req, res) => {
   try {
     const { email, password, rememberMe } = req.body;
     
-    console.log(`[AUTH] Intento de login para email: ${email}`);
 
     if (!email || !password) {
-      console.warn(`[AUTH-ERROR] Login fallido: Campos incompletos.`);
       return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
     }
 
     // Buscar usuario
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      console.warn(`[AUTH-ERROR] Login fallido: Usuario no encontrado (${email}).`);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Email no encontrado: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
@@ -777,13 +756,11 @@ app.post('/api/login', async (req, res) => {
     // Validar contraseña
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.warn(`[AUTH-ERROR] Login fallido: Contraseña incorrecta para ${email}.`);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
     if (user.isVerified === false) {
-      console.warn(`[AUTH-ERROR] Login fallido: Email no verificado (${email}).`);
       return res.status(403).json({ error: "Por favor, verifica tu correo electrónico antes de iniciar sesión." });
     }
 
@@ -797,11 +774,9 @@ app.post('/api/login', async (req, res) => {
       if (user.subscription !== 'pro') { user.subscription = 'pro'; updated = true; }
       if (updated) {
         await user.save();
-        console.log(`[AUTH] Actualizados privilegios a ADMIN/PRO automáticamente para ${email}`);
       }
     }
 
-    console.log(`[AUTH-SUCCESS] Login exitoso:  ()`);
 
     // Generar JWT
     const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: rememberMe ? '365d' : '1d' });
