@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
-import MobileHeader from './components/MobileHeader';
+
 import SummaryCards from './components/SummaryCards';
 import SearchBar from './components/SearchBar';
 import Filters, { FUELS } from './components/Filters';
@@ -732,14 +732,7 @@ function App() {
 
  {/* MOBILE HEADER (Floating Search Pill) */}
  <div className="lg:hidden fixed top-3 left-3 right-3 z-40 pointer-events-none">
- <MobileHeader 
-            user={authUser}
-            openProfile={() => setProfileOpen(true)}
-            onSearch={handleSearch}
-            loadingSearch={loading}
-            onGps={() => getUserGPS(true)}
-            isUsingGps={isUsingGps}
-          />
+ 
  </div>
 
  
@@ -747,7 +740,7 @@ function App() {
       {/* SECURITY PANEL (Admin Only) */}
       {authUser?.role === 'admin' && (
         <div className={`
-          fixed inset-x-0 bottom-0 top-[88px] z-40 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl transition-transform duration-300 ease-in-out
+          fixed inset-x-0 bottom-0 top-0 z-40 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl transition-transform duration-300 ease-in-out
           lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
           ${activeTab === 'security' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
         `}>
@@ -757,7 +750,7 @@ function App() {
 
       {/* GARAGE PANEL */}
       <div className={`
-        fixed inset-x-0 bottom-0 top-[88px] z-40 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl transition-transform duration-300 ease-in-out
+        fixed inset-x-0 bottom-0 top-0 z-40 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl transition-transform duration-300 ease-in-out
         lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
         ${activeTab === 'garage' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
       `}>
@@ -769,12 +762,12 @@ function App() {
  flex-col z-30 transition-transform duration-300 ease-in-out
  lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:glass-core lg:border lg:border-slate-200/50 dark:lg:border-white/10 lg:flex lg:shadow-2xl
  ${activeTab === 'list' 
- ? 'fixed inset-x-0 bottom-0 top-[88px] bg-[#f5f5f7]/90 dark:bg-[#000000]/90 backdrop-blur-2xl flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
- : 'fixed inset-x-0 bottom-0 top-[88px] flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
+ ? 'fixed inset-x-0 bottom-0 top-0 bg-[#f5f5f7]/90 dark:bg-[#000000]/90 backdrop-blur-2xl flex translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden' 
+ : 'fixed inset-x-0 bottom-0 top-0 flex translate-y-[150%] lg:translate-y-0 lg:absolute lg:bg-[#f5f5f7] dark:lg:bg-[#000000] lg:backdrop-blur-none lg:rounded-2xl overflow-hidden'
  }
  `}>
- {/* Desktop Header */}
- <div className="hidden lg:block p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+ {/* Header (Mobile & Desktop) */}
+   <div className="p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
  <Header openSecurity={() => setActiveTab("security")} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
  openSettings={() => setSettingsOpen(true)} 
  openSub={() => setSubOpen(true)}
