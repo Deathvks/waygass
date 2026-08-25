@@ -133,7 +133,7 @@ export default function SecurityPanel({ onClose }) {
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto no-scrollbar pb-24">
             {/* Header */}
-      <div className="p-6 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7]/95 dark:bg-[#000000]/95 backdrop-blur-3xl z-10">
+      <div className="p-6 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
