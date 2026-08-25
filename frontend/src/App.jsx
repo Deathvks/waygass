@@ -833,11 +833,7 @@ function App() {
      setSelectedStationId(id);
      if (id && window.innerWidth < 1024) setActiveTab('list');
      }}
-   onSearchArea={async (center) => {
-     setIsUsingGps(false);
-     setUserLocation(center);
-     await detectProvince(center.lat, center.lng);
-   }}
+   
  lastUpdate={lastUpdate}
  />
  )}
@@ -854,6 +850,11 @@ function App() {
  onSelectStation={(id) => {
    setSelectedStationId(id);
    if (id && window.innerWidth < 1024) setActiveTab('list');
+   }}
+   onSearchArea={async (center) => {
+     setIsUsingGps(false);
+     setUserLocation(center);
+     await detectProvince(center.lat, center.lng);
    }}
  />
  </div>
