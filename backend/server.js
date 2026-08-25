@@ -460,7 +460,10 @@ app.get('/api/admin/security/stats', verifyAdmin, async (req, res) => {
       raw: true
     });
 
-    res.json({ totalRequests, uniqueIPs, loginOK, loginFail, blocked, rateLimited, topIPs, topFailIPs });
+    
+    const lastUpdate = await db.PriceHistory.max('createdAt');
+    res.json({ totalRequests, uniqueIPs, loginOK, loginFail, blocked, rateLimited, topIPs, topFailIPs, lastStationUpdate: lastUpdate || null });
+
   } catch(e) {
     console.error('Security stats error:', e);
     res.status(500).json({ error: 'Error obteniendo estadisticas de seguridad.' });

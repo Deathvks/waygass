@@ -283,6 +283,16 @@ export default function SecurityPanel({ onClose }) {
               <StatCard label="Rate Limited" value={stats.rateLimited} color="text-amber-500" />
             </div>
 
+            {/* Last Station Update */}
+            {stats.lastStationUpdate && (
+              <div className="bg-white/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl p-4 flex flex-col items-center justify-center">
+                <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Última actualización de gasolineras</h4>
+                <p className="text-sm font-mono font-bold text-primary">
+                  {new Date(stats.lastStationUpdate).toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'medium' })}
+                </p>
+              </div>
+            )}
+
             {/* Top IPs */}
             {stats.topIPs?.length > 0 && (
               <div className="space-y-2">
