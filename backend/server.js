@@ -937,26 +937,28 @@ app.post('/api/favorites/toggle', verifyToken, async (req, res) => {
     if (!stationId) return res.status(400).json({ error: "stationId requerido" });
 
     const uid = parseInt(req.user.id, 10);
-    const sid = stationId.toString();
+      const sid = stationId.toString().trim();
+      const sidInt = parseInt(sid, 10);
 
-    const existing = await Favorite.findOne({ 
-      where: { userId: uid, stationId: sid } 
-    });
-
-    if (existing) {
-      await existing.destroy();
-      res.json({ action: 'removed', stationId: sid });
-    } else {
-      try {
-        await Favorite.create({ userId: uid, stationId: sid });
-        res.json({ action: 'added', stationId: sid });
-      } catch (err) {
-        if (err.name === 'SequelizeUniqueConstraintError') {
-          return res.json({ action: 'added', stationId: sid });
-        }
-        throw err;
+      // Attempt to delete both string and int versions to bypass SQLite dynamic typing bugs
+      let deleted = await Favorite.destroy({ where: { userId: uid, stationId: sid } });
+      if (!isNaN(sidInt)) {
+        deleted += await Favorite.destroy({ where: { userId: uid, stationId: sidInt } });
       }
-    }
+
+      if (deleted > 0) {
+        res.json({ action: 'removed', stationId: sid });
+      } else {
+        try {
+          await Favorite.create({ userId: uid, stationId: sid });
+          res.json({ action: 'added', stationId: sid });
+        } catch (err) {
+          if (err.name === 'SequelizeUniqueConstraintError') {
+            return res.json({ action: 'added', stationId: sid });
+          }
+          throw err;
+        }
+      }
   } catch (error) {
     console.error("Error BD Favoritos:", error);
     let detail = error.message;
