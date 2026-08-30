@@ -279,7 +279,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  <h3 className="font-medium text-slate-900 dark:text-slate-100 text-sm leading-tight truncate">{s.brand}</h3>
  <button 
  onClick={(e) => { e.stopPropagation(); onToggleFavorite && onToggleFavorite(s.id); }}
- className="shrink-0 p-1 rounded-lg transition-transform active:scale-75"
+ className="shrink-0 p-1 rounded-lg transition-transform active:scale-75 cursor-pointer relative z-10 touch-manipulation"
  >
  <svg className={`w-4 h-4 transition-colors ${isFav ? 'text-rose-500 fill-rose-500' : 'text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-500'}`} fill={isFav ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
  </button>

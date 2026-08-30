@@ -274,25 +274,27 @@ function App() {
  }
  };
 
- const toggleFavorite = async (stationId) => {
- if (!authToken) {
- // Si no hay token, podemos forzar el modal, pero aquí simplificamos
- alert("Inicia sesión desde tu perfil para guardar favoritos.");
- return;
- }
- try {
- const res = await axios.post('/api/favorites/toggle', { stationId }, {
- headers: { Authorization: `Bearer ${authToken}` }
- });
- if (res.data.action === 'added') {
- setFavoriteIds(prev => [...prev, stationId.toString()]);
- } else {
- setFavoriteIds(prev => prev.filter(id => id !== stationId.toString()));
- }
- } catch (e) {
- console.error(e);
- }
- };
+  const toggleFavorite = async (stationId) => {
+    if (!authToken) {
+      toast.error("Inicia sesión desde tu perfil para guardar favoritos.");
+      return;
+    }
+    try {
+      const res = await axios.post('/api/favorites/toggle', { stationId }, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      if (res.data.action === 'added') {
+        setFavoriteIds(prev => [...prev, stationId.toString()]);
+        toast.success("Gasolinera guardada en tu garaje");
+      } else {
+        setFavoriteIds(prev => prev.filter(id => id !== stationId.toString()));
+        toast.success("Gasolinera eliminada del garaje");
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error(e.response?.status === 401 ? "Sesión expirada. Vuelve a iniciar sesión." : "Error de red al guardar.");
+    }
+  };
 
  // Cargar Perfil (antes fetchSettings)
  const fetchProfile = async () => {
