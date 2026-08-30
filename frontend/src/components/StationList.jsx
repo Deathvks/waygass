@@ -315,13 +315,13 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  </button>
 
  <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-3 border-t border-slate-100 dark:border-slate-800">
- <div className={`flex items-center gap-1.5 text-[11px] font-medium px-2 py-1 rounded-md ${
+ <div className={`flex items-start sm:items-center gap-1.5 text-[11px] font-medium px-2 py-1.5 rounded-md flex-1 mr-3 ${
  s.isOpen ? 'bg-emerald-50 dark:bg-emerald-500/10 backdrop-blur-md text-emerald-600 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-500/10 backdrop-blur-md text-red-600 dark:text-red-400'
  }`}>
- <svg className={`w-3.5 h-3.5 ${s.isOpen ? 'text-emerald-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+ <svg className={`w-3.5 h-3.5 shrink-0 mt-[2px] ${s.isOpen ? 'text-emerald-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
  </svg>
- <span className="truncate max-w-[120px] sm:max-w-[160px]">
+ <span className="leading-relaxed">
     <span className={s.isOpen ? 'font-bold' : 'font-bold'}>
       {s.isOpen ? 'Abierto' : 'Cerrado'}
     </span> &bull; {s.schedule}
