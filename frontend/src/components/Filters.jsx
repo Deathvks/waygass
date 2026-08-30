@@ -86,7 +86,10 @@ export default function Filters({ filters, setFilters }) {
     }),
     menuList: (base) => ({
       ...base,
-      padding: '4px'
+      padding: '4px',
+      '::-webkit-scrollbar': { display: 'none' },
+      scrollbarWidth: 'none',
+      msOverflowStyle: 'none'
     }),
     option: (base, { isFocused, isSelected }) => ({
       ...base,
