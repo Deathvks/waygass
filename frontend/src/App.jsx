@@ -673,7 +673,7 @@ function App() {
  sessionStorage.removeItem('waygas_user');
  
  // User preferences
- localStorage.removeItem('waygas_settings');
+ // localStorage.removeItem('waygas_settings'); // Do not delete settings on logout to preserve theme
  localStorage.removeItem('waygas_filters');
  localStorage.removeItem('waygas_province');
  localStorage.removeItem('waygas_location');
