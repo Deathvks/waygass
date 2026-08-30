@@ -33,8 +33,8 @@ export default function VerifyEmail() {
  }, []);
 
  return (
- <div className="min-h-[100dvh] bg-white dark:bg-[#0f172a] flex flex-col justify-center items-center px-4">
- <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl max-w-md w-full text-center ">
+ <div className="min-h-[100dvh] bg-white dark:bg-black flex flex-col justify-center items-center px-4">
+ <div className="bg-slate-50 dark:bg-[#111] border border-slate-200 dark:border-slate-800 p-8 rounded-3xl max-w-md w-full text-center ">
  {status === 'loading' && (
  <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Verificando...</h2>
  )}

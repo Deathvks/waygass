@@ -53,7 +53,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  } catch (e) {
  isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
  }
- document.body.style.backgroundColor = isDarkMode ? '#0f172a' : '#ffffff';
+ document.body.style.backgroundColor = isDarkMode ? '#000000' : '#ffffff';
 
  return () => {
  document.body.style.backgroundColor = originalBodyBg;
@@ -62,7 +62,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  metaThemeColor.setAttribute('content', previousColor);
  } else {
  // Reset to match standard app background (white in light, dark in dark mode)
- metaThemeColor.setAttribute('content', isDarkMode ? '#0f172a' : '#ffffff');
+ metaThemeColor.setAttribute('content', isDarkMode ? '#000000' : '#ffffff');
  }
  };
  }, []);
@@ -187,7 +187,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  };
 
  return (
- <div className="min-h-[100dvh] bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row relative overflow-hidden">
+ <div className="min-h-[100dvh] bg-slate-50 dark:bg-black flex flex-col md:flex-row relative overflow-hidden">
  {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
  <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-primary flex flex-col justify-center md: md:z-20">
  <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
@@ -195,7 +195,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  
  {/* Curva SVG en la base (SOLO MÓVIL) */}
  <div className="absolute bottom-0 left-0 w-full leading-none translate-y-[1px] md:hidden">
- <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#0f172a] fill-current" preserveAspectRatio="none">
+ <svg viewBox="0 0 1440 320" className="w-full h-auto text-white dark:text-[#000000] fill-current" preserveAspectRatio="none">
  <path d="M0,160L48,176C96,192,192,224,288,213.3C384,203,480,149,576,144C672,139,768,181,864,197.3C960,213,1056,203,1152,176C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
  </svg>
  </div>
@@ -216,7 +216,7 @@ export default function AuthScreen({ onLoginSuccess }) {
 
  {/* Contenedor del Formulario (Derecha en PC) */}
  <div className="flex-1 flex flex-col md:justify-center px-4 sm:px-12 pb-6 pt-0 -mt-16 sm:-mt-28 md:mt-0 relative z-10 w-full max-w-md md:max-w-none md:w-1/2 lg:w-[45%] mx-auto md:mx-0">
- <div className="bg-white/80 dark:bg-slate-900/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
+ <div className="bg-white/80 dark:bg-black/80 md:bg-transparent md:dark:bg-transparent backdrop-blur-xl md:backdrop-blur-none p-6 md:p-12 lg:p-20 md:py-8 rounded-[32px] md:rounded-none md:shadow-none border border-white/20 dark:border-slate-700/30 md:border-none w-full max-w-lg mx-auto">
  
  {verificationSent ? (
  <div className="text-center py-8">
