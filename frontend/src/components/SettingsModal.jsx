@@ -34,14 +34,7 @@ export default function SettingsModal({
     }
   };
 
-  const confirmTheme = async () => {
-    const newSettings = { ...settings, theme: pendingTheme };
-    setSettings(newSettings);
-    if (onSave) {
-      await onSave(newSettings);
-    }
-    window.location.reload();
-  };
+  
   const [rankingData, setRankingData] = React.useState([]);
   const [loadingRanking, setLoadingRanking] = React.useState(false);
 
@@ -111,24 +104,9 @@ export default function SettingsModal({
 
   if (!isOpen) return null;
 
-  const themeModal = pendingTheme && (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#1a1a1c] w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
-        <h3 className="text-lg font-black text-slate-900 dark:text-white mb-2">Cambiar Tema</h3>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Para aplicar el tema correctamente en tu dispositivo, la aplicación necesita recargarse. ¿Continuar?</p>
-        <div className="flex gap-3">
-          <button onClick={() => setPendingTheme(null)} className="flex-1 py-3 font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-white/5 rounded-xl hover:scale-[1.02] active:scale-95 transition-transform">Cancelar</button>
-          <button onClick={confirmTheme} className="flex-1 py-3 font-bold text-white bg-primary rounded-xl hover:scale-[1.02] active:scale-95 transition-transform shadow-lg shadow-primary/25">Recargar</button>
-        </div>
-      </div>
-    </div>
-  );
-
-
-
   return (
     <>
-      {themeModal}
+      
       <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       {/* Fondo borroso y oscuro */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={onClose}></div>
