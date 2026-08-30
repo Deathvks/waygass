@@ -921,8 +921,9 @@ app.post('/api/stations/:id/validate', async (req, res) => {
 
 // Obtener favoritos del usuario
 app.get('/api/favorites', verifyToken, async (req, res) => {
-  try {
-    const favorites = await Favorite.findAll({ where: { userId: req.user.id } });
+    try {
+      const uid = parseInt(req.user.id, 10);
+      const favorites = await Favorite.findAll({ where: { userId: uid } });
     const favoriteIds = favorites.map(f => f.stationId);
     res.json(favoriteIds);
   } catch (error) {
