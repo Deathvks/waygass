@@ -116,7 +116,9 @@ export default function SettingsModal({
 
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+    <>
+      {themeModal}
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       {/* Fondo borroso y oscuro */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={onClose}></div>
 
@@ -377,6 +379,7 @@ export default function SettingsModal({
         </div>
       )}
     </div>
+    </>
   );
 }
 
