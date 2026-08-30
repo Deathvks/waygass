@@ -8,7 +8,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  const savedEmail = sessionStorage.getItem('waygas_pending_verification');
  return { name: '', lastName: '', email: savedEmail || '', password: '' };
  });
- const [rememberMe, setRememberMe] = useState(false);
+ const [rememberMe, setRememberMe] = useState(true);
  const [showPassword, setShowPassword] = useState(false);
  const [error, setError] = useState('');
  const [loading, setLoading] = useState(false);
