@@ -947,9 +947,7 @@ app.post('/api/favorites/toggle', verifyToken, async (req, res) => {
       await Favorite.create({ userId: req.user.id, stationId: stationId.toString() });
       res.json({ action: 'added', stationId });
     }
-  } catch (error) {
-    res.status(500).json({ error: "Error modificando favoritos." });
-  }
+  } catch (error) { console.error("Error BD Favoritos:", error); res.status(500).json({ error: "BD Error: " + (error.message || "Error modificando favoritos.") }); }
 });
 
 // Obtener configuración del usuario logueado
