@@ -18,7 +18,7 @@ import ProfileModal from './components/ProfileModal';
 import CookiesBanner from './components/CookiesBanner';
 import LegalModal from './components/LegalModal';
 import VerifyEmail from './components/VerifyEmail';
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from 'sonner';
 
 const API_BASE = '/api/gas';
 const SETTINGS_API = '/api/settings';
@@ -285,10 +285,10 @@ function App() {
       });
       if (res.data.action === 'added') {
         setFavoriteIds(prev => [...prev, stationId.toString()]);
-        toast.success("Gasolinera guardada en tu garaje");
+        toast.success("Gasolinera añadida a favoritos");
       } else {
         setFavoriteIds(prev => prev.filter(id => id !== stationId.toString()));
-        toast.success("Gasolinera eliminada del garaje");
+        toast.success("Gasolinera eliminada de favoritos");
       }
     } catch (e) {
       console.error(e);
@@ -703,23 +703,20 @@ function App() {
 
 
  <Toaster 
- position="bottom-center"
- toastOptions={{
- duration: 3500,
- style: {
- background: '#000000',
- color: '#e5e1e4',
- borderRadius: '16px',
- padding: '12px 20px',
- fontWeight: 'bold',
- fontSize: '14px',
- boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
- border: '1px solid rgba(255,255,255,0.05)'
- },
- success: { iconTheme: { primary: '#00dbe9', secondary: '#000000' } },
- error: { iconTheme: { primary: '#f43f5e', secondary: '#000000' } }
- }} 
- />
+          position="bottom-center"
+          toastOptions={{
+            duration: 3500,
+            style: {
+              background: '#000000',
+              color: '#ffffff',
+              borderRadius: '16px',
+              padding: '12px 20px',
+              fontWeight: '600',
+              fontSize: '14px',
+              border: '1px solid rgba(255,255,255,0.1)'
+            }
+          }}
+        />
 
  {isSettingsOpen && (
  <SettingsModal isOpen={true} settings={settings} setSettings={setSettings} onClose={() => setSettingsOpen(false)} onLogout={() => setLogoutOpen(true)} user={authUser} />
