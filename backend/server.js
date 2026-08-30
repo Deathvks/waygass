@@ -936,18 +936,33 @@ app.post('/api/favorites/toggle', verifyToken, async (req, res) => {
     const { stationId } = req.body;
     if (!stationId) return res.status(400).json({ error: "stationId requerido" });
 
+    const uid = parseInt(req.user.id, 10);
+    const sid = stationId.toString();
+
     const existing = await Favorite.findOne({ 
-      where: { userId: req.user.id, stationId: stationId.toString() } 
+      where: { userId: uid, stationId: sid } 
     });
 
     if (existing) {
       await existing.destroy();
-      res.json({ action: 'removed', stationId });
+      res.json({ action: 'removed', stationId: sid });
     } else {
-      await Favorite.create({ userId: req.user.id, stationId: stationId.toString() });
-      res.json({ action: 'added', stationId });
+      try {
+        await Favorite.create({ userId: uid, stationId: sid });
+        res.json({ action: 'added', stationId: sid });
+      } catch (err) {
+        if (err.name === 'SequelizeUniqueConstraintError') {
+          return res.json({ action: 'added', stationId: sid });
+        }
+        throw err;
+      }
     }
-  } catch (error) { console.error("Error BD Favoritos:", error); res.status(500).json({ error: "BD Error: " + (error.message || "Error modificando favoritos.") }); }
+  } catch (error) {
+    console.error("Error BD Favoritos:", error);
+    let detail = error.message;
+    if (error.errors && error.errors.length > 0) detail = error.errors.map(e => e.message).join(", ");
+    res.status(500).json({ error: "BD Error: " + detail });
+  }
 });
 
 // Obtener configuración del usuario logueado
@@ -968,11 +983,19 @@ app.put('/api/settings', verifyToken, async (req, res) => {
   try {
     // VULNERABILIDAD CORREGIDA: Solo permitimos actualizar campos específicos (Whitelisting).
     // Si usáramos "...updateData", un hacker podría enviar { "subscription": "pro" } y hacerse premium gratis.
-    const { name, lastName } = req.body;
-    
-    const updateData = {};
-    if (name) updateData.name = name;
-    if (lastName) updateData.lastName = lastName;
+    const { name, lastName, garage, activeGarageId, vehicleName, theme, tankSize, gpsApp, cardWaylet, cardCepsa } = req.body;
+      
+      const updateData = {};
+      if (name !== undefined) updateData.name = name;
+      if (lastName !== undefined) updateData.lastName = lastName;
+      if (garage !== undefined) updateData.garage = garage;
+      if (activeGarageId !== undefined) updateData.activeGarageId = activeGarageId;
+      if (vehicleName !== undefined) updateData.vehicleName = vehicleName;
+      if (theme !== undefined) updateData.theme = theme;
+      if (tankSize !== undefined) updateData.tankSize = tankSize;
+      if (gpsApp !== undefined) updateData.gpsApp = gpsApp;
+      if (cardWaylet !== undefined) updateData.cardWaylet = cardWaylet;
+      if (cardCepsa !== undefined) updateData.cardCepsa = cardCepsa;
     
     if (Object.keys(updateData).length > 0) {
       await User.update(updateData, {
