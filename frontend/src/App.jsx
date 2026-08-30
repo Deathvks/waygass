@@ -565,7 +565,7 @@ function App() {
 
  const getGpsUrl = (lat, lng) => {
  if (settings.gpsApp === 'waze') return `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
- if (settings.gpsApp === 'apple') return `maps://maps.apple.com/?daddr=${lat},${lng}`;
+ if (settings.gpsApp === 'apple') return `https://maps.apple.com/?daddr=${lat},${lng}`;
  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
  };
 

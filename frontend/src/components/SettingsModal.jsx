@@ -22,7 +22,16 @@ export default function SettingsModal({
 
   const handleThemeClick = (t) => {
     if (settings.theme === t) return;
-    setPendingTheme(t);
+    
+    // Solo mostrar el modal de recarga en dispositivos iOS (iPhone/iPad)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes("Mac") && "ontouchend" in document);
+    
+    if (isIOS) {
+      setPendingTheme(t);
+    } else {
+      // En Android, Windows o Mac, el cambio es instantneo
+      setSettings({ ...settings, theme: t });
+    }
   };
 
   const confirmTheme = () => {
