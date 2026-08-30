@@ -34,11 +34,13 @@ export default function SettingsModal({
     }
   };
 
-  const confirmTheme = () => {
-    setSettings({ ...settings, theme: pendingTheme });
-    setTimeout(() => {
-      window.location.reload();
-    }, 300);
+  const confirmTheme = async () => {
+    const newSettings = { ...settings, theme: pendingTheme };
+    setSettings(newSettings);
+    if (onSave) {
+      await onSave(newSettings);
+    }
+    window.location.reload();
   };
   const [rankingData, setRankingData] = React.useState([]);
   const [loadingRanking, setLoadingRanking] = React.useState(false);

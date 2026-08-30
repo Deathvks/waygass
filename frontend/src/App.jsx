@@ -720,7 +720,7 @@ function App() {
         />
 
  {isSettingsOpen && (
- <SettingsModal isOpen={true} settings={settings} setSettings={setSettings} onClose={() => setSettingsOpen(false)} onLogout={() => setLogoutOpen(true)} user={authUser} />
+ <SettingsModal isOpen={true} settings={settings} setSettings={setSettings} onSave={saveSettings} onClose={() => setSettingsOpen(false)} onLogout={() => setLogoutOpen(true)} user={authUser} />
  )}
  {isSubOpen && (
  <SubscriptionModal isOpen={true} 
