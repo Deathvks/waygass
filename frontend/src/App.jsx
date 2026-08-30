@@ -738,7 +738,7 @@ function App() {
  )}
 
  {/* MOBILE HEADER (Floating Search Pill) */}
- <div className="lg:hidden fixed top-3 left-3 right-3 z-40 pointer-events-none">
+ <div className="lg:hidden fixed top-[max(env(safe-area-inset-top),0.75rem)] left-3 right-3 z-40 pointer-events-none">
  
  </div>
 

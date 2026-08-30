@@ -123,7 +123,7 @@ export default function SettingsModal({
       {/* Contenido del modal */}
       <div className="relative w-full max-w-md bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar">
         
-        <div className="sticky top-0 z-10 bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+        <div className="sticky top-0 z-10 bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4 border-b border-slate-200/50 dark:border-white/5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
