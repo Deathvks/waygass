@@ -292,7 +292,8 @@ function App() {
       }
     } catch (e) {
       console.error(e);
-      toast.error(e.response?.status === 401 ? "Sesión expirada. Vuelve a iniciar sesión." : "Error de red al guardar.");
+      const errorMsg = e.response?.data?.error || e.message || "Error de red al guardar.";
+      toast.error(e.response?.status === 401 ? "Sesión expirada. Vuelve a iniciar sesión." : errorMsg);
     }
   };
 
