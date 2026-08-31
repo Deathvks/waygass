@@ -231,6 +231,7 @@ function App() {
  } catch { return { lat: 40.4168, lng: -3.7038 }; }
  });
   const [isUsingGps, setIsUsingGps] = useState(true);
+ const [gpsModal, setGpsModal] = useState(null);
  
  const [stationsData, setStationsData] = useState([]);
  const [loading, setLoading] = useState(false);
@@ -390,11 +391,11 @@ function App() {
       },
  (err) => {
  if (isManual && err.code === 1) {
- alert("⚠️ Permiso bloqueado.\n\nPara usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación.");
+ setGpsModal({ title: "⚠️ Permiso bloqueado", message: "Para usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación." });
  } else if (isManual && err.code === 2) {
- alert("No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo.");
+ setGpsModal({ title: "Sin señal GPS", message: "No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo." });
  } else if (isManual && err.code === 3) {
- alert("Tiempo de espera agotado al intentar buscar tu ubicación.");
+ setGpsModal({ title: "Tiempo agotado", message: "Tiempo de espera agotado al intentar buscar tu ubicación." });
  }
  detectProvince(userLocation.lat, userLocation.lng);
  },
