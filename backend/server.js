@@ -204,7 +204,7 @@ const fetchAndStoreDailyPrices = async () => {
         }
 
         
-        const inserted = uniqueRecords.length;
+
       
       global.cronProgress = { status: 'idle', percent: 100, message: 'Descarga finalizada' };
       lastCronError = null;
