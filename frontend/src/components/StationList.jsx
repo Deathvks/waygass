@@ -315,7 +315,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  </button>
 
  <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-3 border-t border-slate-100 dark:border-slate-800">
- <div className={`flex items-start sm:items-center gap-1.5 text-[11px] font-medium px-2 py-1.5 rounded-md flex-1 mr-3 ${
+ <div className={`flex items-start sm:items-center gap-1.5 text-[11px] font-medium px-2 py-1.5 rounded-md mr-3 ${
  s.isOpen ? 'bg-emerald-50 dark:bg-emerald-500/10 backdrop-blur-md text-emerald-600 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-500/10 backdrop-blur-md text-red-600 dark:text-red-400'
  }`}>
  <svg className={`w-3.5 h-3.5 shrink-0 mt-[2px] ${s.isOpen ? 'text-emerald-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -331,7 +331,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  href={getGpsUrl(s.lat, s.lng)} 
  target="_blank" 
  rel="noopener noreferrer" 
- className="bg-[#001F3F] dark:bg-white text-white dark:text-[#001F3F] font-medium px-4 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1.5 hover:bg-slate-800 dark:hover:bg-slate-200 "
+ className="bg-[#001F3F] dark:bg-white text-white dark:text-[#001F3F] font-medium px-4 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1.5 shrink-0 hover:bg-slate-800 dark:hover:bg-slate-200 "
  >
  <span>Ir al GPS</span>
  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
