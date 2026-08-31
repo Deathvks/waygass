@@ -97,6 +97,7 @@ db.sequelize.sync().then(async () => {
 const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/';
 
 const apiCache = {};
+      global.cronProgress = { status: 'idle', percent: 100, message: 'Descarga finalizada' };
 let lastCronError = null;
 
 app.get('/api/gas/FiltroProvincia/:provincia', async (req, res) => {
@@ -136,10 +137,12 @@ const parsePrice = (str) => {
 };
 
 // Función para guardar los precios actuales en la DB
+global.cronProgress = { status: 'idle', percent: 0, message: '' };
 const fetchAndStoreDailyPrices = async () => {
   let success = false;
   let message = "";
   try {
+    global.cronProgress = { status: 'running', percent: 10, message: 'Descargando datos del MITECO...' };
     console.log("[CRON] Iniciando descarga diaria de precios para el histórico...");
     
     
@@ -175,6 +178,8 @@ const fetchAndStoreDailyPrices = async () => {
       
       // Upsert masivo (muchísimo más rápido en SQLite que insertar uno a uno)
       // Eliminar duplicados en el mismo array por si MITECO devuelve la misma gasolinera 2 veces hoy
+        
+        global.cronProgress = { status: 'running', percent: 50, message: 'Procesando datos en memoria...' };
         const seen = new Set();
         const uniqueRecords = [];
         for (const r of records) {
@@ -185,13 +190,23 @@ const fetchAndStoreDailyPrices = async () => {
           }
         }
         
-        await db.PriceHistory.bulkCreate(uniqueRecords, {
-          ignoreDuplicates: true,
-          validate: false
-        });
+        global.cronProgress = { status: 'running', percent: 60, message: 'Guardando en base de datos...' };
+        const batchSize = 2000;
+        let inserted = 0;
+        for (let i = 0; i < uniqueRecords.length; i += batchSize) {
+          const batch = uniqueRecords.slice(i, i + batchSize);
+          await db.PriceHistory.bulkCreate(batch, {
+            ignoreDuplicates: true,
+            validate: false
+          });
+          inserted += batch.length;
+          global.cronProgress = { status: 'running', percent: 60 + Math.floor((inserted / uniqueRecords.length) * 40), message: `Guardando en base de datos (${inserted}/${uniqueRecords.length})...` };
+        }
+
         
         const inserted = uniqueRecords.length;
       
+      global.cronProgress = { status: 'idle', percent: 100, message: 'Descarga finalizada' };
       lastCronError = null;
         
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
@@ -207,9 +222,11 @@ console.log(`[CRON] SCHEMA: ${JSON.stringify(schema)}`);
         console.error("[CRON]", errorMsg);
         lastCronError = errorMsg;
         message = errorMsg;
+        global.cronProgress = { status: 'error', percent: 0, message: 'Error de la API del Ministerio' };
       }
       return { success, message };
   } catch (error) {
+    global.cronProgress = { status: 'error', percent: 0, message: 'Error descargando datos' };
     console.error("[CRON] Error descargando precios diarios:", error.name, error.message, "PARENT:", error.parent ? error.parent.message : "No parent", "SQL:", error.sql || "No SQL");
   }
 };
@@ -271,7 +288,14 @@ const verifyAdmin = (req, res, next) => {
 // ==========================================
 // Endpoints de Administración (Protegidos)
 // ==========================================
+
+// Endpoint to get cron progress
+app.get('/api/admin/cron-status', verifyAdmin, (req, res) => {
+  res.json(global.cronProgress || { status: 'idle', percent: 0, message: '' });
+});
+
 // Endpoint for manual cron trigger
+
 app.post('/api/admin/trigger-cron', verifyAdmin, async (req, res) => {
   try {
     fetchAndStoreDailyPrices();
