@@ -219,15 +219,6 @@ cron.schedule('0 3 * * *', () => {
   fetchAndStoreDailyPrices();
 });
 
-// Endpoint for manual cron trigger
-app.post('/api/admin/trigger-cron', verifyAdmin, async (req, res) => {
-  try {
-    fetchAndStoreDailyPrices();
-    res.json({ message: "Descarga iniciada en segundo plano." });
-  } catch(e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
 // Endpoint para obtener histórico de 30 días de una estación
 app.get('/api/history/:id', async (req, res) => {
@@ -280,6 +271,16 @@ const verifyAdmin = (req, res, next) => {
 // ==========================================
 // Endpoints de Administración (Protegidos)
 // ==========================================
+// Endpoint for manual cron trigger
+app.post('/api/admin/trigger-cron', verifyAdmin, async (req, res) => {
+  try {
+    fetchAndStoreDailyPrices();
+    res.json({ message: "Descarga iniciada en segundo plano." });
+  } catch(e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/api/admin/force-history-sync', verifyAdmin, async (req, res) => {
   try {
     const result = await fetchAndStoreDailyPrices();
