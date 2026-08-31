@@ -16,6 +16,7 @@ export default function SettingsModal({
   const [adminStats, setAdminStats] = React.useState(null);
   const [usersList, setUsersList] = React.useState([]);
   const [loadingStats, setLoadingStats] = React.useState(false);
+  const [isSyncing, setIsSyncing] = React.useState(false);
   const [roleModalUser, setRoleModalUser] = React.useState(null);
   const [deleteModalUser, setDeleteModalUser] = React.useState(null);
   const [pendingTheme, setPendingTheme] = React.useState(null);
@@ -325,8 +326,8 @@ export default function SettingsModal({
                               </div>
                             )}
                           </div>
-                          <button onClick={handleTriggerCron} className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition-colors mr-3 shrink-0">
-                            Descargar Ahora
+                          <button onClick={handleTriggerCron} disabled={isSyncing} className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition-colors mr-3 shrink-0 flex items-center justify-center min-w-[110px] disabled:opacity-50">
+                            {isSyncing ? <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : 'Descargar Ahora'}
                           </button>
                           <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 shrink-0">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
