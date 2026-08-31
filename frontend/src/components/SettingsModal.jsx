@@ -81,6 +81,17 @@ export default function SettingsModal({
     }
   }, [activeTab]);
 
+
+  const handleTriggerCron = async () => {
+    try {
+      const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
+      await axios.post('/api/admin/trigger-cron', {}, { headers: { Authorization: `Bearer ${token}` } });
+      toast.success("Descarga de gasolineras iniciada en segundo plano.");
+    } catch (e) {
+      toast.error(e.response?.data?.error || "Error iniciando descarga");
+    }
+  };
+
   const handleChangeRole = async (newRole) => {
     try {
       const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
@@ -307,14 +318,17 @@ export default function SettingsModal({
                       <div className="glass-core border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl col-span-2 flex justify-between items-center">
                         <div>
                           <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Gasolineras Descargadas</div>
-                          <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalStations}</div>
-                          {adminStats.lastStationUpdate && (
-                            <div className="text-[10px] font-mono text-slate-500 mt-1 font-bold">
-                              Última act: {new Date(adminStats.lastStationUpdate).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500">
+                            <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalStations}</div>
+                            {adminStats.lastStationUpdate && (
+                              <div className="text-[10px] font-mono text-slate-500 mt-1 font-bold">
+                                Última act: {new Date(adminStats.lastStationUpdate).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                              </div>
+                            )}
+                          </div>
+                          <button onClick={handleTriggerCron} className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition-colors mr-3 shrink-0">
+                            Descargar Ahora
+                          </button>
+                          <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-500 shrink-0">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                         </div>
                       </div>
