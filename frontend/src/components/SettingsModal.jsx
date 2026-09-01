@@ -101,14 +101,14 @@ export default function SettingsModal({
         const pRes = await axios.get('/api/admin/cron-status', { headers: { Authorization: `Bearer ${token}` } });
         if (pRes.data) setSyncProgress({ percent: pRes.data.percent, message: pRes.data.message });
       } catch(e) {}
-    }, 500);
+    }, 2000);
 
     try {
       await axios.post('/api/admin/trigger-cron', {}, { headers: { Authorization: `Bearer ${token}` } });
       
       let done = false;
       while(!done) {
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise(r => setTimeout(r, 2500));
         try {
           const check = await axios.get('/api/admin/cron-status', { headers: { Authorization: `Bearer ${token}` } });
           if (check.data.status !== 'running') done = true;
