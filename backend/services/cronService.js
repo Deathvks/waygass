@@ -1,5 +1,6 @@
 const axios = require('axios');
 const db = require('../models');
+const { sendTelegramAlert } = require('./alertService');
 
 const API_BASE = 'https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/';
 
