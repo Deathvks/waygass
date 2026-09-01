@@ -233,7 +233,9 @@ router.post('/auth/google', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { email, password, rememberMe } = req.body;
+    const { password, rememberMe } = req.body;
+      let email = req.body.email;
+      if (email) email = email.trim();
     
 
     if (!email || !password) {
