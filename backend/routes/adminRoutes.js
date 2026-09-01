@@ -68,11 +68,9 @@ router.get('/stats', verifyAdmin, async (req, res) => {
         debugSchema: await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT }),
 
         lastStationUpdate: lastUpdate || null,
-        lastCronError: lastCronError || ("Rows: " + await db.PriceHistory.count() + " | Schema: " + JSON.stringify(await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT })))
+        lastCronError: global.lastCronError || ("Rows: " + await db.PriceHistory.count() + " | Schema: " + JSON.stringify(await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT })))
       });
-  } catch (e) {
-    res.status(500).json({ error: "Error obteniendo estadísticas." });
-  }
+  } catch (e) { console.error('Stats error:', e); res.status(500).json({ error: e.message }); }
 });
 
 router.get('/users', verifyAdmin, async (req, res) => {
