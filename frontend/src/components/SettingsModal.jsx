@@ -12,6 +12,11 @@ export default function SettingsModal({
   user,
   openCookies
 }) {
+  const handleClose = () => {
+    if (onSave) onSave(settings);
+    handleClose();
+  };
+
   const [activeTab, setActiveTab] = React.useState('settings');
   const [adminStats, setAdminStats] = React.useState(null);
   const [usersList, setUsersList] = React.useState([]);
@@ -173,7 +178,7 @@ export default function SettingsModal({
       {themeModal}
       <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       {/* Fondo borroso y oscuro */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={onClose}></div>
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={handleClose}></div>
 
       {/* Contenido del modal */}
       <div className="relative w-full max-w-md bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar">
@@ -183,7 +188,7 @@ export default function SettingsModal({
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
             </h2>
-            <button onClick={onClose} className="w-8 h-8 flex items-center justify-center bg-slate-100/50 dark:bg-white/5 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full transition">
+            <button onClick={handleClose} className="w-8 h-8 flex items-center justify-center bg-slate-100/50 dark:bg-white/5 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full transition">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
           </div>
@@ -266,7 +271,7 @@ export default function SettingsModal({
                     Fidelización
                   </div>
                   {(!user || user.subscription === 'free') && (
-                    <span onClick={() => { onClose(); if (openSub) openSub(); }} className="text-[9px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded cursor-pointer hover:bg-primary/20">PRO</span>
+                    <span onClick={() => { handleClose(); if (openSub) openSub(); }} className="text-[9px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded cursor-pointer hover:bg-primary/20">PRO</span>
                   )}
                 </label>
                 
@@ -294,7 +299,7 @@ export default function SettingsModal({
 
               {/* Legal Row */}
               <div className="p-4 flex flex-col items-center justify-center gap-1">
-                <button onClick={() => { onClose(); if (openCookies) openCookies(); }} className="text-xs font-bold text-primary hover:underline transition-colors">
+                <button onClick={() => { handleClose(); if (openCookies) openCookies(); }} className="text-xs font-bold text-primary hover:underline transition-colors">
                   Gestionar Cookies
                 </button>
                 <div className="text-[10px] text-slate-400 dark:text-slate-600 font-medium text-center">
