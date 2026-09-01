@@ -236,27 +236,32 @@ router.post('/login', async (req, res) => {
     const { password, rememberMe } = req.body;
       let email = req.body.email;
       if (email) email = email.trim();
-    
+      
+      console.log("[LOGIN ATTEMPT] Email:", "'" + email + "'", "Password length:", password ? password.length : 0);
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Correo y contraseña son obligatorios." });
-    }
-
-    // Buscar usuario
-    const user = await User.findOne({ where: { email } });
-    if (!user) {
+      if (!email || !password) {
+        console.log("[LOGIN FAILED] Missing email or password");
+        return res.status(400).json({ error: "Correo y contrasea son obligatorios." });
+      }
+  
+      // Buscar usuario
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        console.log("[LOGIN FAILED] Email no encontrado en DB:", email);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Email no encontrado: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
     // Validar contraseña
       let isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch && password === user.password) {
+        console.log("[LOGIN] bcrypt.compare result:", isMatch);
+        if (!isMatch && password === user.password) {
         isMatch = true;
         user.password = await bcrypt.hash(password, 10);
         await user.save();
       }
       if (!isMatch) {
+        console.log("[LOGIN FAILED] Contrasea incorrecta para:", email);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
