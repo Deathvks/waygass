@@ -76,6 +76,7 @@ const fetchAndStoreDailyPrices = async () => {
           global.cronProgress = { status: 'running', percent: 60 + Math.floor((inserted / uniqueRecords.length) * 40), message: `Guardando en base de datos (${inserted}/${uniqueRecords.length})...` };
         }
 
+
         
 
       
@@ -83,13 +84,9 @@ const fetchAndStoreDailyPrices = async () => {
       lastCronError = null;
         
       console.log(`[CRON] Histórico guardado. ${inserted} gasolineras procesadas.`);
-const totalRows = await db.PriceHistory.count();
-console.log(`[CRON] TOTAL ROWS IN DB NOW: ${totalRows}`);
-const schema = await db.sequelize.query("SELECT sql FROM sqlite_master WHERE type='table' AND name='PriceHistories'", { type: db.sequelize.QueryTypes.SELECT });
-console.log(`[CRON] SCHEMA: ${JSON.stringify(schema)}`);
       
-        success = true;
-        message = `${inserted} gasolineras guardadas.`;
+      success = true;
+      message = `${inserted} gasolineras guardadas.`;
       } else {
         const errorMsg = "La API de MITECO no devolvió la lista esperada. Respuesta: " + (typeof allStationsRes.data === 'string' ? allStationsRes.data.substring(0, 100) : JSON.stringify(allStationsRes.data).substring(0, 100));
         console.error("[CRON]", errorMsg);
