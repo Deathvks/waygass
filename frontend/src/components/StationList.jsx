@@ -216,7 +216,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  </div>
  )}
  </div>
- {stations.slice(0, visibleCount).map(s => {
+ {sortedStations.slice(0, visibleCount).map(s => {
  const diff = s.price - minPrice;
  const category = diff <= 0.03 ? 'cheap' : diff > 0.08 ? 'expensive' : 'avg';
  
