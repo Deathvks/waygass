@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const { User, Validation, SecurityLog, BlockedIP } = db;
+const { Validation, SecurityLog, BlockedIP } = db;
+const User = db.users;
 const { verifyAdmin } = require('../middlewares/authMiddleware');
 const securityCache = require('../middlewares/securityMiddleware');
 const { Op } = require('sequelize');

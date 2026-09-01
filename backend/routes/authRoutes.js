@@ -6,7 +6,8 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { OAuth2Client } = require('google-auth-library');
 const db = require('../models');
-const { User, SecurityLog } = db;
+const { SecurityLog } = db;
+const User = db.users;
 
 const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';

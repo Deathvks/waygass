@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../models');
-const { User, Favorite, Validation } = db;
+const { Favorite, Validation } = db;
+const User = db.users;
 const { verifyToken } = require('../middlewares/authMiddleware');
 
 
