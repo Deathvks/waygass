@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-export default function StationList({ stations, totalStations, minPrice, avgPrice, tankSize, radius, getGpsUrl, activeFuelLabel, favoriteIds = [], onToggleFavorite, selectedStationId, onSelectStation, lastUpdate }) {
+export default function StationList({ stations, totalStations, minPrice, avgPrice, tankSize, radius, getGpsUrl, activeFuelLabel, favoriteIds = [], onToggleFavorite, selectedStationId, onSelectStation, lastUpdate , refuelAmount = 20}) {
  const cardRefs = useRef({});
  const loadMoreRef = useRef(null);
 
