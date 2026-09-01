@@ -14,7 +14,7 @@ export default function SettingsModal({
 }) {
   const handleClose = () => {
     if (onSave) onSave(settings);
-    handleClose();
+    onClose();
   };
 
   const [activeTab, setActiveTab] = React.useState('settings');
