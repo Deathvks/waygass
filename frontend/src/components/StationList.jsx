@@ -236,7 +236,9 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  strokeColor = '#f43f5e'; // rose
  }
 
- const stationSavings = (avgPrice - s.price) * tankSize;
+ const stationLiters = refuelAmount / s.price;
+  const avgLiters = avgPrice ? (refuelAmount / avgPrice) : 0;
+  const diffLiters = avgLiters > 0 ? (stationLiters - avgLiters) : 0;
 
  return (
  <div 
@@ -296,12 +298,24 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  </div>
  </div>
 
- {stationSavings > 0 && (
- <div className="bg-transparent border border-slate-200/80 dark:bg-transparent dark:border-white/10 rounded-lg px-2.5 py-1 flex items-center justify-between text-xs text-slate-700 dark:text-slate-300">
- <span className="text-[11px]">Ahorro vs. media de la zona:</span>
- <span className="font-medium text-slate-800 dark:text-slate-100">+{stationSavings.toFixed(2)} €</span>
- </div>
- )}
+ <div className="bg-transparent border border-slate-200/80 dark:bg-transparent dark:border-white/10 rounded-lg px-2.5 py-1.5 flex flex-col gap-0.5 text-xs text-slate-700 dark:text-slate-300">
+          <div className="flex justify-between items-center">
+            <span className="text-[11px]">Con {refuelAmount}€ repostas:</span>
+            <span className="font-bold text-slate-800 dark:text-slate-100">{stationLiters.toFixed(2)} L</span>
+          </div>
+          {diffLiters > 0 && (
+            <div className="flex justify-between items-center mt-0.5">
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400">vs media zona:</span>
+              <span className="font-bold text-[10px] text-emerald-600 dark:text-emerald-400">+{diffLiters.toFixed(2)} L</span>
+            </div>
+          )}
+          {diffLiters < 0 && (
+            <div className="flex justify-between items-center mt-0.5">
+              <span className="text-[10px] text-rose-600 dark:text-rose-400">vs media zona:</span>
+              <span className="font-bold text-[10px] text-rose-600 dark:text-rose-400">{diffLiters.toFixed(2)} L</span>
+            </div>
+          )}
+        </div>
 
  {/* Botón de Histórico Prominente */}
  <button 

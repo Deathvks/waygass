@@ -163,7 +163,7 @@ function App() {
  
  const [settings, setSettings] = useState(() => {
  const saved = localStorage.getItem('waygas_settings');
- return saved ? JSON.parse(saved) : { tankSize: 50, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system' };
+ return saved ? JSON.parse(saved) : { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system' };
  });
 
  useEffect(() => {
@@ -789,7 +789,7 @@ function App() {
    </div>
 
    <div className="p-4 pb-24 lg:p-6 lg:pb-6 flex-1 overflow-y-auto no-scrollbar flex flex-col gap-5">
- <SummaryCards stats={stats} tankSize={settings.tankSize} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} />
+ <SummaryCards stats={stats} tankSize={settings.tankSize} refuelAmount={settings.refuelAmount || 20} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} />
  <Filters filters={filters} setFilters={setFilters} />
  <div className="glass-core border border-slate-200/50 dark:border-white/5 p-1 rounded-2xl flex items-center mb-1">
    <button onClick={() => setViewMode('explore')} className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2 ${viewMode === 'explore' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white shadow-sm border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>
@@ -812,7 +812,7 @@ function App() {
  totalStations={processedStations.length}
  minPrice={minPrice} 
  avgPrice={avgPrice} 
- tankSize={settings.tankSize}
+ tankSize={settings.tankSize} refuelAmount={settings.refuelAmount || 20}
  radius={filters.radius}
  getGpsUrl={getGpsUrl}
  activeFuelLabel={FUELS.find(f => f.id === filters.fuel)?.label || 'Gasolina 95'}
