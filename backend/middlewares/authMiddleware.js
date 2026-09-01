@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secreto_super_seguro_waygas';
+const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
