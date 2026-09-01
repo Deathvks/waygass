@@ -139,7 +139,7 @@ const transporter = nodemailer.createTransport({
       const { email } = req.body;
       if (!email) return res.status(400).json({ error: 'Email requerido.' });
 
-      const user = await User.findOne({ where: { email } });
+      const user = await User.findOne({ where: db.Sequelize.where(db.Sequelize.fn('lower', db.Sequelize.col('email')), email.toLowerCase().trim()) });
     if (user && user.authProvider === 'google') {
       return res.status(403).json({ error: "Esta cuenta se creó con Google. Por favor, usa el botón de Iniciar sesión con Google." });
     }
