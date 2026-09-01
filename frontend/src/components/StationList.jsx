@@ -198,8 +198,15 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  return null;
  };
 
- return (
- <div className="flex flex-col gap-2.5 pb-4">
+ const sortedStations = React.useMemo(() => {
+    if (!stations || stations.length === 0) return [];
+    const recommended = stations.filter(s => recommendedIds.includes(s.id));
+    const others = stations.filter(s => !recommendedIds.includes(s.id));
+    return [...recommended, ...others];
+  }, [stations, recommendedIds]);
+
+  return (
+    <div className="flex flex-col gap-2.5 pb-4">
  <div className="flex items-center justify-between px-2 -mb-1">
  {lastUpdate ? (
  <div className="text-[11px] text-slate-400 font-medium flex items-center gap-1.5">
