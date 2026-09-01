@@ -200,8 +200,12 @@ router.post('/auth/google', async (req, res) => {
     const lastName = payload.family_name || "";
     
     let user = await User.findOne({ where: { email } });
-    
-    if (!user) {
+      
+      if (user && user.authProvider !== 'google') {
+        return res.status(400).json({ error: "Este correo fue registrado de forma manual. Por favor, inicia sesión escribiendo tu contraseña habitual." });
+      }
+
+      if (!user) {
       const randomPassword = crypto.randomBytes(32).toString('hex');
       const hashedPassword = await bcrypt.hash(randomPassword, 10);
       user = await User.create({
