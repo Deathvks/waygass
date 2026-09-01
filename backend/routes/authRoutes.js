@@ -244,8 +244,13 @@ router.post('/login', async (req, res) => {
     }
 
     // Validar contraseña
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+      let isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch && password === user.password) {
+        isMatch = true;
+        user.password = await bcrypt.hash(password, 10);
+        await user.save();
+      }
+      if (!isMatch) {
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
