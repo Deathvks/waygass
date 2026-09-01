@@ -168,14 +168,14 @@ export default function AuthScreen({ onLoginSuccess }) {
  onLoginSuccess(token, user, rememberMe);
  }
  } catch (err) {
- if (err.response && err.response.status === 403) {
- setVerificationSent(true);
- sessionStorage.setItem('waygas_pending_verification', formData.email);
- setResendTimer(0);
- setError("");
- setResendMessage("");
- return;
- }
+      if (err.response && err.response.status === 403 && err.response.data && err.response.data.error && err.response.data.error.includes('verifica')) {
+        setVerificationSent(true);
+        sessionStorage.setItem('waygas_pending_verification', formData.email);
+        setResendTimer(0);
+        setError("");
+        setResendMessage("");
+        return;
+      }
  if (err.response && err.response.data && err.response.data.error) {
  setError(err.response.data.error);
  } else {
