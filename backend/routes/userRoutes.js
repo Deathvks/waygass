@@ -180,9 +180,8 @@ router.post('/favorites/toggle', verifyToken, async (req, res) => {
 // Obtener configuración del usuario logueado
 router.get('/settings', verifyToken, async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id, {
-      attributes: { exclude: ['password'] }
-    });
+    const user = await User.findByPk(req.user.id, { attributes: { exclude: ['password'] } });
+    if (user && user.email !== req.user.email) return res.status(401).json({ error: 'Token inválido por cambio de DB' });
     if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
     res.json(user);
   } catch (error) {

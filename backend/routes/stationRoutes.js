@@ -36,4 +36,17 @@ router.get('/gas/FiltroProvincia/:provincia', async (req, res) => {
 });
 
 
+router.get('/history/:stationId', async (req, res) => {
+  try {
+    const history = await PriceHistory.findAll({
+      where: { stationId: req.params.stationId },
+      order: [['date', 'DESC']],
+      limit: 30
+    });
+    res.json(history);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
