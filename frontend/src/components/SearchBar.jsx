@@ -64,7 +64,7 @@ export default function SearchBar({ onSearch, onGps, loadingSearch, isUsingGps }
  
  <input 
  type="text" 
- placeholder="Direccin o municipio..." 
+ placeholder="Dirección o municipio..." 
  value={query}
  onChange={(e) => setQuery(e.target.value)}
  className="w-full bg-transparent border-none outline-none pl-10 pr-12 py-2 text-sm text-slate-900 dark:text-white placeholder-slate-500 font-medium" onFocus={() => setShowSuggestions(true)} onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
