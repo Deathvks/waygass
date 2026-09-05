@@ -190,16 +190,17 @@ function App() {
  }, [settings.theme]);
   useEffect(() => {
     const colors = {
-      red: { primary: '#ff3b30', dark: '#c71a10', container: '#ff6961' },
-      blue: { primary: '#007aff', dark: '#0056b3', container: '#4aa0ff' },
-      green: { primary: '#34c759', dark: '#248a3d', container: '#65d581' },
-      purple: { primary: '#af52de', dark: '#893bb0', container: '#c57aeb' },
-      orange: { primary: '#ff9500', dark: '#cc7700', container: '#ffad33' }
+      red: { primary: '#ff3b30', dark: '#c71a10', container: '#ff6961', secondary: '#ff2d55' },
+      blue: { primary: '#007aff', dark: '#0056b3', container: '#4aa0ff', secondary: '#5856d6' },
+      green: { primary: '#34c759', dark: '#248a3d', container: '#65d581', secondary: '#32ade6' },
+      purple: { primary: '#af52de', dark: '#893bb0', container: '#c57aeb', secondary: '#ff2d55' },
+      orange: { primary: '#ff9500', dark: '#cc7700', container: '#ffad33', secondary: '#ffcc00' }
     };
     const c = colors[settings.appColor] || colors.red;
     document.documentElement.style.setProperty('--app-primary', c.primary);
     document.documentElement.style.setProperty('--app-primary-dark', c.dark);
     document.documentElement.style.setProperty('--app-primary-container', c.container);
+    document.documentElement.style.setProperty('--app-secondary', c.secondary);
   }, [settings.appColor]);
 
   // Persistir ajustes localmente cada vez que cambien para que no se pierdan al recargar
