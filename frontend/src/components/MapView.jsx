@@ -138,7 +138,8 @@ export default function MapView({ settings,
  const [mapBounds, setMapBounds] = useState(null);
 
   
-  const mapStyle = settings?.mapStyle || 'auto';
+  
+  const mapStyle = settings?.mapStyle || 'light';
   
   const getTileUrl = () => {
     if (mapStyle === 'satellite') return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";

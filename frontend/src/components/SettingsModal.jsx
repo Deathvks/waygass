@@ -272,18 +272,12 @@ export default function SettingsModal({
                   </svg>
                   Estilo de Mapa
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  <button onClick={() => setSettings({ ...settings, mapStyle: 'auto' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${(!settings.mapStyle || settings.mapStyle === 'auto') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
-                    Auto
+                <div className="grid grid-cols-2 gap-2">
+                  <button onClick={() => setSettings({ ...settings, mapStyle: 'light' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${(!settings.mapStyle || settings.mapStyle === 'light' || settings.mapStyle === 'auto' || settings.mapStyle === 'dark') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
+                    Normal
                   </button>
                   <button onClick={() => setSettings({ ...settings, mapStyle: 'satellite' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${settings.mapStyle === 'satellite' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
                     Satélite
-                  </button>
-                  <button onClick={() => setSettings({ ...settings, mapStyle: 'light' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${settings.mapStyle === 'light' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
-                    Claro
-                  </button>
-                  <button onClick={() => setSettings({ ...settings, mapStyle: 'dark' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${settings.mapStyle === 'dark' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
-                    Oscuro
                   </button>
                 </div>
               </div>

@@ -158,4 +158,4 @@ input:-webkit-autofill:active {
     background-color: transparent !important;
     background-clip: content-box !important;
 }
-html.dark .theme-auto .leaflet-tile-pane, .theme-dark .leaflet-tile-pane { filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%); }
+
