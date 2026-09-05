@@ -76,7 +76,7 @@ router.get('/stats', verifyAdmin, async (req, res) => {
 router.get('/users', verifyAdmin, async (req, res) => {
   try {
     const users = await User.findAll({
-      attributes: ['id', 'name', 'lastName', 'email', 'subscription', 'role', 'createdAt']
+      attributes: ['id', 'name', 'lastName', 'email', 'subscription', 'role', 'createdAt', 'authProvider']
     });
     res.json(users);
   } catch (e) {
