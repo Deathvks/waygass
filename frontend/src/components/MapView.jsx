@@ -123,7 +123,7 @@ const MemoizedStationMarker = React.memo(({ s, minPrice, isSelected, activeFuelL
  prevProps.s.id === nextProps.s.id;
 });
 
-export default function MapView({ 
+export default function MapView({ settings, 
  userLocation, 
  stations, 
  minPrice, 
