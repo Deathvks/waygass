@@ -137,6 +137,16 @@ export default function MapView({
  const mapRef = useRef(null);
  const [mapBounds, setMapBounds] = useState(null);
 
+  const mapStyle = settings?.mapStyle || 'auto';
+  
+  const getTileUrl = () => {
+    if (mapStyle === 'satellite') return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
+    if (mapStyle === 'light') return "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+    if (mapStyle === 'dark') return "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
+    return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  };
+
+
  const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
  };
@@ -202,7 +212,7 @@ export default function MapView({
  zoomControl={false}
  >
  <ZoomControl position="bottomright" />
- <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+ <TileLayer url={getTileUrl()} maxZoom={19} />
  <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />
  <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
  <FlyToSelected selectedStation={selectedStation} activeTab={activeTab} />
