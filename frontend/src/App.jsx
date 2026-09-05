@@ -231,6 +231,7 @@ function App() {
  } catch { return { lat: 40.4168, lng: -3.7038 }; }
  });
   const [isUsingGps, setIsUsingGps] = useState(true);
+  const [recenterTrigger, setRecenterTrigger] = useState(0);
  const [gpsModal, setGpsModal] = useState(null);
  
  const [stationsData, setStationsData] = useState([]);
@@ -387,7 +388,8 @@ function App() {
  const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
         setUserLocation(loc);
         setIsUsingGps(true);
-        await detectProvince(loc.lat, loc.lng);
+          setRecenterTrigger(prev => prev + 1);
+          await detectProvince(loc.lat, loc.lng);
       },
  (err) => {
  if (isManual && err.code === 1) {
@@ -832,7 +834,7 @@ function App() {
  </div>
  {/* MAP AREA */}
  <div className="absolute inset-0 z-0">
- <MapView settings={settings} userLocation={userLocation} activeFuelLabel={activeFuelLabel} 
+ <MapView settings={settings} userLocation={userLocation} activeFuelLabel={activeFuelLabel} recenterTrigger={recenterTrigger} 
  stations={processedStations} 
  minPrice={minPrice} 
  getGpsUrl={getGpsUrl}

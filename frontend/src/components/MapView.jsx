@@ -25,6 +25,17 @@ function CustomMapEvents({ onMapMoveEnd, onMapClick, onBoundsChange }) {
  return null;
 }
 
+
+function FlyToUser({ center, trigger }) {
+  const map = useMap();
+  useEffect(() => {
+    if (trigger > 0 && center) {
+      map.flyTo(center, 15, { animate: true, duration: 1 });
+    }
+  }, [trigger, map]); // Only run when trigger changes
+  return null;
+}
+
 function MapUpdater({ center, zoom, bounds, activeTab }) {
  const map = useMap();
  useEffect(() => {
@@ -128,7 +139,8 @@ export default function MapView({ settings,
  stations, 
  minPrice, 
  activeFuelLabel,
- selectedStationId,
+  selectedStationId,
+  recenterTrigger,
  onSelectStation,
  activeTab,
  onSearchArea 
@@ -212,7 +224,8 @@ const handleMapMove = (isUserAction) => {
  <ZoomControl position="bottomright" />
  <TileLayer url={getTileUrl()} maxZoom={19} />
  <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />
- <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
+ <FlyToUser center={[userLocation.lat, userLocation.lng]} trigger={recenterTrigger} />
+        <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
  <FlyToSelected selectedStation={selectedStation} activeTab={activeTab} />
  
  <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon} />
