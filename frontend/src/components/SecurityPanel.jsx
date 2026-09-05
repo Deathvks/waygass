@@ -456,8 +456,8 @@ export default function SecurityPanel({ onClose }) {
 
       {/* Custom Modal */}
       {modalState.isOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm" onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })}>
-          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-slate-200/50 dark:border-white/10 relative overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 dark:bg-black/80" onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })}>
+          <div className="bg-white dark:bg-black rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-slate-200/50 dark:border-white/10 relative overflow-hidden" onClick={e => e.stopPropagation()}>
             <h3 className={`text-lg font-black mb-2 ${modalState.type === 'error' || modalState.type === 'warning' ? 'text-red-500' : 'text-slate-900 dark:text-white'}`}>{modalState.title}</h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-6 leading-relaxed">{modalState.message}</p>
             <div className="flex justify-end gap-3">
