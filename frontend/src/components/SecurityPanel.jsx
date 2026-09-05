@@ -42,6 +42,8 @@ export default function SecurityPanel({ onClose }) {
   const [customTo, setCustomTo] = useState('');
 
   const [blockInput, setBlockInput] = useState('');
+  const [pageLogs, setPageLogs] = useState(1);
+  const [pageBlocked, setPageBlocked] = useState(1);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('overview');
 
@@ -79,7 +81,7 @@ export default function SecurityPanel({ onClose }) {
     }
   }, [filter, dateParams]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => { fetchData(); setPageLogs(1); setPageBlocked(1); }, [fetchData]);
 
   // Auto-refresh every 30s
   useEffect(() => {
@@ -362,7 +364,7 @@ export default function SecurityPanel({ onClose }) {
             </div>
             
             <div className="space-y-1.5">
-              {logs.map((log, i) => (
+              {(logs.slice((pageLogs - 1) * 10, pageLogs * 10)).map((log, i) => (
                 <div key={i} className="bg-white/50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 rounded-xl px-3 py-2.5 flex items-start gap-3">
                   <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${EVENT_BADGES[log.eventType] || EVENT_BADGES.REQUEST}`}>
                     {log.eventType}
@@ -417,7 +419,7 @@ export default function SecurityPanel({ onClose }) {
             {/* Blocked List */}
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">{TIME_OPTIONS.find(o => o.value === timePreset)?.label || 'Últimas 24 horas'}</h4>
-              {blockedIPs.length > 0 ? blockedIPs.map((b, i) => (
+              {blockedIPs.length > 0 ? (blockedIPs.slice((pageBlocked - 1) * 10, pageBlocked * 10)).map((b, i) => (
                 <div key={i} className="bg-white/50 dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl px-4 py-3 flex items-center justify-between">
                   <div>
                     <span className="text-sm font-mono font-bold text-red-700 dark:text-red-400">{b.ip}</span>
@@ -429,8 +431,8 @@ export default function SecurityPanel({ onClose }) {
                   >
                     Desbloquear
                   </button>
-                </div>
-              )) : (
+                  </div>
+                )) : (
                 <div className="flex flex-col items-center justify-center text-center py-10">
                     <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
                       <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
