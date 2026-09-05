@@ -44,6 +44,7 @@ export default function SecurityPanel({ onClose }) {
   const [blockInput, setBlockInput] = useState('');
   const [pageLogs, setPageLogs] = useState(1);
   const [pageBlocked, setPageBlocked] = useState(1);
+  const [modalState, setModalState] = useState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null });
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState('overview');
 
@@ -67,9 +68,9 @@ export default function SecurityPanel({ onClose }) {
       const headers = { Authorization: `Bearer ${token}` };
       
       const [statsRes, logsRes, blockedRes] = await Promise.all([
-        axios.get(`${API}/api/admin/security/stats`, { headers, params: dateParams }),
-        axios.get(`${API}/api/admin/security/logs`, { headers, params: { limit: 500, ...dateParams, ...(filter !== 'ALL' ? { eventType: filter } : {}) } }),
-        axios.get(`${API}/api/admin/security/blocked`, { headers, params: dateParams })
+        axios.get(`${API}/api/admin/security/stats`, { headers, params: { ...dateParams, _t: Date.now() } }),
+        axios.get(`${API}/api/admin/security/logs`, { headers, params: { limit: 500, ...dateParams, ...(filter !== 'ALL' ? { eventType: filter } : {}), _t: Date.now() } }),
+        axios.get(`${API}/api/admin/security/blocked`, { headers, params: { ...dateParams, _t: Date.now() } })
       ]);
       setStats(statsRes.data);
       setLogs(logsRes.data);
@@ -96,7 +97,7 @@ export default function SecurityPanel({ onClose }) {
     
     const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if (!ipv4Regex.test(ip)) {
-      alert('Formato de IP inválido. Por favor, introduce una dirección IPv4 válida (ejemplo: 192.168.1.1)');
+      setModalState({ isOpen: true, title: 'Formato Inválido', message: 'Por favor, introduce una dirección IPv4 válida (ejemplo: 192.168.1.1).', type: 'error', onConfirm: null });
       return;
     }
 
@@ -106,20 +107,27 @@ export default function SecurityPanel({ onClose }) {
       setBlockInput('');
       fetchData();
     } catch(e) {
-      alert('Error bloqueando IP');
+      setModalState({ isOpen: true, title: 'Error', message: 'No se pudo bloquear la IP.', type: 'error', onConfirm: null });
     }
   };
 
-  const handleUnblock = async (ip) => {
-    if (!window.confirm(`¿Estás seguro de que quieres desbloquear la IP ${ip}? Podría volver a realizar ataques.`)) return;
-    try {
-
-      const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
-      await axios.delete(`${API}/api/admin/security/block/${encodeURIComponent(ip)}`, { headers: { Authorization: `Bearer ${token}` } });
-      fetchData();
-    } catch(e) {
-      alert('Error desbloqueando IP');
-    }
+  const handleUnblock = (ip) => {
+    setModalState({
+      isOpen: true,
+      title: 'Desbloquear IP',
+      message: `¿Estás seguro de que quieres desbloquear la IP ${ip}? Podría volver a realizar ataques.`,
+      type: 'warning',
+      onConfirm: async () => {
+        try {
+          const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
+          await axios.delete(`${API}/api/admin/security/block/${encodeURIComponent(ip)}`, { headers: { Authorization: `Bearer ${token}` } });
+          fetchData();
+          setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null });
+        } catch(e) {
+          setModalState({ isOpen: true, title: 'Error', message: 'No se pudo desbloquear la IP.', type: 'error', onConfirm: null });
+        }
+      }
+    });
   };
 
   const handleBlockFromLog = async (ip) => {
@@ -444,9 +452,30 @@ export default function SecurityPanel({ onClose }) {
             </div>
           </>
         )}
-      </div>
+            </div>
+
+      {/* Custom Modal */}
+      {modalState.isOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm" onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })}>
+          <div className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-slate-200/50 dark:border-white/10 relative overflow-hidden" onClick={e => e.stopPropagation()}>
+            <h3 className={`text-lg font-black mb-2 ${modalState.type === 'error' || modalState.type === 'warning' ? 'text-red-500' : 'text-slate-900 dark:text-white'}`}>{modalState.title}</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-6 leading-relaxed">{modalState.message}</p>
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })} className="px-4 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition">
+                {modalState.onConfirm ? 'Cancelar' : 'Cerrar'}
+              </button>
+              {modalState.onConfirm && (
+                <button onClick={modalState.onConfirm} className="px-4 py-2 rounded-xl text-sm font-bold bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/30 transition">
+                  Confirmar
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
+
 }
 
 function StatCard({ label, value, color }) {
