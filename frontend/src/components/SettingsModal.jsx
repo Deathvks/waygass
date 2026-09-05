@@ -218,8 +218,8 @@ export default function SettingsModal({
                     type="number" 
                     min="1" 
                     max="500" 
-                    value={settings.refuelAmount || 20} 
-                    onChange={(e) => setSettings({ ...settings, refuelAmount: Number(e.target.value) || 20 })}
+                    value={settings.refuelAmount !== undefined ? settings.refuelAmount : 20} 
+                    onChange={(e) => setSettings({ ...settings, refuelAmount: e.target.value === '' ? '' : Number(e.target.value) })}
                     className="w-full bg-slate-100/50 dark:bg-black/30 border border-slate-200/50 dark:border-white/5 rounded-xl px-4 py-2 text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
                   />
                 </div>
