@@ -87,11 +87,20 @@ export default function SecurityPanel({ onClose }) {
     return () => clearInterval(interval);
   }, [fetchData]);
 
+  
   const handleBlock = async () => {
-    if (!blockInput.trim()) return;
+    const ip = blockInput.trim();
+    if (!ip) return;
+    
+    const ipv4Regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    if (!ipv4Regex.test(ip)) {
+      alert('Formato de IP inválido. Por favor, introduce una dirección IPv4 válida (ejemplo: 192.168.1.1)');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
-      await axios.post(`${API}/api/admin/security/block`, { ip: blockInput.trim() }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${API}/api/admin/security/block`, { ip }, { headers: { Authorization: `Bearer ${token}` } });
       setBlockInput('');
       fetchData();
     } catch(e) {
@@ -100,7 +109,9 @@ export default function SecurityPanel({ onClose }) {
   };
 
   const handleUnblock = async (ip) => {
+    if (!window.confirm(`¿Estás seguro de que quieres desbloquear la IP ${ip}? Podría volver a realizar ataques.`)) return;
     try {
+
       const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
       await axios.delete(`${API}/api/admin/security/block/${encodeURIComponent(ip)}`, { headers: { Authorization: `Bearer ${token}` } });
       fetchData();
