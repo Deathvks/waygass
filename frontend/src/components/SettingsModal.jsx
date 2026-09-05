@@ -232,9 +232,9 @@ export default function SettingsModal({
                   Apariencia
                 </label>
                 <div className="flex bg-slate-100/50 dark:bg-black/30 p-1 rounded-xl">
-                  <button onClick={() => handleThemeClick('light')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'light' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Claro</button>
-                  <button onClick={() => handleThemeClick('dark')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'dark' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Oscuro</button>
-                  <button onClick={() => handleThemeClick('system')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'system' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Auto</button>
+                  <button onClick={() => handleThemeClick('light')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'light' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Claro</button>
+                  <button onClick={() => handleThemeClick('dark')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'dark' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Oscuro</button>
+                  <button onClick={() => handleThemeClick('system')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.theme === 'system' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Auto</button>
                 </div>
               </div>
 
@@ -245,9 +245,9 @@ export default function SettingsModal({
                   Navegador Predeterminado
                 </label>
                 <div className="flex bg-slate-100/50 dark:bg-black/30 p-1 rounded-xl">
-                  <button onClick={() => setSettings({ ...settings, gpsApp: 'gmaps' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'gmaps' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>G. Maps</button>
-                  <button onClick={() => setSettings({ ...settings, gpsApp: 'waze' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'waze' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Waze</button>
-                  <button onClick={() => setSettings({ ...settings, gpsApp: 'apple' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'apple' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Apple</button>
+                  <button onClick={() => setSettings({ ...settings, gpsApp: 'gmaps' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'gmaps' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>G. Maps</button>
+                  <button onClick={() => setSettings({ ...settings, gpsApp: 'waze' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'waze' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Waze</button>
+                  <button onClick={() => setSettings({ ...settings, gpsApp: 'apple' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1 ${settings.gpsApp === 'apple' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Apple</button>
                 </div>
               </div>
 
@@ -258,8 +258,8 @@ export default function SettingsModal({
                   Vista Inicial
                 </label>
                 <div className="flex bg-slate-100/50 dark:bg-black/30 p-1 rounded-xl">
-                  <button onClick={() => setSettings({ ...settings, viewMode: 'list' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.viewMode === 'list' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Lista</button>
-                  <button onClick={() => setSettings({ ...settings, viewMode: 'map' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.viewMode === 'map' ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white border border-slate-200/50 dark:border-white/5' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Mapa</button>
+                  <button onClick={() => setSettings({ ...settings, viewMode: 'list' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.viewMode === 'list' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Lista</button>
+                  <button onClick={() => setSettings({ ...settings, viewMode: 'map' })} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 ${settings.viewMode === 'map' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>Mapa</button>
                 </div>
               </div>
 
