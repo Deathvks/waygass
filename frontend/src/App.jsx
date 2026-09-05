@@ -767,7 +767,7 @@ function App() {
       {authUser?.role === 'admin' && (
         <div className={`
           fixed inset-x-0 bottom-0 top-0 z-40 bg-[#f5f5f7] dark:bg-[#000000] transition-transform duration-300 ease-in-out
-          lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:border lg:shadow-2xl overflow-hidden
+          lg:absolute lg:top-3 lg:bottom-3 lg:left-3 lg:w-[420px] xl:w-[460px] lg:rounded-2xl lg:shadow-2xl overflow-hidden
           ${activeTab === 'security' ? 'translate-y-0 lg:translate-x-0' : 'translate-y-[150%] lg:translate-x-[-150%]'}
         `}>
           <SecurityPanel onClose={() => setActiveTab("list")} />
