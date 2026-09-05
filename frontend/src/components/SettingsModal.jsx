@@ -264,6 +264,7 @@ export default function SettingsModal({
               </div>
 
               {/* Tarjetas Row */}
+              {user?.role === 'admin' && (
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -296,6 +297,7 @@ export default function SettingsModal({
                   </div>
                 </div>
               </div>
+              )}
 
               {/* Legal Row */}
               <div className="p-4 flex flex-col items-center justify-center gap-1">
