@@ -5,10 +5,21 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 
-function CustomMapEvents({ onMapMoveEnd, onMapClick }) {
+function CustomMapEvents({ onMapMoveEnd, onMapClick, onBoundsChange }) {
+ const map = useMap();
+ useEffect(() => {
+   if (onBoundsChange) onBoundsChange(map.getBounds());
+ }, [map, onBoundsChange]);
+
  useMapEvents({
- dragend: () => onMapMoveEnd(true),
- zoomend: () => onMapMoveEnd(true),
+ moveend: () => {
+   if (onBoundsChange) onBoundsChange(map.getBounds());
+   onMapMoveEnd(true);
+ },
+ zoomend: () => {
+   if (onBoundsChange) onBoundsChange(map.getBounds());
+   onMapMoveEnd(true);
+ },
  click: () => { if (onMapClick) onMapClick(); },
  });
  return null;
@@ -124,6 +135,7 @@ export default function MapView({
 }) {
  const [showSearchBtn, setShowSearchBtn] = useState(false);
  const mapRef = useRef(null);
+ const [mapBounds, setMapBounds] = useState(null);
 
  const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
@@ -136,6 +148,38 @@ export default function MapView({
  onSearchArea({ lat: center.lat, lng: center.lng });
  }
  };
+
+ const visibleStations = useMemo(() => {
+ if (!mapBounds || stations.length === 0) return stations.slice(0, 50); // Fallback inicial seguro
+ 
+ const padLat = (mapBounds.getNorth() - mapBounds.getSouth()) * 0.2;
+ const padLng = (mapBounds.getEast() - mapBounds.getWest()) * 0.2;
+ 
+ const expandedBounds = {
+   north: mapBounds.getNorth() + padLat,
+   south: mapBounds.getSouth() - padLat,
+   east: mapBounds.getEast() + padLng,
+   west: mapBounds.getWest() - padLng,
+ };
+
+ let visible = stations.filter(s => 
+   s.lat <= expandedBounds.north && 
+   s.lat >= expandedBounds.south && 
+   s.lng <= expandedBounds.east && 
+   s.lng >= expandedBounds.west
+ );
+
+ if (visible.length > 80) {
+   visible = visible.slice(0, 80);
+ }
+ 
+ if (selectedStationId && !visible.find(s => s.id === selectedStationId)) {
+    const sel = stations.find(s => s.id === selectedStationId);
+    if (sel) visible.push(sel);
+ }
+ 
+ return visible;
+}, [stations, mapBounds, selectedStationId]);
 
  const bounds = useMemo(() => {
  if (stations.length > 0) {
@@ -159,14 +203,14 @@ export default function MapView({
  >
  <ZoomControl position="bottomright" />
  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
- <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} />
+ <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />
  <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
  <FlyToSelected selectedStation={selectedStation} activeTab={activeTab} />
  
  <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon} />
 
  <MarkerClusterGroup chunkedLoading maxClusterRadius={40}>
- {stations.map(s => (
+ {visibleStations.map(s => (
  <MemoizedStationMarker 
  key={s.id}
  s={s}
