@@ -5,9 +5,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #ff3b30;
-  --color-primary-container: #ff6961;
-  --color-primary-dark: #c71a10;
+  --color-primary: var(--app-primary, #ff3b30);
+  --color-primary-container: var(--app-primary-container, #ff6961);
+  --color-primary-dark: var(--app-primary-dark, #c71a10);
   --color-secondary: #ff2d55;
   
   --font-body: Inter, sans-serif;
