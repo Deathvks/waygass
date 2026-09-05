@@ -458,14 +458,14 @@ export default function SecurityPanel({ onClose }) {
       {modalState.isOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 dark:bg-black/80" onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })}>
           <div className="bg-white dark:bg-black rounded-3xl w-full max-w-sm p-6 shadow-2xl border border-slate-200/50 dark:border-white/10 relative overflow-hidden" onClick={e => e.stopPropagation()}>
-            <h3 className={`text-lg font-black mb-2 ${modalState.type === 'error' || modalState.type === 'warning' ? 'text-red-500' : 'text-slate-900 dark:text-white'}`}>{modalState.title}</h3>
+            <h3 className={`text-lg font-black mb-2 ${modalState.type === 'error' || modalState.type === 'warning' ? 'text-primary' : 'text-slate-900 dark:text-white'}`}>{modalState.title}</h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 font-medium mb-6 leading-relaxed">{modalState.message}</p>
             <div className="flex justify-end gap-3">
               <button onClick={() => setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null })} className="px-4 py-2 rounded-xl text-sm font-bold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition">
                 {modalState.onConfirm ? 'Cancelar' : 'Cerrar'}
               </button>
               {modalState.onConfirm && (
-                <button onClick={modalState.onConfirm} className="px-4 py-2 rounded-xl text-sm font-bold bg-red-500 hover:bg-red-600 text-white shadow-lg shadow-red-500/30 transition">
+                <button onClick={modalState.onConfirm} className="px-4 py-2 rounded-xl text-sm font-bold bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/30 transition">
                   Confirmar
                 </button>
               )}
