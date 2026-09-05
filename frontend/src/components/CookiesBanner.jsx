@@ -14,7 +14,7 @@ export default function CookiesBanner({ isVisible, onAccept, onReject, onShowLeg
  if (!isVisible) return null;
 
  return (
- <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 p-4 sm:p-6 z-[9999] flex flex-col sm:flex-row items-center justify-between gap-4">
+ <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-black border-t border-slate-200 dark:border-slate-800 p-4 sm:p-6 z-[9999] flex flex-col sm:flex-row items-center justify-between gap-4">
  <div className="flex-1 text-sm text-slate-600 dark:text-slate-400">
  <p className="mb-2">
  Utilizamos cookies y almacenamiento local para recordar tu ubicación, mantener tus filtros favoritos y mejorar tu experiencia. 

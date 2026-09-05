@@ -7,7 +7,7 @@ export default function LegalModal({ type, onClose }) {
 
  return (
  <div className="fixed inset-0 z-[10000] bg-slate-950/50 backdrop-blur-md flex items-end sm:items-center justify-center p-4">
- <div className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white w-full sm:max-w-2xl rounded-3xl max-h-[85vh] flex flex-col relative">
+ <div className="bg-white dark:bg-black text-slate-900 dark:text-white w-full sm:max-w-2xl rounded-3xl max-h-[85vh] flex flex-col relative">
  <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center shrink-0">
  <h2 className="font-black text-xl">
  {isTerms ? 'Términos de Servicio' : 'Política de Privacidad y Cookies'}
