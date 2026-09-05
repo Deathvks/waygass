@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
+import { toast } from 'sonner';
 import Select from 'react-select';
 
 const API = import.meta.env.VITE_API_URL || '';
@@ -105,9 +106,10 @@ export default function SecurityPanel({ onClose }) {
       const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
       await axios.post(`${API}/api/admin/security/block`, { ip }, { headers: { Authorization: `Bearer ${token}` } });
       setBlockInput('');
-      fetchData();
+      await fetchData();
+      toast.success(`IP ${ip} bloqueada correctamente`);
     } catch(e) {
-      setModalState({ isOpen: true, title: 'Error', message: 'No se pudo bloquear la IP.', type: 'error', onConfirm: null });
+      toast.error('No se pudo bloquear la IP');
     }
   };
 
@@ -121,10 +123,12 @@ export default function SecurityPanel({ onClose }) {
         try {
           const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
           await axios.delete(`${API}/api/admin/security/block/${encodeURIComponent(ip)}`, { headers: { Authorization: `Bearer ${token}` } });
-          fetchData();
+          await fetchData();
           setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null });
+          toast.success(`IP ${ip} desbloqueada`);
         } catch(e) {
-          setModalState({ isOpen: true, title: 'Error', message: 'No se pudo desbloquear la IP.', type: 'error', onConfirm: null });
+          setModalState({ isOpen: false, title: '', message: '', type: 'info', onConfirm: null });
+          toast.error('No se pudo desbloquear la IP');
         }
       }
     });
