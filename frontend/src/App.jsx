@@ -832,7 +832,7 @@ function App() {
  </div>
  {/* MAP AREA */}
  <div className="absolute inset-0 z-0">
- <MapView settings={settings} userLocation={userLocation} 
+ <MapView settings={settings} userLocation={userLocation} activeFuelLabel={activeFuelLabel} 
  stations={processedStations} 
  minPrice={minPrice} 
  getGpsUrl={getGpsUrl}
