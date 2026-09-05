@@ -137,17 +137,14 @@ export default function MapView({ settings,
  const mapRef = useRef(null);
  const [mapBounds, setMapBounds] = useState(null);
 
+  
   const mapStyle = settings?.mapStyle || 'auto';
   
   const getTileUrl = () => {
     if (mapStyle === 'satellite') return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-    if (mapStyle === 'light') return "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
-    if (mapStyle === 'dark') return "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png";
     return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
   };
-
-
- const handleMapMove = (isUserAction) => {
+const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
  };
 
