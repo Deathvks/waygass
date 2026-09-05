@@ -181,9 +181,9 @@ export default function SettingsModal({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={handleClose}></div>
 
       {/* Contenido del modal */}
-      <div className="relative w-full max-w-md bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar">
+      <div className="relative w-full max-w-md bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar">
         
-        <div className="sticky top-0 z-10 bg-white/95 dark:bg-[#0c0c0e]/95 backdrop-blur-3xl px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4 border-b border-slate-200/50 dark:border-white/5">
+        <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4 border-b border-slate-200/50 dark:border-white/5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
@@ -204,7 +204,7 @@ export default function SettingsModal({
 
         <div className="p-6 pt-2">
           {activeTab === 'settings' && (
-            <div className="glass-core border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
+            <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
               
               {/* Refuel Amount Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
@@ -327,7 +327,7 @@ export default function SettingsModal({
               {loadingRanking ? (
                 <div className="flex justify-center p-8"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div></div>
               ) : rankingData.length > 0 ? (
-                <div className="glass-core border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
+                <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
                   {rankingData.map((u, index) => (
                     <div key={u.id} className="flex items-center p-4 border-b border-slate-200/50 dark:border-white/5 last:border-0 gap-3">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black ${index === 0 ? 'bg-primary text-white' : index === 1 ? 'bg-slate-300 text-slate-700' : index === 2 ? 'bg-primary/20 text-primary' : 'bg-slate-100/50 dark:bg-white/5 text-slate-500'}`}>
@@ -344,7 +344,7 @@ export default function SettingsModal({
                   ))}
                 </div>
               ) : (
-                <div className="glass-core border border-slate-200/50 dark:border-white/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+                <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
                   <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
                     <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.82 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.496 1.509 1.333 1.509 2.316V18"/></svg>
                   </div>
@@ -362,15 +362,15 @@ export default function SettingsModal({
               ) : adminStats && (
                 <>
                   <div className="grid grid-cols-2 gap-3">
-                      <div className="glass-core border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl">
+                      <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl">
                         <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalUsers}</div>
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Usuarios Totales</div>
                       </div>
-                      <div className="glass-core border border-primary/20 bg-primary/5 p-4 rounded-2xl">
+                      <div className="border border-primary/20 bg-primary/5 p-4 rounded-2xl">
                         <div className="text-2xl font-black text-primary">{adminStats.proUsers}</div>
                         <div className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Usuarios Pro</div>
                       </div>
-                      <div className="glass-core border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl col-span-2 flex flex-col gap-3">
+                      <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl col-span-2 flex flex-col gap-3">
                           <div className="flex justify-between items-center">
                             <div>
                               <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Gasolineras Descargadas</div>
@@ -399,9 +399,9 @@ export default function SettingsModal({
                       
                       <div>
                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">Gestión de Usuarios ({usersList.length})</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="flex flex-col gap-3">
                       {usersList.map((u, i) => (
-                        <div key={u.id} className="relative group bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
+                        <div key={u.id} className="relative group bg-white dark:bg-[#1a1a1c] border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
                           <div className="flex items-start gap-3">
                             <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white font-black text-sm shrink-0 shadow-inner">
                               {((u.name || '').charAt(0) + (u.lastName || '').charAt(0)).toUpperCase() || '?'}
@@ -449,7 +449,7 @@ export default function SettingsModal({
       {roleModalUser && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={() => setRoleModalUser(null)}></div>
-          <div className="relative w-full max-w-sm glass-core border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-sm border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Cambiar Rol</h3>
             <p className="text-sm text-slate-500 mb-6">Selecciona el nuevo rol para <strong>{roleModalUser.name}</strong>.</p>
             <div className="flex flex-col gap-3">
@@ -470,7 +470,7 @@ export default function SettingsModal({
       {deleteModalUser && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={() => setDeleteModalUser(null)}></div>
-          <div className="relative w-full max-w-sm glass-core border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-sm border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
             <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2 text-center">Eliminar Usuario</h3>
             <p className="text-sm text-slate-500 mb-6 text-center">¿Seguro que deseas eliminar a <strong>{deleteModalUser.name}</strong>?</p>
             <div className="flex gap-3">

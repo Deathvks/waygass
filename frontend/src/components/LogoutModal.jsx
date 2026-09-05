@@ -12,7 +12,7 @@ export default function LogoutModal({ isOpen, onClose, onConfirm }) {
  ></div>
 
  {/* Contenido del modal */}
- <div className="relative w-full max-w-sm glass-core rounded-[32px] border border-white/20 dark:border-white/10 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-none">
+ <div className="relative w-full max-w-sm bg-white dark:bg-[#1a1a1c] rounded-[32px] border border-white/20 dark:border-white/10 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-none">
  
  <div className="flex flex-col items-center text-center mt-2">
  {/* Icono de advertencia/salida */}

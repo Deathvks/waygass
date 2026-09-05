@@ -161,7 +161,7 @@ export default function SecurityPanel({ onClose }) {
           </div>
 
           {/* TIME FILTERS */}
-                  <div className="mt-4 flex flex-col gap-3 p-3 glass-core rounded-2xl border-0 overflow-visible relative z-40">
+                  <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-[#1a1a1c] rounded-2xl border-0 overflow-visible relative z-40">
           <div className="flex flex-col gap-2 relative z-50">
             <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Filtro de Tiempo</label>
             <Select

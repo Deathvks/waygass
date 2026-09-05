@@ -40,7 +40,7 @@ export default defineConfig({
     })
   ],
   server: {
-    allowedHosts: true,
+    allowedHosts: ["waygass-fast-test.loca.lt"],
     proxy: {
       '/api': {
         target: 'http://localhost:3002',

@@ -20,7 +20,7 @@ function AddManualView({ onBack, onSave }) {
         <h4 className="text-sm font-bold text-slate-900 dark:text-white">Ajuste Manual</h4>
       </div>
 
-      <div className="glass-core border border-slate-200/50 dark:border-white/5 p-5 rounded-2xl">
+      <div className="bg-white dark:bg-[#1a1a1c] border border-slate-200/50 dark:border-white/5 p-5 rounded-2xl">
         <div className="flex justify-between items-end mb-4">
           <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Capacidad del depósito</label>
           <span className="text-2xl font-black text-primary">{tank}L</span>
@@ -162,7 +162,7 @@ export default function GarageView({ settings, setSettings }) {
                       className={`p-5 rounded-2xl cursor-pointer transition-all border ${
                         activeGarageId === car.id 
                         ? 'bg-gradient-to-br from-primary/10 to-transparent dark:from-primary/20 dark:to-transparent border-primary/40' 
-                        : 'glass-core border-slate-200/50 dark:border-white/5 opacity-70 hover:opacity-100'
+                        : 'bg-white dark:bg-[#1a1a1c] border-slate-200/50 dark:border-white/5 opacity-70 hover:opacity-100'
                       }`}
                     >
                       <div className="flex justify-between items-center mb-3">
@@ -243,7 +243,7 @@ export default function GarageView({ settings, setSettings }) {
                     <button
                       key={brand.id}
                       onClick={() => setSelectedBrand(brand)}
-                      className="glass-core border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
+                      className="bg-white dark:bg-[#1a1a1c] border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors"
                     >
                       <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center">
                         <img src={brand.logo} alt={brand.name} className="w-6 h-6 object-contain dark:invert" />
@@ -265,7 +265,7 @@ export default function GarageView({ settings, setSettings }) {
                   <button
                     key={i}
                     onClick={() => handleSelectModel(selectedBrand.name, model)}
-                    className="glass-core border border-slate-200/50 dark:border-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-slate-100 dark:hover:bg-white/10 transition-colors text-left"
+                    className="bg-white dark:bg-[#1a1a1c] border border-slate-200/50 dark:border-white/5 p-4 rounded-xl flex items-center justify-between hover:bg-slate-100 dark:hover:bg-white/10 transition-colors text-left"
                   >
                     <span className="font-bold text-slate-800 dark:text-white">{model.name}</span>
                     <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-md">{model.tank} L</span>
@@ -291,7 +291,7 @@ export default function GarageView({ settings, setSettings }) {
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">Ajustar {activeCar.name}</h4>
             </div>
 
-            <div className="glass-core border border-slate-200/50 dark:border-white/5 p-5 rounded-2xl">
+            <div className="bg-white dark:bg-[#1a1a1c] border border-slate-200/50 dark:border-white/5 p-5 rounded-2xl">
               <div className="flex justify-between items-end mb-4">
                 <label className="text-sm font-bold text-slate-700 dark:text-slate-300">Capacidad real (L)</label>
                 <span className="text-2xl font-black text-primary">{activeCar.tankSize}L</span>
