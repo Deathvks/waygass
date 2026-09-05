@@ -161,7 +161,7 @@ export default function SecurityPanel({ onClose }) {
           </div>
 
           {/* TIME FILTERS */}
-                  <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-[#1a1a1c] rounded-2xl border-0 overflow-visible relative z-40">
+                  <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-black rounded-2xl border-0 overflow-visible relative z-40">
           <div className="flex flex-col gap-2 relative z-50">
             <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Filtro de Tiempo</label>
             <Select
@@ -251,7 +251,7 @@ export default function SecurityPanel({ onClose }) {
                     type="datetime-local" 
                     value={customFrom} 
                     onChange={e => setCustomFrom(e.target.value)} 
-                    className="w-full bg-transparent dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
+                    className="w-full bg-transparent dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
                   />
                 </div>
                 <div className="flex-1">
@@ -260,7 +260,7 @@ export default function SecurityPanel({ onClose }) {
                     type="datetime-local" 
                     value={customTo} 
                     onChange={e => setCustomTo(e.target.value)} 
-                    className="w-full bg-transparent dark:bg-[#0c0c0e] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
+                    className="w-full bg-transparent dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200"
                   />
                 </div>
               </div>

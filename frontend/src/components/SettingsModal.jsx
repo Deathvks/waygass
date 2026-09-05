@@ -160,7 +160,7 @@ export default function SettingsModal({
 
   const themeModal = pendingTheme && (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/40 dark:bg-black/60 backdrop-blur-sm">
-      <div className="bg-white dark:bg-[#1a1a1c] w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white dark:bg-black w-full max-w-sm rounded-3xl p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <h3 className="text-lg font-black text-slate-900 dark:text-white mb-2">Cambiar Tema</h3>
         <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">Para aplicar el tema correctamente en tu dispositivo, la aplicación necesita recargarse. ¿Continuar?</p>
         <div className="flex gap-3">
@@ -401,7 +401,7 @@ export default function SettingsModal({
                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">Gestión de Usuarios ({usersList.length})</h3>
                     <div className="flex flex-col gap-3">
                       {usersList.map((u, i) => (
-                        <div key={u.id} className="relative group bg-white dark:bg-[#1a1a1c] border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
+                        <div key={u.id} className="relative group bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
                           <div className="flex items-start gap-3">
                             <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white font-black text-sm shrink-0 shadow-inner">
                               {((u.name || '').charAt(0) + (u.lastName || '').charAt(0)).toUpperCase() || '?'}
