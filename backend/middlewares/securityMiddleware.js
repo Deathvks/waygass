@@ -13,16 +13,57 @@ const rateLimitTracker = new Map();
 const RATE_LIMIT_MAX = 150;
 const RATE_LIMIT_WINDOW_MS = 60000;
 
-// Patrones t\u00edpicos de escaneo de vulnerabilidades
+// Patrones típicos y avanzados de escaneo de vulnerabilidades
 const BAD_PATTERNS = [
+  // 1. Lenguajes y CMS ajenos a nuestro stack
   /\.php$/i,
+  /\.asp$/i,
+  /\.aspx$/i,
+  /\.jsp$/i,
+  /\.cgi$/i,
   /wp-admin/i,
   /wp-login/i,
-  /\.env$/i,
-  /\.git/i,
-  /\/etc\/passwd/i,
+  /wp-content/i,
   /phpmyadmin/i,
-  /\/actuator/i
+  /magento/i,
+
+  // 2. Archivos de Entorno y Credenciales
+  /\.env.*/i,            // .env, .env.backup, .env.production
+  /\.git/i,              // /.git/, .gitignore
+  /\.aws/i,              // AWS credentials
+  /\.ssh/i,              // SSH keys
+  /\.npmrc/i,            // NPM config
+
+  // 3. Sistema Operativo y Servidor
+  /\/etc\/passwd/i,
+  /\/etc\/shadow/i,
+  /\.htpasswd/i,
+  /\.htaccess/i,
+  /nginx\.conf/i,
+  /httpd\.conf/i,
+  /web\.config/i,
+
+  // 4. Bases de Datos y Backups
+  /\.sql$/i,
+  /\.sql\.gz$/i,
+  /\.db$/i,
+  /\.sqlite$/i,
+  /\.bak$/i,
+  /\.tar\.gz$/i,
+  /\.zip$/i,
+  /dump\.sql/i,
+
+  // 5. Entorno Node.js
+  /package\.json/i,
+  /node_modules/i,
+
+  // 6. Path Traversal (Intentos de escapar de directorios)
+  /\.\.\//i,             // ../
+  /%2e%2e%2f/i,          // ../ codificado en URL
+
+  // 7. Herramientas de depuración
+  /\/actuator/i,         // Spring Boot
+  /server-status/i       // Apache status
 ];
 
 const loadBlockedIPs = async () => {
