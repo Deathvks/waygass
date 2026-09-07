@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import 'overlayscrollbars/overlayscrollbars.css';
-import { OverlayScrollbars } from 'overlayscrollbars';
+
 import App from './App.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios'
@@ -11,31 +11,31 @@ import axios from 'axios'
 axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
 
 
-// Initialize global custom scrollbar
-OverlayScrollbars(document.body, {
-  scrollbars: {
-    theme: 'os-theme-light',
-    autoHide: 'leave',
-    autoHideDelay: 200
-  }
-});
+// The OverlayScrollbarsReact wrapper is used inside App.jsx or main.jsx.
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
-// Update scrollbar theme dynamically based on dark mode
-const updateScrollbarTheme = () => {
+const RootApp = () => {
   const isDark = document.documentElement.classList.contains('dark');
-  OverlayScrollbars(document.body, {
-    scrollbars: { theme: isDark ? 'os-theme-light' : 'os-theme-dark' } // os-theme-light means light thumb (good for dark background)
-  });
+  
+  return (
+    <StrictMode>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || '1234567890-mock.apps.googleusercontent.com'}>
+        <OverlayScrollbarsComponent 
+          options={{ 
+            scrollbars: { 
+              theme: isDark ? 'os-theme-light' : 'os-theme-dark', 
+              autoHide: 'leave', 
+              autoHideDelay: 200 
+            } 
+          }} 
+          defer
+          style={{ height: '100%', width: '100vw' }}
+        >
+          <App />
+        </OverlayScrollbarsComponent>
+      </GoogleOAuthProvider>
+    </StrictMode>
+  );
 };
 
-const observer = new MutationObserver(updateScrollbarTheme);
-observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-updateScrollbarTheme();
-
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || '1234567890-mock.apps.googleusercontent.com'}>
-      <App />
-    </GoogleOAuthProvider>
-  </StrictMode>,
-)
+createRoot(document.getElementById('root')).render(<RootApp />);
