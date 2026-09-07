@@ -12,6 +12,7 @@ import GarageView from './components/GarageView';
 import SecurityPanel from './components/SecurityPanel';
 import SubscriptionModal from './components/SubscriptionModal';
 import NavigationDock from './components/NavigationDock';
+import LandingPage from './components/LandingPage';
 import AuthScreen from './components/AuthScreen';
 import LogoutModal from './components/LogoutModal';
 import ProfileModal from './components/ProfileModal';
@@ -149,6 +150,7 @@ function App() {
  };
 
  const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
+  const [showAuth, setShowAuth] = useState(false);
  const [authUser, setAuthUser] = useState(() => {
  try {
  const stored = localStorage.getItem('waygas_user') || sessionStorage.getItem('waygas_user');
