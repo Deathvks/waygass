@@ -63,32 +63,33 @@ export default function LandingPage({ onEnterApp }) {
             {/* COMPATIBILITY BANNER */}
             <div className="pt-12 mt-12 border-t border-slate-200 dark:border-white/10 flex flex-col items-center">
               <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-6">Integrado y funcionando con</p>
-              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-80 hover:opacity-100 transition-all duration-500">
                 
                 {/* Spain */}
-                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-6 h-6" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="512" height="512" rx="256" fill="#f8fafc"/>
-                    <path d="M0 256C0 148.5 66.2 56.5 159.2 18.2V166.7H352.8V18.2C445.8 56.5 512 148.5 512 256C512 363.5 445.8 455.5 352.8 493.8V345.3H159.2V493.8C66.2 455.5 0 363.5 0 256Z" fill="#C60B1E"/>
-                    <path d="M159.2 166.7H352.8V345.3H159.2V166.7Z" fill="#FFC400"/>
-                  </svg>
+                <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
+                  <div className="w-8 h-6 rounded-sm overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col">
+                    <div className="h-[25%] bg-[#c60b1e]"></div>
+                    <div className="h-[50%] bg-[#ffc400]"></div>
+                    <div className="h-[25%] bg-[#c60b1e]"></div>
+                  </div>
                   Toda España
                 </div>
 
                 {/* Google Maps */}
-                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-6 h-6" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#4285F4" d="M24 45.1C24 45.1 40 32.1 40 18.7C40 9.7 32.8 2.5 24 2.5C15.2 2.5 8 9.7 8 18.7C8 32.1 24 45.1 24 45.1Z"/>
-                    <path fill="#34A853" d="M24 25.1C27.5 25.1 30.4 22.2 30.4 18.7C30.4 15.2 27.5 12.3 24 12.3C20.5 12.3 17.6 15.2 17.6 18.7C17.6 22.2 20.5 25.1 24 25.1Z"/>
+                <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
+                  <svg className="w-7 h-7" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                   </svg>
                   Google Maps
                 </div>
 
                 {/* Apple Maps */}
-                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.39 12.42l-2.61.94c-.4.14-.85-.02-1.07-.4l-2.58-4.49c-.21-.37-.09-.85.27-1.1l2.5-1.74c.37-.26.88-.19 1.16.15l2.67 3.25c.31.38.21.93-.19 1.18l-.15.11v.1z"/>
-                    <circle cx="14.3" cy="9.7" r="1.5" fill="#fff"/>
+                <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
+                  <svg className="w-7 h-7 text-black dark:text-white" viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.1-44.6-35.9-2.8-74.3 22.7-93.1 22.7-18.8 0-46.6-22.2-75-22.2-45.8 0-89 27.2-113.8 69-52 87.2-11.2 216.5 39.4 289.4 24.5 35.1 53 74 91.2 72.8 36.7-1.2 51.5-23.7 96-23.7 44.5 0 57.6 23.7 96 23.2 40-1 65.6-38.3 90.1-73.8 29.8-43 41.2-84.7 42.1-87-1.1-.4-39.7-15.6-38.8-57zM243 89.9c20-24 32.2-57.1 28.5-89.9-27.5 1.1-62 18.2-82.5 42.4-18.2 21.2-32.2 55.4-27.7 87.3 30.6 2.3 62-15.5 81.7-39.8z"/>
                   </svg>
                   Apple Maps
                 </div>
