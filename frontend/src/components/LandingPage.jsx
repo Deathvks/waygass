@@ -75,6 +75,16 @@ export default function LandingPage({ onEnterApp }) {
                   Toda España
                 </div>
 
+                {/* Canarias */}
+                <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
+                  <div className="w-8 h-6 rounded-sm overflow-hidden shadow-sm border border-slate-200 dark:border-slate-800 flex flex-row">
+                    <div className="w-[33.3%] bg-white"></div>
+                    <div className="w-[33.3%] bg-[#155BE3]"></div>
+                    <div className="w-[33.3%] bg-[#FFD100]"></div>
+                  </div>
+                  Incluye Canarias
+                </div>
+
                 {/* Google Maps */}
                 <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
                   <svg className="w-7 h-7" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
