@@ -161,6 +161,7 @@ input:-webkit-autofill:active {
 
 
 /* --- Custom Scrollbar --- */
+/* Chrome, Edge, Safari */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -184,13 +185,15 @@ html.dark ::-webkit-scrollbar-track,
   background: var(--app-primary-dark, #c71a10);
 }
 
-/* Firefox Support */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--app-primary, #ff3b30) #f8fafc;
-}
+/* Firefox ONLY (Chrome 121+ will ignore webkit if it sees standard scrollbar rules without @supports) */
+@supports (-moz-appearance:none) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--app-primary, #ff3b30) #f8fafc;
+  }
 
-html.dark *,
-.dark * {
-  scrollbar-color: var(--app-primary, #ff3b30) #000000;
+  html.dark *,
+  .dark * {
+    scrollbar-color: var(--app-primary, #ff3b30) #000000;
+  }
 }
