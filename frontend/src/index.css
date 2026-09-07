@@ -162,3 +162,19 @@ input:-webkit-autofill:active {
     background-color: transparent !important;
     background-clip: content-box !important;
 }
+
+/* --- OverlayScrollbars Custom Theme --- */
+.os-theme-light, .os-theme-dark {
+  --os-size: 8px;
+  --os-padding-perpendicular: 2px;
+  --os-padding-axis: 2px;
+  --os-track-border-radius: 10px;
+  --os-handle-border-radius: 10px;
+  --os-handle-bg: var(--color-primary);
+  --os-handle-bg-hover: var(--color-primary-dark);
+  --os-handle-bg-active: var(--color-primary-dark);
+}
+.dark .os-theme-light, .dark .os-theme-dark {
+  --os-handle-bg: var(--color-primary);
+  --os-handle-bg-hover: var(--color-primary-dark);
+}
