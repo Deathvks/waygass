@@ -88,7 +88,7 @@ export default function LandingPage({ onEnterApp }) {
 
                 {/* Apple Maps */}
                 <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-7 h-7 text-black dark:text-white" viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="h-7 w-auto text-black dark:text-white" viewBox="0 0 384 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.1-44.6-35.9-2.8-74.3 22.7-93.1 22.7-18.8 0-46.6-22.2-75-22.2-45.8 0-89 27.2-113.8 69-52 87.2-11.2 216.5 39.4 289.4 24.5 35.1 53 74 91.2 72.8 36.7-1.2 51.5-23.7 96-23.7 44.5 0 57.6 23.7 96 23.2 40-1 65.6-38.3 90.1-73.8 29.8-43 41.2-84.7 42.1-87-1.1-.4-39.7-15.6-38.8-57zM243 89.9c20-24 32.2-57.1 28.5-89.9-27.5 1.1-62 18.2-82.5 42.4-18.2 21.2-32.2 55.4-27.7 87.3 30.6 2.3 62-15.5 81.7-39.8z"/>
                   </svg>
                   Apple Maps
