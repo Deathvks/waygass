@@ -708,7 +708,10 @@ function App() {
  }
 
  if (!authToken) {
- return <AuthScreen onLoginSuccess={handleLoginSuccess} />;
+  if (showAuth) {
+    return <AuthScreen onLoginSuccess={handleLoginSuccess} />;
+  }
+  return <LandingPage onEnterApp={() => setShowAuth(true)} />;
  }
 
  return (
