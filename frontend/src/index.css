@@ -167,7 +167,12 @@ input:-webkit-autofill:active {
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f8fafc;
+}
+
+html.dark ::-webkit-scrollbar-track,
+.dark ::-webkit-scrollbar-track {
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -182,5 +187,10 @@ input:-webkit-autofill:active {
 /* Firefox Support */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--app-primary, #ff3b30) transparent;
+  scrollbar-color: var(--app-primary, #ff3b30) #f8fafc;
+}
+
+html.dark *,
+.dark * {
+  scrollbar-color: var(--app-primary, #ff3b30) #000000;
 }
