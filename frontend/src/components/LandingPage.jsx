@@ -47,6 +47,7 @@ export default function LandingPage({ onEnterApp }) {
               WayGass es la plataforma definitiva para conductores inteligentes. Compara precios, descubre estaciones cercanas y ahorra cientos de euros al año en combustible con nuestro mapa interactivo.
             </p>
             
+            
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={onEnterApp}
@@ -57,6 +58,42 @@ export default function LandingPage({ onEnterApp }) {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                 </svg>
               </button>
+            </div>
+            
+            {/* COMPATIBILITY BANNER */}
+            <div className="pt-12 mt-12 border-t border-slate-200 dark:border-white/10 flex flex-col items-center">
+              <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest mb-6">Integrado y funcionando con</p>
+              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                
+                {/* Spain */}
+                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
+                  <svg className="w-6 h-6" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="512" height="512" rx="256" fill="#f8fafc"/>
+                    <path d="M0 256C0 148.5 66.2 56.5 159.2 18.2V166.7H352.8V18.2C445.8 56.5 512 148.5 512 256C512 363.5 445.8 455.5 352.8 493.8V345.3H159.2V493.8C66.2 455.5 0 363.5 0 256Z" fill="#C60B1E"/>
+                    <path d="M159.2 166.7H352.8V345.3H159.2V166.7Z" fill="#FFC400"/>
+                  </svg>
+                  Toda España
+                </div>
+
+                {/* Google Maps */}
+                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
+                  <svg className="w-6 h-6" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#4285F4" d="M24 45.1C24 45.1 40 32.1 40 18.7C40 9.7 32.8 2.5 24 2.5C15.2 2.5 8 9.7 8 18.7C8 32.1 24 45.1 24 45.1Z"/>
+                    <path fill="#34A853" d="M24 25.1C27.5 25.1 30.4 22.2 30.4 18.7C30.4 15.2 27.5 12.3 24 12.3C20.5 12.3 17.6 15.2 17.6 18.7C17.6 22.2 20.5 25.1 24 25.1Z"/>
+                  </svg>
+                  Google Maps
+                </div>
+
+                {/* Apple Maps */}
+                <div className="flex items-center gap-2 font-bold text-lg text-slate-800 dark:text-white">
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.39 12.42l-2.61.94c-.4.14-.85-.02-1.07-.4l-2.58-4.49c-.21-.37-.09-.85.27-1.1l2.5-1.74c.37-.26.88-.19 1.16.15l2.67 3.25c.31.38.21.93-.19 1.18l-.15.11v.1z"/>
+                    <circle cx="14.3" cy="9.7" r="1.5" fill="#fff"/>
+                  </svg>
+                  Apple Maps
+                </div>
+                
+              </div>
             </div>
           </div>
         </section>
