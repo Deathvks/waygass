@@ -105,7 +105,86 @@ export default function LandingPage({ onEnterApp }) {
             </div>
           </div>
         </section>
+
+        {/* HOW IT WORKS SECTION */}
+        <section className="px-6 py-24 bg-[#f8fafc] dark:bg-[#000000]">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-black mb-4">Ahorrar es así de fácil</h2>
+              <p className="text-slate-600 dark:text-slate-400 text-lg">Tu bolsillo te lo agradecerá en solo 3 pasos.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              {/* Line connecting steps (hidden on mobile) */}
+              <div className="hidden md:block absolute top-12 left-1/6 right-1/6 h-0.5 bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0"></div>
+              
+              <div className="relative z-10 flex flex-col items-center text-center space-y-4">
+                <div className="w-24 h-24 rounded-full bg-white dark:bg-slate-900 border-4 border-primary/20 flex items-center justify-center text-3xl font-black text-primary shadow-xl">1</div>
+                <h3 className="text-xl font-bold">Abre el Mapa</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm px-4">Localiza automáticamente las gasolineras a tu alrededor usando el GPS integrado.</p>
+              </div>
+              
+              <div className="relative z-10 flex flex-col items-center text-center space-y-4 mt-8 md:mt-0">
+                <div className="w-24 h-24 rounded-full bg-white dark:bg-slate-900 border-4 border-primary/50 flex items-center justify-center text-3xl font-black text-primary shadow-xl">2</div>
+                <h3 className="text-xl font-bold">Filtra por Combustible</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm px-4">Selecciona Diésel, Gasolina 95 o 98. Te mostramos los precios exactos actualizados al minuto.</p>
+              </div>
+              
+              <div className="relative z-10 flex flex-col items-center text-center space-y-4 mt-8 md:mt-0">
+                <div className="w-24 h-24 rounded-full bg-primary flex items-center justify-center text-3xl font-black text-white shadow-xl shadow-primary/40">3</div>
+                <h3 className="text-xl font-bold">Elige y Navega</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm px-4">Toca la estación más barata y deja que Google Maps te guíe hasta el surtidor.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ SECTION (Great for SEO / AdSense) */}
+        <section className="px-6 py-24 bg-white dark:bg-[#0a0a0a] border-y border-slate-200 dark:border-white/5">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-black mb-12 text-center">Preguntas Frecuentes</h2>
+            
+            <div className="space-y-6">
+              <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-white/5">
+                <h4 className="text-lg font-bold mb-2">¿De dónde salen los precios de las gasolineras?</h4>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  Todos los datos mostrados en WayGass se obtienen en tiempo real del portal oficial de datos abiertos del Ministerio para la Transición Ecológica (MITECO). Las propias estaciones de servicio están obligadas por ley a reportar sus cambios de precio al ministerio diariamente.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-white/5">
+                <h4 className="text-lg font-bold mb-2">¿Cuánto dinero puedo ahorrar usando la app?</h4>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  Depende mucho de tu zona y tu consumo, pero en una misma ciudad puede haber diferencias de hasta 25 céntimos por litro entre la gasolinera más cara y la más barata (low-cost). Para un depósito de 50 litros, eso supone un ahorro directo de 12,50€ cada vez que vas a repostar. Si repostas dos veces al mes, hablamos de más de 300€ al año.
+                </p>
+              </div>
+              
+              <div className="p-6 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-white/5">
+                <h4 className="text-lg font-bold mb-2">¿Es 100% gratuita?</h4>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  Sí. El acceso al mapa interactivo, la consulta de precios de Diésel y Gasolina, y la geolocalización de estaciones cercanas es una herramienta totalmente gratuita para todos los conductores en España peninsular e islas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* BOTTOM CTA */}
+        <section className="px-6 py-32 bg-slate-900 dark:bg-black text-white text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
+          <div className="relative z-10 max-w-2xl mx-auto space-y-8">
+            <h2 className="text-4xl md:text-5xl font-black">Deja de pagar de más por la gasolina.</h2>
+            <p className="text-lg text-slate-300">Únete a los conductores inteligentes que ya usan WayGass para encontrar el mejor precio de combustible en España.</p>
+            <button 
+              onClick={onEnterApp}
+              className="px-10 py-5 bg-primary hover:bg-primary-dark text-white text-xl font-bold rounded-2xl shadow-xl shadow-primary/30 transition-all hover:scale-105"
+            >
+              Comenzar a Ahorrar Ahora
+            </button>
+          </div>
+        </section>
       </main>
+
 
       {/* FOOTER */}
       <footer className="py-8 px-6 border-t border-slate-200 dark:border-white/5 text-center text-sm text-slate-500">
