@@ -127,8 +127,15 @@ function App() {
 
   useEffect(() => {
     const updateConsent = () => setCookieConsent(localStorage.getItem('waygass_cookie_consent_v2'));
+    const handleClear = () => {
+      setSettings({ tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system', appColor: 'indigo' });
+    };
     window.addEventListener('cookieConsentUpdated', updateConsent);
-    return () => window.removeEventListener('cookieConsentUpdated', updateConsent);
+    window.addEventListener('preferencesCleared', handleClear);
+    return () => {
+      window.removeEventListener('cookieConsentUpdated', updateConsent);
+      window.removeEventListener('preferencesCleared', handleClear);
+    };
   }, []);
 
 
@@ -330,17 +337,16 @@ function App() {
       setAuthUser(res.data);
       localStorage.setItem('waygas_user', JSON.stringify(res.data));
       
-      setSettings(prev => ({
-        ...prev,
-        tankSize: res.data.tankSize || prev.tankSize,
-        gpsApp: res.data.gpsApp || prev.gpsApp,
-        theme: res.data.theme || prev.theme,
-        cardWaylet: res.data.cardWaylet !== undefined ? res.data.cardWaylet : prev.cardWaylet,
-        cardCepsa: res.data.cardCepsa !== undefined ? res.data.cardCepsa : prev.cardCepsa,
-        garage: res.data.garage || prev.garage,
-        activeGarageId: res.data.activeGarageId || prev.activeGarageId,
-        vehicleName: res.data.vehicleName || prev.vehicleName
-      }));
+      if (cookieConsent === 'accepted') {
+          setSettings(prev => ({
+            ...prev,
+            tankSize: res.data.tankSize || prev.tankSize,
+            refuelAmount: res.data.refuelAmount || prev.refuelAmount,
+            gpsApp: res.data.gpsApp || prev.gpsApp,
+            theme: res.data.theme || prev.theme,
+            appColor: res.data.appColor || prev.appColor
+          }));
+        }
     }
  } catch (e) {
  console.error("Error cargando perfil", e);
