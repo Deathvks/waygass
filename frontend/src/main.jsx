@@ -46,18 +46,43 @@ const RootApp = () => {
 const path = window.location.pathname;
 const rootElement = document.getElementById('root');
 
+
+const WrappedPage = ({ children }) => {
+  const isDark = document.documentElement.classList.contains('dark');
+  return (
+    <StrictMode>
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || '1234567890-mock.apps.googleusercontent.com'}>
+        <OverlayScrollbarsComponent 
+          options={{ 
+            scrollbars: { 
+              theme: isDark ? 'os-theme-light' : 'os-theme-dark', 
+              autoHide: 'leave', 
+              autoHideDelay: 200 
+            } 
+          }} 
+          defer
+          style={{ height: '100%', width: '100vw' }}
+        >
+          {children}
+        </OverlayScrollbarsComponent>
+      </GoogleOAuthProvider>
+    </StrictMode>
+  );
+};
+
 if (path === '/privacidad') {
-  createRoot(rootElement).render(<PrivacyPage />);
+  createRoot(rootElement).render(<WrappedPage><PrivacyPage /></WrappedPage>);
 } else if (path === '/legal') {
-  createRoot(rootElement).render(<LegalPage />);
+  createRoot(rootElement).render(<WrappedPage><LegalPage /></WrappedPage>);
 } else if (path === '/cookies') {
-  createRoot(rootElement).render(<CookiesPolicyPage />);
+  createRoot(rootElement).render(<WrappedPage><CookiesPolicyPage /></WrappedPage>);
 } else if (path === '/blog') {
-  createRoot(rootElement).render(<BlogIndex />);
+  createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
 } else if (path === '/blog/5-trucos-ahorrar-combustible') {
-  createRoot(rootElement).render(<BlogPost1 />);
+  createRoot(rootElement).render(<WrappedPage><BlogPost1 /></WrappedPage>);
 } else if (path === '/blog/gasolineras-lowcost-mito-realidad') {
-  createRoot(rootElement).render(<BlogPost2 />);
+  createRoot(rootElement).render(<WrappedPage><BlogPost2 /></WrappedPage>);
 } else {
   createRoot(rootElement).render(<RootApp />);
 }
+
