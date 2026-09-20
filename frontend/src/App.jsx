@@ -128,7 +128,7 @@ function App() {
   useEffect(() => {
     const updateConsent = () => setCookieConsent(localStorage.getItem('waygass_cookie_consent_v2'));
     const handleClear = () => {
-      setSettings({ tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system', appColor: 'red' });
+      setSettings({ tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' });
     };
     window.addEventListener('cookieConsentUpdated', updateConsent);
     window.addEventListener('preferencesCleared', handleClear);
@@ -175,9 +175,12 @@ function App() {
  });
  
  const [settings, setSettings] = useState(() => {
- const saved = localStorage.getItem('waygas_settings');
- return saved ? JSON.parse(saved) : { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system' };
- });
+    if (localStorage.getItem('waygass_cookie_consent_v2') !== 'accepted') {
+      return { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' };
+    }
+    const saved = localStorage.getItem('waygas_settings');
+    return saved ? JSON.parse(saved) : { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' };
+  });
 
  useEffect(() => {
  const applyTheme = () => {
