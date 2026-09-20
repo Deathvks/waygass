@@ -24,7 +24,47 @@ const path = window.location.pathname;
 const rootElement = document.getElementById('root');
 
 
+const applyThemeAndColor = () => {
+  let settings = { theme: 'light', appColor: 'red' };
+  if (localStorage.getItem('waygass_cookie_consent_v2') === 'accepted') {
+    const saved = localStorage.getItem('waygas_settings');
+    if (saved) {
+      try {
+        settings = JSON.parse(saved);
+      } catch (e) {}
+    }
+  }
+
+  // Apply Theme
+  const isDark = 
+    settings.theme === 'dark' || 
+    (settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (isDark) {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+
+  // Apply Color
+  const colors = {
+    red: { primary: '#ff3b30', dark: '#c71a10', container: '#ff6961', secondary: '#ff2d55' },
+    blue: { primary: '#007aff', dark: '#0056b3', container: '#4aa0ff', secondary: '#5856d6' },
+    green: { primary: '#34c759', dark: '#248a3d', container: '#65d581', secondary: '#32ade6' },
+    purple: { primary: '#af52de', dark: '#893bb0', container: '#c57aeb', secondary: '#ff2d55' },
+    orange: { primary: '#ff9500', dark: '#cc7700', container: '#ffad33', secondary: '#ffcc00' }
+  };
+  const c = colors[settings.appColor] || colors.red;
+  document.documentElement.style.setProperty('--app-primary', c.primary);
+  document.documentElement.style.setProperty('--app-primary-dark', c.dark);
+  document.documentElement.style.setProperty('--app-primary-container', c.container);
+  document.documentElement.style.setProperty('--app-secondary', c.secondary);
+};
+
 const WrappedPage = ({ children }) => {
+  useEffect(() => {
+    applyThemeAndColor();
+  }, []);
+
   const isDark = document.documentElement.classList.contains('dark');
   const [showCookiesBanner, setShowCookiesBanner] = useState(false);
 
