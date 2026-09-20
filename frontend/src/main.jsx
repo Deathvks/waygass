@@ -36,11 +36,13 @@ const WrappedPage = ({ children }) => {
 
   const handleAcceptCookies = () => {
     localStorage.setItem('waygass_cookie_consent_v2', 'accepted');
+    window.dispatchEvent(new Event('cookieConsentUpdated'));
     setShowCookiesBanner(false);
   };
 
   const handleRejectCookies = () => {
     localStorage.setItem('waygass_cookie_consent_v2', 'rejected');
+    window.dispatchEvent(new Event('cookieConsentUpdated'));
     setShowCookiesBanner(false);
     ['waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => 
       localStorage.removeItem(k)

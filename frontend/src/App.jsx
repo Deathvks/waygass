@@ -121,22 +121,26 @@ const PROVINCE_MAP = {
 
 function App() {
 
- const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent'));
- const [showCookiesBanner, setShowCookiesBanner] = useState(!localStorage.getItem('waygass_cookie_consent'));
+ const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent_v2'));
+ const [showCookiesBanner, setShowCookiesBanner] = useState(!localStorage.getItem('waygass_cookie_consent_v2'));
  const [legalType, setLegalType] = useState(null);
 
+  useEffect(() => {
+    const updateConsent = () => setCookieConsent(localStorage.getItem('waygass_cookie_consent_v2'));
+    window.addEventListener('cookieConsentUpdated', updateConsent);
+    return () => window.removeEventListener('cookieConsentUpdated', updateConsent);
+  }, []);
+
+
  const safeSetItem = (key, value) => {
- // Auth is essential, allow it always
- if (key === 'waygas_token' || key === 'waygas_user') {
- localStorage.setItem(key, value);
- return;
- }
- // Only save preferences if cookies are accepted
- // Note: Dark mode (theme) is explicitly exempted as functional
- if (cookieConsent === 'accepted' || key === 'waygas_settings') {
- localStorage.setItem(key, value);
- }
- };
+  if (key === 'waygas_token' || key === 'waygas_user') {
+    localStorage.setItem(key, value);
+    return;
+  }
+  if (cookieConsent === 'accepted') {
+    localStorage.setItem(key, value);
+  }
+};
 
  const handleRejectCookies = () => {
  setCookieConsent('rejected');
