@@ -15,6 +15,7 @@ export default function LandingPage({ onEnterApp }) {
           </div>
           <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span></span>
         </div>
+        <a href="/blog" className="hidden sm:block text-sm font-bold hover:text-primary transition-colors">Blog</a>
         <button 
           onClick={onEnterApp}
           className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold rounded-full hover:scale-105 transition-transform shadow-lg"
@@ -238,9 +239,9 @@ export default function LandingPage({ onEnterApp }) {
       <footer className="py-8 px-6 border-t border-slate-200 dark:border-white/5 text-center text-sm text-slate-500">
         <p className="font-medium">&copy; {new Date().getFullYear()} WayGass. Todos los derechos reservados.</p>
         <div className="flex items-center justify-center gap-4 mt-4">
-          <a href="#" className="hover:text-primary transition-colors">Aviso Legal</a>
-          <a href="#" className="hover:text-primary transition-colors">Política de Privacidad</a>
-          <a href="#" className="hover:text-primary transition-colors">Política de Cookies</a>
+          <a href="/legal" className="hover:text-primary transition-colors">Aviso Legal</a>
+          <a href="/privacidad" className="hover:text-primary transition-colors">Política de Privacidad</a>
+          <a href="/cookies" className="hover:text-primary transition-colors">Política de Cookies</a>
         </div>
       </footer>
     </div>

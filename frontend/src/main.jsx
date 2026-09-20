@@ -4,6 +4,10 @@ import './index.css'
 import 'overlayscrollbars/styles/overlayscrollbars.css';
 
 import App from './App.jsx'
+
+import { PrivacyPage, LegalPage, CookiesPolicyPage } from './components/LegalPages.jsx';
+import { BlogIndex, BlogPost1, BlogPost2 } from './components/BlogPage.jsx';
+
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios'
 
@@ -38,4 +42,22 @@ const RootApp = () => {
   );
 };
 
-createRoot(document.getElementById('root')).render(<RootApp />);
+
+const path = window.location.pathname;
+const rootElement = document.getElementById('root');
+
+if (path === '/privacidad') {
+  createRoot(rootElement).render(<PrivacyPage />);
+} else if (path === '/legal') {
+  createRoot(rootElement).render(<LegalPage />);
+} else if (path === '/cookies') {
+  createRoot(rootElement).render(<CookiesPolicyPage />);
+} else if (path === '/blog') {
+  createRoot(rootElement).render(<BlogIndex />);
+} else if (path === '/blog/5-trucos-ahorrar-combustible') {
+  createRoot(rootElement).render(<BlogPost1 />);
+} else if (path === '/blog/gasolineras-lowcost-mito-realidad') {
+  createRoot(rootElement).render(<BlogPost2 />);
+} else {
+  createRoot(rootElement).render(<RootApp />);
+}
