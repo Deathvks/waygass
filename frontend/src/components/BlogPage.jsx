@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BlogLayout = ({ children }) => (
-  <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white font-sans">
+  <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white">
     <header className="px-6 py-5 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
       <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
@@ -12,7 +12,7 @@ const BlogLayout = ({ children }) => (
         </div>
         <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span> Blog</span>
       </a>
-      <a href="/" className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-sm">Ir a la App</a>
+      <a href="/" className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-black font-bold rounded-lg text-sm transition-transform hover:scale-105">Ir al mapa</a>
     </header>
     <main className="max-w-4xl mx-auto px-6 py-12">
       {children}
@@ -23,36 +23,58 @@ const BlogLayout = ({ children }) => (
   </div>
 );
 
+const ArticleHeading = ({ children }) => <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mt-12 mb-6 flex items-center gap-3"><span className="w-2 h-8 rounded-full bg-primary inline-block"></span>{children}</h2>;
+const ArticleParagraph = ({ children }) => <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6">{children}</p>;
+const ArticleList = ({ items }) => (
+  <ul className="space-y-4 my-8 pl-4 border-l-2 border-primary/20">
+    {items.map((item, idx) => (
+      <li key={idx} className="flex gap-3 text-lg text-slate-700 dark:text-slate-300">
+        <span className="text-primary font-bold mt-1">•</span>
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+);
+
 export const BlogIndex = () => (
   <BlogLayout>
-    <div className="mb-12 text-center">
-      <h1 className="text-4xl md:text-5xl font-black mb-4">Blog de Conducción y Ahorro</h1>
-      <p className="text-lg text-slate-600 dark:text-slate-400">Consejos prácticos, noticias sobre combustibles y trucos para reducir tu consumo.</p>
+    <div className="mb-16 text-center">
+      <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-4">Actualidad del motor</span>
+      <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Blog de Ahorro</h1>
+      <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Consejos prácticos, noticias sobre combustibles y trucos probados para reducir tu consumo anual.</p>
     </div>
     
     <div className="grid md:grid-cols-2 gap-8">
       
-      <article className="bg-white dark:bg-[#0a0a0a] rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm hover:shadow-xl transition-shadow cursor-pointer flex flex-col" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
-        <div className="h-48 bg-primary/20 flex items-center justify-center">
-           <svg className="w-16 h-16 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
+        <div className="h-56 bg-gradient-to-br from-primary/20 to-transparent flex items-center justify-center relative overflow-hidden">
+           <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors"></div>
+           <svg className="w-20 h-20 text-primary transform group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
         </div>
-        <div className="p-6 flex-1 flex flex-col">
-          <span className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Consejos</span>
-          <h2 className="text-xl font-bold mb-3">5 Trucos infalibles para ahorrar combustible en cada viaje</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo? Aprende cómo optimizar tu depósito.</p>
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-white/5 text-sm text-slate-500">20 Sept, 2026 • 3 min de lectura</div>
+        <div className="p-8 flex-1 flex flex-col">
+          <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Guía Práctica</span>
+          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">5 Trucos infalibles para ahorrar combustible en cada viaje</h2>
+          <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo? Aprende cómo optimizar tu depósito.</p>
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+            <span>20 Sept, 2026</span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+          </div>
         </div>
       </article>
 
-      <article className="bg-white dark:bg-[#0a0a0a] rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm hover:shadow-xl transition-shadow cursor-pointer flex flex-col" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
-        <div className="h-48 bg-blue-500/20 flex items-center justify-center">
-           <svg className="w-16 h-16 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-blue-500/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
+        <div className="h-56 bg-gradient-to-br from-blue-500/20 to-transparent flex items-center justify-center relative overflow-hidden">
+           <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
+           <svg className="w-20 h-20 text-blue-500 transform group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
         </div>
-        <div className="p-6 flex-1 flex flex-col">
-          <span className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-2">Mecánica</span>
-          <h2 className="text-xl font-bold mb-3">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h2>
-          <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Desmentimos los mitos más comunes sobre las estaciones de bajo coste. ¿El diésel barato estropea el motor? Te contamos qué dice la ciencia.</p>
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-white/5 text-sm text-slate-500">18 Sept, 2026 • 5 min de lectura</div>
+        <div className="p-8 flex-1 flex flex-col">
+          <span className="text-xs font-black text-blue-500 uppercase tracking-widest mb-3">Mecánica</span>
+          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-blue-500 transition-colors">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h2>
+          <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desmentimos los mitos más comunes sobre las estaciones de bajo coste. ¿El diésel barato estropea el motor? Te contamos qué dice la ciencia.</p>
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+            <span>18 Sept, 2026</span>
+            <span className="text-blue-500 flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+          </div>
         </div>
       </article>
 
@@ -62,58 +84,92 @@ export const BlogIndex = () => (
 
 export const BlogPost1 = () => (
   <BlogLayout>
-    <article className="prose dark:prose-invert prose-slate prose-a:text-primary max-w-none">
-      <a href="/blog" className="text-sm font-bold no-underline mb-8 inline-block hover:opacity-80">← Volver al blog</a>
-      <h1 className="text-3xl md:text-5xl font-black mb-4">5 Trucos infalibles para ahorrar combustible en cada viaje</h1>
-      <p className="text-slate-500">Publicado el 20 de Septiembre, 2026 por el equipo de WayGass</p>
+    <div className="max-w-3xl mx-auto">
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        Volver al índice
+      </a>
       
-      <p>El precio del combustible fluctúa constantemente, pero lo que sí puedes controlar es cómo conduces. Con unos simples ajustes en tu rutina, puedes reducir drásticamente tu consumo anual y ahorrar cientos de euros.</p>
+      <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
+        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Guía Práctica</span>
+        <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">5 Trucos infalibles para ahorrar combustible en cada viaje</h1>
+        
+        <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
+          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+            <span className="text-slate-600 dark:text-slate-400 text-lg">W</span>
+          </div>
+          <div>
+            <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
+            <div>Publicado el 20 de Septiembre, 2026</div>
+          </div>
+        </div>
+      </div>
       
-      <h2>1. Mantén la presión correcta de los neumáticos</h2>
-      <p>Conducir con los neumáticos desinflados aumenta la resistencia a la rodadura. Esto obliga al motor a trabajar más y consumir hasta un 3% más de combustible. Revisa la presión al menos una vez al mes y siempre antes de un viaje largo.</p>
+      <ArticleParagraph>El precio del combustible fluctúa constantemente, pero lo que sí puedes controlar de forma inmediata es cómo conduces. Con unos simples ajustes en tu rutina diaria al volante, puedes reducir drásticamente tu consumo anual y ahorrar cientos de euros.</ArticleParagraph>
+      
+      <ArticleHeading>1. Mantén la presión correcta de los neumáticos</ArticleHeading>
+      <ArticleParagraph>Conducir con los neumáticos desinflados aumenta severamente la resistencia a la rodadura. Esto obliga al motor a trabajar más y consumir hasta un <strong className="text-slate-900 dark:text-white">3% más de combustible</strong>. Recomendamos revisar la presión al menos una vez al mes y siempre antes de iniciar un viaje largo en carretera.</ArticleParagraph>
 
-      <h2>2. Conduce con suavidad (Eco-Driving)</h2>
-      <p>Los acelerones bruscos y los frenazos repentinos son el mayor enemigo de la eficiencia. Intenta anticiparte al tráfico: levanta el pie del acelerador antes de llegar a un semáforo rojo y acelera de forma progresiva. Mantener una velocidad constante en la marcha más alta posible hace milagros por tu consumo.</p>
+      <ArticleHeading>2. Conduce con suavidad (Eco-Driving)</ArticleHeading>
+      <ArticleParagraph>Los acelerones bruscos y los frenazos repentinos son el mayor enemigo de la eficiencia energética de tu coche. Intenta anticiparte al tráfico: levanta el pie del acelerador antes de llegar a un semáforo rojo y acelera de forma progresiva. Mantener una velocidad constante en la marcha más alta posible (conducción a bajas revoluciones) hace milagros por tu consumo.</ArticleParagraph>
 
-      <h2>3. Aire Acondicionado vs. Ventanillas bajadas</h2>
-      <p>A menos de 80 km/h en ciudad, llevar las ventanillas bajadas consume menos que el aire acondicionado. Sin embargo, en autopista o autovía a más de 90 km/h, la resistencia aerodinámica que generan las ventanillas abiertas consume muchísimo más combustible que encender el climatizador.</p>
+      <ArticleHeading>3. Aire Acondicionado vs. Ventanillas bajadas</ArticleHeading>
+      <ArticleParagraph>A menos de 80 km/h en entornos urbanos, llevar las ventanillas bajadas consume menos que utilizar el compresor del aire acondicionado. Sin embargo, en autopista o autovía a más de 90 km/h, la enorme resistencia aerodinámica que generan las ventanillas abiertas consume muchísimo más combustible que encender el climatizador.</ArticleParagraph>
 
-      <h2>4. El maletero no es un trastero</h2>
-      <p>Cada 50 kg de peso extra incrementan el consumo en un 2%. Además, elementos como las bacas, los cofres de techo o los portabicicletas rompen la aerodinámica del vehículo. Si no los estás usando, desmóntalos.</p>
+      <ArticleHeading>4. El maletero no es un trastero</ArticleHeading>
+      <ArticleParagraph>Cada 50 kg de peso extra en el coche incrementan el consumo en un 2% adicional. Además, elementos exteriores como las bacas, los cofres de techo o los portabicicletas rompen el perfil aerodinámico del vehículo, causando un efecto paracaídas. Si no los estás usando activamente, desmóntalos y guárdalos en casa.</ArticleParagraph>
 
-      <h2>5. Usa WayGass para comparar precios</h2>
-      <p>El truco más directo: no repostes en la primera estación que veas. Usa nuestra aplicación para localizar las estaciones de servicio a tu alrededor. En una misma ruta, la diferencia de precio entre dos gasolineras a 5 minutos de distancia puede ser de hasta 20 céntimos por litro. ¡Eso son 10 euros de ahorro en un solo depósito de 50L!</p>
-    </article>
+      <ArticleHeading>5. Usa WayGass para comparar precios</ArticleHeading>
+      <ArticleParagraph>El truco más directo y efectivo de todos: <strong>no repostes en la primera estación que veas</strong>. Usa nuestra aplicación interactiva para localizar las estaciones de servicio a tu alrededor. En una misma ruta, la diferencia de precio entre dos gasolineras a 5 minutos de distancia puede ser de hasta 20 céntimos por litro. ¡Eso son 10 euros de ahorro limpio en un solo depósito de 50L!</ArticleParagraph>
+    </div>
   </BlogLayout>
 );
 
 export const BlogPost2 = () => (
   <BlogLayout>
-    <article className="prose dark:prose-invert prose-slate prose-a:text-primary max-w-none">
-      <a href="/blog" className="text-sm font-bold no-underline mb-8 inline-block hover:opacity-80">← Volver al blog</a>
-      <h1 className="text-3xl md:text-5xl font-black mb-4">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h1>
-      <p className="text-slate-500">Publicado el 18 de Septiembre, 2026 por el equipo de WayGass</p>
+    <div className="max-w-3xl mx-auto">
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        Volver al índice
+      </a>
       
-      <p>Es el debate eterno entre conductores. Algunos juran que nunca pisarían una gasolinera "low-cost" porque creen que estropeará sus inyectores. Otros presumen de ahorrar 15 euros por depósito sin haber pisado nunca el taller. ¿Qué hay de verdad en todo esto?</p>
+      <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
+        <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 text-blue-500 font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
+        <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h1>
+        
+        <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
+          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+            <span className="text-slate-600 dark:text-slate-400 text-lg">W</span>
+          </div>
+          <div>
+            <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
+            <div>Publicado el 18 de Septiembre, 2026</div>
+          </div>
+        </div>
+      </div>
+      
+      <ArticleParagraph>Es el debate eterno entre conductores. Algunos puristas de la mecánica juran que nunca pisarían una gasolinera "low-cost" porque aseguran que estropeará sus inyectores de alta presión. Otros, por el contrario, presumen de ahorrar más de 15 euros por depósito ininterrumpidamente durante años sin haber pisado nunca el taller. ¿Qué hay de verdad y de mito en todo esto?</ArticleParagraph>
 
-      <h2>La base es exactamente la misma</h2>
-      <p>En España, el suministro de combustible está fuertemente regulado. Todo el carburante base que se vende en el país, ya sea en una estación premium o en un supermercado, proviene de las mismas instalaciones de la <strong>Compañía Logística de Hidrocarburos (CLH)</strong>, ahora conocida como Exolum.</p>
-      <p>Por lo tanto, la "gasolina base" cumple unos estrictos estándares europeos de calidad mínima. Es imposible que te vendan combustible adulterado o sucio desde los surtidores legales.</p>
+      <ArticleHeading>La base de hidrocarburo es exactamente la misma</ArticleHeading>
+      <ArticleParagraph>En España, el suministro y distribución de combustible está fuertemente regulado por el estado. Todo el carburante base que se vende en el país, ya sea en una estación premium de bandera (Repsol, Cepsa, BP) o en una estación fantasma de un supermercado, proviene de las mismas instalaciones logísticas de la <strong>Compañía Logística de Hidrocarburos (CLH)</strong>, operada actualmente bajo el nombre de Exolum.</ArticleParagraph>
+      <ArticleParagraph>Por lo tanto, la "gasolina base" cumple sí o sí con unos estrictos estándares europeos de calidad mínima (EN 228 para gasolina y EN 590 para diésel). Es virtualmente imposible que te vendan combustible adulterado, aguado o "sucio" desde los surtidores legales y auditados de nuestro país.</ArticleParagraph>
 
-      <h2>El secreto está en los aditivos</h2>
-      <p>¿Dónde está la diferencia real? En los aditivos. Las grandes marcas petroleras añaden a sus combustibles unas fórmulas patentadas (aditivos) justo antes de distribuirlos en sus estaciones.</p>
-      <p>Estos aditivos están diseñados para:</p>
-      <ul>
-        <li>Limpiar y proteger los inyectores.</li>
-        <li>Reducir la fricción interna del motor.</li>
-        <li>Prevenir la corrosión y la espuma en el repostaje (muy común en el diésel).</li>
-      </ul>
+      <ArticleHeading>El gran secreto reside en los aditivos</ArticleHeading>
+      <ArticleParagraph>¿Dónde está entonces la diferencia real de precio? La clave está en los aditivos químicos. Las grandes marcas petroleras compran la gasolina base a CLH, pero antes de llenar las cisternas de sus camiones, inyectan al carburante unas complejas fórmulas químicas patentadas conocidas como aditivos.</ArticleParagraph>
+      <ArticleParagraph>Estos aditivos, producto de años de investigación, están diseñados específicamente para:</ArticleParagraph>
+      <ArticleList items={[
+        "Limpiar de carbonilla y proteger los inyectores del motor a lo largo del tiempo.",
+        "Reducir la fricción interna de los cilindros, prolongando la vida del aceite.",
+        "Prevenir la corrosión del depósito y evitar la molesta espuma en el repostaje (un problema muy común en el diésel)."
+      ]} />
 
-      <h2>¿Estropean el motor los combustibles baratos?</h2>
-      <p>No. El combustible low-cost no estropea el motor a corto plazo porque cumple con las normativas europeas. Sin embargo, el uso continuado durante cientos de miles de kilómetros sin los detergentes adicionales que ofrecen los aditivos premium podría (en teoría) requerir una limpieza de inyectores antes de tiempo en motores modernos muy sofisticados.</p>
+      <ArticleHeading>¿Estropean el motor los combustibles baratos?</ArticleHeading>
+      <ArticleParagraph><strong className="text-slate-900 dark:text-white">Rotundamente No.</strong> El combustible low-cost de supermercado o estaciones independientes no estropeará tu motor a corto ni a medio plazo, ya que repetimos, cumple rigurosamente con todas las normativas de pureza europeas.</ArticleParagraph>
+      <ArticleParagraph>Sin embargo, el uso exclusivo y continuado durante cientos de miles de kilómetros sin los detergentes adicionales que ofrecen los aditivos premium podría requerir una limpieza mecánica de inyectores o de la válvula EGR antes de tiempo en motores modernos muy sofisticados (especialmente diésel modernos con filtros DPF delicados).</ArticleParagraph>
 
-      <h2>Conclusión: ¿Merece la pena?</h2>
-      <p>Para el 90% de los conductores y vehículos normales, el ahorro económico de las estaciones low-cost compensa con creces. Un consejo muy popular entre mecánicos es alternar: repostar 3 o 4 veces en low-cost, y luego un depósito de combustible premium para aprovechar el efecto de sus aditivos limpiadores. Usa el mapa de <strong>WayGass</strong> para encontrar la estación que mejor se adapte a tu bolsillo hoy.</p>
-    </article>
+      <ArticleHeading>Conclusión y veredicto: ¿Merece la pena?</ArticleHeading>
+      <ArticleParagraph>Para el 90% de los conductores y los vehículos de uso diario, el inmenso ahorro económico que suponen las estaciones low-cost compensa con creces cualquier duda mecánica. Un consejo muy popular y sabio entre mecánicos profesionales es la <strong>alternancia estratégica</strong>: reposta 3 o 4 veces seguidas en estaciones low-cost, y luego dedica un depósito completo de combustible premium para aprovechar el efecto "limpiador" de sus aditivos.</ArticleParagraph>
+      <ArticleParagraph>Sea cual sea tu estrategia, usa el mapa inteligente de <strong>WayGass</strong> para encontrar la estación que mejor se adapte a tu bolsillo en este mismo momento.</ArticleParagraph>
+    </div>
   </BlogLayout>
 );
