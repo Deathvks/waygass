@@ -212,9 +212,9 @@ function App() {
   // Persistir ajustes localmente cada vez que cambien para que no se pierdan al recargar
  useEffect(() => {
     safeSetItem('waygas_settings', JSON.stringify(settings));
-    if (authToken) {
-      const timeout = setTimeout(() => {
-        axios.put(SETTINGS_API, settings, { headers: { Authorization: `Bearer ${authToken}` } }).catch(e => console.error("Sync error", e));
+    if (authToken && cookieConsent === 'accepted') {
+        const timeout = setTimeout(() => {
+          axios.put(SETTINGS_API, settings, { headers: { Authorization: `Bearer ${authToken}` } }).catch(e => console.error("Sync error", e));
       }, 1000);
       return () => clearTimeout(timeout);
     }
@@ -351,10 +351,12 @@ function App() {
  };
 
  const saveSettings = async (newSettings) => {
- try {
- await axios.put(SETTINGS_API, newSettings, {
- headers: { Authorization: `Bearer ${authToken}` }
- });
+    try {
+      if (cookieConsent === 'accepted') {
+        await axios.put(SETTINGS_API, newSettings, {
+          headers: { Authorization: `Bearer ${authToken}` }
+        });
+      }
  setSettings(newSettings);
  } catch (e) {
  console.error(e);
@@ -747,7 +749,7 @@ function App() {
         />
 
  {isSettingsOpen && (
- <SettingsModal isOpen={true} settings={settings} setSettings={setSettings} onSave={saveSettings} onClose={() => setSettingsOpen(false)} onLogout={() => setLogoutOpen(true)} user={authUser} />
+ <SettingsModal isOpen={true} settings={settings} setSettings={setSettings} onSave={saveSettings} onClose={() => setSettingsOpen(false)} onLogout={() => setLogoutOpen(true)} user={authUser} openCookies={() => window.dispatchEvent(new Event('openCookiesBanner'))} />
  )}
  {isSubOpen && (
  <SubscriptionModal isOpen={true} 

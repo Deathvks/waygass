@@ -32,6 +32,9 @@ const WrappedPage = ({ children }) => {
     if (!localStorage.getItem('waygass_cookie_consent_v2')) {
       setShowCookiesBanner(true);
     }
+    const handleOpen = () => setShowCookiesBanner(true);
+    window.addEventListener('openCookiesBanner', handleOpen);
+    return () => window.removeEventListener('openCookiesBanner', handleOpen);
   }, []);
 
   const handleAcceptCookies = () => {
