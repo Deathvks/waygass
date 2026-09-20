@@ -47,9 +47,15 @@ const WrappedPage = ({ children }) => {
     localStorage.setItem('waygass_cookie_consent_v2', 'rejected');
     window.dispatchEvent(new Event('cookieConsentUpdated'));
     setShowCookiesBanner(false);
-    ['waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => 
-      localStorage.removeItem(k)
-    );
+    const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('waygas_') && key !== 'waygas_token' && key !== 'waygas_user') {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(k => localStorage.removeItem(k));
+      window.dispatchEvent(new Event('preferencesCleared'));
   };
 
   return (

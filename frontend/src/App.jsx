@@ -128,7 +128,7 @@ function App() {
   useEffect(() => {
     const updateConsent = () => setCookieConsent(localStorage.getItem('waygass_cookie_consent_v2'));
     const handleClear = () => {
-      setSettings({ tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system', appColor: 'indigo' });
+      setSettings({ tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'system', appColor: 'red' });
     };
     window.addEventListener('cookieConsentUpdated', updateConsent);
     window.addEventListener('preferencesCleared', handleClear);
