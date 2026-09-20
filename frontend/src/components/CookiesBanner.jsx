@@ -2,26 +2,33 @@ import React from 'react';
 
 export default function CookiesBanner({ onAccept, onReject }) {
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-white dark:bg-black border-t border-slate-200 dark:border-slate-800 p-4 sm:p-6 z-[9999] flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div className="flex-1 text-sm text-slate-600 dark:text-slate-400">
-        <p className="mb-2">
-          Utilizamos cookies y almacenamiento local para recordar tu ubicación, mantener tus filtros favoritos y mejorar tu experiencia. 
-          Al hacer clic en "Aceptar", consientes el uso de TODOS los datos locales, incluidas las cookies de anuncios. Si rechazas, algunas configuraciones no se guardarán al salir.
+    <div style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }} className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-md bg-white dark:bg-[#1a1a1a] rounded-3xl shadow-2xl shadow-black/20 dark:shadow-black/50 border border-slate-200/60 dark:border-white/10 p-5 sm:p-6 z-[99999] flex flex-col gap-4 backdrop-blur-xl bg-white/90 dark:bg-[#1a1a1a]/90">
+      
+      <div>
+        <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2 mb-2">
+          <span className="text-xl">🍪</span> Privacidad y Cookies
+        </h3>
+        <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+          Utilizamos almacenamiento local para recordar tu ubicación, mantener tus filtros favoritos y mejorar tu experiencia con anuncios personalizados. 
+          Si rechazas, tus ajustes como el <strong>color o el tema oscuro</strong> no se guardarán al salir.
         </p>
-        <div className="flex gap-4 text-xs font-medium text-primary">
-          <a href="/privacidad" className="hover:underline">Política de Privacidad</a>
-          <a href="/legal" className="hover:underline">Términos de Servicio</a>
-          <a href="/cookies" className="hover:underline">Política de Cookies</a>
-        </div>
       </div>
-      <div className="flex shrink-0 gap-3 w-full sm:w-auto">
-        <button onClick={onReject} className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+
+      <div className="flex flex-col sm:flex-row gap-2 mt-2">
+        <button onClick={onReject} className="w-full px-5 py-3 rounded-2xl border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold text-sm hover:bg-slate-50 dark:hover:bg-white/5 transition-colors active:scale-95">
           Rechazar
         </button>
-        <button onClick={onAccept} className="flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-primary text-white font-bold text-sm hover:opacity-90 transition shadow-lg shadow-primary/30">
-          Aceptar Todas
+        <button onClick={onAccept} className="w-full px-5 py-3 rounded-2xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/30 hover:opacity-90 transition-all active:scale-95">
+          Aceptar Todo
         </button>
       </div>
+
+      <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-2 mt-1 text-[11px] font-bold text-slate-400 dark:text-slate-500">
+        <a href="/privacidad" className="hover:text-primary transition-colors">Privacidad</a>
+        <a href="/legal" className="hover:text-primary transition-colors">Términos</a>
+        <a href="/cookies" className="hover:text-primary transition-colors">Cookies</a>
+      </div>
+
     </div>
   );
 }
