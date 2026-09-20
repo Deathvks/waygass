@@ -29,18 +29,18 @@ const WrappedPage = ({ children }) => {
   const [showCookiesBanner, setShowCookiesBanner] = useState(false);
 
   useEffect(() => {
-    if (!localStorage.getItem('waygass_cookie_consent')) {
+    if (!localStorage.getItem('waygass_cookie_consent_v2')) {
       setShowCookiesBanner(true);
     }
   }, []);
 
   const handleAcceptCookies = () => {
-    localStorage.setItem('waygass_cookie_consent', 'accepted');
+    localStorage.setItem('waygass_cookie_consent_v2', 'accepted');
     setShowCookiesBanner(false);
   };
 
   const handleRejectCookies = () => {
-    localStorage.setItem('waygass_cookie_consent', 'rejected');
+    localStorage.setItem('waygass_cookie_consent_v2', 'rejected');
     setShowCookiesBanner(false);
     ['waygas_filters', 'waygas_viewMode', 'waygas_province', 'waygas_location'].forEach(k => 
       localStorage.removeItem(k)
