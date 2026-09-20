@@ -47,9 +47,9 @@ export const BlogIndex = () => (
     <div className="grid md:grid-cols-2 gap-8">
       
       <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
-        <div className="h-56 bg-gradient-to-br from-primary/20 to-transparent flex items-center justify-center relative overflow-hidden">
-           <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors"></div>
-           <svg className="w-20 h-20 text-primary transform group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+        <div className="h-56 relative overflow-hidden">
+          <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         </div>
         <div className="p-8 flex-1 flex flex-col">
           <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Guía Práctica</span>
@@ -62,18 +62,18 @@ export const BlogIndex = () => (
         </div>
       </article>
 
-      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-blue-500/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
-        <div className="h-56 bg-gradient-to-br from-blue-500/20 to-transparent flex items-center justify-center relative overflow-hidden">
-           <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors"></div>
-           <svg className="w-20 h-20 text-blue-500 transform group-hover:scale-110 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" /></svg>
+      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
+        <div className="h-56 relative overflow-hidden">
+          <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         </div>
         <div className="p-8 flex-1 flex flex-col">
-          <span className="text-xs font-black text-blue-500 uppercase tracking-widest mb-3">Mecánica</span>
-          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-blue-500 transition-colors">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h2>
+          <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Mecánica</span>
+          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h2>
           <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desmentimos los mitos más comunes sobre las estaciones de bajo coste. ¿El diésel barato estropea el motor? Te contamos qué dice la ciencia.</p>
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
             <span>18 Sept, 2026</span>
-            <span className="text-blue-500 flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
           </div>
         </div>
       </article>
@@ -93,6 +93,9 @@ export const BlogPost1 = () => (
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
         <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Guía Práctica</span>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">5 Trucos infalibles para ahorrar combustible en cada viaje</h1>
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
+          <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-auto aspect-video object-cover" />
+        </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
           <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
@@ -134,8 +137,11 @@ export const BlogPost2 = () => (
       </a>
       
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
-        <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 text-blue-500 font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
+        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h1>
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
+          <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-auto aspect-video object-cover" />
+        </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
           <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
