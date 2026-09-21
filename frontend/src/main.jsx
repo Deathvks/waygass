@@ -8,7 +8,7 @@ import App from './App.jsx'
 import { PrivacyPage, LegalPage, CookiesPolicyPage } from './components/LegalPages.jsx';
 import { useState, useEffect } from 'react';
 import CookiesBanner from './components/CookiesBanner.jsx';
-import { BlogIndex, BlogPost1, BlogPost2 } from './components/BlogPage.jsx';
+import { BlogIndex, BlogPost1, BlogPost2, BlogPost3, BlogPost4 } from './components/BlogPage.jsx';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios'
@@ -136,8 +136,12 @@ if (path === '/privacidad') {
 } else if (path === '/blog/5-trucos-ahorrar-combustible') {
   createRoot(rootElement).render(<WrappedPage><BlogPost1 /></WrappedPage>);
 } else if (path === '/blog/gasolineras-lowcost-mito-realidad') {
-  createRoot(rootElement).render(<WrappedPage><BlogPost2 /></WrappedPage>);
-} else {
+    createRoot(rootElement).render(<WrappedPage><BlogPost2 /></WrappedPage>);
+  } else if (path === '/blog/mejores-apps-coche-2026') {
+    createRoot(rootElement).render(<WrappedPage><BlogPost3 /></WrappedPage>);
+  } else if (path === '/blog/mantenimiento-preventivo-consumo') {
+    createRoot(rootElement).render(<WrappedPage><BlogPost4 /></WrappedPage>);
+  } else {
   createRoot(rootElement).render(<WrappedPage><App /></WrappedPage>);
 }
 

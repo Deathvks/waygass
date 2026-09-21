@@ -78,7 +78,39 @@ export const BlogIndex = () => (
         </div>
       </article>
 
-    </div>
+    
+        <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mejores-apps-coche-2026'}>
+          <div className="h-56 relative overflow-hidden">
+            <img src="/blog-apps-car.jpg" alt="Apps de Coche" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          </div>
+          <div className="p-8 flex-1 flex flex-col">
+            <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Tecnología</span>
+            <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Las 5 mejores apps para conductores en 2026</h2>
+            <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desde comparadores de precios hasta gestión de rutas y mantenimiento. Digitaliza tu coche y exprime al máximo cada viaje.</p>
+            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+              <span>25 Sept, 2026</span>
+              <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </article>
+
+        <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mantenimiento-preventivo-consumo'}>
+          <div className="h-56 relative overflow-hidden">
+            <img src="/blog-maintenance.jpg" alt="Mantenimiento Coche" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          </div>
+          <div className="p-8 flex-1 flex flex-col">
+            <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Mecánica</span>
+            <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Mantenimiento preventivo: ¿Afecta al consumo?</h2>
+            <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Filtros sucios, bujías desgastadas y aceite antiguo. Descubre cuánto combustible estás perdiendo por no visitar al mecánico.</p>
+            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+              <span>28 Sept, 2026</span>
+              <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+            </div>
+          </div>
+        </article>
+</div>
   </BlogLayout>
 );
 
@@ -98,9 +130,7 @@ export const BlogPost1 = () => (
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-            <span className="text-slate-600 dark:text-slate-400 text-lg">W</span>
-          </div>
+          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 20 de Septiembre, 2026</div>
@@ -144,9 +174,7 @@ export const BlogPost2 = () => (
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-            <span className="text-slate-600 dark:text-slate-400 text-lg">W</span>
-          </div>
+          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 18 de Septiembre, 2026</div>
@@ -176,6 +204,76 @@ export const BlogPost2 = () => (
       <ArticleHeading>Conclusión y veredicto: ¿Merece la pena?</ArticleHeading>
       <ArticleParagraph>Para el 90% de los conductores y los vehículos de uso diario, el inmenso ahorro económico que suponen las estaciones low-cost compensa con creces cualquier duda mecánica. Un consejo muy popular y sabio entre mecánicos profesionales es la <strong>alternancia estratégica</strong>: reposta 3 o 4 veces seguidas en estaciones low-cost, y luego dedica un depósito completo de combustible premium para aprovechar el efecto "limpiador" de sus aditivos.</ArticleParagraph>
       <ArticleParagraph>Sea cual sea tu estrategia, usa el mapa inteligente de <strong>WayGass</strong> para encontrar la estación que mejor se adapte a tu bolsillo en este mismo momento.</ArticleParagraph>
+    </div>
+  </BlogLayout>
+);
+
+export const BlogPost3 = () => (
+  <BlogLayout>
+    <div className="max-w-3xl mx-auto">
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        Volver al índice
+      </a>
+      
+      <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
+        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Tecnología</span>
+        <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Las 5 mejores apps para conductores en 2026</h1>
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
+          <img src="/blog-apps-car.jpg" alt="Apps de Coche" className="w-full h-auto aspect-video object-cover" />
+        </div>
+        
+        <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
+          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <div>
+            <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
+            <div>Publicado el 25 de Septiembre, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
+        <ArticleParagraph>La digitalización ha llegado para quedarse en el mundo del motor. Hoy en día, nuestro smartphone es el mejor copiloto que podemos tener, ofreciendo funcionalidades que hace una década parecían ciencia ficción.</ArticleParagraph>
+        <ArticleHeading>1. WayGass: Tu aliado para el ahorro</ArticleHeading>
+        <ArticleParagraph>No podíamos empezar la lista sin mencionar nuestra propia herramienta. Con alertas de bajadas de precio, integración con sistemas de infoentretenimiento y un mapa hiperdetallado, WayGass se ha coronado como la app de ahorro líder en el sector del repostaje.</ArticleParagraph>
+        <ArticleHeading>2. Navegación predictiva con Waze</ArticleHeading>
+        <ArticleParagraph>Evitar atascos no solo te ahorra tiempo, sino también mucho dinero en ralentí. Waze sigue imbatible a la hora de redirigirte por calles secundarias para evitar bloqueos kilométricos.</ArticleParagraph>
+      </div>
+    </div>
+  </BlogLayout>
+);
+
+export const BlogPost4 = () => (
+  <BlogLayout>
+    <div className="max-w-3xl mx-auto">
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        Volver al índice
+      </a>
+      
+      <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
+        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
+        <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Mantenimiento preventivo: ¿Afecta al consumo?</h1>
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
+          <img src="/blog-maintenance.jpg" alt="Mantenimiento Coche" className="w-full h-auto aspect-video object-cover" />
+        </div>
+        
+        <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
+          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <div>
+            <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
+            <div>Publicado el 28 de Septiembre, 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
+        <ArticleParagraph>Muchos conductores retrasan las revisiones mecánicas pensando que así ahorran dinero, pero la realidad es muy distinta. Un coche descuidado consume mucho más.</ArticleParagraph>
+        <ArticleHeading>Filtros de aire sucios</ArticleHeading>
+        <ArticleParagraph>El motor necesita respirar para quemar la gasolina. Si el filtro está obstruido por polvo o insectos, la mezcla de oxígeno y combustible se desequilibra, forzando a la centralita a inyectar más gasolina para compensar la falta de aire.</ArticleParagraph>
+        <ArticleHeading>Bujías en mal estado</ArticleHeading>
+        <ArticleParagraph>Una chispa débil significa que el combustible no se quema de forma eficiente dentro del cilindro. Sustituir las bujías a tiempo puede devolverle a tu coche la eficiencia del primer día y reducir tu gasto mensual en surtidores.</ArticleParagraph>
+      </div>
     </div>
   </BlogLayout>
 );
