@@ -15,13 +15,15 @@ export default function LandingPage({ onEnterApp }) {
           </div>
           <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span></span>
         </div>
-        <a href="/blog" className="hidden sm:block text-sm font-bold hover:text-primary transition-colors">Blog</a>
-        <button 
+        <div className="flex items-center gap-4">
+          <a href="/blog" className="text-sm font-bold hover:text-primary transition-colors">Blog</a>
+          <button 
           onClick={onEnterApp}
           className="px-5 py-2 bg-slate-900 dark:bg-white text-white dark:text-black text-sm font-bold rounded-full hover:scale-105 transition-transform shadow-lg"
         >
           Acceder
-        </button>
+          </button>
+        </div>
       </header>
 
       {/* HERO SECTION */}
@@ -239,6 +241,7 @@ export default function LandingPage({ onEnterApp }) {
       <footer className="py-8 px-6 border-t border-slate-200 dark:border-white/5 text-center text-sm text-slate-500">
         <p className="font-medium">&copy; {new Date().getFullYear()} WayGass. Todos los derechos reservados.</p>
         <div className="flex items-center justify-center gap-3 sm:gap-6 mt-4 text-xs sm:text-sm">
+            <a href="/blog" className="hover:text-primary transition-colors whitespace-nowrap">Blog</a>
             <a href="/legal" className="hover:text-primary transition-colors whitespace-nowrap">Aviso Legal</a>
             <a href="/privacidad" className="hover:text-primary transition-colors whitespace-nowrap">Privacidad</a>
             <a href="/cookies" className="hover:text-primary transition-colors whitespace-nowrap">Cookies</a>
