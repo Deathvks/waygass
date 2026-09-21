@@ -233,11 +233,22 @@ export const BlogPost3 = () => (
       </div>
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
-        <ArticleParagraph>La digitalización ha llegado para quedarse en el mundo del motor. Hoy en día, nuestro smartphone es el mejor copiloto que podemos tener, ofreciendo funcionalidades que hace una década parecían ciencia ficción.</ArticleParagraph>
+        <ArticleParagraph>La digitalización ha llegado para quedarse en el mundo del motor. Hoy en día, nuestro smartphone es el mejor copiloto que podemos tener, ofreciendo funcionalidades que hace una década parecían ciencia ficción. Aquí te traemos el Top 5 definitivo de este año.</ArticleParagraph>
+        
         <ArticleHeading>1. WayGass: Tu aliado para el ahorro</ArticleHeading>
-        <ArticleParagraph>No podíamos empezar la lista sin mencionar nuestra propia herramienta. Con alertas de bajadas de precio, integración con sistemas de infoentretenimiento y un mapa hiperdetallado, WayGass se ha coronado como la app de ahorro líder en el sector del repostaje.</ArticleParagraph>
-        <ArticleHeading>2. Navegación predictiva con Waze</ArticleHeading>
-        <ArticleParagraph>Evitar atascos no solo te ahorra tiempo, sino también mucho dinero en ralentí. Waze sigue imbatible a la hora de redirigirte por calles secundarias para evitar bloqueos kilométricos.</ArticleParagraph>
+        <ArticleParagraph>No podíamos empezar la lista sin mencionar nuestra propia herramienta. Con alertas de bajadas de precio, integración con sistemas de infoentretenimiento, temas personalizados y un mapa hiperdetallado, WayGass se ha coronado como la app de ahorro líder en el sector del repostaje. ¡Imprescindible para cualquier conductor frecuente!</ArticleParagraph>
+        
+        <ArticleHeading>2. Waze: Navegación predictiva y social</ArticleHeading>
+        <ArticleParagraph>Evitar atascos no solo te ahorra tiempo, sino también mucho dinero en ralentí. Waze sigue imbatible a la hora de redirigirte por calles secundarias para evitar bloqueos kilométricos, avisarte de radares y de vehículos parados en el arcén gracias a su inmensa comunidad de usuarios.</ArticleParagraph>
+
+        <ArticleHeading>3. Drivvo: Gestión total del vehículo</ArticleHeading>
+        <ArticleParagraph>Si eres un maniático del control, Drivvo es para ti. Te permite llevar un registro exhaustivo de tus repostajes, gastos de peajes, mantenimientos y recordatorios de la ITV o el seguro. Al final de mes, puedes generar gráficos detallados para saber exactamente cuánto te cuesta mantener tu coche.</ArticleParagraph>
+
+        <ArticleHeading>4. Telpark / ElParking: Olvídate de los parquímetros</ArticleHeading>
+        <ArticleParagraph>Buscar calderilla para pagar la zona azul es cosa del pasado. Estas aplicaciones te permiten pagar el estacionamiento regulado directamente desde el móvil, ampliar el tiempo a distancia o incluso entrar y salir de parkings subterráneos usando lectura automática de matrícula sin tener que sacar un ticket de papel.</ArticleParagraph>
+
+        <ArticleHeading>5. Spotify: La banda sonora de tus viajes</ArticleHeading>
+        <ArticleParagraph>Aunque parezca obvia, las últimas actualizaciones de Spotify diseñadas específicamente para el "Car Mode" la hacen indispensable. Con controles simplificados por voz, integración perfecta con Android Auto y Apple CarPlay, y podcasts dedicados al motor, transforma cualquier viaje aburrido en una experiencia placentera.</ArticleParagraph>
       </div>
     </div>
   </BlogLayout>
@@ -268,11 +279,22 @@ export const BlogPost4 = () => (
       </div>
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
-        <ArticleParagraph>Muchos conductores retrasan las revisiones mecánicas pensando que así ahorran dinero, pero la realidad es muy distinta. Un coche descuidado consume mucho más.</ArticleParagraph>
+        <ArticleParagraph>Muchos conductores retrasan las revisiones mecánicas pensando que así ahorran dinero a corto plazo, pero la realidad es muy distinta. Un coche descuidado consume mucho más y acabará pasándote una factura mayor en el surtidor o en averías graves. Te explicamos los factores clave.</ArticleParagraph>
+        
         <ArticleHeading>Filtros de aire sucios</ArticleHeading>
-        <ArticleParagraph>El motor necesita respirar para quemar la gasolina. Si el filtro está obstruido por polvo o insectos, la mezcla de oxígeno y combustible se desequilibra, forzando a la centralita a inyectar más gasolina para compensar la falta de aire.</ArticleParagraph>
+        <ArticleParagraph>El motor necesita respirar para quemar la gasolina. Si el filtro está obstruido por polvo o insectos, la mezcla de oxígeno y combustible se desequilibra, forzando a la centralita a inyectar más gasolina para compensar la falta de aire. Cambiar un filtro cuesta apenas 15€ y se paga solo en ahorro de combustible.</ArticleParagraph>
+        
         <ArticleHeading>Bujías en mal estado</ArticleHeading>
-        <ArticleParagraph>Una chispa débil significa que el combustible no se quema de forma eficiente dentro del cilindro. Sustituir las bujías a tiempo puede devolverle a tu coche la eficiencia del primer día y reducir tu gasto mensual en surtidores.</ArticleParagraph>
+        <ArticleParagraph>Una chispa débil significa que el combustible no se quema de forma eficiente dentro del cilindro, provocando tirones y pérdida de potencia. Sustituir las bujías a tiempo puede devolverle a tu coche la eficiencia del primer día y reducir tu gasto mensual notablemente.</ArticleParagraph>
+
+        <ArticleHeading>Aceite de motor degradado</ArticleHeading>
+        <ArticleParagraph>El aceite viejo pierde su viscosidad y capacidad de lubricación. Esto aumenta drásticamente la fricción interna de los componentes móviles del motor, lo que significa que el motor tiene que hacer más esfuerzo (y quemar más gasolina) simplemente para mantener el coche en movimiento. Usa siempre el aceite sintético recomendado por el fabricante.</ArticleParagraph>
+
+        <ArticleHeading>Neumáticos desalineados</ArticleHeading>
+        <ArticleParagraph>Si tu coche tiende a irse hacia un lado cuando sueltas el volante, tienes un problema de alineación. Esto no solo destroza las gomas de forma irregular, sino que obliga al vehículo a vencer una resistencia constante contra el asfalto, disparando el consumo hasta un 5%.</ArticleParagraph>
+
+        <ArticleHeading>La sonda lambda y los sensores</ArticleHeading>
+        <ArticleParagraph>La sonda lambda se encarga de medir el oxígeno en los gases de escape. Si falla o está sucia, enviará datos erróneos a la centralita, que por precaución ordenará inyectar más combustible del necesario (modo rico). Un simple escaneo OBD2 en tu taller de confianza puede detectar este fallo silencioso que vacía tu cartera.</ArticleParagraph>
       </div>
     </div>
   </BlogLayout>
