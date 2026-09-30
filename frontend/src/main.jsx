@@ -63,7 +63,16 @@ const applyThemeAndColor = () => {
 const WrappedPage = ({ children }) => {
   useEffect(() => {
     applyThemeAndColor();
+    if (!document.querySelector('script[src*="adsbygoogle.js"]') && (window.location.pathname.startsWith('/blog') || window.location.pathname === '/legal' || window.location.pathname === '/privacidad' || window.location.pathname === '/cookies')) {
+      const script = document.createElement("script");
+      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3243042902219004";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+    }
   }, []);
+
+  
 
   const isDark = document.documentElement.classList.contains('dark');
   const [showCookiesBanner, setShowCookiesBanner] = useState(false);
@@ -141,7 +150,9 @@ if (path === '/privacidad') {
     createRoot(rootElement).render(<WrappedPage><BlogPost3 /></WrappedPage>);
   } else if (path === '/blog/mantenimiento-preventivo-consumo') {
     createRoot(rootElement).render(<WrappedPage><BlogPost4 /></WrappedPage>);
-  } else {
+  } else if (path === '/login') {
+  createRoot(rootElement).render(<WrappedPage><App initialAuth={true} /></WrappedPage>);
+} else {
   createRoot(rootElement).render(<WrappedPage><App /></WrappedPage>);
 }
 

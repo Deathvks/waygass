@@ -119,7 +119,7 @@ const PROVINCE_MAP = {
  'melilla': '52'
 };
 
-function App() {
+function App({ initialAuth = false }) {
 
  const [cookieConsent, setCookieConsent] = useState(() => localStorage.getItem('waygass_cookie_consent_v2'));
  const [showCookiesBanner, setShowCookiesBanner] = useState(!localStorage.getItem('waygass_cookie_consent_v2'));
@@ -161,7 +161,7 @@ function App() {
  };
 
  const [authToken, setAuthToken] = useState(localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token'));
-  const [showAuth, setShowAuth] = useState(false);
+  const [showAuth, setShowAuth] = useState(initialAuth);
  const [authUser, setAuthUser] = useState(() => {
  try {
  const stored = localStorage.getItem('waygas_user') || sessionStorage.getItem('waygas_user');
@@ -726,7 +726,7 @@ function App() {
   if (showAuth) {
     return <AuthScreen onLoginSuccess={handleLoginSuccess} />;
   }
-  return <LandingPage onEnterApp={() => setShowAuth(true)} />;
+  return <LandingPage onEnterApp={() => window.location.href = '/login'} />;
  }
 
  return (

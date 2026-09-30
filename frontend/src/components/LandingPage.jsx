@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function LandingPage({ onEnterApp }) {
+  useEffect(() => {
+    if (!document.querySelector('script[src*="adsbygoogle.js"]')) {
+      const script = document.createElement("script");
+      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3243042902219004";
+      script.async = true;
+      script.crossOrigin = "anonymous";
+      document.head.appendChild(script);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white flex flex-col font-sans selection:bg-primary selection:text-white">
       
@@ -216,6 +226,71 @@ export default function LandingPage({ onEnterApp }) {
                   Sí. El acceso al mapa interactivo, la consulta de precios de Diésel y Gasolina, y la geolocalización de estaciones cercanas es una herramienta totalmente gratuita para todos los conductores en España peninsular e islas.
                 </p>
               </div>
+            </div>
+          </div>
+        
+        </section>
+        {/* LATEST NEWS & GUIDES SECTION (AdSense Content) */}
+        <section className="px-6 py-24 bg-[#f8fafc] dark:bg-[#000000]">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-black mb-4">Guías y Actualidad</h2>
+              <p className="text-slate-600 dark:text-slate-400 text-lg">Consejos prácticos para el conductor inteligente.</p>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
+                <div className="h-40 relative">
+                  <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Guía Práctica</span>
+                  <h3 className="text-lg font-black mb-2 leading-tight">5 Trucos infalibles para ahorrar combustible</h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo?</p>
+                </div>
+              </article>
+
+              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
+                <div className="h-40 relative">
+                  <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Mecánica</span>
+                  <h3 className="text-lg font-black mb-2 leading-tight">Gasolineras Low-Cost: ¿Mito o realidad?</h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Desmentimos los mitos más comunes sobre las estaciones de bajo coste y la calidad de sus combustibles.</p>
+                </div>
+              </article>
+
+              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/mejores-apps-coche-2026'}>
+                <div className="h-40 relative">
+                  <img src="/blog-apps-car.jpg" alt="Car Apps" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Tecnología</span>
+                  <h3 className="text-lg font-black mb-2 leading-tight">Las 5 mejores apps para conductores en 2026</h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Digitaliza tu coche y exprime al máximo cada viaje con estas herramientas imprescindibles.</p>
+                </div>
+              </article>
+
+              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/mantenimiento-preventivo-consumo'}>
+                <div className="h-40 relative">
+                  <img src="/blog-maintenance.jpg" alt="Maintenance" className="w-full h-full object-cover" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Mecánica</span>
+                  <h3 className="text-lg font-black mb-2 leading-tight">Mantenimiento preventivo y el consumo</h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Descubre cuánto combustible estás perdiendo por no visitar al mecánico a tiempo.</p>
+                </div>
+              </article>
+              
+            </div>
+            
+            <div className="mt-12 text-center">
+              <a href="/blog" className="inline-flex items-center gap-2 text-primary font-bold hover:text-primary-dark transition-colors">
+                Ver todos los artículos
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+              </a>
             </div>
           </div>
         </section>
