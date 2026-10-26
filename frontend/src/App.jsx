@@ -263,7 +263,7 @@ function App({ initialAuth = false }) {
 
  const [currentProvince, setCurrentProvince] = useState(() => {
    if (queryParamProvince && PROVINCE_CENTERS[queryParamProvince]) return queryParamProvince;
-   return localStorage.getItem('waygas_province') || '35';
+   return localStorage.getItem('waygas_province') || '28';
  });
 
  const [userLocation, setUserLocation] = useState(() => {
