@@ -21,7 +21,7 @@ export default function SubscriptionModal({ isOpen, onClose, onActivatePro }) {
  <div className="w-9 h-1 rounded-full bg-slate-200 dark:bg-slate-700 mx-auto -mt-2 mb-1 sm:hidden"></div>
 
  <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 p-1">
- <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+ <i className="fa-solid fa-xmark text-base"></i>
  </button>
 
  <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
@@ -30,12 +30,12 @@ export default function SubscriptionModal({ isOpen, onClose, onActivatePro }) {
  <div className="relative mb-8 mt-4">
  <div className="absolute inset-0 bg-gradient-to-tr from-secondary to-primary blur-2xl opacity-40 animate-pulse rounded-full"></div>
  <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 flex items-center justify-center relative z-10 border border-slate-700/50 dark:border-white/20">
- <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+ <i className="fa-solid fa-bolt text-3xl"></i>
  </div>
  
  {/* Sparkles */}
  <div className="absolute -top-3 -right-3 text-amber-500 animate-bounce delay-75">
- <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.6H22l-6.2 4.5 2.4 7.6-6.2-4.5-6.2 4.5 2.4-7.6-6.2-4.5h7.6z"/></svg>
+ <i className="fa-solid fa-crown text-xl text-amber-400"></i>
  </div>
  </div>
 

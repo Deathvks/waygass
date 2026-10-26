@@ -15,7 +15,7 @@ function AddManualView({ onBack, onSave }) {
     <div className="space-y-6">
       <div className="flex items-center gap-3 px-1 mb-2">
         <button onClick={onBack} className="p-1 text-slate-400 hover:text-primary transition">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          <i className="fa-solid fa-chevron-left text-sm"></i>
         </button>
         <h4 className="text-sm font-bold text-slate-900 dark:text-white">Ajuste Manual</h4>
       </div>
@@ -176,7 +176,7 @@ export default function GarageView({ settings, setSettings }) {
                           onClick={(e) => { e.stopPropagation(); setDeleteConfirmId(car.id); }}
                           className="w-8 h-8 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-red-500 transition-colors"
                         >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                          <i className="fa-solid fa-trash-can text-xs"></i>
                         </button>
                       </div>
 
@@ -203,7 +203,7 @@ export default function GarageView({ settings, setSettings }) {
                     onClick={() => setMode('add_catalog')}
                     className="w-full py-4 mt-2 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-bold text-sm hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    <i className="fa-solid fa-plus text-sm"></i>
                     Añadir otro vehículo
                   </button>
                 )}
@@ -211,7 +211,7 @@ export default function GarageView({ settings, setSettings }) {
             ) : (
               <div className="text-center py-8">
                 <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-white/5 mx-auto flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M22 8.35V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8.35A2 2 0 0 1 3.26 6.5l8-3.2a2 2 0 0 1 1.48 0l8 3.2A2 2 0 0 1 22 8.35Z"/><path d="M6 18h12"/><path d="M6 14h12"/><rect width="12" height="12" x="6" y="10"/></svg>
+                  <i className="fa-solid fa-warehouse text-2xl text-slate-400"></i>
                 </div>
                 <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Garaje vacío</h3>
                 <p className="text-sm text-slate-500 mb-6">Añade tu coche para calcular llenados exactos.</p>
@@ -231,7 +231,7 @@ export default function GarageView({ settings, setSettings }) {
           <div className="space-y-4">
             <div className="flex items-center gap-3 px-1 mb-2">
               <button onClick={() => { setMode('list'); setSelectedBrand(null); }} className="p-1 text-slate-400 hover:text-primary transition">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                <i className="fa-solid fa-chevron-left text-sm"></i>
               </button>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">{selectedBrand ? `Modelos ${selectedBrand.name}` : 'Selecciona marca'}</h4>
             </div>
@@ -286,7 +286,7 @@ export default function GarageView({ settings, setSettings }) {
           <div className="space-y-6">
             <div className="flex items-center gap-3 px-1 mb-2">
               <button onClick={() => setMode('list')} className="p-1 text-slate-400 hover:text-primary transition">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                <i className="fa-solid fa-chevron-left text-sm"></i>
               </button>
               <h4 className="text-sm font-bold text-slate-900 dark:text-white">Ajustar {activeCar.name}</h4>
             </div>
@@ -315,7 +315,7 @@ export default function GarageView({ settings, setSettings }) {
                   onClick={() => handleEditTank(activeCar.id, activeCar.originalTankSize)}
                   className="w-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 font-bold py-3 rounded-xl hover:bg-slate-200 dark:hover:bg-white/20 transition-colors flex items-center justify-center gap-2"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
+                  <i className="fa-solid fa-rotate-left text-xs"></i>
                   Restaurar a original ({activeCar.originalTankSize}L)
                 </button>
               )}
@@ -337,7 +337,7 @@ export default function GarageView({ settings, setSettings }) {
             >
               <div className="text-center mb-5">
                 <div className="w-14 h-14 rounded-full bg-red-100 dark:bg-red-500/20 mx-auto flex items-center justify-center mb-4">
-                  <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                  <i className="fa-solid fa-trash-can text-2xl text-red-500"></i>
                 </div>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">¿Eliminar vehículo?</h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">

@@ -163,7 +163,7 @@ export default function SecurityPanel({ onClose }) {
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
-              <svg className="w-5 h-5 text-red-500" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+              <i className="fa-solid fa-shield-halved text-lg text-red-500"></i>
             </div>
             <div>
               <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">Ciberseguridad</h2>
@@ -172,7 +172,7 @@ export default function SecurityPanel({ onClose }) {
           </div>
           {onClose && (
             <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:hover:text-white transition">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              <i className="fa-solid fa-xmark text-sm"></i>
             </button>
           )}
         </div>
@@ -189,7 +189,7 @@ export default function SecurityPanel({ onClose }) {
           {/* TIME FILTERS */}
                   <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-black rounded-2xl border-0 overflow-visible relative z-40">
           <div className="flex flex-col gap-2 relative z-50">
-            <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Filtro de Tiempo</label>
+            <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-1"><i className="fa-regular fa-clock text-xs"></i> Filtro de Tiempo</label>
             <Select
               options={TIME_OPTIONS}
               value={TIME_OPTIONS.find(o => o.value === timePreset) || TIME_OPTIONS[0]}
@@ -351,7 +351,7 @@ export default function SecurityPanel({ onClose }) {
             {/* Top Failed Login IPs */}
             {stats.topFailIPs?.length > 0 && (
               <div className="space-y-2">
-                <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider">⚠ IPs con Login Fallido</h4>
+                <h4 className="text-xs font-bold text-red-500 uppercase tracking-wider flex items-center gap-1.5"><i className="fa-solid fa-triangle-exclamation text-xs"></i> IPs con Login Fallido</h4>
                 <div className="bg-white/50 dark:bg-white/5 border border-red-200/50 dark:border-red-500/20 rounded-xl overflow-hidden">
                   {stats.topFailIPs.map((item, i) => (
                     <div key={i} className="flex items-center justify-between px-4 py-2.5 border-b border-red-100 dark:border-red-500/10 last:border-0">
@@ -455,7 +455,7 @@ export default function SecurityPanel({ onClose }) {
                 )) : (
                 <div className="flex flex-col items-center justify-center text-center py-10">
                     <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-                      <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+                      <i className="fa-solid fa-shield-halved text-2xl text-slate-400"></i>
                     </div>
                     <p className="text-sm font-bold text-slate-800 dark:text-white">No hay IPs bloqueadas</p>
                     <p className="text-xs text-slate-500 mt-1">Todo limpio por ahora.</p>

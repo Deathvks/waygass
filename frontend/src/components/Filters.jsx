@@ -152,10 +152,8 @@ export default function Filters({ filters, setFilters }) {
         onClick={() => setIsModalOpen(true)}
         className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-black/5 dark:bg-white/5 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
       >
-        <svg className="w-5 h-5 text-slate-500 dark:text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-        </svg>
-        Más Filtros y Opciones
+        <i className="fa-solid fa-sliders text-sm text-slate-500 dark:text-slate-400"></i>
+        <span>Más Filtros y Opciones</span>
       </button>
 
       {/* MODAL */}
@@ -166,9 +164,12 @@ export default function Filters({ filters, setFilters }) {
             <div className="w-12 h-1.5 bg-slate-300 dark:bg-white/20 rounded-full mx-auto mb-2 mt-1 sm:hidden"></div>
             
             <div className="flex justify-between items-center mb-3">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Opciones de Búsqueda</h2>
-              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i className="fa-solid fa-sliders text-primary text-base"></i>
+                <span>Opciones de Búsqueda</span>
+              </h2>
+              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10" title="Cerrar">
+                <i className="fa-solid fa-xmark text-sm"></i>
               </button>
             </div>
 

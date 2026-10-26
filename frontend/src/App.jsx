@@ -422,7 +422,7 @@ function App({ initialAuth = false }) {
       },
  (err) => {
  if (isManual && err.code === 1) {
- setGpsModal({ title: "⚠️ Permiso bloqueado", message: "Para usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación." });
+ setGpsModal({ title: "Permiso bloqueado", message: "Para usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación." });
  } else if (isManual && err.code === 2) {
  setGpsModal({ title: "Sin señal GPS", message: "No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo." });
  } else if (isManual && err.code === 3) {
@@ -828,11 +828,11 @@ function App({ initialAuth = false }) {
  <Filters filters={filters} setFilters={setFilters} />
  <div className="bg-white dark:bg-black border border-slate-200/50 dark:border-white/5 p-1 rounded-2xl flex items-center mb-1">
    <button onClick={() => setViewMode('explore')} className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2 ${viewMode === 'explore' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <i className="fa-solid fa-compass text-sm mr-1"></i>
       Explorar
    </button>
    <button onClick={() => setViewMode('favorites')} className={`flex-1 py-2 text-xs sm:text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2 ${viewMode === 'favorites' ? 'bg-primary/10 text-primary border border-primary/20' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}`}>
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+      <i className="fa-solid fa-heart text-sm mr-1"></i>
       Favoritas
    </button>
    </div>
@@ -890,19 +890,33 @@ function App({ initialAuth = false }) {
  </div>
  </div>
 
-   {isLogoutOpen && (
+      {isLogoutOpen && (
         <LogoutModal 
           isOpen={isLogoutOpen} 
           onClose={() => setLogoutOpen(false)} 
           onConfirm={handleLogout} 
         />
       )}
-         {isLogoutOpen && (
-        <LogoutModal 
-          isOpen={isLogoutOpen} 
-          onClose={() => setLogoutOpen(false)} 
-          onConfirm={handleLogout} 
-        />
+
+      {gpsModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={() => setGpsModal(null)}></div>
+          <div className="relative w-full max-w-sm bg-white dark:bg-black rounded-[32px] border border-slate-200/50 dark:border-white/10 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 bg-amber-500/10 rounded-2xl flex items-center justify-center mb-3 text-amber-500">
+                <i className="fa-solid fa-triangle-exclamation text-2xl"></i>
+              </div>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">{gpsModal.title}</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 mb-6 leading-relaxed">{gpsModal.message}</p>
+              <button
+                onClick={() => setGpsModal(null)}
+                className="w-full py-3.5 rounded-2xl font-bold text-sm bg-primary text-white hover:opacity-90 transition-opacity"
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -168,7 +168,7 @@ export default function SettingsModal({
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
             </h2>
             <button onClick={handleClose} className="w-8 h-8 flex items-center justify-center bg-slate-100/50 dark:bg-white/5 text-slate-500 hover:text-slate-900 dark:hover:text-white rounded-full transition">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+              <i className="fa-solid fa-xmark text-sm"></i>
             </button>
           </div>
           
@@ -188,7 +188,7 @@ export default function SettingsModal({
               {/* Refuel Amount Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <i className="fa-solid fa-euro-sign text-sm text-primary"></i>
                   Gasto Habitual (€)
                 </label>
                 <p className="text-xs text-slate-500 dark:text-slate-400">Calcularemos cuántos litros te caben y cuánto más echas en comparación con la media de la zona.</p>
@@ -207,9 +207,7 @@ export default function SettingsModal({
               {/* Color Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                  </svg>
+                  <i className="fa-solid fa-palette text-sm text-primary"></i>
                   Color de Acento
                 </label>
                 <div className="flex justify-between px-4 py-2">
@@ -227,7 +225,7 @@ export default function SettingsModal({
                       style={{ backgroundColor: c.color }}
                     >
                       {((!settings.appColor && c.id === 'red') || settings.appColor === c.id) && (
-                        <svg className="w-5 h-5 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3.5"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        <i className="fa-solid fa-check text-xs text-white"></i>
                       )}
                     </button>
                   ))}
@@ -237,7 +235,7 @@ export default function SettingsModal({
               {/* GPS App Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7l6-3 5.447 2.724A1 1 0 0121 7.618v10.764a1 1 0 01-1.447.894L15 17l-6 3z"/></svg>
+                  <i className="fa-solid fa-location-arrow text-sm text-primary"></i>
                   Navegador Predeterminado
                 </label>
                 <div className="flex bg-slate-100/50 dark:bg-black/30 p-1 rounded-xl">
@@ -250,7 +248,7 @@ export default function SettingsModal({
               {/* View Mode Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                  <i className="fa-solid fa-table-cells-large text-sm text-primary"></i>
                   Vista Inicial
                 </label>
                 <div className="flex bg-slate-100/50 dark:bg-black/30 p-1 rounded-xl">
@@ -263,9 +261,7 @@ export default function SettingsModal({
               {/* Map Style Row */}
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                  </svg>
+                  <i className="fa-solid fa-map text-sm text-primary"></i>
                   Estilo de Mapa
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -283,7 +279,7 @@ export default function SettingsModal({
               <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+                    <i className="fa-solid fa-id-card text-sm text-primary"></i>
                     Fidelización
                   </div>
                   {(!user || user.subscription === 'free') && (
@@ -330,7 +326,7 @@ export default function SettingsModal({
             <div className="flex flex-col gap-4">
               <div className="bg-primary/10 border border-primary/20 rounded-2xl p-4 flex gap-3 items-start">
                 <div className="shrink-0 mt-0.5">
-                  <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <i className="fa-solid fa-circle-question text-base text-primary"></i>
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-slate-800 dark:text-white mb-1">¿Cómo funciona el ranking?</h4>
@@ -363,7 +359,7 @@ export default function SettingsModal({
               ) : (
                 <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
                   <div className="w-12 h-12 bg-slate-100 dark:bg-white/5 rounded-full flex items-center justify-center mb-3">
-                    <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.82 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.496 1.509 1.333 1.509 2.316V18"/></svg>
+                    <i className="fa-solid fa-trophy text-2xl text-slate-400"></i>
                   </div>
                   <h4 className="text-sm font-bold text-slate-800 dark:text-white mb-1">Aún no hay contribuciones</h4>
                   <p className="text-xs text-slate-500">Sé el primero en ganar puntos reportando precios.</p>
@@ -464,9 +460,9 @@ export default function SettingsModal({
                               <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-200/50 dark:border-white/5">
                                 <div className="flex flex-wrap gap-1.5">
                                   {u.authProvider === 'google' ? (
-                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Google"><svg className="w-2.5 h-2.5 text-blue-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/></svg> Google</span>
+                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Google"><i className="fa-brands fa-google text-blue-500 text-[10px]"></i> Google</span>
                                   ) : (
-                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Email/Contraseña"><svg className="w-2.5 h-2.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Email</span>
+                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Email/Contraseña"><i className="fa-solid fa-envelope text-slate-400 text-[10px]"></i> Email</span>
                                   )}
                                   {u.role === 'admin' && <span className="bg-primary text-white text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">ADMIN</span>}
                                   {u.subscription === 'pro' && <span className="bg-amber-400 text-amber-900 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">PRO</span>}
@@ -474,10 +470,10 @@ export default function SettingsModal({
 
                                 <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                                   <button onClick={() => setRoleModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition" title="Cambiar Rol">
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7z"/></svg>
+                                    <i className="fa-solid fa-user-gear text-xs"></i>
                                   </button>
                                   <button onClick={() => setDeleteModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-red-500 transition" title="Eliminar Usuario">
-                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    <i className="fa-solid fa-trash-can text-xs"></i>
                                   </button>
                                 </div>
                               </div>
@@ -506,9 +502,7 @@ export default function SettingsModal({
             {/* Cabecera con Icono Apple Style */}
             <div className="flex flex-col items-center text-center">
               <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-3 text-primary shadow-sm">
-                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-                </svg>
+                <i className="fa-solid fa-shield-halved text-2xl text-primary"></i>
               </div>
 
               <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -553,9 +547,7 @@ export default function SettingsModal({
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
                     selectedRole === 'admin' ? 'bg-primary text-white shadow-sm' : 'bg-slate-200/60 dark:bg-white/10 text-slate-500'
                   }`}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                    </svg>
+                    <i className="fa-solid fa-user-shield text-sm"></i>
                   </div>
                   <div>
                     <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -574,9 +566,7 @@ export default function SettingsModal({
                     : 'border-slate-300 dark:border-white/20'
                 }`}>
                   {selectedRole === 'admin' && (
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+                    <i className="fa-solid fa-check text-xs"></i>
                   )}
                 </div>
               </div>
@@ -594,9 +584,7 @@ export default function SettingsModal({
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
                     selectedRole === 'user' ? 'bg-primary text-white shadow-sm' : 'bg-slate-200/60 dark:bg-white/10 text-slate-500'
                   }`}>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                    </svg>
+                    <i className="fa-solid fa-user text-sm"></i>
                   </div>
                   <div>
                     <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
@@ -615,9 +603,7 @@ export default function SettingsModal({
                     : 'border-slate-300 dark:border-white/20'
                 }`}>
                   {selectedRole === 'user' && (
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
+                    <i className="fa-solid fa-check text-xs"></i>
                   )}
                 </div>
               </div>
@@ -664,9 +650,7 @@ export default function SettingsModal({
             
             <div className="flex flex-col items-center text-center">
               <div className="w-14 h-14 bg-rose-50 dark:bg-rose-500/10 rounded-2xl flex items-center justify-center mb-3 border border-rose-100 dark:border-rose-500/20 text-rose-500">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
+                <i className="fa-solid fa-trash-can text-2xl text-rose-500"></i>
               </div>
 
               <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">

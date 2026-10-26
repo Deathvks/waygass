@@ -5,10 +5,7 @@ const BlogLayout = ({ children }) => (
     <header className="px-6 py-5 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
       <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.242-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+          <i className="fa-solid fa-gas-pump text-white text-sm"></i>
         </div>
         <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span> Blog</span>
       </a>
@@ -57,7 +54,7 @@ export const BlogIndex = () => (
           <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo? Aprende cómo optimizar tu depósito.</p>
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
             <span>20 Sept, 2026</span>
-            <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
           </div>
         </div>
       </article>
@@ -73,7 +70,7 @@ export const BlogIndex = () => (
           <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desmentimos los mitos más comunes sobre las estaciones de bajo coste. ¿El diésel barato estropea el motor? Te contamos qué dice la ciencia.</p>
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
             <span>18 Sept, 2026</span>
-            <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
           </div>
         </div>
       </article>
@@ -90,7 +87,7 @@ export const BlogIndex = () => (
             <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desde comparadores de precios hasta gestión de rutas y mantenimiento. Digitaliza tu coche y exprime al máximo cada viaje.</p>
             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
               <span>25 Sept, 2026</span>
-              <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+              <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
             </div>
           </div>
         </article>
@@ -106,7 +103,7 @@ export const BlogIndex = () => (
             <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Filtros sucios, bujías desgastadas y aceite antiguo. Descubre cuánto combustible estás perdiendo por no visitar al mecánico.</p>
             <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
               <span>28 Sept, 2026</span>
-              <span className="text-primary flex items-center gap-1">Leer artículo <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7"/></svg></span>
+              <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
             </div>
           </div>
         </article>
@@ -118,7 +115,7 @@ export const BlogPost1 = () => (
   <BlogLayout>
     <div className="max-w-3xl mx-auto">
       <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
       
@@ -162,7 +159,7 @@ export const BlogPost2 = () => (
   <BlogLayout>
     <div className="max-w-3xl mx-auto">
       <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
       
@@ -212,7 +209,7 @@ export const BlogPost3 = () => (
   <BlogLayout>
     <div className="max-w-3xl mx-auto">
       <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
       
@@ -258,7 +255,7 @@ export const BlogPost4 = () => (
   <BlogLayout>
     <div className="max-w-3xl mx-auto">
       <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7"/></svg>
+        <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
       

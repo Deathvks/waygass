@@ -5,10 +5,7 @@ const PageLayout = ({ title, children }) => (
     <header className="px-6 py-5 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
       <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
-          <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.242-4.243a8 8 0 1111.314 0z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+          <i className="fa-solid fa-gas-pump text-white text-sm"></i>
         </div>
         <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span></span>
       </a>
@@ -48,9 +45,7 @@ const List = ({ items }) => (
   <ul className="space-y-3 mt-4">
     {items.map((item, idx) => (
       <li key={idx} className="flex gap-3">
-        <svg className="w-6 h-6 text-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
+        <i className="fa-solid fa-check text-primary text-sm flex-shrink-0 mt-1"></i>
         <span>{item}</span>
       </li>
     ))}

@@ -17,9 +17,7 @@ export default function LogoutModal({ isOpen, onClose, onConfirm }) {
  <div className="flex flex-col items-center text-center mt-2">
  {/* Icono de advertencia/salida */}
  <div className="w-16 h-16 bg-rose-50 dark:bg-rose-500/10 rounded-full flex items-center justify-center mb-4 border border-rose-100 dark:border-rose-500/20">
- <svg className="w-8 h-8 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
- </svg>
+ <i className="fa-solid fa-arrow-right-from-bracket text-2xl text-rose-500"></i>
  </div>
 
  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">

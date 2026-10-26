@@ -13,7 +13,7 @@ export default function LegalModal({ type, onClose }) {
  {isTerms ? 'Términos de Servicio' : 'Política de Privacidad y Cookies'}
  </h2>
  <button onClick={onClose} className="p-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 hover:text-slate-800 dark:hover:text-white transition">
- <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+ <i className="fa-solid fa-xmark text-sm"></i>
  </button>
  </div>
  <div className="p-6 overflow-y-auto prose dark:prose-invert prose-sm max-w-none text-slate-600 dark:text-slate-400 text-sm leading-relaxed">

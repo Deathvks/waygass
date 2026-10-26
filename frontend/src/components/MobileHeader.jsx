@@ -64,9 +64,7 @@ export default function MobileHeader({ user, openProfile, onSearch, loadingSearc
     <div className={`relative flex items-center bg-white dark:bg-[#111] bg-white/90 dark:bg-[#1c1c1e]/90 shadow-md border-slate-200/60 dark:border-white/10 rounded-full px-4 py-1.5 gap-2 pointer-events-auto w-full mx-auto shadow-sm transition-all duration-300 ${isFocused || query.length > 0 ? "max-w-[95%]" : "max-w-[340px]"}`}>
       
       {/* Search Icon */}
-      <svg className="w-5 h-5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-      </svg>
+      <i className="fa-solid fa-magnifying-glass text-slate-400 shrink-0 text-sm"></i>
       
       {/* Search Input */}
       <form onSubmit={handleSubmit} className="flex-1 relative flex items-center">
@@ -91,7 +89,7 @@ export default function MobileHeader({ user, openProfile, onSearch, loadingSearc
             }}
             className="absolute right-2 w-6 h-6 flex items-center justify-center bg-slate-200/50 dark:bg-white/10 hover:bg-slate-300/50 dark:hover:bg-white/20 text-slate-500 dark:text-slate-400 rounded-full transition-colors"
           >
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            <i className="fa-solid fa-xmark text-xs"></i>
           </button>
         )}
   
@@ -112,10 +110,7 @@ export default function MobileHeader({ user, openProfile, onSearch, loadingSearc
         className={`shrink-0 p-1.5 transition ${isUsingGps ? "text-primary drop-shadow-[0_0_8px_rgba(0,219,233,0.5)]" : "text-slate-400 hover:text-primary"}`}
         title="Usar mi ubicación actual"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={isUsingGps ? 1.8 : 1.2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-        </svg>
+        <i className="fa-solid fa-location-crosshairs text-base"></i>
       </button>
 
       {/* Profile Button */}

@@ -23,7 +23,7 @@ export default function ProfileModal({ isOpen, onClose, user, onLogout, openSub,
  onClick={onClose}
  className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-black text-slate-500 dark:text-slate-400 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition"
  >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/></svg>
+ <i className="fa-solid fa-xmark text-sm"></i>
  </button>
 
  <div className="flex flex-col items-center mt-2">
@@ -32,7 +32,7 @@ export default function ProfileModal({ isOpen, onClose, user, onLogout, openSub,
  <span className="text-3xl font-black text-primary">{user.name.charAt(0).toUpperCase()}</span>
  {isPro && (
  <div className="absolute -bottom-1 -right-1 bg-slate-900 text-amber-300 w-7 h-7 rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">
- <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+ <i className="fa-solid fa-crown text-[11px] text-amber-300"></i>
  </div>
  )}
  </div>
@@ -57,7 +57,7 @@ export default function ProfileModal({ isOpen, onClose, user, onLogout, openSub,
  onClick={() => { onClose(); openSub(); }}
  className="bg-slate-900 hover:bg-slate-800 text-amber-300 font-bold text-[11px] px-3 py-1.5 rounded-full transition active:scale-95"
  >
- Mejorar a PRO
+ <i className="fa-solid fa-crown mr-1.5 text-amber-400"></i>Mejorar a PRO
  </button>
  )}
  </div>
@@ -68,10 +68,7 @@ export default function ProfileModal({ isOpen, onClose, user, onLogout, openSub,
           onClick={() => { onClose(); openSettings(); }}
           className="w-full px-4 py-3.5 rounded-2xl font-bold text-sm text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-black/50 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2 border border-slate-100 dark:border-white/5"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
+          <i className="fa-solid fa-gear text-base text-slate-500 dark:text-slate-400"></i>
           Ajustes de la App
         </button>
 
@@ -83,9 +80,7 @@ export default function ProfileModal({ isOpen, onClose, user, onLogout, openSub,
  }}
  className="w-full px-4 py-3.5 rounded-2xl font-bold text-sm text-rose-500 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 transition-colors flex items-center justify-center gap-2"
  >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
- </svg>
+ <i className="fa-solid fa-arrow-right-from-bracket text-sm"></i>
  Cerrar Sesión
  </button>
  </div>

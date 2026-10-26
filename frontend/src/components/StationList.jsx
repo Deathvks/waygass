@@ -176,10 +176,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  if (stations.length === 0) {
  return (
  <div className="mt-8 lg:mt-16 mb-auto flex flex-col items-center justify-center text-center p-8 text-slate-500 dark:text-slate-400">
- <svg className="w-16 h-16 text-slate-300 dark:text-slate-700 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
- </svg>
+ <i className="fa-solid fa-gas-pump text-5xl text-slate-300 dark:text-slate-700 mb-4"></i>
  <h3 className="text-xl font-medium text-slate-800 dark:text-slate-200 mb-2">No hay estaciones</h3>
  <p>Prueba a ampliar el radio de búsqueda o cambiar los filtros.</p>
  </div>
@@ -210,9 +207,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  <div className="flex items-center justify-between px-2 -mb-1">
  {lastUpdate ? (
  <div className="text-[11px] text-slate-400 font-medium flex items-center gap-1.5">
- <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
- </svg>
+ <i className="fa-regular fa-clock text-xs"></i>
  Actualizado: {lastUpdate}
  </div>
  ) : <div></div>}
@@ -262,7 +257,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  >
  {isRecommended && !isSelected && (
  <div className="absolute top-0 right-0 bg-gradient-to-r from-secondary to-primary text-white text-[9px] sm:text-[10px] font-medium px-3 py-1 rounded-bl-xl z-10 flex items-center gap-1.5">
- <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+ <i className="fa-solid fa-star text-[10px] text-amber-300"></i>
  <span className="flex gap-1 items-baseline">
  RECOMENDADA <span className="text-[7px] sm:text-[8px] font-medium opacity-90 normal-case">por precio y cercanía</span>
  </span>
@@ -276,7 +271,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  onClick={(e) => { e.stopPropagation(); handleDeselect(); }}
  className="w-5 h-5 flex items-center justify-center bg-slate-200 text-slate-500 rounded-lg hover:bg-slate-300 transition"
  >
- <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12"/></svg>
+ <i className="fa-solid fa-xmark text-xs"></i>
  </button>
  </div>
  )}
@@ -290,7 +285,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  onClick={(e) => { e.stopPropagation(); onToggleFavorite && onToggleFavorite(s.id); }}
  className="shrink-0 p-1 rounded-lg transition-transform active:scale-75 cursor-pointer relative z-10 touch-manipulation"
  >
- <svg className={`w-4 h-4 transition-colors ${isFav ? 'text-rose-500 fill-rose-500' : 'text-slate-300 dark:text-slate-600 hover:text-slate-400 dark:hover:text-slate-500'}`} fill={isFav ? "currentColor" : "none"} stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+ <i className={`text-sm transition-colors ${isFav ? 'fa-solid fa-heart text-rose-500' : 'fa-regular fa-heart text-slate-300 dark:text-slate-600 hover:text-rose-400'}`}></i>
  </button>
  </div>
  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{s.address}, {s.town}</p>
@@ -331,7 +326,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  isExpanded ? 'bg-transparent text-primary dark:bg-transparent text-primary text-primary-dark dark:text-primary' : 'bg-transparent dark:bg-transparent dark:border-white/10 hover:bg-transparent border border-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300'
  }`}
  >
- <svg className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/></svg>
+ <i className={`fa-solid fa-chevron-down text-xs transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}></i>
  {isExpanded ? 'Ocultar Histórico' : 'Ver Histórico de Precios (30d)'}
  </button>
 
@@ -339,9 +334,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  <div className={`flex items-start sm:items-center gap-1.5 text-[11px] font-medium px-2 py-1.5 rounded-md mr-3 ${
  s.isOpen ? 'bg-emerald-50 dark:bg-emerald-500/10 backdrop-blur-md text-emerald-600 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-500/10 backdrop-blur-md text-red-600 dark:text-red-400'
  }`}>
- <svg className={`w-3.5 h-3.5 shrink-0 mt-[2px] ${s.isOpen ? 'text-emerald-500' : 'text-red-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
- <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
- </svg>
+ <i className={`fa-regular fa-clock text-xs shrink-0 mt-[1px] ${s.isOpen ? 'text-emerald-500' : 'text-red-500'}`}></i>
  <span className="leading-relaxed">
     <span className={s.isOpen ? 'font-bold' : 'font-bold'}>
       {s.isOpen ? 'Abierto' : 'Cerrado'}
@@ -355,7 +348,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  className="bg-[#001F3F] dark:bg-white text-white dark:text-[#001F3F] font-medium px-4 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1.5 shrink-0 hover:bg-slate-800 dark:hover:bg-slate-200 "
  >
  <span>Ir al GPS</span>
- <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+ <i className="fa-solid fa-location-arrow text-[10px]"></i>
  </a>
  </div>
  </div>
@@ -431,7 +424,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  }`}
  title={userVotes[s.id] === 'PRICE_CORRECT' ? "Cancelar validación" : "El precio es correcto"}
  >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+ <i className="fa-solid fa-thumbs-up text-xs"></i>
  <span className="hidden sm:inline">Correcto</span>
  </button>
 
@@ -444,7 +437,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  }`}
  title={userVotes[s.id] === 'WRONG_PRICE' ? "Cancelar reporte" : "El precio está mal"}
  >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+ <i className="fa-solid fa-triangle-exclamation text-xs"></i>
  <span className="hidden sm:inline">Mal precio</span>
  </button>
  
@@ -457,7 +450,7 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  }`}
  title={userVotes[s.id] === 'CLOSED' ? "Cancelar reporte" : "La gasolinera está cerrada"}
  >
- <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+ <i className="fa-solid fa-ban text-xs"></i>
  <span className="hidden sm:inline">Cerrada</span>
  </button>
  </div>
@@ -466,13 +459,13 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  <div className="mt-3 flex flex-col gap-1.5">
  {globalValidations[s.id]?.WRONG_PRICE > 0 && (
  <div className="text-[10px] sm:text-xs text-amber-600 dark:text-amber-400 font-medium flex items-center gap-1.5 bg-amber-50 dark:bg-primary/10 backdrop-blur-md text-primary border-primary/30 px-2.5 py-1.5 rounded-lg border border-amber-100 dark:border-amber-500/20">
- <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+ <i className="fa-solid fa-triangle-exclamation text-xs shrink-0"></i>
  {globalValidations[s.id].WRONG_PRICE} usuario(s) indican que el precio no es correcto.
  </div>
  )}
  {globalValidations[s.id]?.CLOSED > 0 && (
  <div className="text-[10px] sm:text-xs text-rose-600 dark:text-rose-400 font-medium flex items-center gap-1.5 bg-rose-50 dark:bg-rose-500/10 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-rose-100 dark:border-rose-500/20">
- <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+ <i className="fa-solid fa-ban text-xs shrink-0"></i>
  {globalValidations[s.id].CLOSED} usuario(s) indican que está cerrada.
  </div>
  )}

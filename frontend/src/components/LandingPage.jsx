@@ -18,10 +18,7 @@ export default function LandingPage({ onEnterApp }) {
       <header className="px-6 py-5 flex items-center justify-between border-b border-slate-200 dark:border-white/5 sticky top-0 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl z-50">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
-            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.242-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+            <i className="fa-solid fa-gas-pump text-white text-sm"></i>
           </div>
           <span className="text-xl font-black tracking-tight">Way<span className="text-primary">Gass</span></span>
         </div>
@@ -67,9 +64,7 @@ export default function LandingPage({ onEnterApp }) {
                 className="w-full sm:w-auto px-8 py-4 bg-primary hover:bg-primary-dark text-white text-lg font-bold rounded-2xl shadow-xl shadow-primary/30 transition-all hover:scale-105 flex items-center justify-center gap-2"
               >
                 Abrir Mapa Interactivo
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
+                <i className="fa-solid fa-arrow-right text-base"></i>
               </button>
             </div>
             
@@ -100,20 +95,13 @@ export default function LandingPage({ onEnterApp }) {
 
                 {/* Google Maps */}
                 <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-7 h-7" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                  </svg>
+                  <i className="fa-brands fa-google text-2xl text-[#4285F4]"></i>
                   Google Maps
                 </div>
 
                 {/* Apple Maps */}
                 <div className="flex items-center gap-3 font-bold text-lg text-slate-800 dark:text-white">
-                  <svg className="w-7 h-7 text-black dark:text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.68.727-1.303 2.143-1.12 3.52 1.35.104 2.675-.532 3.407-1.508z"/>
-                  </svg>
+                  <i className="fa-brands fa-apple text-2xl text-black dark:text-white"></i>
                   Apple Maps
                 </div>
                 
@@ -129,9 +117,7 @@ export default function LandingPage({ onEnterApp }) {
               
               <div className="space-y-4">
                 <div className="w-14 h-14 mx-auto md:mx-0 rounded-2xl bg-blue-100 dark:bg-blue-500/10 flex items-center justify-center">
-                  <svg className="w-7 h-7 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
+                  <i className="fa-solid fa-chart-column text-2xl text-blue-600 dark:text-blue-400"></i>
                 </div>
                 <h3 className="text-xl font-bold">Datos Oficiales MITECO</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
@@ -141,9 +127,7 @@ export default function LandingPage({ onEnterApp }) {
 
               <div className="space-y-4">
                 <div className="w-14 h-14 mx-auto md:mx-0 rounded-2xl bg-green-100 dark:bg-green-500/10 flex items-center justify-center">
-                  <svg className="w-7 h-7 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                  <i className="fa-solid fa-piggy-bank text-2xl text-green-600 dark:text-green-400"></i>
                 </div>
                 <h3 className="text-xl font-bold">Ahorro Inteligente</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
@@ -153,9 +137,7 @@ export default function LandingPage({ onEnterApp }) {
 
               <div className="space-y-4">
                 <div className="w-14 h-14 mx-auto md:mx-0 rounded-2xl bg-purple-100 dark:bg-purple-500/10 flex items-center justify-center">
-                  <svg className="w-7 h-7 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
+                  <i className="fa-solid fa-shield-halved text-2xl text-purple-600 dark:text-purple-400"></i>
                 </div>
                 <h3 className="text-xl font-bold">Sin Publicidad Invasiva</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
@@ -289,7 +271,7 @@ export default function LandingPage({ onEnterApp }) {
             <div className="mt-12 text-center">
               <a href="/blog" className="inline-flex items-center gap-2 text-primary font-bold hover:text-primary-dark transition-colors">
                 Ver todos los artículos
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7"/></svg>
+                <i className="fa-solid fa-arrow-right text-xs"></i>
               </a>
             </div>
           </div>
