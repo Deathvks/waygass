@@ -116,21 +116,38 @@ export const BLOG_POSTS = [
     ],
     sections: [
       {
-        heading: "1. WayGass: El comparador de gasolineras definitivo",
+        heading: "1. WayGass: El comparador de gasolineras definitivo en tiempo real",
         paragraphs: [
-          "Para ahorrar en cada repostaje, WayGass es la herramienta imprescindible. Se conecta a los datos oficiales del Ministerio para mostrarte las estaciones más baratas a tu alrededor en un mapa interactivo con filtros de marcas, tipos de combustible y cálculo de ahorro."
+          "Para ahorrar en cada repostaje, WayGass es la herramienta imprescindible para cualquier conductor en España. Se conecta directamente a la base de datos oficial del Ministerio para la Transición Ecológica (MITECO) y actualiza los precios en tiempo real de todas las estaciones de servicio de España.",
+          "Te permite filtrar por tipo de combustible (Gasolina 95, 98, Diésel A, Diésel Premium, GLP), seleccionar múltiples marcas simultáneamente para aprovechar tus tarjetas de fidelización, y calcular el ahorro exacto por cada depósito antes de salir de casa."
         ]
       },
       {
-        heading: "2. Waze: Tráfico y alertas en tiempo real",
+        heading: "2. Waze: Tráfico colaborativo, radares y rutas inteligentes",
         paragraphs: [
-          "La comunidad de usuarios de Waze te alerta de radares, atascos repentinos, objetos en la calzada y rutas alternativas más rápidas para no perder tiempo ni quemar combustible parado en retenciones."
+          "La gran fortaleza de Waze radica en su comunidad activa de millones de conductores que reportan incidencias al instante: accidentes, coches detenidos en el arcén, baches peligrosos y presencia de radares móviles o fijos.",
+          "Su algoritmo recalcula la ruta en milisegundos si detecta un embotellamiento inesperado, evitando que tu vehículo quede atrapado al ralentí quemando carburante de forma inútil."
         ]
       },
       {
-        heading: "3. Drivvo: Gestión integral de mantenimiento y gastos",
+        heading: "3. Drivvo: Gestión financiera, control de repostajes y revisiones",
         paragraphs: [
-          "Permite registrar cada factura del taller, cambio de aceite, seguro del vehículo y repostajes para tener una gráfica exacta del coste por kilómetro de tu coche."
+          "Llevar el control de lo que realmente cuesta mantener un coche es fundamental para el bolsillo. Drivvo te permite introducir los litros repostados, el coste por litro y los kilómetros recorridos en cada visita a la estación.",
+          "La app genera estadísticas de consumo real l/100km, calcula el gasto por kilómetro y programa recordatorios automáticos para el cambio de aceite, sustitución de neumáticos o la renovación del seguro e ITV."
+        ]
+      },
+      {
+        heading: "4. EasyPark / Telpark: Aparcamiento regulado sin dar vueltas ni monedas",
+        paragraphs: [
+          "Dar vueltas buscando aparcamiento en el centro de las ciudades puede suponer quemar entre 1 y 2 litros de combustible innecesariamente. Con apps como EasyPark o Telpark puedes gestionar el estacionamiento regulado (zona azul y verde) directamente desde el móvil.",
+          "Te permiten ampliar el tiempo a distancia sin tener que volver al coche, pagar solo por los minutos exactos que has estado aparcado y localizar parkings subterráneos con plazas libres en tiempo real."
+        ]
+      },
+      {
+        heading: "5. miDGT: Toda la documentación oficial de tu vehículo en el móvil",
+        paragraphs: [
+          "La aplicación oficial de la Dirección General de Tráfico (DGT) te permite llevar el carnet de conducir con plena validez legal, el permiso de circulación y la ficha técnica electrónica de todos tus vehículos en el teléfono.",
+          "Además, te avisa con antelación de la caducidad de la ITV o del seguro, te permite consultar tu saldo de puntos actualizado y pagar sanciones o transferir vehículos sin necesidad de desplazarte a una jefatura provincial."
         ]
       }
     ]
@@ -155,15 +172,38 @@ export const BLOG_POSTS = [
     ],
     sections: [
       {
-        heading: "El filtro de aire: los pulmones del motor",
+        heading: "1. El filtro de aire: los pulmones del motor",
         paragraphs: [
-          "Un filtro de aire sucio o saturado de polvo restringe la entrada de oxígeno a la cámara de combustión. En motores modernos de inyección electrónica, la centralita debe ajustar la mezcla y el motor rinde menos, obligando a pisar más el acelerador."
+          "Un filtro de aire colapsado por polvo y partículas restringe la entrada de oxígeno a la cámara de combustión. En motores modernos de inyección electrónica, la centralita ajusta los tiempos de inyección para mantener la relación estequiométrica, lo que provoca una pérdida inmediata de potencia.",
+          "Para compensar esa falta de respuesta, el conductor tiende a pisar el pedal del acelerador con más fuerza, elevando el consumo de combustible entre un 3% y un 7%. Sustituirlo cada 15.000 o 20.000 kilómetros es una de las operaciones más baratas y rentables del vehículo."
         ]
       },
       {
-        heading: "Aceite de motor adecuado",
+        heading: "2. Aceite de motor sintético y viscosidad adecuada",
         paragraphs: [
-          "Un lubricante de calidad con la viscosidad recomendada (como 0W-20 o 5W-30 sintético) disminuye el rozamiento de pistones y cigüeñal, lo que se traduce en hasta un 3% de menor consumo frente a un aceite denso o pasado de kilómetros."
+          "El aceite no solo evita que el motor gripe, sino que minimiza la fricción interna entre los pistones, las camisas y el cigüeñal. Utilizar un aceite degradado o con una viscosidad superior a la especificada por el fabricante (por ejemplo, usar un 10W-40 en lugar de un 0W-20 sintético) aumenta la resistencia interna del propulsor.",
+          "Un lubricante sintético de última generación con especificaciones Fuel Economy permite ahorrar hasta un 3% de carburante desde el primer arranque en frío."
+        ]
+      },
+      {
+        heading: "3. Bujías y calentadores: la chispa de la eficiencia",
+        paragraphs: [
+          "En los motores de gasolina, unas bujías desgastadas con electrodos erosionados provocan un salto de chispa débil o retardado. Esto causa combustiones incompletas donde parte de la gasolina se expulsa sin quemar por el escape, disparando el gasto y dañando el catalizador.",
+          "En los motores diésel, los calentadores en mal estado impiden alcanzar la temperatura idónea en los primeros minutos de marcha, alargando la fase en la que el motor gasta hasta un 20% más."
+        ]
+      },
+      {
+        heading: "4. Filtro de combustible y circuito de inyección limpio",
+        paragraphs: [
+          "El filtro de combustible retiene las impurezas microscópicas procedentes de los tanques. Si se satura, la bomba de alta presión se ve forzada a trabajar al límite, provocando caídas de presión en el rail común.",
+          "Unos inyectores pulverizados de forma deficiente generan gotas gruesas en lugar de una niebla fina, impidiendo una mezcla homogénea con el aire y malgastando combustible en cada ciclo de encendido."
+        ]
+      },
+      {
+        heading: "5. Alineación de la dirección y equilibrado",
+        paragraphs: [
+          "Si al soltar el volante en línea recta el coche tiende a desviarse hacia un lado, las ruedas no están perfectamente paralelas. Esa convergencia o divergencia incorrecta hace que los neumáticos avancen arrastrándose de lado contra el asfalto.",
+          "Este rozamiento parásito no solo destroza los neumáticos en pocos miles de kilómetros, sino que añade una resistencia constante al avance que eleva el consumo medio en más de medio litro cada 100 kilómetros."
         ]
       }
     ]
