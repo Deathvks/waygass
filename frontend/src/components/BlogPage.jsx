@@ -37,8 +37,8 @@ const BlogLayout = ({ children }) => (
     <header className="px-4 sm:px-8 py-4 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#07090e]/80 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
       <div className="flex items-center gap-6">
         <a href="/" className="flex items-center gap-2.5 hover:opacity-85 transition-opacity group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/25">
-            <i className="fa-solid fa-gas-pump text-white text-base"></i>
+          <div className="w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center shadow-md shrink-0 group-hover:scale-105 transition-transform">
+            <img src="/logo.png" alt="WayGass" className="w-full h-full object-contain" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tight leading-none">
@@ -263,20 +263,20 @@ const ShareBar = ({ title, url }) => {
 
 // FICHA DEL AUTOR AL FINAL DEL ARTÍCULO (ESTILO XATAKA)
 const AuthorBioCard = ({ author }) => {
-  if (!author) return null;
   return (
-    <div className="my-10 p-6 rounded-2xl bg-slate-100/60 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 flex items-center gap-4">
-      <div className="w-14 h-14 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-primary text-xl font-black shrink-0 overflow-hidden">
-        {author.avatar ? (
-          <img src={author.avatar} alt={author.name} className="w-full h-full object-cover" />
-        ) : (
-          author.name.charAt(0)
-        )}
+    <div className="my-10 p-6 rounded-2xl bg-slate-100/70 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 flex items-center gap-4">
+      <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/10 border border-slate-200 dark:border-white/10 flex items-center justify-center p-2 shrink-0 overflow-hidden shadow-sm">
+        <img src="/logo.png" alt="WayGass" className="w-full h-full object-contain" />
       </div>
       <div>
-        <div className="text-[10px] uppercase font-black tracking-widest text-primary">Redacción WayGass Motor</div>
-        <h4 className="font-black text-base text-slate-900 dark:text-white">{author.name}</h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{author.role}</p>
+        <div className="text-[10px] uppercase font-black tracking-widest text-primary flex items-center gap-1.5">
+          <span>Equipo Editorial Oficial</span>
+          <i className="fa-solid fa-circle-check text-xs"></i>
+        </div>
+        <h4 className="font-black text-base text-slate-900 dark:text-white">Redacción WayGass</h4>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+          Equipo especializado en el análisis de precios del carburante con datos de MITECO, normativa vial y mecánica práctica para ayudar al conductor a gastar menos en cada viaje.
+        </p>
       </div>
     </div>
   );
@@ -417,22 +417,19 @@ export const BlogPostPage = ({ slug }) => {
           </p>
         )}
 
-        {/* FIRMA Y METADATOS DEL AUTOR (ESTILO XATAKA) */}
+        {/* FIRMA Y METADATOS DEL AUTOR (OFICIAL WAYGASS) */}
         <div className="flex items-center justify-between flex-wrap gap-4 py-4 border-t border-slate-200 dark:border-white/10 my-4 text-xs">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-black text-primary overflow-hidden shrink-0">
-              {post.author?.avatar ? (
-                <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
-              ) : (
-                "W"
-              )}
+            <div className="w-10 h-10 rounded-xl bg-white dark:bg-white/10 p-1 border border-slate-200 dark:border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+              <img src="/logo.png" alt="WayGass" className="w-full h-full object-contain" />
             </div>
             <div>
-              <div className="font-black text-slate-900 dark:text-white">
-                Por {post.author?.name || "Redacción WayGass"}
+              <div className="font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span>Por Redacción WayGass</span>
+                <span className="text-[9px] bg-primary/10 text-primary px-1.5 py-0.5 rounded font-black uppercase">Oficial</span>
               </div>
               <div className="text-slate-500 dark:text-slate-400 text-[11px]">
-                {post.author?.role || "Especialista en Motor"}
+                Equipo editorial de Motor y Ahorro
               </div>
             </div>
           </div>
@@ -469,6 +466,15 @@ export const BlogPostPage = ({ slug }) => {
           )}
         </figure>
 
+        {/* ENTRADA NARRATIVA Y PLANTEAMIENTO DEL PROBLEMA (ESTILO XATAKA) */}
+        {post.intro && post.intro.length > 0 && (
+          <div className="my-8 space-y-4 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
+            {post.intro.map((p, idx) => (
+              <p key={idx}>{p}</p>
+            ))}
+          </div>
+        )}
+
         {/* CAJA DE PUNTOS CLAVE */}
         {post.keyPoints && post.keyPoints.length > 0 && (
           <KeyTakeawaysBox points={post.keyPoints} />
@@ -497,6 +503,23 @@ export const BlogPostPage = ({ slug }) => {
             </div>
           ))}
         </div>
+
+        {/* VEREDICTO FINAL DE WAYGASS */}
+        {post.verdict && (
+          <section className="my-12 p-6 sm:p-8 rounded-3xl bg-slate-100/90 dark:bg-white/[0.04] border border-slate-200 dark:border-white/10 shadow-sm">
+            <div className="flex items-center gap-2.5 mb-4 text-primary font-black text-sm uppercase tracking-wider">
+              <div className="w-7 h-7 rounded-lg bg-primary text-white flex items-center justify-center text-xs shadow-sm">
+                <i className="fa-solid fa-flag-checkered"></i>
+              </div>
+              <span>{post.verdict.title || "El veredicto de WayGass"}</span>
+            </div>
+            <div className="space-y-3.5 text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
+              {post.verdict.paragraphs.map((p, pIdx) => (
+                <p key={pIdx}>{p}</p>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* CTA DENTRO DEL ARTÍCULO */}
         <InArticleCta />
@@ -583,10 +606,10 @@ export const BlogIndex = () => {
 
               <div className="pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
                 <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400">
-                  <div className="w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary text-[10px]">
-                    {featuredPost.author?.name ? featuredPost.author.name.charAt(0) : "W"}
+                  <div className="w-6 h-6 rounded-lg bg-white dark:bg-white/10 p-0.5 border border-slate-200 dark:border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm">
+                    <img src="/logo.png" alt="WayGass" className="w-full h-full object-contain" />
                   </div>
-                  <span className="font-bold text-slate-700 dark:text-slate-300">{featuredPost.author?.name}</span>
+                  <span className="font-bold text-slate-700 dark:text-slate-300">Redacción WayGass</span>
                   <span>&bull;</span>
                   <span>{featuredPost.readTime}</span>
                 </div>
@@ -702,9 +725,9 @@ export const BlogIndex = () => {
               </div>
 
               <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs font-bold">
-                <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-                  <i className="fa-regular fa-user text-[10px]"></i>
-                  {post.author?.name || "Redacción"}
+                <span className="text-slate-500 dark:text-slate-400 flex items-center gap-1.5 font-bold">
+                  <img src="/logo.png" alt="WayGass" className="w-3.5 h-3.5 object-contain inline-block" />
+                  <span>Redacción WayGass</span>
                 </span>
                 <span className="text-primary flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                   Leer reportaje <i className="fa-solid fa-arrow-right text-[10px]"></i>

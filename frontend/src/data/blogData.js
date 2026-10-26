@@ -1,5 +1,5 @@
 // ==============================================================================
-// WAYGASS EDITORIAL - BASE DE DATOS DE ARTÍCULOS Y NOTICIAS ESTILO XATAKA MOTOR
+// WAYGASS EDITORIAL - ARTÍCULOS Y REPORTAJES PERIODÍSTICOS
 // ==============================================================================
 
 export const BLOG_POSTS = [
@@ -10,9 +10,9 @@ export const BLOG_POSTS = [
     kicker: "GUÍA DE CONDUCCIÓN EFICIENTE",
     category: "Guía Práctica",
     author: {
-      name: "Sergio Martín",
-      role: "Especialista en Eficiencia y Consumo del Motor",
-      avatar: "/logo.jpg"
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
+      avatar: "/logo.png"
     },
     readTime: "6 min de lectura",
     date: "20 Sept, 2026",
@@ -23,6 +23,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Conducción eficiente en autovía a velocidad constante.",
     excerpt: "¿Sabías que la presión de los neumáticos o el arrastre aerodinámico pueden disparar tu gasto hasta un 20%? Descubre cómo exprimir cada euro de tu depósito con técnicas de conducción aplicadas.",
     lead: "Con los vaivenes constantes en las tarifas del carburante, optimizar el gasto de gasolina o diésel ya no es solo una cuestión ecológica, sino una auténtica necesidad para la economía doméstica. Aplicando una serie de pautas basadas en la física del vehículo y la gestión de la inyección, cualquier conductor puede reducir entre 1,5 y 2,5 litros por cada 100 kilómetros sin sacrificar tiempo de llegada.",
+    intro: [
+      "Subes al coche por la mañana, arrancas el motor y miras de reojo el cuadro de mandos: la aguja del depósito baja con una rapidez que parece no tener freno. En un momento en el que llenar el tanque de gasolina o diésel supera con facilidad los 70 u 80 euros en casi cualquier estación, el gasto en carburante se ha convertido en una de las mayores cargas fijas del mes para millones de familias y trabajadores en España.",
+      "La mayoría de conductores se resigna pensando que la única forma de gastar menos es coger menos el coche. Otros prueban trucos milagrosos que leen en foros de internet, como poner punto muerto en las bajadas (un error peligroso que en realidad gasta más) o conducir en marchas tan forzadas que terminan averiando el volante bimasa del motor.",
+      "La realidad es que un vehículo medio malgasta hasta un 25% de la energía del combustible por culpa de malos hábitos de conducción y pequeños descuidos de mantenimiento. En este reportaje analizamos los cinco ajustes probados por la física y la ingeniería de automoción con los que podrás ahorrar entre 150€ y 300€ al año sin tardar ni un solo minuto más en tus trayectos."
+    ],
     keyPoints: [
       "Rodar con 0,5 bares menos de presión dispara la resistencia a la rodadura y gasta un 4% más.",
       "El corte de inyección al rodar con marcha engranada sin acelerar reduce el consumo instantáneo a 0,0 l/100km.",
@@ -85,7 +90,14 @@ export const BLOG_POSTS = [
           "Por último, la variable con mayor retorno inmediato: la elección de la gasolinera. Comparar las estaciones de tu ruta con WayGass te permite encontrar diferencias de hasta 22 céntimos por litro en la misma comarca. En un depósito de 55 litros, representa un ahorro de más de 12 euros por repostaje."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: ¿Cómo empezar a ahorrar desde hoy?",
+      paragraphs: [
+        "No necesitas cambiar de coche ni conducir como una tortuga para gastar menos. Empieza revisando la presión de tus cuatro ruedas este mismo fin de semana: es gratis y notarás la mejoría en el próximo llenado.",
+        "Combina esa revisión con una conducción más anticipativa en ciudad (dejando rodar el coche con marcha metida hacia los semáforos en rojo) y comprueba en WayGass el precio de las gasolineras de tu municipio antes de repostar. Con estos tres gestos, el ahorro medio supera los 20 euros al mes."
+      ]
+    }
   },
 
   // 2. GASOLINERAS LOW COST: MITO O REALIDAD
@@ -95,8 +107,8 @@ export const BLOG_POSTS = [
     kicker: "ANÁLISIS DEL SECTOR PETROLERO",
     category: "Mecánica",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico e Investigador de Combustibles",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "7 min de lectura",
@@ -108,6 +120,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Pista de repostaje automático de bajo coste en polígono industrial.",
     excerpt: "Desmentimos los bulos más extendidos sobre las gasolineras baratas. ¿Venden combustible aguado? ¿Rompieron los inyectores de verdad? Analizamos el papel de Exolum y los aditivos.",
     lead: "Existe una leyenda urbana muy extendida según la cual el combustible de las estaciones automáticas de bajo coste es de peor calidad, está 'rebajado' o termina destruyendo las bombas de inyección a medio plazo. Para entender por qué esta afirmación carece de fundamento técnico en España, es imprescindible analizar la cadena logística nacional regulada por el Ministerio para la Transición Ecológica.",
+    intro: [
+      "Todo conductor ha vivido esta conversación alguna vez: estás a punto de entrar a repostar en una estación automática de bajo coste y alguien te advierte con semblante serio: 'No eches ahí, que esa gasolina está aguada y te va a romper los inyectores'.",
+      "El rumor es tan antiguo como la aparición de las primeras cadenas 'low-cost' en España. Muchos automovilistas siguen convencidos de que la diferencia de 15 o 20 céntimos por litro se explica porque el combustible es un residuo de peor calidad, combustible 'sucio' o mezclas sospechosas que el motor pagará caro en el taller.",
+      "Pero, ¿qué hay de verdad en todo esto? ¿Realmente una petrolera tradicional refina un combustible diferente al de una gasolinera desatendida? Para responder con datos y sin mitos de bar, desgranamos cómo funciona el sistema logístico de hidrocarburos en España y qué dicen las inspecciones oficiales del Ministerio."
+    ],
     keyPoints: [
       "El 100% de la gasolina y el gasóleo en España se almacena y distribuye desde los mismos tanques de Exolum (antigua CLH).",
       "La normativa del Real Decreto 61/2006 impone estándares de calidad mínimos idénticos para todas las marcas del país.",
@@ -161,7 +178,14 @@ export const BLOG_POSTS = [
           "4. Política de volumen: Operan con márgenes comerciales de apenas unos céntimos por litro a cambio de rotar miles de metros cúbicos diarios."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: ¿Es seguro repostar en low-cost?",
+      paragraphs: [
+        "La respuesta rotunda es sí: el combustible cumple exactamente los mismos estándares que el de cualquier marca de prestigio y no va a provocar ninguna avería en tu motor.",
+        "Si haces muchos kilómetros al año, el ahorro puede superar con holgura los 250 euros. Si deseas el beneficio extra de los aditivos detergentes de las grandes marcas, una estrategia muy habitual y sensata es alternar: repostar de forma cotidiana en estaciones económicas y llenar en una estación tradicional o añadir un limpiador una o dos veces al año."
+      ]
+    }
   },
 
   // 3. LAS 5 MEJORES APPS PARA CONDUCTORES EN 2026
@@ -171,9 +195,9 @@ export const BLOG_POSTS = [
     kicker: "TECNOLOGÍA Y SOFTWARE PARA COCHE",
     category: "Tecnología",
     author: {
-      name: "Laura Gómez",
-      role: "Editora de Movilidad y Tecnología Digital",
-      avatar: "/logo.jpg"
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
+      avatar: "/logo.png"
     },
     readTime: "6 min de lectura",
     date: "26 Oct, 2026",
@@ -184,6 +208,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Smartphone en soporte magnético ejecutando herramientas de conducción.",
     excerpt: "Digitaliza tu experiencia al volante. Analizamos a fondo las cinco herramientas imprescindibles en tu móvil para evitar multas, pagar menos gasolina y llevar el coche al día.",
     lead: "El smartphone se ha transformado en el mejor copiloto posible. Desde consultar precios oficiales de hidrocarburos actualizados en tiempo real hasta llevar el permiso de conducir sin cartera o anticipar atascos kilométricos, estas cinco aplicaciones seleccionadas no pueden faltar en el teléfono de ningún conductor este año.",
+    intro: [
+      "Hasta hace no muchos años, salir de viaje en coche implicaba llevar una guía Campsa en la guantera, monedas sueltas para los parquímetros, la cartera repleta de papeles del seguro y la ficha técnica, y una buena dosis de fe para no encontrarte un atasco interminable a la entrada de la gran ciudad.",
+      "Hoy en día, el smartphone que llevas en el bolsillo tiene más capacidad de procesamiento que los ordenadores que llevaron al ser humano a la Luna, y la oferta de aplicaciones para el coche en Google Play y la App Store es prácticamente inabarcable. Sin embargo, muchas apps están repletas de anuncios engañosos, compras ocultas o datos obsoletos.",
+      "Para ahorrarte tiempo y espacio en la memoria de tu móvil, en WayGass hemos probado y seleccionado las cinco aplicaciones verdaderamente útiles, fiables y legales que todo conductor en España debería tener instaladas en 2026."
+    ],
     keyPoints: [
       "WayGass ofrece precios oficiales MITECO actualizados cada 30 minutos sin publicidad intrusiva.",
       "Waze se mantiene como el rey indiscutible de las alertas de tráfico colaborativo y retenciones sorpresa.",
@@ -232,7 +261,14 @@ export const BLOG_POSTS = [
           "Además, permite consultar el saldo de puntos en tiempo real, comprobar el distintivo ambiental de tu vehículo para acceder sin miedo a las Zonas de Bajas Emisiones (ZBE), verificar la vigencia de la ITV y el seguro obligatorio, e incluso realizar el pago telemático de sanciones con el 50% de reducción por pronto pago."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: El kit digital imprescindible",
+      paragraphs: [
+        "Llevar tu coche digitalizado no requiere docenas de aplicaciones. Con este paquete de cinco herramientas tienes cubierto el 100% de las necesidades del conductor moderno en España:",
+        "Waze para esquivar el tráfico en ruta, WayGass para no pagar de más en el surtidor, EasyPark para aparcar sin estrés, Drivvo para vigilar el gasto y miDGT para llevar toda la documentación en regla."
+      ]
+    }
   },
 
   // 4. MANTENIMIENTO PREVENTIVO Y CONSUMO
@@ -242,8 +278,8 @@ export const BLOG_POSTS = [
     kicker: "MECÁNICA Y TALLER",
     category: "Mantenimiento",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico y Perito Automotriz",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "6 min de lectura",
@@ -255,6 +291,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Revisión de filtros e inyectores en taller mecánico profesional.",
     excerpt: "Descubre cómo un simple filtro de aire sucio o unas bujías desgastadas pueden estar incrementando tu consumo hasta un 15% sin que aparezca ninguna luz de avería.",
     lead: "Muchos conductores asumen que mientras el testigo de 'Check Engine' no se ilumine en el cuadro de mandos, el motor está funcionando con perfecta eficiencia. Sin embargo, el desgaste paulatino de consumibles mecánicos degrada la combustión y eleva la fricción interna de forma casi imperceptible para el usuario, pero devastadora para el bolsillo.",
+    intro: [
+      "Notas que el coche no acelera con la misma soltura de antes, o que el depósito de gasolina dura un par de días menos de lo habitual. Miras el cuadro de mandos: no hay ninguna luz encendida, la temperatura está en su sitio y el motor arranca al primer toque de llave.",
+      "'Será que la gasolina ha subido de precio', piensas. Pero cuando calculas los litros reales a los 100 km, descubres que tu coche gasta casi un litro más de lo que solía gastar el año pasado.",
+      "En los talleres mecánicos vemos este fenómeno a diario: componentes de desgaste que no llegan a romper el coche del todo, pero que arruinan la eficiencia de la combustión. En este reportaje desgranamos los cinco elementos mecánicos más propensos a disparar tu consumo y cuánto dinero te cuesta ignorarlos."
+    ],
     keyPoints: [
       "Un filtro de aire saturado de partículas roba oxígeno y eleva el consumo entre un 3% y un 7%.",
       "Utilizar un aceite con viscosidad inadecuada aumenta la resistencia hidrodinámica de los pistones.",
@@ -299,7 +340,14 @@ export const BLOG_POSTS = [
           "Este rozamiento parásito desgasta los neumáticos de forma asimétrica en pocos miles de kilómetros y obliga al propulsor a vencer una resistencia constante similar a llevar el freno de mano ligeramente accionado, sumando hasta 0,6 l/100km adicionales a tu consumo medio."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: El mantenimiento que se paga solo",
+      paragraphs: [
+        "Aplazar el cambio de filtros o estirar el aceite viejo pensando que así 'ahorras' es el error más costoso que puedes cometer con tu coche.",
+        "Un filtro de aire nuevo de 18 euros y unas bujías a punto evitan que desperdicies cientos de euros en combustible sin quemar. El mantenimiento preventivo no es un gasto: es una inversión directa en tu bolsillo."
+      ]
+    }
   },
 
   // 5. QUÉ DÍA ES MÁS BARATA LA GASOLINA
@@ -309,9 +357,9 @@ export const BLOG_POSTS = [
     kicker: "ANÁLISIS DE MERCADO Y TARIFAS",
     category: "Ahorro Inteligente",
     author: {
-      name: "Sergio Martín",
-      role: "Especialista en Consumo y Datos del Motor",
-      avatar: "/logo.jpg"
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
+      avatar: "/logo.png"
     },
     readTime: "5 min de lectura",
     date: "26 Oct, 2026",
@@ -322,6 +370,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Monolito de precios con paneles LED en estación de servicio al amanecer.",
     excerpt: "Analizamos los patrones algorítmicos de las gasolineras en España. Descubre el 'efecto lunes' y cómo planificar tu repostaje para ahorrar hasta 10 céntimos por litro en cada llenado.",
     lead: "El precio de la gasolina y el gasóleo en las estaciones de servicio no sube ni baja por azar. Detrás de cada cambio en los carteles luminosos existe un complejo sistema de fijación algorítmica de precios que responde a patrones de demanda semanal, horarios de tráfico y estadísticas comunitarias.",
+    intro: [
+      "Pasa por la misma gasolinera un lunes a las ocho de la mañana y mira el cartel luminoso: la Gasolina 95 marca 1,619 €/l. Vuelve a pasar por esa misma estación el viernes a las siete de la tarde y el precio ha subido a 1,679 €/l. En apenas cuatro días, el mismo líquido de los mismos tanques subterráneos cuesta 6 céntimos más por litro.",
+      "Muchos conductores piensan que estas variaciones se deben a cotizaciones del barril de Brent en la bolsa de Londres o a guerras internacionales. La realidad del día a día es mucho más mundana y tiene que ver con cómo los algoritmos de las petroleras exprimen las curvas de demanda del tráfico semanal.",
+      "Si sabes qué días se aplican las rebajas estratégicas y qué horas son las más baratas, puedes llenar el depósito pagando significativamente menos sin cambiar de ruta ni perder tiempo."
+    ],
     keyPoints: [
       "Los lunes son históricamente el día con los precios más económicos de toda la semana en España.",
       "Los viernes por la tarde y los sábados concentran los precios más elevados para exprimir las escapadas de fin de semana.",
@@ -363,7 +416,14 @@ export const BLOG_POSTS = [
           "Durante la primera hora de la mañana (entre las 7:00 y las 9:00), tras enfriarse durante toda la noche, los tanques subterráneos se encuentran a su temperatura más baja. El carburante está en su punto de mayor densidad, lo que significa que por cada litro medido en el contador del surtidor obtienes una masa ligeramente mayor de energía química que si repostas en las horas centrales de una tarde calurosa de verano."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: Tu calendario de repostaje",
+      paragraphs: [
+        "La regla de oro para gastar lo mínimo es fijar el repostaje principal de la semana los lunes por la mañana antes de entrar a trabajar.",
+        "Si te surge un viaje inesperado de fin de semana, nunca pares en el primer área de servicio de la autovía el viernes por la tarde: consulta WayGass para localizar la estación más competitiva antes de incorporarte a la carretera principal."
+      ]
+    }
   },
 
   // 6. GASOLINA 95 O 98
@@ -373,8 +433,8 @@ export const BLOG_POSTS = [
     kicker: "COMBUSTIBLES Y OCTANAJE",
     category: "Mecánica",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico y Perito Automotriz",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "6 min de lectura",
@@ -386,6 +446,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Surtidor dual de Gasolina 95 y Gasolina 98 de alto octanaje.",
     excerpt: "El octanaje no mide la potencia, sino la resistencia a la autodetonación. Descubre si tu coche realmente necesita 98 octanos o si estás gastando hasta 200€ de más al año sin beneficio alguno.",
     lead: "Uno de los conceptos más malentendidos entre los conductores es la creencia de que la gasolina de 98 octanos tiene 'más fuerza', 'hace correr más al coche' o 'limpia el motor' por arte de magia. La realidad química de los hidrocarburos es muy diferente y viene dictada por la relación de compresión del motor de tu coche.",
+    intro: [
+      "Te paras frente al surtidor de gasolina y ves dos mangueras verdes: la de 95 a 1,60 €/l y la de 98 a 1,82 €/l. Son más de 20 céntimos de diferencia por litro; en un depósito de 50 litros, suponen 10 euros limpios de más.",
+      "En ese momento surgen los mitos de siempre: 'La de 98 le da un empujón al motor', 'el coche responde mejor en las cuestas', 'de vez en cuando conviene echarle 98 para limpiar los cilindros'.",
+      "La realidad es que el número de octanos no tiene nada que ver con la pureza ni con la cantidad de energía que contiene el combustible. En este reportaje explicamos qué mide exactamente el octanaje, qué coches sí necesitan 98 y por qué en un coche normal estás tirando 200 euros al año sin ganar ni medio caballo de potencia."
+    ],
     keyPoints: [
       "El octanaje mide exclusivamente la resistencia del carburante al fenómeno del autodetonado o 'picado de bielas'.",
       "Poner gasolina 98 en un coche homologado para 95 no incrementa la potencia ni reduce el consumo medio.",
@@ -431,7 +496,14 @@ export const BLOG_POSTS = [
           "Al detectar el inicio de picado, la ECU retrasa automáticamente el encendido para proteger la mecánica. El motor no se romperá, pero perderás entre un 5% y un 10% de potencia y el consumo aumentará ligeramente hasta que vuelvas a llenar el depósito con el combustible correcto."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: Hazle caso a la tapa del depósito",
+      paragraphs: [
+        "No te dejes llevar por el marketing: si tu coche no indica de forma explícita que requiere 98 octanos, repostar 98 no aporta ninguna ventaja de potencia, suavidad ni limpieza.",
+        "Llena con Gasolina 95 y ahórrate esos 10 a 12 euros por depósito para lo que de verdad importa."
+      ]
+    }
   },
 
   // 7. CÓMO ENCONTRAR GASOLINERAS BARATAS EN RUTA
@@ -441,8 +513,8 @@ export const BLOG_POSTS = [
     kicker: "VIAJES Y PLANIFICACIÓN EN CARRETERA",
     category: "Consejos de Viaje",
     author: {
-      name: "Laura Gómez",
-      role: "Especialista en Rutas y Movilidad por Carretera",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -454,6 +526,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Conducción en autovía española con señalización de áreas de servicio.",
     excerpt: "Las áreas de servicio de autopista son hasta 25 céntimos más caras por litro. Te mostramos cómo localizar estaciones económicas a solo 2 minutos de la salida de la autovía.",
     lead: "Salir de viaje por las autovías o autopistas españolas y ver encenderse la luz de reserva suele traducirse en una experiencia dolorosa: las estaciones ubicadas en el propio tronco de la autopista aplican tarifas extremadamente infladas gracias a su posición de monopolio en ruta. Con un poco de planificación, puedes ahorrarte hasta 15 euros por parada.",
+    intro: [
+      "Vas por la A-3 camino de la playa o por la A-6 cruzando Castilla y de pronto se enciende el testigo de reserva en el cuadro de mandos. Ves el cartel azul de la próxima estación en la autopista y entras a repostar. Miras el precio del litro: 1,85 €/l.",
+      "Te duele cada euro que entra en el depósito, pero piensas que 'es lo que cuesta la gasolina en viaje'. Lo que muchos conductores no saben es que tomando la salida hacia el pueblo adyacente, a apenas 900 metros de la rotonda, hay una estación que vende el mismo combustible a 1,62 €/l.",
+      "Ese sobreprecio de más de 20 céntimos por litro no es casualidad: es el peaje que cobran las áreas de servicio a pie de autovía por la comodidad del conductor perezoso. Con un par de trucos de geolocalización, puedes esquivar esta trampa en cualquier viaje por España."
+    ],
     keyPoints: [
       "Las gasolineras a pie de autopista cobran entre 15 y 28 céntimos más por litro que las estaciones cercanas.",
       "A menos de 1,5 km de muchas salidas de autovía existen polígonos industriales con estaciones low-cost y cooperativas.",
@@ -482,7 +559,14 @@ export const BLOG_POSTS = [
           "De este modo, sabrás con total certeza si la siguiente área de servicio de la ruta es un pozo sin fondo o si te compensa esperar a la siguiente salida para repostar con la máxima rentabilidad."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: El café en la autovía, la gasolina en la salida",
+      paragraphs: [
+        "Si tienes prisa y solo necesitas ir al baño, usa el área de autopista. Pero si necesitas llenar el depósito entero, tómate dos minutos para salir a la rotonda exterior.",
+        "Esos dos minutos de desvío son los minutos mejor pagados de tus vacaciones: 15 euros de ahorro limpio en cada depósito."
+      ]
+    }
   },
 
   // 8. CUÁNTO DURA LA GASOLINA EN EL DEPÓSITO
@@ -492,8 +576,8 @@ export const BLOG_POSTS = [
     kicker: "MECÁNICA Y CONSERVACIÓN",
     category: "Mantenimiento",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico e Investigador de Combustibles",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -505,6 +589,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Boca de llenado de combustible en vehículo estacionado en garaje.",
     excerpt: "Los hidrocarburos no son eternos. La gasolina y el diésel se degradan por oxidación y humedad. Descubre cuánto tardan en caducar y qué averías provocan si dejas el coche parado.",
     lead: "Muchos conductores creen que el combustible dentro del tanque sellado de un coche puede conservarse intacto indefinidamente. Sin embargo, los hidrocarburos refinados modernos contienen aditivos volátiles y una proporción obligatoria de biocombustibles (etanol y biodiésel) que inician un proceso inexorable de degradación química.",
+    intro: [
+      "Dejaste el coche aparcado en el garaje antes de verano, o tienes una moto que solo usas con el buen tiempo, o un coche clásico que sacas tres veces al año. Al ir a arrancarlo después de seis meses, el motor gira perezoso, tose, expulsa un humo espeso con un olor agrio inconfundible y se cala.",
+      "El instinto inicial es pensar en la batería o en las bujías, pero en la mayoría de los casos el culpable es el combustible: la gasolina que tienes en el depósito ha caducado.",
+      "A diferencia del petróleo crudo que pasa millones de años bajo tierra, la gasolina que sale del surtidor es un producto químico refinado y muy inestable, especialmente desde que por ley europea contiene entre un 5% y un 10% de bioetanol. En este artículo te explicamos cuánto tarda en estropearse y cómo evitar averías en vehículos que pasan meses parados."
+    ],
     keyPoints: [
       "La gasolina convencional empieza a degradarse a partir de los 3 meses y puede ser inservible a los 6 meses.",
       "El etanol presente en la Gasolina 95 (E5 y E10) es higroscópico: absorbe la humedad ambiental y crea agua en el fondo del tanque.",
@@ -537,7 +626,14 @@ export const BLOG_POSTS = [
           "- Si el vehículo lleva más de un año parado, es recomendable drenar el combustible viejo antes de intentar poner el motor en marcha."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: Combustible fresco, motor sano",
+      paragraphs: [
+        "Si tu coche va a estar parado entre 3 y 6 meses, no lo dejes en reserva: déjalo casi lleno y añade un estabilizador si es posible.",
+        "Y si lleva más de un año sin moverse, no fuerces el arranque: sacar la gasolina vieja cuesta muy poco, pero reparar una bomba gripada o cuatro inyectores obstruidos te costará más de 800 euros."
+      ]
+    }
   },
 
   // 9. CIRCULAR EN RESERVA DE GASOLINA
@@ -547,8 +643,8 @@ export const BLOG_POSTS = [
     kicker: "AVERÍAS Y TALLER",
     category: "Mecánica",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico y Perito Automotriz",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -560,6 +656,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Testigo luminoso de reserva en el cuadro de instrumentos digital.",
     excerpt: "Apurar el depósito hasta la última gota no te hace ahorrar nada. Descubre por qué la bomba de combustible puede quemarse y cómo los sedimentos del fondo dañan los inyectores.",
     lead: "Para muchos conductores, ver encenderse el testigo naranja de reserva es un juego rutinario para comprobar cuántos kilómetros aguanta el coche antes de detenerse. Lo que muchos ignoran es que rodar habitualmente con el nivel mínimo de combustible somete a componentes críticos del sistema de alimentación a un estrés térmico y mecánico que termina en facturas de taller de cuatro cifras.",
+    intro: [
+      "Se enciende la luz naranja en el cuadro de instrumentos y el ordenador de a bordo te avisa: 'Autonomía restante: 45 km'. En lugar de buscar la gasolinera más cercana, piensas: 'Bueno, todavía llego a casa y mañana por la mañana ya echo'.",
+      "Apurar la reserva se ha convertido casi en un deporte para muchos conductores que van posponiendo el gasto. Sin embargo, rodar sistemáticamente con el tanque en las últimas no te ahorra ni un solo céntimo (al final vas a tener que pagar el mismo combustible) y, en cambio, somete a tu coche a un riesgo mecánico altísimo.",
+      "Desde bombas eléctricas que se queman por falta de refrigeración hasta inyectores atascados por sedimentos corrosivos acumulados en el fondo del tanque, en este artículo te contamos qué le ocurre de verdad a tu coche por dentro cuando la aguja roza la zona roja."
+    ],
     keyPoints: [
       "La bomba eléctrica sumergida utiliza la propia gasolina como líquido refrigerante y lubricante.",
       "Al rodar en reserva, la bomba aspira aire y se sobrecalienta, provocando su gripaje prematuro.",
@@ -588,7 +689,14 @@ export const BLOG_POSTS = [
           "Además, si intentas caminar por el arcén de la autovía hacia la gasolinera más cercana sin chaleco reflectante homologado, te enfrentarás a otros 200 euros de multa."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: Reposta en el primer tercio",
+      paragraphs: [
+        "Apurar el depósito no te hace ahorrar nada. Llena cuando la aguja alcance el último cuarto del depósito: tu bomba de combustible te lo agradecerá durando cientos de miles de kilómetros más.",
+        "Y si por despiste se enciende la luz de reserva, no tientes a la suerte: abre WayGass, busca la gasolinera más cercana y barata, y evita sustos en la carretera."
+      ]
+    }
   },
 
   // 10. CÓMO CALCULAR EL CONSUMO REAL
@@ -598,8 +706,8 @@ export const BLOG_POSTS = [
     kicker: "MÉTRICAS Y CONTROL DE GASTO",
     category: "Guía Práctica",
     author: {
-      name: "Sergio Martín",
-      role: "Especialista en Consumo y Datos del Motor",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -611,6 +719,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Menú de viaje y consumo medio en pantalla digital de salpicadero.",
     excerpt: "Los ordenadores de a bordo mienten: suelen registrar entre un 5% y un 12% menos del consumo real. Aprende el método matemático de dos llenados para calcular el gasto exacto por kilómetro.",
     lead: "Mirar la cifra que arroja el ordenador de a bordo del salpicadero es el método más habitual para saber cuánto gasta un coche. Sin embargo, diversos estudios de asociaciones automovilísticas demuestran que casi todos los cuadros de instrumentos presentan un desvío optimista que maquilla el consumo real del vehículo.",
+    intro: [
+      "El catálogo oficial de tu coche decía que consumía 4,5 litros a los 100 km. Tú miras la pantalla digital del salpicadero y marca orgullosa 5,2 l/100km. Te parece una cifra razonable. Sin embargo, miras tu cuenta corriente a final de mes y los cargos de la tarjeta en gasolineras no cuadran con esos números.",
+      "¿Te estás volviendo loco o el coche está gastando mucho más de lo que dice? La respuesta es sencilla: los ordenadores de a bordo no miden litros reales, sino estimaciones teóricas basadas en pulsos electrónicos.",
+      "Para conocer la cifra matemática y real de tu vehículo sin engaños ni aproximaciones, existe un método empírico muy fácil de aplicar que te revelará la verdad de tu coche en dos repostajes."
+    ],
     keyPoints: [
       "Los ordenadores de a bordo calculan el gasto estimando los pulsos de inyección, no midiendo el volumen físico real.",
       "El margen de error habitual se sitúa entre 0,3 y 0,8 l/100km a favor del fabricante.",
@@ -644,57 +757,83 @@ export const BLOG_POSTS = [
           "Si además multiplicas los litros por el precio pagado y divides entre los kilómetros, obtendrás tu coste exacto por kilómetro en euros (€/km), la métrica reina para presupuestar tus viajes."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: Datos reales frente a estimaciones",
+      paragraphs: [
+        "Haz la prueba de los dos clics al menos una vez al trimestre. Te sorprenderá comprobar que tu coche suele gastar entre medio litro y un litro más de lo que indica el cuadro.",
+        "Conocer tu consumo real es el primer paso para detectar a tiempo si un filtro sucio, unas ruedas deshinchadas o un sensor defectuoso están empezando a hacerte perder dinero."
+      ]
+    }
   },
 
   // 11. ADITIVOS PARA GASOLINA Y DIÉSEL
   {
     slug: "aditivos-para-gasolina-y-diesel-sirven-para-algo",
     title: "Aditivos para gasolina y diésel: ¿Funcionan de verdad o son puro efecto placebo?",
-    kicker: "QUÍMICA DEL MOTOR",
+    kicker: "QUÍMICA Y MECÁNICA",
     category: "Mecánica",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico e Investigador de Combustibles",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
-    readTime: "6 min de lectura",
+    readTime: "7 min de lectura",
     date: "26 Oct, 2026",
     dateISO: "2026-10-26T16:30:00+02:00",
     updatedDate: "Actualizado hoy a las 18:00",
     image: "/blog-fuel-additives.jpg",
     imageAlt: "Persona vertiendo un bote de aditivo limpiador de inyectores en el depósito del coche",
-    imageCaption: "Foto: Archivo WayGass / Aplicación de tratamiento limpiador de inyección en el surtidor.",
-    excerpt: "Limpiadores de inyectores, mejoradores de cetano y antifricción. Analizamos la evidencia química detrás de los botes de aditivo: cuáles merecen la pena y cuáles son una estafa.",
-    lead: "Las estanterías de las gasolineras y tiendas de repuestos están repletas de botes milagrosos que prometen aumentar la potencia, reducir el consumo un 20% y limpiar las entrañas del motor en un solo depósito. Separar el marketing agresivo de la química automotriz real es fundamental para no tirar el dinero.",
+    imageCaption: "Foto: Archivo WayGass / Bote de tratamiento limpiador de inyección vertido en el depósito.",
+    excerpt: "Limpiadores de inyectores, mejoradores de cetano y tratamientos antihumo. Analizamos la química real detrás de los botes de aditivo: cuáles funcionan de verdad y cuáles son puro marketing.",
+    lead: "Vas a pagar en la caja de la gasolinera y frente al mostrador hay una estantería llena de botes de colores llamativos prometiendo reducir el consumo un 15%, recuperar la potencia perdida y evitar averías de miles de euros. Pero, ¿realmente hacen algo o estamos pagando 15 euros por keroseno con colorante?",
+    intro: [
+      "Llegas a repostar, te acercas al mostrador a pagar y ahí están, colocados estratégicamente a la altura de los ojos: decenas de botes metálicos y de plástico con nombres sugerentes como 'Super Inyección', 'Tratamiento Integral 5 en 1' o 'Fórmula Antihumos ITV'. Sus precios suelen rondar entre los 9 y los 25 euros por bote de 300 mililitros.",
+      "Las promesas impresas en sus etiquetas no escatiman en optimismo: prometen reducir el consumo de combustible de forma drástica, devolverle la aceleración de fábrica al motor, limpiar las válvulas sin desmontar nada y alargar la vida útil del coche. En un contexto donde llenar el depósito cuesta más de 70 euros, gastar 12 euros más con la esperanza de ahorrar a medio plazo parece una ganga irresistible.",
+      "Sin embargo, la duda siempre asalta al conductor: ¿existe verdadera evidencia química detrás de estos productos o se trata de uno de los negocios de marketing más rentables del mundo del motor? En WayGass hemos analizado la composición real de estos líquidos, qué dicen los ensayos de laboratorio independientes de la ASTM y en qué situaciones concretas un aditivo sí puede salvarte de una avería (y cuándo es literalmente tirar el dinero al depósito)."
+    ],
     keyPoints: [
-      "Los limpiadores con Polieteramina (PEA) sí son capaces de disolver carbonilla en inyectores y válvulas.",
-      "Ningún aditivo es capaz de reparar averías mecánicas físicas o fugas de compresión existentes.",
-      "Los mejoradores de cetano en diésel facilitan el arranque en frío y suavizan la sonoridad del motor.",
-      "Los aditivos antihumo son muy eficaces como tratamiento puntual antes de pasar la prueba de gases en la ITV."
+      "Los limpiadores con concentraciones reales de Polieteramina (PEA) sí disuelven la carbonilla de toberas y válvulas.",
+      "Ningún aditivo líquido puede reparar holguras mecánicas, fugas en juntas ni agujas de inyector físicamente deformadas.",
+      "Los aditivos antihumo son muy eficaces para enmascarar opacidad de gases de escape justo antes de la prueba de la ITV.",
+      "El combustible comercial ya incorpora aditivos básicos obligatorios por ley según la normativa del Ministerio."
     ],
     sections: [
       {
         heading: "La química real: ¿Qué componentes sí funcionan?",
         paragraphs: [
-          "No todos los aditivos del mercado son iguales. Muchos productos económicos se componen casi en su totalidad de queroseno y disolventes básicos que apenas tienen efecto.",
-          "Sin embargo, los tratamientos de marcas reconocidas que incorporan detergentes basados en Polieteramina (PEA) o Poli-isobutileno (PIB) han demostrado en ensayos de laboratorio estandarizados por la ASTM su capacidad para desincrustar carbonillas depositadas en las toberas de los inyectores y la cara posterior de las válvulas de admisión."
-        ]
+          "No todos los aditivos del mercado son iguales. Muchos productos económicos de marca blanca se componen casi en su totalidad de destilados de petróleo básicos (básicamente queroseno refinado con algún disolvente suave). Estos productos no tienen poder detergente suficiente para eliminar depósitos endurecidos por miles de ciclos térmicos.",
+          "Sin embargo, los tratamientos de marcas químicas consolidadas (como Liqui Moly, Motul, Wynn's o Bardahl) que incorporan detergentes basados en Polieteramina (PEA) o Poli-isobutileno (PIB) han demostrado en ensayos de laboratorio estandarizados por la ASTM su capacidad real para disolver gomas y carbonillas acumuladas en las toberas de los inyectores y en la parte trasera de las válvulas de admisión."
+        ],
+        callout: {
+          type: "tip",
+          title: "El ingrediente que debes buscar",
+          text: "Mira la ficha técnica de seguridad (FDS) o la etiqueta del bote. Si contiene Polyetheramine (PEA), estás ante un detergente de alta temperatura eficaz. Si solo dice 'destilados de petróleo', es un producto muy diluido con escaso poder de limpieza."
+        }
       },
       {
-        heading: "Tratamientos preventivos antes de la ITV",
+        heading: "Tratamientos preventivos antes de la ITV: el caso del diésel",
         paragraphs: [
-          "Uno de los usos más justificados de los aditivos limpiadores de inyección es la preparación previa a la inspección técnica periódica (ITV). Los motores diésel que realizan muchos trayectos urbanos acumulan hollín en el colector de escape y la válvula EGR.",
-          "Un tratamiento de limpieza concentrado en medio depósito, combinado con una conducción a régimen alegre en marchas cortas por autovía (por encima de 3.000 rpm durante 25 minutos), ayuda a regenerar el filtro de partículas y reduce drásticamente la opacidad en la prueba de humos."
+          "Uno de los usos más justificados de los aditivos limpiadores de inyección es la preparación previa a la inspección técnica periódica (ITV). Los motores diésel modernos que realizan trayectos cortos o urbanos acumulan hollín en el colector de escape, la válvula EGR y la geometría variable del turbo.",
+          "Un tratamiento de limpieza concentrado aplicado en medio depósito, combinado con una conducción a régimen alegre en marchas cortas por autovía (por encima de 3.000 rpm durante 25 o 30 minutos), eleva la temperatura de los gases de escape, quema los depósitos de carbonilla y reduce drásticamente el valor de opacidad de humos en la prueba de la ITV."
         ]
       },
       {
         heading: "Lo que ningún aditivo puede hacer",
         paragraphs: [
-          "Desconfía de cualquier producto que prometa aumentos drásticos de potencia o 'reparar' piezas rotas. Si un inyector tiene la aguja gripada, el sensor de masa de aire está descalibrado o los segmentos del pistón presentan holgura excesiva, la única solución es desmontar y sustituir la pieza en un taller mecánico especializado."
+          "Desconfía de cualquier producto que prometa milagros mecánicos. Si un inyector tiene la aguja gripada por desgaste metálico, la bomba de alta presión está arrojando virutas de aluminio o las juntas de culata pierden compresión, ningún bote de 15 euros va a 'regenerar' el metal.",
+          "Los aditivos son tratamientos de limpieza y mantenimiento preventivo químico, jamás sustitutos de reparaciones mecánicas en el taller."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: ¿Cuándo merece la pena comprarlos?",
+      paragraphs: [
+        "No son pociones mágicas ni van a transformar un coche viejo en un bólido de carreras, pero tampoco son una estafa absoluta. La clave reside en usarlos con un objetivo concreto:",
+        "Si tu coche tiene más de 80.000 km, hace mucha ciudad o notas pequeños tirones al acelerar, un bote con PEA cada 20.000 km es una inversión barata y preventiva muy recomendable. Si tu objetivo es pasar la prueba de gases en la ITV, los tratamientos antihumo concentrados funcionan.",
+        "Pero si tu motor tiene una avería mecánica real o esperas que el consumo baje un 20% por arte de magia, ahórrate el dinero: ningún líquido en bote sustituye una visita al mecánico."
+      ]
+    }
   },
 
   // 12. PRESIÓN DE NEUMÁTICOS Y CONSUMO
@@ -704,8 +843,8 @@ export const BLOG_POSTS = [
     kicker: "SEGURIDAD Y EFICIENCIA EN PISTA",
     category: "Mantenimiento",
     author: {
-      name: "Sergio Martín",
-      role: "Especialista en Seguridad Vial y Consumo",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -717,6 +856,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Comprobación periódica de la presión de inflado con manómetro analógico.",
     excerpt: "Más del 60% de los coches en España circulan con ruedas desinfladas. Te explicamos cómo afecta la resistencia a la rodadura a tu depósito y por qué la temperatura ambiental altera los bares.",
     lead: "Comprobar la presión de los neumáticos es una de las tareas de mantenimiento más rápidas, gratuitas y sencillas del automóvil, y a la vez una de las más olvidadas por los usuarios. Rodar con presiones inadecuadas no solo destruye los neumáticos a velocidad de vértigo y alarga las frenadas de emergencia, sino que abre un agujero constante en tu cuenta bancaria.",
+    intro: [
+      "¿Cuándo fue la última vez que te agachaste junto a las ruedas de tu coche para comprobar los bares de presión con un manómetro? Si eres como el 65% de los conductores españoles según las encuestas del RACE, probablemente hace más de tres meses... o ni siquiera te acuerdas.",
+      "A simple vista, un neumático radial moderno puede parecer perfectamente hinchado incluso cuando ha perdido medio bar de presión. La banda de rodadura mantiene su forma básica, pero la estructura interna se hunde, los hombros de la goma se aplastan contra el asfalto y la resistencia al avance se dispara de forma invisible.",
+      "Ese pequeño descuido de cinco minutos en la gasolinera se traduce en un sobrecoste silencioso de entre 80 y 150 euros al año en combustible malgastado, además de destrozar los neumáticos miles de kilómetros antes de tiempo. Te explicamos la ciencia que hay detrás."
+    ],
     keyPoints: [
       "Circular con 0,5 bar por debajo de lo especificado incrementa el consumo entre un 4% y un 6%.",
       "Cada 10°C de caída en la temperatura ambiental exterior, la presión interna de las ruedas baja 0,1 bar.",
@@ -745,7 +889,14 @@ export const BLOG_POSTS = [
           "La presión idónea para tu coche viene determinada por los ingenieros del chasis y se encuentra en una pegatina metálica situada en el marco de la puerta del conductor, en el interior de la tapa de combustible o en el manual de usuario, diferenciando entre conducción normal y conducción a plena carga."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: 5 minutos al mes que te pagan una cena",
+      paragraphs: [
+        "Comprobar las presiones una vez al mes en frío lleva exactamente 4 minutos en cualquier estación de servicio con compresor de aire.",
+        "Esos 4 minutos te garantizan la máxima seguridad de frenada para tu familia, alargan la vida de tus cubiertas un 30% y te ahorran más de 100 euros al año en gasolina. Pocas cosas en la vida dan tanto por tan poco esfuerzo."
+      ]
+    }
   },
 
   // 13. GLP O GNC VS GASOLINA Y DIÉSEL
@@ -755,8 +906,8 @@ export const BLOG_POSTS = [
     kicker: "MOVILIDAD ALTERNATIVA Y ETIQUETA ECO",
     category: "Movilidad Ecológica",
     author: {
-      name: "Carlos Benítez",
-      role: "Ingeniero Mecánico y Perito Automotriz",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "7 min de lectura",
@@ -768,6 +919,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Repostaje con boquilla estanca de GLP en estación de servicio española.",
     excerpt: "El Autogas cuesta casi la mitad que la gasolina y te otorga la codiciada etiqueta ECO de la DGT. Analizamos el coste de la instalación, la amortización y si merece la pena en 2026.",
     lead: "Con las restricciones crecientes de las Zonas de Bajas Emisiones (ZBE) en más de 150 ciudades españolas y el encarecimiento de los combustibles tradicionales, la conversión de motores de gasolina a GLP (Gas Licuado del Petróleo o Autogas) vive una auténtica época dorada como alternativa económica y accesible al coche eléctrico.",
+    intro: [
+      "Tienes un coche de gasolina matriculado a partir de 2006 que funciona perfectamente. Sin embargo, vives en una ciudad con Zona de Bajas Emisiones (ZBE) donde las multas automáticas por cámaras empiezan a acechar, o estás harto de gastarte 80 euros en gasolina cada vez que visitas el surtidor.",
+      "Comprarte un coche eléctrico o híbrido nuevo supone un desembolso de entre 25.000 y 45.000 euros que pocos bolsillos pueden permitirse. Y de repente, ves en un taller el cartel: 'Convierte tu coche a GLP por 1.600€ y consigue la etiqueta ECO de la DGT'.",
+      "¿Realmente funciona? ¿El gas rompe las válvulas del motor? ¿Cuánto cuesta el litro de Autogas y en cuántos kilómetros se amortiza la instalación? En este reportaje hacemos los números reales para que sepas si te compensa dar el salto."
+    ],
     keyPoints: [
       "El litro de GLP cuesta aproximadamente un 45-50% menos que el litro de Gasolina 95.",
       "La conversión a GLP en motores de gasolina homologados Euro 4, 5 o 6 otorga la etiqueta ECO de la DGT.",
@@ -807,7 +963,14 @@ export const BLOG_POSTS = [
           "Si, por el contrario, utilizas el coche de forma esporádica para trayectos cortos de fin de semana (menos de 6.000 km al año), el plazo de amortización se alarga demasiado y puede no ser rentable."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: La jugada maestra si haces kilómetros",
+      paragraphs: [
+        "Si tienes un coche de gasolina Euro 4 o superior con el que haces más de 12.000 km al año o necesitas entrar a zonas ZBE a diario, el GLP es la opción más inteligente y económica del mercado actual.",
+        "Obtienes la etiqueta ECO sin comprar un coche nuevo de 30.000 euros y recortas tu factura de combustible a prácticamente la mitad en cada visita al surtidor."
+      ]
+    }
   },
 
   // 14. AIRE ACONDICIONADO O VENTANILLAS
@@ -817,8 +980,8 @@ export const BLOG_POSTS = [
     kicker: "AERODINÁMICA Y EFICIENCIA ENERGÉTICA",
     category: "Guía Práctica",
     author: {
-      name: "Laura Gómez",
-      role: "Editora de Movilidad y Ciencia Aplicada",
+      name: "Redacción WayGass",
+      role: "Equipo editorial de Motor y Ahorro",
       avatar: "/logo.jpg"
     },
     readTime: "5 min de lectura",
@@ -830,6 +993,11 @@ export const BLOG_POSTS = [
     imageCaption: "Foto: Archivo WayGass / Consola central de climatización con display digital a 21.5°C.",
     excerpt: "La Sociedad de Ingenieros de Automoción (SAE) resolvió el eterno dilema en el túnel de viento. Te mostramos la velocidad exacta a la que el aire acondicionado es más barato que abrir la ventana.",
     lead: "Cada verano surge la misma discusión en miles de coches que viajan por las carreteras españolas: ¿es mejor soportar el calor con las ventanillas bajadas para no 'gastar gasolina', o conectar el climatizador? Los ensayos de ingeniería en túnel de viento zanjaron la polémica demostrando que la respuesta correcta depende exclusivamente de la aguja del velocímetro.",
+    intro: [
+      "Es una tarde calurosa de julio, el termómetro exterior marca 34 grados y el asfalto despide un calor sofocante. En el coche viajan cuatro personas y alguien estira la mano hacia la consola para pulsar el botón del aire acondicionado. De inmediato, el conductor frena el gesto: '¡No lo pongas, que sube el consumo un litro! Baja un poco la ventanilla'.",
+      "Esa escena se repite cada verano en miles de vehículos por toda España. Existe la creencia arraigada de que el aire acondicionado es un auténtico vampiro de combustible y que cualquier método alternativo (como viajar con las ventanillas abajo recibiendo un vendaval en la cara) es más económico.",
+      "Pero, ¿qué dice la física aerodinámica de los vehículos modernos? La Sociedad de Ingenieros de Automoción (SAE) metió turismos y todoterrenos en túneles de viento aerodinámicos para medir con precisión milimétrica el consumo a diferentes velocidades. Los resultados zanjaron la discusión de forma concluyente."
+    ],
     keyPoints: [
       "A velocidades urbanas (menos de 70 km/h), circular con ventanillas bajadas gasta menos que el compresor de A/C.",
       "A partir de 80-85 km/h, la resistencia aerodinámica que causan las ventanillas abiertas dispara el consumo por encima del aire acondicionado.",
@@ -870,7 +1038,14 @@ export const BLOG_POSTS = [
           "3. Sube todas las ventanillas y conecta el climatizador fijándolo en 21,5°C - 22°C con recirculación de aire activada. Conseguirás una temperatura agradable en la mitad de tiempo y ahorrando hasta un 30% de combustible."
         ]
       }
-    ]
+    ],
+    verdict: {
+      title: "El veredicto de WayGass: La regla de los 80 km/h",
+      paragraphs: [
+        "En ciudad por debajo de 70 km/h, baja las ventanillas y apaga el compresor: gastarás menos gasolina.",
+        "Pero en cuanto salgas a carretera secundaria o autovía a más de 80 km/h, sube las ventanillas y pon el climatizador a 22°C: viajarás más fresco, sin ruidos ensordecedores y consumiendo notablemente menos combustible."
+      ]
+    }
   }
 ];
 
