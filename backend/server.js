@@ -15,8 +15,49 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 const PORT = process.env.PORT || 3002;
 
+// --- Configuración Segura de CORS ---
+const allowedOrigins = [
+  'https://waygass.es',
+  'https://www.waygass.es',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:5173'
+];
+
+if (process.env.FRONTEND_URL && !allowedOrigins.includes(process.env.FRONTEND_URL)) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+if (process.env.ALLOWED_ORIGINS) {
+  process.env.ALLOWED_ORIGINS.split(',').forEach(o => {
+    const trimmed = o.trim();
+    if (trimmed && !allowedOrigins.includes(trimmed)) allowedOrigins.push(trimmed);
+  });
+}
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Permitir peticiones sin header 'Origin' (como apps móviles nativas, PWAs, curl, cron)
+    if (!origin) return callback(null, true);
+
+    // Permitir orígenes autorizados y túneles de desarrollo
+    if (
+      allowedOrigins.includes(origin) ||
+      /\.ngrok-free\.app$/.test(origin) ||
+      /\.ngrok\.io$/.test(origin)
+    ) {
+      return callback(null, true);
+    }
+
+    // Origen no autorizado: no se emite header CORS
+    return callback(null, false);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'ngrok-skip-browser-warning']
+};
+
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Sincronizar Base de Datos
