@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Select from 'react-select';
 
@@ -37,6 +37,55 @@ export const BRAND_OPTIONS = [
 export default function Filters({ filters, setFilters }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { fuelType, province, radius, sortBy, priceCategory, openNow, brand, brands } = filters;
+
+  // Gesto Swipe-Down estilo iPhone para cerrar el modal
+  const [dragY, setDragY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStartY = useRef(0);
+  const currentDrag = useRef(0);
+  const sheetRef = useRef(null);
+
+  const handleDragStart = (clientY) => {
+    touchStartY.current = clientY;
+    currentDrag.current = 0;
+    setIsDragging(true);
+  };
+
+  const handleDragMove = (clientY) => {
+    if (!isDragging) return;
+    const delta = clientY - touchStartY.current;
+    if (delta > 0) {
+      currentDrag.current = delta;
+      setDragY(delta);
+    } else {
+      currentDrag.current = 0;
+      setDragY(0);
+    }
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (currentDrag.current > 85) {
+      // Animar salida hacia abajo y cerrar
+      setDragY(window.innerHeight || 600);
+      setTimeout(() => {
+        setIsModalOpen(false);
+        setDragY(0);
+        currentDrag.current = 0;
+      }, 200);
+    } else {
+      setDragY(0);
+      currentDrag.current = 0;
+    }
+  };
+
+  const closeModal = () => {
+    setDragY(0);
+    currentDrag.current = 0;
+    setIsDragging(false);
+    setIsModalOpen(false);
+  };
 
   const handleChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -173,13 +222,33 @@ export default function Filters({ filters, setFilters }) {
     })
   };
 
+  // Bloqueo total e infalible del scroll y rebote del background (iOS/Android/Desktop)
   useEffect(() => {
     if (isModalOpen) {
+      const scrollY = window.scrollY;
+      const originalPosition = document.body.style.position;
+      const originalTop = document.body.style.top;
+      const originalWidth = document.body.style.width;
+      const originalOverflow = document.body.style.overflow;
+      const originalTouchAction = document.body.style.touchAction;
+
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.touchAction = 'none';
+      document.documentElement.style.overflow = 'hidden';
+
+      return () => {
+        document.body.style.position = originalPosition;
+        document.body.style.top = originalTop;
+        document.body.style.width = originalWidth;
+        document.body.style.overflow = originalOverflow;
+        document.body.style.touchAction = originalTouchAction;
+        document.documentElement.style.overflow = '';
+        window.scrollTo(0, scrollY);
+      };
     }
-    return () => { document.body.style.overflow = 'unset'; };
   }, [isModalOpen]);
 
   return (
@@ -248,19 +317,68 @@ export default function Filters({ filters, setFilters }) {
         </div>
       )}
 
-      {/* MODAL */}
+      {/* MODAL BOTTOM-SHEET ESTILO IPHONE CON PULL-TO-DISMISS */}
       {isModalOpen && createPortal(
-        <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
-          <div className="absolute inset-0 bg-black/60 transition-opacity" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative bg-[#f5f5f7] dark:bg-black w-full sm:w-[520px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-3 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
-            <div className="w-12 h-1.5 bg-slate-300 dark:bg-white/20 rounded-full mx-auto mb-2 mt-1 sm:hidden"></div>
+        <div 
+          className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center touch-none select-none"
+          style={{ overscrollBehavior: 'none' }}
+        >
+          {/* BACKDROP CON DESENFOQUE Y BLOQUEO DE EVENTOS DE SCROLL */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+            onClick={closeModal}
+            onTouchMove={(e) => e.preventDefault()}
+          />
+
+          {/* CONTENEDOR DE LA VENTANA MODAL */}
+          <div 
+            ref={sheetRef}
+            style={{
+              transform: `translateY(${dragY}px)`,
+              transition: isDragging ? 'none' : 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              overscrollBehavior: 'contain'
+            }}
+            className="relative bg-[#f5f5f7] dark:bg-[#000000] w-full sm:w-[520px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-2 shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto overscroll-contain animate-slide-up sm:animate-fade-in"
+          >
+            {/* BARRA GRIS TIPO IPHONE (TIRADOR DESLIZANTE PARA CERRAR) */}
+            <div 
+              className="w-full flex flex-col items-center justify-center py-2.5 -mt-1 cursor-grab active:cursor-grabbing touch-none select-none group"
+              onPointerDown={(e) => {
+                e.target.setPointerCapture?.(e.pointerId);
+                handleDragStart(e.clientY);
+              }}
+              onPointerMove={(e) => handleDragMove(e.clientY)}
+              onPointerUp={handleDragEnd}
+              onPointerCancel={handleDragEnd}
+              onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
+              onTouchMove={(e) => {
+                if (e.cancelable) e.preventDefault();
+                handleDragMove(e.touches[0].clientY);
+              }}
+              onTouchEnd={handleDragEnd}
+              title="Desliza hacia abajo para cerrar"
+            >
+              <div className="w-12 h-1.5 bg-slate-300 dark:bg-zinc-700 rounded-full group-hover:bg-slate-400 dark:group-hover:bg-zinc-600 transition-colors"></div>
+            </div>
             
-            <div className="flex justify-between items-center mb-4">
+            <div 
+              className="flex justify-between items-center mb-3 touch-none select-none cursor-grab active:cursor-grabbing"
+              onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
+              onTouchMove={(e) => {
+                if (e.cancelable) e.preventDefault();
+                handleDragMove(e.touches[0].clientY);
+              }}
+              onTouchEnd={handleDragEnd}
+            >
               <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <i className="fa-solid fa-sliders text-primary text-base"></i>
                 <span>Opciones de Búsqueda</span>
               </h2>
-              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer" title="Cerrar">
+              <button 
+                onClick={closeModal} 
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer" 
+                title="Cerrar"
+              >
                 <i className="fa-solid fa-xmark text-sm"></i>
               </button>
             </div>
@@ -390,7 +508,10 @@ export default function Filters({ filters, setFilters }) {
                </label>
             </div>
 
-            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px] cursor-pointer">
+            <button 
+              onClick={closeModal} 
+              className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px] cursor-pointer"
+            >
               Ver Resultados
             </button>
           </div>
