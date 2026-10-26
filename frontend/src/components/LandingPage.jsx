@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { BLOG_POSTS } from '../data/blogData.js';
 
 export default function LandingPage({ onEnterApp }) {
   useEffect(() => {
@@ -221,51 +222,43 @@ export default function LandingPage({ onEnterApp }) {
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
-                <div className="h-40 relative">
-                  <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Guía Práctica</span>
-                  <h3 className="text-lg font-black mb-2 leading-tight">5 Trucos infalibles para ahorrar combustible</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo?</p>
-                </div>
-              </article>
-
-              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
-                <div className="h-40 relative">
-                  <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Mecánica</span>
-                  <h3 className="text-lg font-black mb-2 leading-tight">Gasolineras Low-Cost: ¿Mito o realidad?</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Desmentimos los mitos más comunes sobre las estaciones de bajo coste y la calidad de sus combustibles.</p>
-                </div>
-              </article>
-
-              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/mejores-apps-coche-2026'}>
-                <div className="h-40 relative">
-                  <img src="/blog-apps-car.jpg" alt="Car Apps" className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Tecnología</span>
-                  <h3 className="text-lg font-black mb-2 leading-tight">Las 5 mejores apps para conductores en 2026</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Digitaliza tu coche y exprime al máximo cada viaje con estas herramientas imprescindibles.</p>
-                </div>
-              </article>
-
-              <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all" onClick={() => window.location.href='/blog/mantenimiento-preventivo-consumo'}>
-                <div className="h-40 relative">
-                  <img src="/blog-maintenance.jpg" alt="Maintenance" className="w-full h-full object-cover" />
-                </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <span className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Mecánica</span>
-                  <h3 className="text-lg font-black mb-2 leading-tight">Mantenimiento preventivo y el consumo</h3>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm flex-1">Descubre cuánto combustible estás perdiendo por no visitar al mecánico a tiempo.</p>
-                </div>
-              </article>
-              
+              {BLOG_POSTS.slice(0, 4).map(post => (
+                <article 
+                  key={post.slug}
+                  className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg flex flex-col cursor-pointer hover:-translate-y-1 transition-all group" 
+                  onClick={() => window.location.href = `/blog/${post.slug}`}
+                >
+                  <div className="aspect-[16/9] relative overflow-hidden bg-black">
+                    <img 
+                      src={post.image} 
+                      alt={post.imageAlt || post.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                    <span className="absolute bottom-2.5 left-2.5 text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-black/75 text-white backdrop-blur-sm border border-white/10">
+                      {post.category}
+                    </span>
+                  </div>
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="text-[11px] text-slate-400 font-semibold mb-1.5 flex items-center gap-2">
+                        <span>{post.date}</span>
+                        <span>&bull;</span>
+                        <span>{post.readTime}</span>
+                      </div>
+                      <h3 className="text-base font-black mb-2 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-slate-600 dark:text-slate-400 text-xs line-clamp-3 leading-relaxed">
+                        {post.excerpt}
+                      </p>
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-slate-100 dark:border-white/5 flex items-center justify-between text-xs font-bold text-primary">
+                      <span>Leer reportaje</span>
+                      <i className="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
             
             <div className="mt-12 text-center">
