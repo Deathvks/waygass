@@ -11,15 +11,75 @@ export const FUELS = [
   { id: 'gnc', label: 'GNC' }
 ];
 
+export const BRAND_OPTIONS = [
+  { value: 'all', label: 'Todas las marcas' },
+  { value: 'REPSOL', label: 'Repsol' },
+  { value: 'CEPSA', label: 'Cepsa / Moeve' },
+  { value: 'BP', label: 'BP' },
+  { value: 'GALP', label: 'Galp' },
+  { value: 'SHELL', label: 'Shell' },
+  { value: 'PLENOIL', label: 'Plenoil' },
+  { value: 'PETROPRIX', label: 'Petroprix' },
+  { value: 'BALLENOIL', label: 'Ballenoil' },
+  { value: 'AVIA', label: 'Avia' },
+  { value: 'DISA', label: 'Disa' },
+  { value: 'CAMPSA', label: 'Campsa' },
+  { value: 'PETRONOR', label: 'Petronor' },
+  { value: 'BONAREA', label: 'BonÀrea' },
+  { value: 'ESCLATOIL', label: 'EsclatOil' },
+  { value: 'Q8', label: 'Q8' },
+  { value: 'CARREFOUR', label: 'Carrefour' },
+  { value: 'ALCAMPO', label: 'Alcampo' },
+  { value: 'EROSKI', label: 'Eroski' },
+  { value: 'Otras', label: 'Otras marcas independientes' }
+];
+
 export default function Filters({ filters, setFilters }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { fuelType, province, radius, sortBy, priceCategory, openNow, brand } = filters;
+  const { fuelType, province, radius, sortBy, priceCategory, openNow, brand, brands } = filters;
 
   const handleChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const isDark = document.documentElement.classList.contains('dark');
+
+  // Múltiples marcas seleccionadas
+  const selectedBrands = Array.isArray(brands)
+    ? brands
+    : (brand && brand !== 'all' && brand !== 'multi' ? [brand] : []);
+
+  const toggleBrand = (bVal) => {
+    if (bVal === 'all') {
+      setFilters(prev => ({ ...prev, brands: [], brand: 'all' }));
+      return;
+    }
+    const exists = selectedBrands.includes(bVal);
+    const updated = exists ? selectedBrands.filter(b => b !== bVal) : [...selectedBrands, bVal];
+    setFilters(prev => ({
+      ...prev,
+      brands: updated,
+      brand: updated.length === 1 ? updated[0] : (updated.length === 0 ? 'all' : 'multi')
+    }));
+  };
+
+  const removeBrand = (bVal) => {
+    const updated = selectedBrands.filter(b => b !== bVal);
+    setFilters(prev => ({
+      ...prev,
+      brands: updated,
+      brand: updated.length === 1 ? updated[0] : (updated.length === 0 ? 'all' : 'multi')
+    }));
+  };
+
+  const clearAllBrands = () => {
+    setFilters(prev => ({ ...prev, brands: [], brand: 'all' }));
+  };
+
+  const getBrandLabel = (val) => {
+    const found = BRAND_OPTIONS.find(b => b.value === val);
+    return found ? found.label : val;
+  };
 
   const provinceOptions = [
     { value: 'auto', label: 'Detectar por GPS' },
@@ -58,18 +118,6 @@ export default function Filters({ filters, setFilters }) {
     { value: 'cheap', label: 'Solo Económicas' },
     { value: 'cheap_avg', label: 'Económicas y Medias' }
   ];
-  const brandOptions = [
-    { value: 'all', label: 'Todas las marcas' },
-    { value: 'REPSOL', label: 'Repsol' },
-    { value: 'CEPSA', label: 'Cepsa' },
-    { value: 'BP', label: 'BP' },
-    { value: 'GALP', label: 'Galp' },
-    { value: 'SHELL', label: 'Shell' },
-    { value: 'PLENOIL', label: 'Plenoil' },
-    { value: 'PETROPRIX', label: 'Petroprix' },
-    { value: 'BALLENOIL', label: 'Ballenoil' },
-    { value: 'Otras', label: 'Otras marcas' }
-  ];
 
   const customStyles = {
     control: (base, state) => ({
@@ -84,9 +132,15 @@ export default function Filters({ filters, setFilters }) {
       cursor: 'pointer',
       color: isDark ? '#fff' : '#0f172a',
     }),
+    placeholder: (base) => ({
+      ...base,
+      color: isDark ? '#64748b' : '#94a3b8',
+      fontSize: '0.875rem'
+    }),
     menuList: (base) => ({
       ...base,
       padding: '4px',
+      maxHeight: '220px',
       '::-webkit-scrollbar': { display: 'none' },
       scrollbarWidth: 'none',
       msOverflowStyle: 'none'
@@ -150,34 +204,162 @@ export default function Filters({ filters, setFilters }) {
       {/* SOLID FILTROS BUTTON */}
       <button 
         onClick={() => setIsModalOpen(true)}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-black/5 dark:bg-white/5 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-black/5 dark:bg-white/5 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer"
       >
         <i className="fa-solid fa-sliders text-sm text-slate-500 dark:text-slate-400"></i>
         <span>Más Filtros y Opciones</span>
+        {selectedBrands.length > 0 && (
+          <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-primary text-white">
+            {selectedBrands.length} {selectedBrands.length === 1 ? 'marca' : 'marcas'}
+          </span>
+        )}
       </button>
+
+      {/* CHIPS DE GASOLINERAS SELECCIONADAS FUERA DEL MODAL */}
+      {selectedBrands.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 px-1 py-0.5">
+          <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1">
+            <i className="fa-solid fa-gas-pump text-[10px] text-primary"></i>
+            <span>Marcas:</span>
+          </span>
+          {selectedBrands.map(bVal => (
+            <span
+              key={bVal}
+              className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/20"
+            >
+              <span>{getBrandLabel(bVal)}</span>
+              <button
+                type="button"
+                onClick={() => removeBrand(bVal)}
+                className="w-3.5 h-3.5 rounded-full hover:bg-primary/20 flex items-center justify-center text-[9px] transition-colors cursor-pointer"
+                title={`Quitar ${getBrandLabel(bVal)}`}
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </span>
+          ))}
+          <button
+            type="button"
+            onClick={clearAllBrands}
+            className="text-[10px] font-bold text-slate-400 hover:text-rose-500 underline ml-1 cursor-pointer"
+          >
+            Limpiar
+          </button>
+        </div>
+      )}
 
       {/* MODAL */}
       {isModalOpen && createPortal(
         <div className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center">
           <div className="absolute inset-0 bg-black/60 transition-opacity" onClick={() => setIsModalOpen(false)}></div>
-          <div className="relative bg-[#f5f5f7] dark:bg-black w-full sm:w-[500px] rounded-t-[32px] sm:rounded-[32px] p-4 pt-2 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
+          <div className="relative bg-[#f5f5f7] dark:bg-black w-full sm:w-[520px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-3 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto animate-slide-up sm:animate-fade-in">
             <div className="w-12 h-1.5 bg-slate-300 dark:bg-white/20 rounded-full mx-auto mb-2 mt-1 sm:hidden"></div>
             
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <i className="fa-solid fa-sliders text-primary text-base"></i>
                 <span>Opciones de Búsqueda</span>
               </h2>
-              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10" title="Cerrar">
+              <button onClick={() => setIsModalOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer" title="Cerrar">
                 <i className="fa-solid fa-xmark text-sm"></i>
               </button>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-50">
-              <div>
-                <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Marca</label>
-                <Select styles={customStyles} options={brandOptions} value={brandOptions.find(o => o.value === brand) || brandOptions[0]} onChange={(s) => handleChange('brand', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
+              
+              {/* SELECTOR MÚLTIPLE DE MARCAS / GASOLINERAS */}
+              <div className="sm:col-span-2">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-slate-700 dark:text-slate-300 font-bold text-sm flex items-center gap-1.5">
+                    <i className="fa-solid fa-gas-pump text-primary text-xs"></i>
+                    <span>Gasolineras / Marcas</span>
+                  </label>
+                  {selectedBrands.length > 0 && (
+                    <span className="text-[11px] font-semibold text-slate-400">
+                      {selectedBrands.length} {selectedBrands.length === 1 ? 'seleccionada' : 'seleccionadas'}
+                    </span>
+                  )}
+                </div>
+
+                {/* CHIPS ARRIBA CON NOMBRE Y BOTÓN X PARA QUITAR CADA UNA */}
+                {selectedBrands.length > 0 ? (
+                  <div className="flex flex-wrap items-center gap-1.5 mb-2.5 p-2 rounded-xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/50 dark:border-white/10">
+                    {selectedBrands.map(bVal => (
+                      <span
+                        key={bVal}
+                        className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-full text-xs font-bold bg-primary text-white shadow-sm transition-transform hover:scale-105"
+                      >
+                        <span>{getBrandLabel(bVal)}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeBrand(bVal);
+                          }}
+                          className="w-4 h-4 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-[10px] transition-colors cursor-pointer"
+                          title={`Quitar ${getBrandLabel(bVal)}`}
+                        >
+                          <i className="fa-solid fa-xmark"></i>
+                        </button>
+                      </span>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={clearAllBrands}
+                      className="ml-auto text-[11px] font-bold text-slate-500 hover:text-rose-500 px-2 py-0.5 rounded-md hover:bg-rose-500/10 transition-colors cursor-pointer"
+                    >
+                      Limpiar todas
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500 mb-2 font-medium">
+                    Todas las marcas activas (selecciona abajo una o varias para filtrar)
+                  </p>
+                )}
+
+                <Select
+                  styles={customStyles}
+                  options={BRAND_OPTIONS}
+                  value={null}
+                  placeholder={
+                    selectedBrands.length === 0
+                      ? "Seleccionar gasolineras (pulsa para añadir)..."
+                      : `Añadir más marcas (${selectedBrands.length} activas)...`
+                  }
+                  onChange={(s) => {
+                    if (s) toggleBrand(s.value);
+                  }}
+                  formatOptionLabel={(option) => {
+                    if (option.value === 'all') {
+                      return (
+                        <div className="flex items-center justify-between w-full">
+                          <span className="font-bold text-slate-700 dark:text-slate-200">{option.label}</span>
+                          {selectedBrands.length === 0 && <i className="fa-solid fa-check text-primary text-xs"></i>}
+                        </div>
+                      );
+                    }
+                    const isSelected = selectedBrands.includes(option.value);
+                    return (
+                      <div className="flex items-center justify-between w-full">
+                        <span className={isSelected ? 'font-bold text-primary' : 'text-slate-800 dark:text-slate-200'}>
+                          {option.label}
+                        </span>
+                        {isSelected && (
+                          <span className="flex items-center gap-1.5 text-xs text-primary font-bold">
+                            <i className="fa-solid fa-check"></i>
+                          </span>
+                        )}
+                      </div>
+                    );
+                  }}
+                  closeMenuOnSelect={false}
+                  isSearchable={true}
+                  menuPortalTarget={document.body}
+                  menuPosition="fixed"
+                  classNamePrefix="rs"
+                />
               </div>
+
               <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Provincia</label>
                 <Select styles={customStyles} options={provinceOptions} value={provinceOptions.find(o => o.value === province) || provinceOptions[0]} onChange={(s) => handleChange('province', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
@@ -190,7 +372,7 @@ export default function Filters({ filters, setFilters }) {
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Categoría</label>
                 <Select styles={customStyles} options={priceCategoryOptions} value={priceCategoryOptions.find(o => o.value === priceCategory) || priceCategoryOptions[0]} onChange={(s) => handleChange('priceCategory', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
-              <div className="sm:col-span-2">
+              <div>
                 <label className="block text-slate-600 dark:text-slate-400 mb-2 font-bold text-sm">Ordenación</label>
                 <Select styles={customStyles} options={sortOptions} value={sortOptions.find(o => o.value === sortBy) || sortOptions[0]} onChange={(s) => handleChange('sortBy', s.value)} isSearchable={false} menuPortalTarget={document.body} menuPosition="fixed" classNamePrefix="rs" />
               </div>
@@ -208,7 +390,7 @@ export default function Filters({ filters, setFilters }) {
                </label>
             </div>
 
-            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px]">
+            <button onClick={() => setIsModalOpen(false)} className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px] cursor-pointer">
               Ver Resultados
             </button>
           </div>

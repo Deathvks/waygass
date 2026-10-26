@@ -232,7 +232,8 @@ function App({ initialAuth = false }) {
  fuelType: 'g95', province: 'auto', radius: 10, sortBy: 'price',
  priceCategory: 'all',
  openNow: false,
- brand: 'all'
+ brand: 'all',
+ brands: []
  };
 
  const [filters, setFilters] = useState(() => {
@@ -657,15 +658,21 @@ function App({ initialAuth = false }) {
  processed = processed.filter(s => s.price - minP <= 0.08);
  }
  
- if (filters.brand && filters.brand !== 'all') {
- processed = processed.filter(s => {
- const b = s.brand.toUpperCase();
- const mains = ['REPSOL', 'CEPSA', 'BP', 'GALP', 'SHELL', 'PLENOIL', 'PETROPRIX', 'BALLENOIL'];
- if (filters.brand === 'Otras') {
- return !mains.some(m => b.includes(m));
- }
- return b.includes(filters.brand);
- });
+ const selectedBrands = Array.isArray(filters.brands) && filters.brands.length > 0
+   ? filters.brands
+   : (filters.brand && filters.brand !== 'all' && filters.brand !== 'multi' ? [filters.brand] : []);
+
+ if (selectedBrands.length > 0 && !selectedBrands.includes('all')) {
+   const mains = ['REPSOL', 'CEPSA', 'BP', 'GALP', 'SHELL', 'PLENOIL', 'PETROPRIX', 'BALLENOIL', 'AVIA', 'DISA', 'BONAREA', 'ESCLATOIL', 'Q8', 'CARREFOUR', 'ALCAMPO', 'EROSKI', 'CAMPSA', 'PETRONOR'];
+   processed = processed.filter(s => {
+     const b = (s.brand || '').toUpperCase();
+     return selectedBrands.some(brandKey => {
+       if (brandKey === 'Otras') {
+         return !mains.some(m => b.includes(m));
+       }
+       return b.includes(brandKey.toUpperCase());
+     });
+   });
  }
  }
 
