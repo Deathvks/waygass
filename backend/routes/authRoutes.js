@@ -302,4 +302,42 @@ router.post('/login', loginRateLimiter, async (req, res) => {
 });
 
 
+const { recordVisit } = require('../services/sniffingService');
+
+// Endpoint de tracking de visitas (Sniffing de Tráfico)
+router.post('/track-visit', async (req, res) => {
+  try {
+    const { path, referrer } = req.body;
+    const userAgent = req.headers['user-agent'] || '';
+    const rawIp = req.clientIP || req.ip || '127.0.0.1';
+
+    let user = null;
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.split(' ')[1];
+      try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (decoded && decoded.id) {
+          user = await User.findByPk(decoded.id, { attributes: ['id', 'name', 'lastName', 'email', 'role'] });
+        }
+      } catch (err) {
+        // Token inválido o expirado
+      }
+    }
+
+    const result = await recordVisit({
+      rawIp,
+      path,
+      referrer,
+      userAgent,
+      user,
+      req
+    });
+
+    res.json({ ok: true, ...result });
+  } catch (error) {
+    res.json({ ok: false });
+  }
+});
+
 module.exports = router;

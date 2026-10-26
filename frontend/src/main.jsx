@@ -65,6 +65,18 @@ const WrappedPage = ({ children }) => {
     }
   }, []);
 
+  // Tracking de visitas (Sniffing de Tráfico)
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      axios.post('/api/track-visit', {
+        path: window.location.pathname || '/',
+        referrer: document.referrer || ''
+      }, { headers }).catch(() => {});
+    } catch (e) {}
+  }, []);
+
   
 
   const isDark = document.documentElement.classList.contains('dark');

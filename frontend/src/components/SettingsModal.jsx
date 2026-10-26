@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import SniffingPanel from './SniffingPanel';
 
 export default function SettingsModal({ 
   isOpen, 
@@ -18,6 +19,7 @@ export default function SettingsModal({
   };
 
   const [activeTab, setActiveTab] = React.useState('settings');
+  const [adminSubTab, setAdminSubTab] = React.useState('sniffing');
   const [adminStats, setAdminStats] = React.useState(null);
   const [usersList, setUsersList] = React.useState([]);
   const [loadingStats, setLoadingStats] = React.useState(false);
@@ -142,7 +144,7 @@ export default function SettingsModal({
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={handleClose}></div>
 
       {/* Contenido del modal */}
-      <div className="relative w-full max-w-md bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar">
+      <div className={`relative w-full ${activeTab === 'admin' ? (adminSubTab === 'sniffing' ? 'max-w-4xl' : 'max-w-2xl') : 'max-w-md'} bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar transition-all duration-300`}>
         
         <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4 border-b border-slate-200/50 dark:border-white/5">
           <div className="flex items-center justify-between mb-4">
@@ -355,89 +357,125 @@ export default function SettingsModal({
           )}
 
           {activeTab === 'admin' && (
-            <div className="flex flex-col gap-6">
-              {loadingStats ? (
-                <div className="flex justify-center p-8"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div></div>
-              ) : adminStats && (
-                <>
-                  <div className="grid grid-cols-2 gap-3">
-                      <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl">
-                        <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalUsers}</div>
-                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Usuarios Totales</div>
-                      </div>
-                      <div className="border border-primary/20 bg-primary/5 p-4 rounded-2xl">
-                        <div className="text-2xl font-black text-primary">{adminStats.proUsers}</div>
-                        <div className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Usuarios Pro</div>
-                      </div>
-                      <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl col-span-2 flex flex-col gap-3">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Gasolineras Descargadas</div>
-                              <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalStations}</div>
-                              {adminStats.lastStationUpdate && (
-                                <div className="text-[10px] font-mono text-slate-500 mt-1 font-bold">
-                                  Última act: {new Date(adminStats.lastStationUpdate).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+            <div className="flex flex-col gap-5">
+              {/* SUBTABS ADMINISTRACIÓN */}
+              <div className="flex bg-slate-200/60 dark:bg-white/10 p-1 rounded-xl">
+                <button
+                  onClick={() => setAdminSubTab('sniffing')}
+                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                    adminSubTab === 'sniffing'
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
+                  </svg>
+                  Sniffing (Tráfico)
+                </button>
+                <button
+                  onClick={() => setAdminSubTab('general')}
+                  className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                    adminSubTab === 'general'
+                      ? 'bg-primary text-white shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                  </svg>
+                  Usuarios & Sistema
+                </button>
+              </div>
+
+              {adminSubTab === 'sniffing' ? (
+                <SniffingPanel />
+              ) : (
+                <div className="flex flex-col gap-6">
+                  {loadingStats ? (
+                    <div className="flex justify-center p-8"><div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div></div>
+                  ) : adminStats && (
+                    <>
+                      <div className="grid grid-cols-2 gap-3">
+                          <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl">
+                            <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalUsers}</div>
+                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Usuarios Totales</div>
+                          </div>
+                          <div className="border border-primary/20 bg-primary/5 p-4 rounded-2xl">
+                            <div className="text-2xl font-black text-primary">{adminStats.proUsers}</div>
+                            <div className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">Usuarios Pro</div>
+                          </div>
+                          <div className="border border-slate-200/50 dark:border-white/5 p-4 rounded-2xl col-span-2 flex flex-col gap-3">
+                              <div className="flex justify-between items-center">
+                                <div>
+                                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Gasolineras Descargadas</div>
+                                  <div className="text-2xl font-black text-slate-800 dark:text-white">{adminStats.totalStations}</div>
+                                  {adminStats.lastStationUpdate && (
+                                    <div className="text-[10px] font-mono text-slate-500 mt-1 font-bold">
+                                      Última act: {new Date(adminStats.lastStationUpdate).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}
+                                    </div>
+                                  )}
+                                </div>
+                                <button onClick={handleTriggerCron} disabled={isSyncing} className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition-colors shrink-0 flex items-center justify-center min-w-[110px] disabled:opacity-50">
+                                  {isSyncing ? <div className="flex gap-1.5 items-center"><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>{syncProgress.percent}%</span></div> : 'Descargar Ahora'}
+                                </button>
+                              </div>
+                              
+                              {isSyncing && (
+                                <div className="w-full mt-1">
+                                  <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-1.5 mb-1 overflow-hidden">
+                                    <div className="bg-primary h-1.5 rounded-full transition-all duration-300" style={{ width: `${syncProgress.percent}%` }}></div>
+                                  </div>
+                                  <div className="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-1 text-right">{syncProgress.message}</div>
                                 </div>
                               )}
                             </div>
-                            <button onClick={handleTriggerCron} disabled={isSyncing} className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-lg hover:bg-primary-dark transition-colors shrink-0 flex items-center justify-center min-w-[110px] disabled:opacity-50">
-                              {isSyncing ? <div className="flex gap-1.5 items-center"><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>{syncProgress.percent}%</span></div> : 'Descargar Ahora'}
-                            </button>
                           </div>
                           
-                          {isSyncing && (
-                            <div className="w-full mt-1">
-                              <div className="w-full bg-slate-200 dark:bg-white/10 rounded-full h-1.5 mb-1 overflow-hidden">
-                                <div className="bg-primary h-1.5 rounded-full transition-all duration-300" style={{ width: `${syncProgress.percent}%` }}></div>
+                          <div>
+                        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">Gestión de Usuarios ({usersList.length})</h3>
+                        <div className="flex flex-col gap-3">
+                          {usersList.map((u, i) => (
+                            <div key={u.id} className="relative group bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
+                              <div className="flex items-start gap-3">
+                                <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white font-black text-sm shrink-0 shadow-inner">
+                                  {((u.name || '').charAt(0) + (u.lastName || '').charAt(0)).toUpperCase() || '?'}
+                                </div>
+
+                                <div className="min-w-0 flex-1">
+                                  <div className="font-bold text-[13px] text-slate-800 dark:text-white truncate">{u.name} {u.lastName}</div>
+                                  <div className="text-[11px] text-slate-500 truncate mt-0.5" title={u.email}>{u.email}</div>
+                                  <div className="text-[9px] text-slate-400 mt-1 font-medium">Desde {new Date(u.createdAt).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}</div>
+                                </div>
                               </div>
-                              <div className="text-[9px] text-slate-500 dark:text-slate-400 font-medium mt-1 text-right">{syncProgress.message}</div>
+
+                              <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-200/50 dark:border-white/5">
+                                <div className="flex flex-wrap gap-1.5">
+                                  {u.authProvider === 'google' ? (
+                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Google"><svg className="w-2.5 h-2.5 text-blue-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/></svg> Google</span>
+                                  ) : (
+                                    <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Email/Contraseña"><svg className="w-2.5 h-2.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Email</span>
+                                  )}
+                                  {u.role === 'admin' && <span className="bg-primary text-white text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">ADMIN</span>}
+                                  {u.subscription === 'pro' && <span className="bg-amber-400 text-amber-900 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">PRO</span>}
+                                </div>
+
+                                <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                                  <button onClick={() => setRoleModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition" title="Cambiar Rol">
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7z"/></svg>
+                                  </button>
+                                  <button onClick={() => setDeleteModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-red-500 transition" title="Eliminar Usuario">
+                                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                  </button>
+                                </div>
+                              </div>
                             </div>
-                          )}
+                          ))}
                         </div>
                       </div>
-                      
-                      <div>
-                    <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">Gestión de Usuarios ({usersList.length})</h3>
-                    <div className="flex flex-col gap-3">
-                      {usersList.map((u, i) => (
-                        <div key={u.id} className="relative group bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-2xl p-4 flex flex-col gap-4 hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5">
-                          <div className="flex items-start gap-3">
-                            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white font-black text-sm shrink-0 shadow-inner">
-                              {((u.name || '').charAt(0) + (u.lastName || '').charAt(0)).toUpperCase() || '?'}
-                            </div>
-
-                            <div className="min-w-0 flex-1">
-                              <div className="font-bold text-[13px] text-slate-800 dark:text-white truncate">{u.name} {u.lastName}</div>
-                              <div className="text-[11px] text-slate-500 truncate mt-0.5" title={u.email}>{u.email}</div>
-                              <div className="text-[9px] text-slate-400 mt-1 font-medium">Desde {new Date(u.createdAt).toLocaleDateString('es-ES', { month: 'short', year: 'numeric' })}</div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-200/50 dark:border-white/5">
-                            <div className="flex flex-wrap gap-1.5">
-                              {u.authProvider === 'google' ? (
-                                <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Google"><svg className="w-2.5 h-2.5 text-blue-500" viewBox="0 0 24 24"><path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/></svg> Google</span>
-                              ) : (
-                                <span className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 text-[9px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1 shadow-sm" title="Email/Contraseña"><svg className="w-2.5 h-2.5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Email</span>
-                              )}
-                              {u.role === 'admin' && <span className="bg-primary text-white text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">ADMIN</span>}
-                              {u.subscription === 'pro' && <span className="bg-amber-400 text-amber-900 text-[9px] px-2 py-0.5 rounded-full font-black flex items-center shadow-sm">PRO</span>}
-                            </div>
-
-                            <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                              <button onClick={() => setRoleModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition" title="Cambiar Rol">
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7z"/></svg>
-                              </button>
-                              <button onClick={() => setDeleteModalUser(u)} className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-white/10 flex items-center justify-center text-slate-500 hover:text-red-500 transition" title="Eliminar Usuario">
-                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </>
+                    </>
+                  )}
+                </div>
               )}
             </div>
           )}

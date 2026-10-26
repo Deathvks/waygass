@@ -288,4 +288,33 @@ router.delete('/security/purge', verifyAdmin, async (req, res) => {
 });
 
 
+const { getSniffingStats } = require('../services/sniffingService');
+
+// Analítica de Tráfico / Sniffing
+router.get('/sniffing', verifyAdmin, async (req, res) => {
+  try {
+    const stats = await getSniffingStats();
+    res.json(stats);
+  } catch (err) {
+    console.error('Error al obtener sniffing stats:', err);
+    res.status(500).json({ error: 'Error al obtener estadísticas de sniffing.' });
+  }
+});
+
+// Limpiar historial de visitas si se solicita
+router.delete('/sniffing/clear', verifyAdmin, async (req, res) => {
+  try {
+    const { days } = req.query;
+    let where = {};
+    if (days) {
+      const cutoff = new Date(Date.now() - parseInt(days, 10) * 24 * 60 * 60 * 1000);
+      where.createdAt = { [Op.lt]: cutoff };
+    }
+    const count = await db.VisitLog.destroy({ where });
+    res.json({ success: true, deleted: count });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al limpiar registros de visitas.' });
+  }
+});
+
 module.exports = router;

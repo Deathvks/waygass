@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import Select from 'react-select';
+import SniffingPanel from './SniffingPanel';
 
 const API = import.meta.env.VITE_API_URL || '';
 
@@ -178,9 +179,9 @@ export default function SecurityPanel({ onClose }) {
 
         {/* Tabs */}
         <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1">
-            {['overview', 'logs', 'blocked'].map(t => (
+            {['overview', 'sniffing', 'logs', 'blocked'].map(t => (
               <button key={t} onClick={() => setTab(t)} className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
-                {t === 'overview' ? 'Resumen' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
+                {t === 'overview' ? 'Seguridad' : t === 'sniffing' ? 'Sniffing' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
               </button>
             ))}
           </div>
@@ -294,6 +295,13 @@ export default function SecurityPanel({ onClose }) {
       </div>
 
       <div className="p-5 space-y-5 flex-1">
+
+        {/* TAB: SNIFFING */}
+        {tab === 'sniffing' && (
+          <div className="pb-6">
+            <SniffingPanel />
+          </div>
+        )}
 
         {/* TAB: OVERVIEW */}
         {tab === 'overview' && stats && (
