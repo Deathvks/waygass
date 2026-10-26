@@ -14,6 +14,7 @@ function MapLibreLayer({ styleUrl }) {
     if (!map || !L.maplibreGL) return;
     const layer = L.maplibreGL({
       style: styleUrl,
+      maxZoom: 20,
       attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
     layer.addTo(map);
@@ -239,6 +240,8 @@ const handleMapMove = (isUserAction) => {
  <MapContainer 
  center={[userLocation.lat, userLocation.lng]} 
  zoom={13} 
+ maxZoom={20}
+ minZoom={3}
  style={{ height: '100%', width: '100%', zIndex: 1 }}
  ref={mapRef}
  zoomControl={false}
