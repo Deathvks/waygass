@@ -355,8 +355,7 @@ sitemapXml += `  <url>
 `;
 
 fs.writeFileSync(path.join(distDir, "sitemap.xml"), sitemapXml, "utf8");
-fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemapXml, "utf8");
-console.log("Sitemap.xml updated with all URLs.");
+console.log("Sitemap.xml updated with all URLs in dist/.");
 
 // GENERACIÓN AUTOMÁTICA DEL RSS.XML COMPLETO
 let rssXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -389,5 +388,4 @@ rssXml += `  </channel>
 `;
 
 fs.writeFileSync(path.join(distDir, "rss.xml"), rssXml, "utf8");
-fs.writeFileSync(path.join(publicDir, "rss.xml"), rssXml, "utf8");
-console.log(`RSS.xml updated with ${BLOG_POSTS.length} articles.`);
+console.log(`RSS.xml updated with ${BLOG_POSTS.length} articles in dist/.`);
