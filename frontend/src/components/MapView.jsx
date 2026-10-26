@@ -3,7 +3,29 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, ZoomContr
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import '@maplibre/maplibre-gl-leaflet';
 import L from 'leaflet';
+
+
+function MapLibreLayer({ styleUrl }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!map || !L.maplibreGL) return;
+    const layer = L.maplibreGL({
+      style: styleUrl,
+      attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    layer.addTo(map);
+    return () => {
+      try {
+        map.removeLayer(layer);
+      } catch (_) {}
+    };
+  }, [map, styleUrl]);
+
+  return null;
+}
 
 function CustomMapEvents({ onMapMoveEnd, onMapClick, onBoundsChange }) {
  const map = useMap();
@@ -157,24 +179,6 @@ export default function MapView({ settings,
   const isDark = settings?.theme === 'dark' || 
     (settings?.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-  const getTileConfig = () => {
-    if (mapStyle === 'satellite') {
-      return {
-        url: "https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
-        maxZoom: 20,
-        subdomains: ["0", "1", "2", "3"],
-        attribution: '&copy; Google Maps'
-      };
-    }
-    return {
-      url: "https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-      maxZoom: 20,
-      subdomains: ["0", "1", "2", "3"],
-      attribution: '&copy; Google Maps'
-    };
-  };
-
-  const tileConfig = getTileConfig();
 const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
  };
@@ -240,14 +244,30 @@ const handleMapMove = (isUserAction) => {
  zoomControl={false}
  >
  <ZoomControl position="bottomright" />
- <TileLayer 
-   key={`${tileConfig.url}-${isDark}`}
-   url={tileConfig.url} 
-   subdomains={tileConfig.subdomains}
-   maxZoom={tileConfig.maxZoom} 
-   className={mapStyle === 'satellite' ? 'satellite-tiles' : 'roadmap-tiles'}
-   attribution={tileConfig.attribution}
- />
+ {mapStyle === 'satellite' ? (
+    <TileLayer 
+      key="google-satellite"
+      url="https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+      subdomains={['0', '1', '2', '3']}
+      maxZoom={20}
+      className="satellite-tiles"
+      attribution="&copy; Google Maps"
+    />
+  ) : isDark ? (
+    <MapLibreLayer 
+      key="openfreemap-dark" 
+      styleUrl="https://tiles.openfreemap.org/styles/dark" 
+    />
+  ) : (
+    <TileLayer 
+      key="google-roadmap"
+      url="https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+      subdomains={['0', '1', '2', '3']}
+      maxZoom={20}
+      className="roadmap-tiles"
+      attribution="&copy; Google Maps"
+    />
+  )}
  <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />
  <FlyToUser center={[userLocation.lat, userLocation.lng]} trigger={recenterTrigger} />
         <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
