@@ -106,7 +106,8 @@ html.dark .leaflet-container {
   transition: filter 0.3s ease;
 }
 html.dark .roadmap-tiles {
-  filter: invert(100%) hue-rotate(180deg) brightness(82%) contrast(95%);
+  /* No artificial negative invert; clean, natural night brightness */
+  filter: brightness(0.92) contrast(1.02);
 }
 .leaflet-top, .leaflet-bottom { z-index: 10 !important; }
 .leaflet-control-zoom { 
@@ -346,10 +347,10 @@ input:-webkit-autofill:active {
   filter: contrast(1.02) saturate(0.9) brightness(1.02);
 }
 
-/* Apple Maps OLED Dark Mode: Pitch black backdrop with subtle slate elevation */
+/* Apple Maps Dark Mode: Gentle night brightness without negative artifacts */
 .is-apple.dark .roadmap-tiles,
 html.dark.is-apple .roadmap-tiles {
-  filter: invert(100%) hue-rotate(180deg) brightness(82%) contrast(94%) saturate(0.82) !important;
+  filter: brightness(0.9) contrast(1.03) !important;
 }
 
 /* Floating Zoom Controls: Apple Liquid Glass Island */
