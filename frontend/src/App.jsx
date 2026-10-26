@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 
@@ -278,7 +278,9 @@ function App({ initialAuth = false }) {
 
   const [isUsingGps, setIsUsingGps] = useState(!queryParamProvince);
   const [recenterTrigger, setRecenterTrigger] = useState(0);
- const [gpsModal, setGpsModal] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const prevProvinceRef = useRef(filters.province);
+  const [gpsModal, setGpsModal] = useState(null);
  
  const [stationsData, setStationsData] = useState([]);
  const [loading, setLoading] = useState(false);
@@ -428,30 +430,95 @@ function App({ initialAuth = false }) {
  return currentProvince;
  };
 
- const getUserGPS = (isManual = false) => {
- if (navigator.geolocation) {
- navigator.geolocation.getCurrentPosition(
- async (pos) => {
- const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-        setUserLocation(loc);
-        setIsUsingGps(true);
+  const getClosestProvince = (lat, lng) => {
+    let minD = Infinity;
+    let closest = '28';
+    for (const [code, center] of Object.entries(PROVINCE_CENTERS)) {
+      const d = Math.pow(lat - center.lat, 2) + Math.pow(lng - center.lng, 2);
+      if (d < minD) {
+        minD = d;
+        closest = code;
+      }
+    }
+    return closest;
+  };
+
+  const getUserGPS = (isManual = false) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          setUserLocation(loc);
+          setIsUsingGps(true);
           setRecenterTrigger(prev => prev + 1);
+
+          // Asignar provincia inmediatamente por cercanía matemática (0ms de latencia)
+          const quickCode = getClosestProvince(loc.lat, loc.lng);
+          setCurrentProvince(quickCode);
+          prevProvinceRef.current = 'auto';
+
+          // Resetear filtro de provincia a 'auto' y restaurar radio si estaba a 0
+          setFilters(prev => ({
+            ...prev,
+            province: 'auto',
+            radius: prev.radius === 0 ? 10 : prev.radius
+          }));
+
+          // Limpiar parámetros de consulta de la URL si venía de ?provincia=XX
+          if (typeof window !== 'undefined' && window.location.search) {
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('provincia') || url.searchParams.has('province')) {
+              url.searchParams.delete('provincia');
+              url.searchParams.delete('province');
+              window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+            }
+          }
+
+          // Disparar recarga de gasolineras para la ubicación real del usuario
+          setRefreshTrigger(prev => prev + 1);
+
+          if (isManual) {
+            toast.success("Ubicación GPS actualizada");
+          }
+
           await detectProvince(loc.lat, loc.lng);
-      },
- (err) => {
- if (isManual && err.code === 1) {
- setGpsModal({ title: "Permiso bloqueado", message: "Para usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación." });
- } else if (isManual && err.code === 2) {
- setGpsModal({ title: "Sin señal GPS", message: "No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo." });
- } else if (isManual && err.code === 3) {
- setGpsModal({ title: "Tiempo agotado", message: "Tiempo de espera agotado al intentar buscar tu ubicación." });
- }
- detectProvince(userLocation.lat, userLocation.lng);
- },
- { timeout: 8000 }
- );
- }
- };
+        },
+        (err) => {
+          if (isManual && err.code === 1) {
+            setGpsModal({ title: "Permiso bloqueado", message: "Para usar tu GPS, debes tocar el icono del candado en la barra de direcciones de tu navegador y permitir el acceso a la ubicación." });
+          } else if (isManual && err.code === 2) {
+            setGpsModal({ title: "Sin señal GPS", message: "No se ha podido determinar tu ubicación. Verifica que tienes activado el GPS en tu dispositivo." });
+          } else if (isManual && err.code === 3) {
+            setGpsModal({ title: "Tiempo agotado", message: "Tiempo de espera agotado al intentar buscar tu ubicación." });
+          }
+          detectProvince(userLocation.lat, userLocation.lng);
+        },
+        { timeout: 8000 }
+      );
+    }
+  };
+
+  // Sincronizar selección manual de provincia con el centro del mapa y radio
+  useEffect(() => {
+    if (prevProvinceRef.current === filters.province) return;
+    prevProvinceRef.current = filters.province;
+
+    if (filters.province === 'auto') {
+      getUserGPS(true);
+    } else if (filters.province === 'all') {
+      setUserLocation({ lat: 40.4168, lng: -3.7038 });
+      setIsUsingGps(false);
+      setRecenterTrigger(prev => prev + 1);
+      setFilters(f => ({ ...f, radius: 0 }));
+    } else if (PROVINCE_CENTERS[filters.province]) {
+      const center = PROVINCE_CENTERS[filters.province];
+      setUserLocation(center);
+      setIsUsingGps(false);
+      setCurrentProvince(filters.province);
+      setRecenterTrigger(prev => prev + 1);
+      setFilters(f => ({ ...f, radius: 0 }));
+    }
+  }, [filters.province]);
 
  useEffect(() => {
  if (!queryParamProvince) {
@@ -463,11 +530,12 @@ function App({ initialAuth = false }) {
  }
  }, [authToken]);
 
- const handleSearch = async (query) => {
- setLoading(true);
- try {
- // Si el usuario busca manualmente, asegurarnos de que el radio sea amplio para que vea resultados (ej: islas enteras)
- setFilters(prev => ({ ...prev, radius: 10 }));
+  const handleSearch = async (query) => {
+  setLoading(true);
+  try {
+  // Si el usuario busca manualmente, asegurarnos de que el radio sea amplio para que vea resultados (ej: islas enteras)
+  prevProvinceRef.current = 'auto';
+  setFilters(prev => ({ ...prev, radius: 10, province: 'auto' }));
  
  const res = { data: await (await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&bbox=-18.16,27.63,4.32,43.79&limit=5`)).json() };
       if (res.data && res.data.features && res.data.features.length > 0) {
@@ -543,8 +611,8 @@ function App({ initialAuth = false }) {
 
  fetchGasStations();
 
- return () => controller.abort();
- }, [filters.province, currentProvince]);
+  return () => controller.abort();
+  }, [filters.province, currentProvince, refreshTrigger]);
 
  // Procesamiento de datos
  const parsePrice = (str) => {
@@ -904,6 +972,8 @@ function App({ initialAuth = false }) {
    onSearchArea={async (center) => {
      setIsUsingGps(false);
      setUserLocation(center);
+     prevProvinceRef.current = 'auto';
+     setFilters(prev => ({ ...prev, province: 'auto' }));
      await detectProvince(center.lat, center.lng);
    }}
  />
