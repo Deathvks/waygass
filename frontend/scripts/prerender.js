@@ -89,6 +89,9 @@ const pages = [
 pages.forEach(p => {
   let html = template;
 
+  // Remove homepage schema from subpages
+  html = html.replace(/<script id="schema-homepage"[\s\S]*?<\/script>\s*/i, "");
+
   // Replace Title
   html = html.replace(/<title>[^<]*<\/title>/i, `<title>${p.title}</title>`);
 

@@ -49,9 +49,67 @@
       }
     } catch (e) {}
   </script>
+  <script id="schema-homepage" type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "@id": "https://waygass.es/#app",
+        "name": "WayGass",
+        "url": "https://waygass.es",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "All",
+        "description": "Comparador de precios de gasolineras en España en tiempo real con datos oficiales del Ministerio para la Transición Ecológica (MITECO).",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://waygass.es/#website",
+        "url": "https://waygass.es",
+        "name": "WayGass",
+        "description": "Comparador de precios de gasolineras en España y mapa interactivo en tiempo real.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "WayGass",
+          "url": "https://waygass.es",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://waygass.es/logo.png"
+          }
+        }
+      }
+    ]
+  }
+  </script>
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <noscript>
+        <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <h1>WayGass - Comparador de Precios de Gasolineras en España</h1>
+          <p>Encuentra las gasolineras más baratas de España en tiempo real. Precios oficiales del Ministerio para la Transición Ecológica (MITECO) actualizados continuamente para Gasolina 95, Diésel, Gasolina 98 y GLP.</p>
+          <h2>Blog de Ahorro y Guías de Conducción</h2>
+          <ul>
+            <li><a href="/blog">Blog oficial de WayGass</a></li>
+            <li><a href="/blog/5-trucos-ahorrar-combustible">5 Trucos infalibles para ahorrar combustible en cada viaje</a></li>
+            <li><a href="/blog/gasolineras-lowcost-mito-realidad">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</a></li>
+            <li><a href="/blog/mejores-apps-coche-2026">Las 5 mejores apps para conductores en 2026</a></li>
+            <li><a href="/blog/mantenimiento-preventivo-consumo">Mantenimiento preventivo: ¿Afecta al consumo?</a></li>
+          </ul>
+          <h2>Información Legal</h2>
+          <ul>
+            <li><a href="/legal">Aviso Legal</a></li>
+            <li><a href="/privacidad">Política de Privacidad</a></li>
+            <li><a href="/cookies">Política de Cookies</a></li>
+          </ul>
+        </div>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
