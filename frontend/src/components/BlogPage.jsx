@@ -34,6 +34,42 @@ const ArticleList = ({ items }) => (
   </ul>
 );
 
+const KeyTakeawaysBox = ({ points }) => (
+  <aside aria-label="Puntos clave del artículo" className="my-8 p-6 rounded-2xl bg-primary/5 dark:bg-primary/10 border border-primary/20 backdrop-blur-sm">
+    <div className="flex items-center gap-2 mb-3 text-primary font-black text-sm uppercase tracking-wider">
+      <i className="fa-solid fa-bolt"></i>
+      <span>Puntos clave en 30 segundos</span>
+    </div>
+    <ul className="space-y-2">
+      {points.map((pt, idx) => (
+        <li key={idx} className="flex items-start gap-2.5 text-sm md:text-base text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
+          <i className="fa-solid fa-check text-primary mt-1 text-xs shrink-0"></i>
+          <span>{pt}</span>
+        </li>
+      ))}
+    </ul>
+  </aside>
+);
+
+const InArticleCta = () => (
+  <aside aria-label="Herramienta de ahorro" className="my-12 p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 dark:from-white/10 dark:to-white/5 border border-white/10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+    <div className="space-y-2 text-center md:text-left">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-black uppercase tracking-wider">
+        <i className="fa-solid fa-gas-pump"></i> Ahorro inmediato
+      </div>
+      <h3 className="text-xl md:text-2xl font-black">¿Buscas la gasolina más barata ahora mismo?</h3>
+      <p className="text-slate-300 text-sm max-w-md">Consulta en el mapa interactivo de WayGass los precios actualizados por el Ministerio cada hora.</p>
+    </div>
+    <a 
+      href="/" 
+      className="px-6 py-3.5 bg-primary hover:bg-primary-dark text-white font-black rounded-xl text-sm transition-transform hover:scale-105 shadow-lg shadow-primary/30 shrink-0 flex items-center gap-2 cursor-pointer"
+    >
+      <span>Ver mapa en tiempo real</span>
+      <i className="fa-solid fa-arrow-right text-xs"></i>
+    </a>
+  </aside>
+);
+
 
 const ShareBar = ({ title, url }) => {
   const [copied, setCopied] = useState(false);
@@ -152,8 +188,8 @@ const RelatedArticles = ({ currentSlug }) => {
 export const BlogIndex = () => (
   <BlogLayout>
     <SEOHead 
-      title="Blog de Ahorro y Combustible | WayGass"
-      description="Consejos prácticos, guías de conducción eficiente y comparativas para reducir tu consumo de gasolina o diésel en España."
+      title="Blog de Ahorro y Combustible | Guías y Consejos WayGass"
+      description="Consejos prácticos, guías de conducción eficiente, análisis de gasolineras low-cost y trucos para reducir tu consumo de gasolina o diésel en España."
       canonical="https://waygass.es/blog"
       breadcrumbs={[
         { name: "Inicio", url: "https://waygass.es/" },
@@ -162,7 +198,7 @@ export const BlogIndex = () => (
     />
     <div className="mb-16 text-center">
       <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-4">Actualidad del motor</span>
-      <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Blog de Ahorro</h1>
+      <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Blog de Ahorro y Motor</h1>
       <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Consejos prácticos, noticias sobre combustibles y trucos probados para reducir tu consumo anual.</p>
     </div>
     
@@ -170,11 +206,23 @@ export const BlogIndex = () => (
       
       <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/5-trucos-ahorrar-combustible'}>
         <div className="h-56 relative overflow-hidden">
-          <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+          <img 
+            src="/blog-eco-driving.jpg" 
+            alt="5 trucos para ahorrar combustible y optimizar el consumo de gasolina y diésel en el coche" 
+            width="1200"
+            height="675"
+            loading="lazy"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         </div>
         <div className="p-8 flex-1 flex flex-col">
-          <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Guía Práctica</span>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-black text-primary uppercase tracking-widest">Guía Práctica</span>
+            <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i className="fa-regular fa-clock text-[10px]"></i> 4 min de lectura
+            </span>
+          </div>
           <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">5 Trucos infalibles para ahorrar combustible en cada viaje</h2>
           <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">¿Sabías que la presión de los neumáticos o el uso del aire acondicionado pueden disparar tu consumo? Aprende cómo optimizar tu depósito.</p>
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
@@ -186,11 +234,23 @@ export const BlogIndex = () => (
 
       <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/gasolineras-lowcost-mito-realidad'}>
         <div className="h-56 relative overflow-hidden">
-          <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
+          <img 
+            src="/blog-low-cost.jpg" 
+            alt="Surtidor de gasolinera low cost con precios económicos de combustible en España" 
+            width="1200"
+            height="675"
+            loading="lazy"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         </div>
         <div className="p-8 flex-1 flex flex-col">
-          <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Mecánica</span>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-black text-primary uppercase tracking-widest">Mecánica</span>
+            <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i className="fa-regular fa-clock text-[10px]"></i> 5 min de lectura
+            </span>
+          </div>
           <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h2>
           <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desmentimos los mitos más comunes sobre las estaciones de bajo coste. ¿El diésel barato estropea el motor? Te contamos qué dice la ciencia.</p>
           <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
@@ -200,39 +260,62 @@ export const BlogIndex = () => (
         </div>
       </article>
 
-    
-        <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mejores-apps-coche-2026'}>
-          <div className="h-56 relative overflow-hidden">
-            <img src="/blog-apps-car.jpg" alt="Apps de Coche" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mejores-apps-coche-2026'}>
+        <div className="h-56 relative overflow-hidden">
+          <img 
+            src="/blog-apps-car.jpg" 
+            alt="Pantalla de smartphone con las mejores aplicaciones de asistencia y navegación para conductores en 2026" 
+            width="1200"
+            height="675"
+            loading="lazy"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        </div>
+        <div className="p-8 flex-1 flex flex-col">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-black text-primary uppercase tracking-widest">Tecnología</span>
+            <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i className="fa-regular fa-clock text-[10px]"></i> 4 min de lectura
+            </span>
           </div>
-          <div className="p-8 flex-1 flex flex-col">
-            <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Tecnología</span>
-            <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Las 5 mejores apps para conductores en 2026</h2>
-            <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desde comparadores de precios hasta gestión de rutas y mantenimiento. Digitaliza tu coche y exprime al máximo cada viaje.</p>
-            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
-              <span>25 Sept, 2026</span>
-              <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
-            </div>
+          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Las 5 mejores apps para conductores en 2026</h2>
+          <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Desde comparadores de precios hasta gestión de rutas y mantenimiento. Digitaliza tu coche y exprime al máximo cada viaje.</p>
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+            <span>25 Sept, 2026</span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
           </div>
-        </article>
+        </div>
+      </article>
 
-        <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mantenimiento-preventivo-consumo'}>
-          <div className="h-56 relative overflow-hidden">
-            <img src="/blog-maintenance.jpg" alt="Mantenimiento Coche" className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      <article className="bg-white dark:bg-[#0a0a0a] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary/10 transition-all cursor-pointer flex flex-col group hover:-translate-y-1" onClick={() => window.location.href='/blog/mantenimiento-preventivo-consumo'}>
+        <div className="h-56 relative overflow-hidden">
+          <img 
+            src="/blog-maintenance.jpg" 
+            alt="Mecánico realizando mantenimiento preventivo de motor y filtros para reducir el consumo de combustible" 
+            width="1200"
+            height="675"
+            loading="lazy"
+            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+        </div>
+        <div className="p-8 flex-1 flex flex-col">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-black text-primary uppercase tracking-widest">Mecánica</span>
+            <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+              <i className="fa-regular fa-clock text-[10px]"></i> 4 min de lectura
+            </span>
           </div>
-          <div className="p-8 flex-1 flex flex-col">
-            <span className="text-xs font-black text-primary uppercase tracking-widest mb-3">Mecánica</span>
-            <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Mantenimiento preventivo: ¿Afecta al consumo?</h2>
-            <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Filtros sucios, bujías desgastadas y aceite antiguo. Descubre cuánto combustible estás perdiendo por no visitar al mecánico.</p>
-            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
-              <span>28 Sept, 2026</span>
-              <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
-            </div>
+          <h2 className="text-2xl font-black mb-4 leading-tight group-hover:text-primary transition-colors">Mantenimiento preventivo: ¿Afecta al consumo?</h2>
+          <p className="text-slate-600 dark:text-slate-400 flex-1 leading-relaxed">Filtros sucios, bujías desgastadas y aceite antiguo. Descubre cuánto combustible estás perdiendo por no visitar al mecánico.</p>
+          <div className="mt-6 pt-6 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-sm font-bold text-slate-400">
+            <span>28 Sept, 2026</span>
+            <span className="text-primary flex items-center gap-1">Leer artículo <i className="fa-solid fa-arrow-right text-xs"></i></span>
           </div>
-        </article>
-</div>
+        </div>
+      </article>
+    </div>
   </BlogLayout>
 );
 
@@ -259,14 +342,26 @@ export const BlogPost1 = () => (
       </a>
       
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
-        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Guía Práctica</span>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest">Guía Práctica</span>
+          <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+            <i className="fa-regular fa-clock"></i> 4 min de lectura
+          </span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">5 Trucos infalibles para ahorrar combustible en cada viaje</h1>
-        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
-          <img src="/blog-eco-driving.jpg" alt="Eco Driving" className="w-full h-auto aspect-video object-cover" />
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl aspect-video bg-slate-100 dark:bg-white/5">
+          <img 
+            src="/blog-eco-driving.jpg" 
+            alt="5 trucos para ahorrar combustible y optimizar el consumo de gasolina y diésel en el coche" 
+            width="1200"
+            height="675"
+            fetchpriority="high"
+            className="w-full h-full object-cover" 
+          />
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <img src="/logo.png" alt="WayGass Logo" width="40" height="40" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 20 de Septiembre, 2026</div>
@@ -274,6 +369,12 @@ export const BlogPost1 = () => (
         </div>
         <ShareBar title="5 Trucos infalibles para ahorrar combustible en cada viaje" url="https://waygass.es/blog/5-trucos-ahorrar-combustible" />
       </div>
+
+      <KeyTakeawaysBox points={[
+        "Llevar la presión adecuada en los neumáticos ahorra hasta un 3% en cada depósito.",
+        "Acelerar con suavidad y conducir a bajas revoluciones (Eco-Driving) reduce el consumo entre un 10% y un 15%.",
+        "Comparar gasolineras con WayGass antes de repostar permite ahorrar hasta 10€ en un único depósito de 50 litros."
+      ]} />
       
       <ArticleParagraph>El precio del combustible fluctúa constantemente, pero lo que sí puedes controlar de forma inmediata es cómo conduces. Con unos simples ajustes en tu rutina diaria al volante, puedes reducir drásticamente tu consumo anual y ahorrar cientos de euros.</ArticleParagraph>
       
@@ -291,6 +392,9 @@ export const BlogPost1 = () => (
 
       <ArticleHeading>5. Usa WayGass para comparar precios</ArticleHeading>
       <ArticleParagraph>El truco más directo y efectivo de todos: <strong>no repostes en la primera estación que veas</strong>. Usa nuestra aplicación interactiva para localizar las estaciones de servicio a tu alrededor. En una misma ruta, la diferencia de precio entre dos gasolineras a 5 minutos de distancia puede ser de hasta 20 céntimos por litro. ¡Eso son 10 euros de ahorro limpio en un solo depósito de 50L!</ArticleParagraph>
+      
+      <InArticleCta />
+      
       <ShareBar title="5 Trucos infalibles para ahorrar combustible en cada viaje" url="https://waygass.es/blog/5-trucos-ahorrar-combustible" />
       <RelatedArticles currentSlug="5-trucos-ahorrar-combustible" />
     </div>
@@ -320,14 +424,26 @@ export const BlogPost2 = () => (
       </a>
       
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
-        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest">Mecánica</span>
+          <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+            <i className="fa-regular fa-clock"></i> 5 min de lectura
+          </span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</h1>
-        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
-          <img src="/blog-low-cost.jpg" alt="Low Cost Gas" className="w-full h-auto aspect-video object-cover" />
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl aspect-video bg-slate-100 dark:bg-white/5">
+          <img 
+            src="/blog-low-cost.jpg" 
+            alt="Surtidor de gasolinera low cost con precios económicos de combustible en España" 
+            width="1200"
+            height="675"
+            fetchpriority="high"
+            className="w-full h-full object-cover" 
+          />
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <img src="/logo.png" alt="WayGass Logo" width="40" height="40" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 18 de Septiembre, 2026</div>
@@ -335,6 +451,12 @@ export const BlogPost2 = () => (
         </div>
         <ShareBar title="Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?" url="https://waygass.es/blog/gasolineras-lowcost-mito-realidad" />
       </div>
+
+      <KeyTakeawaysBox points={[
+        "Todo el combustible base en España proviene de las mismas instalaciones de CLH (Exolum) y cumple con las normativas europeas EN 228 y EN 590.",
+        "Las gasolineras low-cost no estropean el motor; la diferencia real radica en el paquete extra de aditivos detergentes que añaden las grandes marcas.",
+        "Alternar repostajes económicos con depósitos de carburante premium es la mejor fórmula para ahorrar sin descuidar los inyectores."
+      ]} />
       
       <ArticleParagraph>Es el debate eterno entre conductores. Algunos puristas de la mecánica juran que nunca pisarían una gasolinera "low-cost" porque aseguran que estropeará sus inyectores de alta presión. Otros, por el contrario, presumen de ahorrar más de 15 euros por depósito ininterrumpidamente durante años sin haber pisado nunca el taller. ¿Qué hay de verdad y de mito en todo esto?</ArticleParagraph>
 
@@ -357,7 +479,9 @@ export const BlogPost2 = () => (
 
       <ArticleHeading>Conclusión y veredicto: ¿Merece la pena?</ArticleHeading>
       <ArticleParagraph>Para el 90% de los conductores y los vehículos de uso diario, el inmenso ahorro económico que suponen las estaciones low-cost compensa con creces cualquier duda mecánica. Un consejo muy popular y sabio entre mecánicos profesionales es la <strong>alternancia estratégica</strong>: reposta 3 o 4 veces seguidas en estaciones low-cost, y luego dedica un depósito completo de combustible premium para aprovechar el efecto "limpiador" de sus aditivos.</ArticleParagraph>
-      <ArticleParagraph>Sea cual sea tu estrategia, usa el mapa inteligente de <strong>WayGass</strong> para encontrar la estación que mejor se adapte a tu bolsillo en este mismo momento.</ArticleParagraph>
+      
+      <InArticleCta />
+
       <ShareBar title="Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?" url="https://waygass.es/blog/gasolineras-lowcost-mito-realidad" />
       <RelatedArticles currentSlug="gasolineras-lowcost-mito-realidad" />
     </div>
@@ -387,14 +511,26 @@ export const BlogPost3 = () => (
       </a>
       
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
-        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Tecnología</span>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest">Tecnología</span>
+          <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+            <i className="fa-regular fa-clock"></i> 4 min de lectura
+          </span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Las 5 mejores apps para conductores en 2026</h1>
-        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
-          <img src="/blog-apps-car.jpg" alt="Apps de Coche" className="w-full h-auto aspect-video object-cover" />
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl aspect-video bg-slate-100 dark:bg-white/5">
+          <img 
+            src="/blog-apps-car.jpg" 
+            alt="Pantalla de smartphone con las mejores aplicaciones de asistencia y navegación para conductores en 2026" 
+            width="1200"
+            height="675"
+            fetchpriority="high"
+            className="w-full h-full object-cover" 
+          />
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <img src="/logo.png" alt="WayGass Logo" width="40" height="40" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 25 de Septiembre, 2026</div>
@@ -402,6 +538,12 @@ export const BlogPost3 = () => (
         </div>
         <ShareBar title="Las 5 mejores apps para conductores en 2026" url="https://waygass.es/blog/mejores-apps-coche-2026" />
       </div>
+
+      <KeyTakeawaysBox points={[
+        "WayGass te permite encontrar las gasolineras más baratas de España en tiempo real con datos directos del Ministerio.",
+        "Waze ahorra tiempo y combustible evitando retenciones y tráfico denso mediante alertas comunitarias en vivo.",
+        "Apps como Drivvo o Telpark te ayudan a controlar los gastos del vehículo y pagar el aparcamiento sin sobrecostes ni monedas."
+      ]} />
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
         <ArticleParagraph>La digitalización ha llegado para quedarse en el mundo del motor. Hoy en día, nuestro smartphone es el mejor copiloto que podemos tener, ofreciendo funcionalidades que hace una década parecían ciencia ficción. Aquí te traemos el Top 5 definitivo de este año.</ArticleParagraph>
@@ -421,6 +563,11 @@ export const BlogPost3 = () => (
         <ArticleHeading>5. Spotify: La banda sonora de tus viajes</ArticleHeading>
         <ArticleParagraph>Aunque parezca obvia, las últimas actualizaciones de Spotify diseñadas específicamente para el "Car Mode" la hacen indispensable. Con controles simplificados por voz, integración perfecta con Android Auto y Apple CarPlay, y podcasts dedicados al motor, transforma cualquier viaje aburrido en una experiencia placentera.</ArticleParagraph>
       </div>
+
+      <InArticleCta />
+
+      <ShareBar title="Las 5 mejores apps para conductores en 2026" url="https://waygass.es/blog/mejores-apps-coche-2026" />
+      <RelatedArticles currentSlug="mejores-apps-coche-2026" />
     </div>
   </BlogLayout>
 );
@@ -448,14 +595,26 @@ export const BlogPost4 = () => (
       </a>
       
       <div className="mb-12 border-b border-slate-200 dark:border-white/10 pb-12">
-        <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-6">Mecánica</span>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest">Mecánica</span>
+          <span className="text-xs font-semibold text-slate-400 flex items-center gap-1">
+            <i className="fa-regular fa-clock"></i> 4 min de lectura
+          </span>
+        </div>
         <h1 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-[1.15]">Mantenimiento preventivo: ¿Afecta al consumo?</h1>
-        <div className="my-8 rounded-3xl overflow-hidden shadow-xl">
-          <img src="/blog-maintenance.jpg" alt="Mantenimiento Coche" className="w-full h-auto aspect-video object-cover" />
+        <div className="my-8 rounded-3xl overflow-hidden shadow-xl aspect-video bg-slate-100 dark:bg-white/5">
+          <img 
+            src="/blog-maintenance.jpg" 
+            alt="Mecánico realizando mantenimiento preventivo de motor y filtros para reducir el consumo de combustible" 
+            width="1200"
+            height="675"
+            fetchpriority="high"
+            className="w-full h-full object-cover" 
+          />
         </div>
         
         <div className="flex items-center gap-4 text-sm font-bold text-slate-500">
-          <img src="/logo.png" alt="WayGass" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
+          <img src="/logo.png" alt="WayGass Logo" width="40" height="40" className="w-10 h-10 rounded-full object-cover shadow-sm bg-white" />
           <div>
             <div className="text-slate-900 dark:text-white">Equipo Editorial de WayGass</div>
             <div>Publicado el 28 de Septiembre, 2026</div>
@@ -463,6 +622,12 @@ export const BlogPost4 = () => (
         </div>
         <ShareBar title="Mantenimiento preventivo: ¿Afecta al consumo?" url="https://waygass.es/blog/mantenimiento-preventivo-consumo" />
       </div>
+
+      <KeyTakeawaysBox points={[
+        "Filtros de aire colapsados y bujías sucias pueden desequilibrar la inyección y elevar el consumo más de un 10%.",
+        "El aceite sintético con la viscosidad recomendada reduce la fricción interna y maximiza la vida útil del motor.",
+        "Un correcto paralelo y alineación de ruedas elimina la resistencia al rodamiento y salva neumáticos de desgastes anómalos."
+      ]} />
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
         <ArticleParagraph>Muchos conductores retrasan las revisiones mecánicas pensando que así ahorran dinero a corto plazo, pero la realidad es muy distinta. Un coche descuidado consume mucho más y acabará pasándote una factura mayor en el surtidor o en averías graves. Te explicamos los factores clave.</ArticleParagraph>
@@ -482,6 +647,9 @@ export const BlogPost4 = () => (
         <ArticleHeading>La sonda lambda y los sensores</ArticleHeading>
         <ArticleParagraph>La sonda lambda se encarga de medir el oxígeno en los gases de escape. Si falla o está sucia, enviará datos erróneos a la centralita, que por precaución ordenará inyectar más combustible del necesario (modo rico). Un simple escaneo OBD2 en tu taller de confianza puede detectar este fallo silencioso que vacía tu cartera.</ArticleParagraph>
       </div>
+
+      <InArticleCta />
+
       <ShareBar title="Mantenimiento preventivo: ¿Afecta al consumo?" url="https://waygass.es/blog/mantenimiento-preventivo-consumo" />
       <RelatedArticles currentSlug="mantenimiento-preventivo-consumo" />
     </div>
