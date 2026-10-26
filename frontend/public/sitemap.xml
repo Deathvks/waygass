@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://waygass.es/</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/5-trucos-ahorrar-combustible</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-eco-driving.jpg</image:loc>
+      <image:title>5 Trucos infalibles para ahorrar combustible en cada viaje</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
+      <image:title>Gasolineras Low-Cost: Mito o realidad sobre la calidad</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/mejores-apps-coche-2026</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
+      <image:title>Las 5 mejores apps para conductores en 2026</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/mantenimiento-preventivo-consumo</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
+      <image:title>Mantenimiento preventivo: ¿Afecta al consumo?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/privacidad</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/legal</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/cookies</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import SEOHead from './SEOHead.jsx';
 
 const BlogLayout = ({ children }) => (
   <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white">
@@ -33,8 +34,132 @@ const ArticleList = ({ items }) => (
   </ul>
 );
 
+
+const ShareBar = ({ title, url }) => {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    const link = url || window.location.href;
+    navigator.clipboard.writeText(link);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  const currentUrl = url || (typeof window !== "undefined" ? window.location.href : "https://waygass.es/blog");
+  return (
+    <div className="flex flex-wrap items-center gap-3 my-6 py-4 border-y border-slate-200 dark:border-white/10 text-xs font-bold text-slate-500">
+      <span>Compartir artículo:</span>
+      <button 
+        type="button"
+        onClick={handleCopy}
+        className="px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+      >
+        <i className={copied ? "fa-solid fa-check text-emerald-500" : "fa-solid fa-link"}></i>
+        <span>{copied ? "¡Enlace copiado!" : "Copiar enlace"}</span>
+      </button>
+      <a 
+        href={`https://wa.me/?text=${encodeURIComponent(title + " " + currentUrl)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-3 py-1.5 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 transition-colors flex items-center gap-1.5 cursor-pointer"
+      >
+        <i className="fa-brands fa-whatsapp text-sm"></i>
+        <span>WhatsApp</span>
+      </a>
+      <a 
+        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-3 py-1.5 rounded-full bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 transition-colors flex items-center gap-1.5 cursor-pointer"
+      >
+        <i className="fa-brands fa-x-twitter text-sm"></i>
+        <span>X / Twitter</span>
+      </a>
+    </div>
+  );
+};
+
+const Breadcrumbs = ({ currentTitle }) => (
+  <nav aria-label="Miga de pan" className="flex items-center gap-2 text-xs font-medium text-slate-400 mb-8 overflow-hidden text-ellipsis whitespace-nowrap">
+    <a href="/" className="hover:text-primary transition-colors flex items-center gap-1">
+      <i className="fa-solid fa-house text-[10px]"></i>
+      <span>Inicio</span>
+    </a>
+    <span>/</span>
+    <a href="/blog" className="hover:text-primary transition-colors">Blog</a>
+    <span>/</span>
+    <span className="text-slate-700 dark:text-slate-300 truncate font-semibold">{currentTitle}</span>
+  </nav>
+);
+
+const RelatedArticles = ({ currentSlug }) => {
+  const allPosts = [
+    {
+      slug: "5-trucos-ahorrar-combustible",
+      title: "5 Trucos infalibles para ahorrar combustible en cada viaje",
+      image: "/blog-eco-driving.jpg",
+      category: "Guía Práctica"
+    },
+    {
+      slug: "gasolineras-lowcost-mito-realidad",
+      title: "Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?",
+      image: "/blog-low-cost.jpg",
+      category: "Mecánica"
+    },
+    {
+      slug: "mejores-apps-coche-2026",
+      title: "Las 5 mejores apps para conductores en 2026",
+      image: "/blog-apps-car.jpg",
+      category: "Tecnología"
+    },
+    {
+      slug: "mantenimiento-preventivo-consumo",
+      title: "Mantenimiento preventivo: ¿Afecta al consumo?",
+      image: "/blog-maintenance.jpg",
+      category: "Mecánica"
+    }
+  ];
+
+  const related = allPosts.filter(p => p.slug !== currentSlug).slice(0, 2);
+
+  return (
+    <div className="mt-16 pt-12 border-t border-slate-200 dark:border-white/10">
+      <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+        <i className="fa-solid fa-newspaper text-primary text-base"></i>
+        <span>Artículos recomendados</span>
+      </h3>
+      <div className="grid sm:grid-cols-2 gap-6">
+        {related.map(p => (
+          <a
+            key={p.slug}
+            href={`/blog/${p.slug}`}
+            className="group block bg-white dark:bg-[#0a0a0a] rounded-2xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm hover:shadow-lg transition-all"
+          >
+            <div className="h-40 overflow-hidden">
+              <img src={p.image} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <div className="p-5">
+              <span className="text-[10px] font-black text-primary uppercase tracking-widest">{p.category}</span>
+              <h4 className="font-bold text-sm text-slate-800 dark:text-white mt-1 group-hover:text-primary transition-colors line-clamp-2">
+                {p.title}
+              </h4>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export const BlogIndex = () => (
   <BlogLayout>
+    <SEOHead 
+      title="Blog de Ahorro y Combustible | WayGass"
+      description="Consejos prácticos, guías de conducción eficiente y comparativas para reducir tu consumo de gasolina o diésel en España."
+      canonical="https://waygass.es/blog"
+      breadcrumbs={[
+        { name: "Inicio", url: "https://waygass.es/" },
+        { name: "Blog", url: "https://waygass.es/blog" }
+      ]}
+    />
     <div className="mb-16 text-center">
       <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest mb-4">Actualidad del motor</span>
       <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Blog de Ahorro</h1>
@@ -113,8 +238,22 @@ export const BlogIndex = () => (
 
 export const BlogPost1 = () => (
   <BlogLayout>
+    <SEOHead 
+      title="5 Trucos infalibles para ahorrar combustible en cada viaje | WayGass Blog"
+      description="¿Sabías que la presión de los neumáticos o el uso del aire acondicionado disparan tu consumo? Aprende cómo optimizar tu depósito de gasolina o diésel."
+      canonical="https://waygass.es/blog/5-trucos-ahorrar-combustible"
+      image="https://waygass.es/blog-eco-driving.jpg"
+      type="article"
+      publishedTime="2026-09-20T08:00:00+02:00"
+      breadcrumbs={[
+        { name: "Inicio", url: "https://waygass.es/" },
+        { name: "Blog", url: "https://waygass.es/blog" },
+        { name: "5 Trucos para ahorrar combustible", url: "https://waygass.es/blog/5-trucos-ahorrar-combustible" }
+      ]}
+    />
     <div className="max-w-3xl mx-auto">
-      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+      <Breadcrumbs currentTitle="5 Trucos para ahorrar combustible" />
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-8">
         <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
@@ -133,6 +272,7 @@ export const BlogPost1 = () => (
             <div>Publicado el 20 de Septiembre, 2026</div>
           </div>
         </div>
+        <ShareBar title="5 Trucos infalibles para ahorrar combustible en cada viaje" url="https://waygass.es/blog/5-trucos-ahorrar-combustible" />
       </div>
       
       <ArticleParagraph>El precio del combustible fluctúa constantemente, pero lo que sí puedes controlar de forma inmediata es cómo conduces. Con unos simples ajustes en tu rutina diaria al volante, puedes reducir drásticamente tu consumo anual y ahorrar cientos de euros.</ArticleParagraph>
@@ -151,14 +291,30 @@ export const BlogPost1 = () => (
 
       <ArticleHeading>5. Usa WayGass para comparar precios</ArticleHeading>
       <ArticleParagraph>El truco más directo y efectivo de todos: <strong>no repostes en la primera estación que veas</strong>. Usa nuestra aplicación interactiva para localizar las estaciones de servicio a tu alrededor. En una misma ruta, la diferencia de precio entre dos gasolineras a 5 minutos de distancia puede ser de hasta 20 céntimos por litro. ¡Eso son 10 euros de ahorro limpio en un solo depósito de 50L!</ArticleParagraph>
+      <ShareBar title="5 Trucos infalibles para ahorrar combustible en cada viaje" url="https://waygass.es/blog/5-trucos-ahorrar-combustible" />
+      <RelatedArticles currentSlug="5-trucos-ahorrar-combustible" />
     </div>
   </BlogLayout>
 );
 
 export const BlogPost2 = () => (
   <BlogLayout>
+    <SEOHead 
+      title="Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad? | WayGass Blog"
+      description="Desmentimos los mitos de las gasolineras low cost. ¿El combustible barato estropea el motor? Analizamos la procedencia de Exolum/CLH y aditivos."
+      canonical="https://waygass.es/blog/gasolineras-lowcost-mito-realidad"
+      image="https://waygass.es/blog-low-cost.jpg"
+      type="article"
+      publishedTime="2026-09-18T08:00:00+02:00"
+      breadcrumbs={[
+        { name: "Inicio", url: "https://waygass.es/" },
+        { name: "Blog", url: "https://waygass.es/blog" },
+        { name: "Gasolineras Low-Cost", url: "https://waygass.es/blog/gasolineras-lowcost-mito-realidad" }
+      ]}
+    />
     <div className="max-w-3xl mx-auto">
-      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+      <Breadcrumbs currentTitle="Gasolineras Low-Cost: ¿Mito o realidad?" />
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-8">
         <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
@@ -177,6 +333,7 @@ export const BlogPost2 = () => (
             <div>Publicado el 18 de Septiembre, 2026</div>
           </div>
         </div>
+        <ShareBar title="Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?" url="https://waygass.es/blog/gasolineras-lowcost-mito-realidad" />
       </div>
       
       <ArticleParagraph>Es el debate eterno entre conductores. Algunos puristas de la mecánica juran que nunca pisarían una gasolinera "low-cost" porque aseguran que estropeará sus inyectores de alta presión. Otros, por el contrario, presumen de ahorrar más de 15 euros por depósito ininterrumpidamente durante años sin haber pisado nunca el taller. ¿Qué hay de verdad y de mito en todo esto?</ArticleParagraph>
@@ -201,14 +358,30 @@ export const BlogPost2 = () => (
       <ArticleHeading>Conclusión y veredicto: ¿Merece la pena?</ArticleHeading>
       <ArticleParagraph>Para el 90% de los conductores y los vehículos de uso diario, el inmenso ahorro económico que suponen las estaciones low-cost compensa con creces cualquier duda mecánica. Un consejo muy popular y sabio entre mecánicos profesionales es la <strong>alternancia estratégica</strong>: reposta 3 o 4 veces seguidas en estaciones low-cost, y luego dedica un depósito completo de combustible premium para aprovechar el efecto "limpiador" de sus aditivos.</ArticleParagraph>
       <ArticleParagraph>Sea cual sea tu estrategia, usa el mapa inteligente de <strong>WayGass</strong> para encontrar la estación que mejor se adapte a tu bolsillo en este mismo momento.</ArticleParagraph>
+      <ShareBar title="Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?" url="https://waygass.es/blog/gasolineras-lowcost-mito-realidad" />
+      <RelatedArticles currentSlug="gasolineras-lowcost-mito-realidad" />
     </div>
   </BlogLayout>
 );
 
 export const BlogPost3 = () => (
   <BlogLayout>
+    <SEOHead 
+      title="Las 5 mejores apps para conductores en 2026 | WayGass Blog"
+      description="Las mejores aplicaciones imprescindibles para tu coche en 2026: comparadores de precios de gasolineras, Waze, Drivvo y aparcamiento inteligente."
+      canonical="https://waygass.es/blog/mejores-apps-coche-2026"
+      image="https://waygass.es/blog-apps-car.jpg"
+      type="article"
+      publishedTime="2026-09-25T08:00:00+02:00"
+      breadcrumbs={[
+        { name: "Inicio", url: "https://waygass.es/" },
+        { name: "Blog", url: "https://waygass.es/blog" },
+        { name: "Las 5 mejores apps para conductores", url: "https://waygass.es/blog/mejores-apps-coche-2026" }
+      ]}
+    />
     <div className="max-w-3xl mx-auto">
-      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+      <Breadcrumbs currentTitle="Las 5 mejores apps para conductores en 2026" />
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-8">
         <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
@@ -227,6 +400,7 @@ export const BlogPost3 = () => (
             <div>Publicado el 25 de Septiembre, 2026</div>
           </div>
         </div>
+        <ShareBar title="Las 5 mejores apps para conductores en 2026" url="https://waygass.es/blog/mejores-apps-coche-2026" />
       </div>
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
@@ -253,8 +427,22 @@ export const BlogPost3 = () => (
 
 export const BlogPost4 = () => (
   <BlogLayout>
+    <SEOHead 
+      title="Mantenimiento preventivo: ¿Afecta al consumo? | WayGass Blog"
+      description="Filtros sucios, bujías desgastadas y aceite degradado pueden aumentar tu consumo un 10%. Descubre cómo el mantenimiento te ahorra dinero en combustible."
+      canonical="https://waygass.es/blog/mantenimiento-preventivo-consumo"
+      image="https://waygass.es/blog-maintenance.jpg"
+      type="article"
+      publishedTime="2026-09-28T08:00:00+02:00"
+      breadcrumbs={[
+        { name: "Inicio", url: "https://waygass.es/" },
+        { name: "Blog", url: "https://waygass.es/blog" },
+        { name: "Mantenimiento preventivo y consumo", url: "https://waygass.es/blog/mantenimiento-preventivo-consumo" }
+      ]}
+    />
     <div className="max-w-3xl mx-auto">
-      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-12">
+      <Breadcrumbs currentTitle="Mantenimiento preventivo: ¿Afecta al consumo?" />
+      <a href="/blog" className="text-sm font-bold text-slate-500 hover:text-primary transition-colors flex items-center gap-2 mb-8">
         <i className="fa-solid fa-chevron-left text-xs"></i>
         Volver al índice
       </a>
@@ -273,6 +461,7 @@ export const BlogPost4 = () => (
             <div>Publicado el 28 de Septiembre, 2026</div>
           </div>
         </div>
+        <ShareBar title="Mantenimiento preventivo: ¿Afecta al consumo?" url="https://waygass.es/blog/mantenimiento-preventivo-consumo" />
       </div>
 
       <div className="prose prose-slate dark:prose-invert max-w-none prose-lg">
@@ -293,6 +482,8 @@ export const BlogPost4 = () => (
         <ArticleHeading>La sonda lambda y los sensores</ArticleHeading>
         <ArticleParagraph>La sonda lambda se encarga de medir el oxígeno en los gases de escape. Si falla o está sucia, enviará datos erróneos a la centralita, que por precaución ordenará inyectar más combustible del necesario (modo rico). Un simple escaneo OBD2 en tu taller de confianza puede detectar este fallo silencioso que vacía tu cartera.</ArticleParagraph>
       </div>
+      <ShareBar title="Mantenimiento preventivo: ¿Afecta al consumo?" url="https://waygass.es/blog/mantenimiento-preventivo-consumo" />
+      <RelatedArticles currentSlug="mantenimiento-preventivo-consumo" />
     </div>
   </BlogLayout>
 );

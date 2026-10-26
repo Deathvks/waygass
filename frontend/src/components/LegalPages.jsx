@@ -1,3 +1,4 @@
+import SEOHead from './SEOHead.jsx';
 import React from 'react';
 
 const PageLayout = ({ title, children }) => (
@@ -54,6 +55,11 @@ const List = ({ items }) => (
 
 export const PrivacyPage = () => (
   <PageLayout title="Política de Privacidad">
+    <SEOHead 
+      title="Política de Privacidad | WayGass"
+      description="Información detallada sobre el tratamiento de datos y privacidad en WayGass."
+      canonical="https://waygass.es/privacidad"
+    />
     <Section num="1" title="Información del Responsable">
       <p>WayGass actúa como responsable del tratamiento de los datos personales recopilados a través de la plataforma web y la aplicación móvil. Nuestro compromiso es garantizar la estricta seguridad y privacidad de tus datos de acuerdo con el <strong>Reglamento General de Protección de Datos (RGPD)</strong> de la Unión Europea.</p>
     </Section>
