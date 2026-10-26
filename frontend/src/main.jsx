@@ -24,7 +24,8 @@ axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
 // The OverlayScrollbarsReact wrapper is used inside App.jsx or main.jsx.
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
 
-const path = window.location.pathname;
+const rawPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+const path = (rawPath.length > 1 && rawPath.endsWith('/')) ? rawPath.slice(0, -1) : rawPath;
 const rootElement = document.getElementById('root');
 
 
@@ -153,13 +154,21 @@ if (path === '/privacidad') {
   createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
 } else if (path.startsWith('/blog/')) {
   const slug = path.replace(/^\/blog\//, '').replace(/\/$/, '');
-  createRoot(rootElement).render(<WrappedPage><BlogPostPage slug={slug} /></WrappedPage>);
-} else if (path === '/gasolineras' || path === '/gasolineras/') {
+  if (!slug) {
+    createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
+  } else {
+    createRoot(rootElement).render(<WrappedPage><BlogPostPage slug={slug} /></WrappedPage>);
+  }
+} else if (path === '/gasolineras') {
+  createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
+} else if (path.startsWith('/gasolineras/')) {
+  const slug = path.replace(/^\/gasolineras\//, '').replace(/\/$/, '');
+  if (!slug) {
     createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
-  } else if (path.startsWith('/gasolineras/')) {
-    const slug = path.replace(/^\/gasolineras\//, '').replace(/\/$/, '');
+  } else {
     createRoot(rootElement).render(<WrappedPage><ProvincePage slug={slug} /></WrappedPage>);
-  } else if (path === '/login') {
+  }
+} else if (path === '/login') {
   createRoot(rootElement).render(<WrappedPage><App initialAuth={true} /></WrappedPage>);
 } else {
   createRoot(rootElement).render(<WrappedPage><App /></WrappedPage>);

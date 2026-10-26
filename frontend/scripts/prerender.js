@@ -254,6 +254,19 @@ allPages.forEach(p => {
       </div>
     </noscript>`;
     html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, dirNoscript);
+  } else if (p.path === '/blog') {
+    const blogIndexNoscript = `<noscript>
+      <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1>Blog de Ahorro y Combustible | WayGass</h1>
+        <p>Consejos prácticos, guías de conducción eficiente y trucos probados para reducir tu gasto anual en combustible en España.</p>
+        <h2>Artículos destacados</h2>
+        <ul>
+          ${BLOG_POSTS.map(post => `<li><a href="/blog/${post.slug}"><strong>${post.title}</strong></a> - ${post.excerpt}</li>`).join("\n          ")}
+        </ul>
+        <p><a href="/">&larr; Volver al mapa interactivo de WayGass</a></p>
+      </div>
+    </noscript>`;
+    html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, blogIndexNoscript);
   }
 
   // Target directory
