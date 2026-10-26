@@ -341,15 +341,27 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
     </span> &bull; {s.schedule}
   </span>
  </div>
- <a 
- href={getGpsUrl(s.lat, s.lng)} 
- target="_blank" 
- rel="noopener noreferrer" 
- className="bg-[#001F3F] dark:bg-white text-white dark:text-[#001F3F] font-medium px-4 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1.5 shrink-0 hover:bg-slate-800 dark:hover:bg-slate-200 "
- >
- <span>Ir al GPS</span>
- <i className="fa-solid fa-location-arrow text-[10px]"></i>
- </a>
+ <div className="flex items-center gap-1.5 shrink-0">
+   <a 
+     href={"https://api.whatsapp.com/send?text=" + encodeURIComponent("¡Mira esta gasolinera barata en WayGass! " + s.brand + " a " + s.priceFormatted + " €/L en " + s.address + " (" + s.city + "). Consulta más en https://waygass.es")}
+     target="_blank" 
+     rel="noopener noreferrer" 
+     className="bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:bg-emerald-500/20 dark:hover:bg-emerald-500 dark:text-emerald-400 dark:hover:text-white px-2.5 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1 font-medium cursor-pointer"
+     title="Compartir por WhatsApp"
+   >
+     <i className="fa-brands fa-whatsapp text-xs"></i>
+     <span className="hidden sm:inline">Compartir</span>
+   </a>
+   <a 
+     href={getGpsUrl(s.lat, s.lng)} 
+     target="_blank" 
+     rel="noopener noreferrer" 
+     className="bg-[#001F3F] dark:bg-white text-white dark:text-[#001F3F] font-medium px-4 py-1.5 rounded-lg transition text-[11px] flex items-center gap-1.5 hover:bg-slate-800 dark:hover:bg-slate-200"
+   >
+     <span>Ir al GPS</span>
+     <i className="fa-solid fa-location-arrow text-[10px]"></i>
+   </a>
+ </div>
  </div>
  </div>
 

@@ -10,7 +10,7 @@ import App from './App.jsx'
 import { PrivacyPage, LegalPage, CookiesPolicyPage } from './components/LegalPages.jsx';
 import { useState, useEffect } from 'react';
 import CookiesBanner from './components/CookiesBanner.jsx';
-import { BlogIndex, BlogPost1, BlogPost2, BlogPost3, BlogPost4 } from './components/BlogPage.jsx';
+import { BlogIndex, BlogPostPage, BlogPost1, BlogPost2, BlogPost3, BlogPost4 } from './components/BlogPage.jsx';
 import ProvincePage from './components/ProvincePage.jsx';
 import ProvincesDirectory from './components/ProvincesDirectory.jsx';
 
@@ -151,15 +151,10 @@ if (path === '/privacidad') {
   createRoot(rootElement).render(<WrappedPage><CookiesPolicyPage /></WrappedPage>);
 } else if (path === '/blog') {
   createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
-} else if (path === '/blog/5-trucos-ahorrar-combustible') {
-  createRoot(rootElement).render(<WrappedPage><BlogPost1 /></WrappedPage>);
-} else if (path === '/blog/gasolineras-lowcost-mito-realidad') {
-    createRoot(rootElement).render(<WrappedPage><BlogPost2 /></WrappedPage>);
-  } else if (path === '/blog/mejores-apps-coche-2026') {
-    createRoot(rootElement).render(<WrappedPage><BlogPost3 /></WrappedPage>);
-  } else if (path === '/blog/mantenimiento-preventivo-consumo') {
-    createRoot(rootElement).render(<WrappedPage><BlogPost4 /></WrappedPage>);
-  } else if (path === '/gasolineras' || path === '/gasolineras/') {
+} else if (path.startsWith('/blog/')) {
+  const slug = path.replace(/^\/blog\//, '').replace(/\/$/, '');
+  createRoot(rootElement).render(<WrappedPage><BlogPostPage slug={slug} /></WrappedPage>);
+} else if (path === '/gasolineras' || path === '/gasolineras/') {
     createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
   } else if (path.startsWith('/gasolineras/')) {
     const slug = path.replace(/^\/gasolineras\//, '').replace(/\/$/, '');

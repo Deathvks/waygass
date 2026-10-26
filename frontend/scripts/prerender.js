@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { PROVINCES_DATA } from "../src/data/provincesData.js";
+import { BLOG_POSTS } from "../src/data/blogData.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,51 +20,11 @@ const template = fs.readFileSync(templatePath, "utf8");
 const staticPages = [
   {
     path: "/blog",
-    title: "Blog de Ahorro y Combustible | Guías y Noticias WayGass",
-    description: "Consejos prácticos, guías de conducción eficiente, análisis de gasolineras y trucos para reducir tu gasto anual en combustible en España.",
+    title: "Blog de Ahorro y Combustible | Guías y Consejos WayGass",
+    description: "Consejos prácticos, guías de conducción eficiente, análisis de gasolineras low-cost y trucos para reducir tu gasto anual en combustible en España.",
     canonical: "https://waygass.es/blog",
     image: "https://waygass.es/logo.png",
     type: "website"
-  },
-  {
-    path: "/blog/5-trucos-ahorrar-combustible",
-    title: "5 Trucos infalibles para ahorrar combustible en cada viaje | WayGass",
-    description: "¿Sabías que la presión de los neumáticos o el uso del aire acondicionado disparan tu consumo? Aprende cómo optimizar tu depósito de gasolina o diésel.",
-    canonical: "https://waygass.es/blog/5-trucos-ahorrar-combustible",
-    image: "https://waygass.es/blog-eco-driving.jpg",
-    type: "article",
-    datePublished: "2026-09-20T08:00:00+02:00",
-    dateModified: "2026-10-26T12:00:00+02:00"
-  },
-  {
-    path: "/blog/gasolineras-lowcost-mito-realidad",
-    title: "Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad? | WayGass",
-    description: "Desmentimos los mitos de las gasolineras low cost. ¿El combustible barato estropea el motor? Analizamos la procedencia de Exolum/CLH y aditivos.",
-    canonical: "https://waygass.es/blog/gasolineras-lowcost-mito-realidad",
-    image: "https://waygass.es/blog-low-cost.jpg",
-    type: "article",
-    datePublished: "2026-09-18T08:00:00+02:00",
-    dateModified: "2026-10-26T12:00:00+02:00"
-  },
-  {
-    path: "/blog/mejores-apps-coche-2026",
-    title: "Las 5 mejores apps para conductores en 2026 | WayGass",
-    description: "Las mejores aplicaciones imprescindibles para tu coche en 2026: comparadores de precios de gasolineras, Waze, Drivvo y aparcamiento inteligente.",
-    canonical: "https://waygass.es/blog/mejores-apps-coche-2026",
-    image: "https://waygass.es/blog-apps-car.jpg",
-    type: "article",
-    datePublished: "2026-09-25T08:00:00+02:00",
-    dateModified: "2026-10-26T12:00:00+02:00"
-  },
-  {
-    path: "/blog/mantenimiento-preventivo-consumo",
-    title: "Mantenimiento preventivo: ¿Afecta al consumo? | WayGass",
-    description: "Filtros sucios, bujías desgastadas y aceite degradado pueden aumentar tu consumo un 10%. Descubre cómo el mantenimiento te ahorra dinero en combustible.",
-    canonical: "https://waygass.es/blog/mantenimiento-preventivo-consumo",
-    image: "https://waygass.es/blog-maintenance.jpg",
-    type: "article",
-    datePublished: "2026-09-28T08:00:00+02:00",
-    dateModified: "2026-10-26T12:00:00+02:00"
   },
   {
     path: "/gasolineras",
@@ -97,6 +58,20 @@ const staticPages = [
   }
 ];
 
+// Generar las páginas de los 14 artículos del blog
+const blogPages = BLOG_POSTS.map(post => ({
+  path: `/blog/${post.slug}`,
+  title: `${post.title} | WayGass`,
+  description: post.excerpt,
+  canonical: `https://waygass.es/blog/${post.slug}`,
+  image: `https://waygass.es${post.image}`,
+  type: "article",
+  datePublished: post.dateISO,
+  dateModified: post.dateISO,
+  isBlogArticle: true,
+  post
+}));
+
 // Generar las páginas de las 52 provincias para SEO Programático
 const provincePages = PROVINCES_DATA.map(prov => ({
   path: `/gasolineras/${prov.slug}`,
@@ -109,7 +84,7 @@ const provincePages = PROVINCES_DATA.map(prov => ({
   province: prov
 }));
 
-const allPages = [...staticPages, ...provincePages];
+const allPages = [...staticPages, ...blogPages, ...provincePages];
 
 allPages.forEach(p => {
   let html = template;
@@ -142,15 +117,16 @@ allPages.forEach(p => {
   html = html.replace(/<meta name="twitter:description" content="[^"]*"/i, `<meta name="twitter:description" content="${p.description}"`);
 
   // JSON-LD structured data
-  if (p.type === "article") {
+  if (p.isBlogArticle) {
+    const post = p.post;
     const jsonLd = {
       "@context": "https://schema.org",
       "@type": "NewsArticle",
-      "headline": p.title,
-      "description": p.description,
-      "image": [p.image],
-      "datePublished": p.datePublished,
-      "dateModified": p.dateModified || p.datePublished,
+      "headline": post.title,
+      "description": post.excerpt,
+      "image": [`https://waygass.es${post.image}`],
+      "datePublished": post.dateISO,
+      "dateModified": post.dateISO,
       "inLanguage": "es-ES",
       "author": [{
         "@type": "Organization",
@@ -173,6 +149,21 @@ allPages.forEach(p => {
 
     const schemaTag = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script></head>`;
     html = html.replace("</head>", schemaTag);
+
+    const articleNoscript = `<noscript>
+      <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1>${post.title}</h1>
+        <p>${post.excerpt}</p>
+        <h2>Puntos clave en 30 segundos</h2>
+        <ul>
+          ${(post.keyPoints || []).map(k => `<li>${k}</li>`).join("\n          ")}
+        </ul>
+        ${(post.sections || []).map(s => `<h2>${s.heading}</h2>\n${s.paragraphs.map(pr => `<p>${pr}</p>`).join("\n")}`).join("\n\n        ")}
+        <p><a href="/blog">&larr; Volver al blog</a> | <a href="/">Ver precios de gasolineras en el mapa</a></p>
+      </div>
+    </noscript>`;
+
+    html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, articleNoscript);
   } else if (p.isProvince) {
     const prov = p.province;
     const schemas = [
@@ -220,7 +211,6 @@ allPages.forEach(p => {
     const schemaTag = `<script type="application/ld+json">${JSON.stringify(schemas)}</script></head>`;
     html = html.replace("</head>", schemaTag);
 
-    // Reemplazar noscript con contenido SEO específico de la provincia
     const provinceNoscript = `<noscript>
       <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
         <h1>Gasolineras Más Baratas en ${prov.name} Hoy</h1>
@@ -312,49 +302,25 @@ sitemapXml += `  <url>
     <loc>https://waygass.es/blog</loc>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
-  <url>
-    <loc>https://waygass.es/blog/5-trucos-ahorrar-combustible</loc>
-    <lastmod>2026-09-20</lastmod>
+`;
+
+BLOG_POSTS.forEach(post => {
+  sitemapXml += `  <url>
+    <loc>https://waygass.es/blog/${post.slug}</loc>
+    <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://waygass.es/blog-eco-driving.jpg</image:loc>
-      <image:title>5 Trucos infalibles para ahorrar combustible en cada viaje</image:title>
+      <image:loc>https://waygass.es${post.image}</image:loc>
+      <image:title>${post.title.replace(/&/g, '&amp;')}</image:title>
     </image:image>
   </url>
-  <url>
-    <loc>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</loc>
-    <lastmod>2026-09-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
-      <image:title>Gasolineras Low-Cost: Mito o realidad sobre la calidad</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://waygass.es/blog/mejores-apps-coche-2026</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
-      <image:title>Las 5 mejores apps para conductores en 2026</image:title>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://waygass.es/blog/mantenimiento-preventivo-consumo</loc>
-    <lastmod>2026-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
-      <image:title>Mantenimiento preventivo: ¿Afecta al consumo?</image:title>
-    </image:image>
-  </url>
-  <url>
+`;
+});
+
+sitemapXml += `  <url>
     <loc>https://waygass.es/privacidad</loc>
     <lastmod>${today}</lastmod>
     <changefreq>yearly</changefreq>
@@ -377,4 +343,38 @@ sitemapXml += `  <url>
 
 fs.writeFileSync(path.join(distDir, "sitemap.xml"), sitemapXml, "utf8");
 fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemapXml, "utf8");
-console.log("Sitemap.xml updated with all 62 URLs.");
+console.log("Sitemap.xml updated with all URLs.");
+
+// GENERACIÓN AUTOMÁTICA DEL RSS.XML COMPLETO
+let rssXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WayGass Blog | Consejos de Ahorro y Combustible</title>
+    <link>https://waygass.es/blog</link>
+    <description>Guías de conducción eficiente, análisis de combustibles y trucos probados para reducir tu consumo en cada repostaje en España.</description>
+    <language>es-ES</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <atom:link href="https://waygass.es/rss.xml" rel="self" type="application/rss+xml"/>
+`;
+
+BLOG_POSTS.forEach(post => {
+  const pubDate = new Date(post.dateISO).toUTCString();
+  rssXml += `    <item>
+      <title>${post.title.replace(/&/g, '&amp;')}</title>
+      <link>https://waygass.es/blog/${post.slug}</link>
+      <guid isPermaLink="true">https://waygass.es/blog/${post.slug}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${post.excerpt.replace(/&/g, '&amp;')}</description>
+      <enclosure url="https://waygass.es${post.image}" type="image/jpeg" length="0" />
+      <category>${post.category}</category>
+    </item>
+`;
+});
+
+rssXml += `  </channel>
+</rss>
+`;
+
+fs.writeFileSync(path.join(distDir, "rss.xml"), rssXml, "utf8");
+fs.writeFileSync(path.join(publicDir, "rss.xml"), rssXml, "utf8");
+console.log(`RSS.xml updated with ${BLOG_POSTS.length} articles.`);

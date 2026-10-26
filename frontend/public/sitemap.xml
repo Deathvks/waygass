@@ -329,11 +329,11 @@
     <loc>https://waygass.es/blog</loc>
     <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://waygass.es/blog/5-trucos-ahorrar-combustible</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -343,17 +343,17 @@
   </url>
   <url>
     <loc>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</loc>
-    <lastmod>2026-09-18</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
-      <image:title>Gasolineras Low-Cost: Mito o realidad sobre la calidad</image:title>
+      <image:title>Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://waygass.es/blog/mejores-apps-coche-2026</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -363,12 +363,112 @@
   </url>
   <url>
     <loc>https://waygass.es/blog/mantenimiento-preventivo-consumo</loc>
-    <lastmod>2026-09-28</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
       <image:title>Mantenimiento preventivo: ¿Afecta al consumo?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/que-dia-es-mas-barata-la-gasolina</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-eco-driving.jpg</image:loc>
+      <image:title>¿Qué día de la semana y a qué hora es más barata la gasolina?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/gasolina-95-o-98-diferencias-ahorro</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
+      <image:title>Gasolina 95 vs 98: ¿Realmente ahorras o estás tirando el dinero?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/como-encontrar-gasolineras-baratas-en-ruta</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
+      <image:title>Cómo encontrar gasolineras baratas en ruta antes de viajar por autopista</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/cuanto-dura-la-gasolina-en-el-deposito</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
+      <image:title>¿Cuánto tiempo dura la gasolina en el depósito sin caducar ni estropearse?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/circular-en-reserva-averias-costosas</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
+      <image:title>Circular en reserva: ¿Por qué apurar el depósito puede costarte más de 1.000€?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/como-calcular-el-consumo-real-de-tu-coche</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
+      <image:title>Cómo calcular el consumo real de tu coche (fórmula paso a paso en litros a los 100 km)</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/aditivos-para-gasolina-y-diesel-sirven-para-algo</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
+      <image:title>Aditivos para combustible: ¿Realmente limpian los inyectores y bajan el consumo?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/presion-de-neumaticos-y-consumo-de-gasolina</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-eco-driving.jpg</image:loc>
+      <image:title>Presión de neumáticos y consumo: ¿Cuánto combustible pierdes si van bajos?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/glp-o-gnc-vs-gasolina-y-diesel</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
+      <image:title>GLP vs Gasolina y Diésel: ¿Cuánto dinero se ahorra al año y cuándo compensa convertir?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/aire-acondicionado-o-ventanillas-que-gasta-mas</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
+      <image:title>Aire acondicionado vs Ventanillas bajadas: ¿Qué gasta más gasolina a cada velocidad?</image:title>
     </image:image>
   </url>
   <url>
