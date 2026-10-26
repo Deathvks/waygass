@@ -175,35 +175,23 @@ function App({ initialAuth = false }) {
  });
  
  const [settings, setSettings] = useState(() => {
+    const base = { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' };
     if (localStorage.getItem('waygass_cookie_consent_v2') !== 'accepted') {
-      return { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' };
+      return base;
     }
     const saved = localStorage.getItem('waygas_settings');
-    return saved ? JSON.parse(saved) : { tankSize: 50, refuelAmount: 20, gpsApp: 'gmaps', isPro: false, cardWaylet: false, cardCepsa: false, theme: 'light', appColor: 'red' };
+    if (!saved) return base;
+    try {
+      const parsed = JSON.parse(saved);
+      return { ...parsed, theme: 'light' };
+    } catch {
+      return base;
+    }
   });
 
  useEffect(() => {
- const applyTheme = () => {
- const isDark = 
- settings.theme === 'dark' || 
- (settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
- 
- if (isDark) {
- document.documentElement.classList.add('dark');
- } else {
- document.documentElement.classList.remove('dark');
- }
- };
-
- applyTheme();
-
- if (settings.theme === 'system') {
- const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
- const listener = () => applyTheme();
- mediaQuery.addEventListener('change', listener);
- return () => mediaQuery.removeEventListener('change', listener);
- }
- }, [settings.theme]);
+    document.documentElement.classList.remove('dark');
+  }, []);
     useEffect(() => {
     const isApple = typeof navigator !== 'undefined' && (
       /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) ||

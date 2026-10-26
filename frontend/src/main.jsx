@@ -35,15 +35,8 @@ const applyThemeAndColor = () => {
     }
   }
 
-  // Apply Theme
-  const isDark = 
-    settings.theme === 'dark' || 
-    (settings.theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  if (isDark) {
-    document.documentElement.classList.add('dark');
-  } else {
-    document.documentElement.classList.remove('dark');
-  }
+  // Always Light Mode
+  document.documentElement.classList.remove('dark');
 
   // Apply Color
   const colors = {

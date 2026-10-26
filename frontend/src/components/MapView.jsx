@@ -3,36 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, ZoomContr
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import { setWorkerUrl } from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
-import '@maplibre/maplibre-gl-leaflet';
 import L from 'leaflet';
-
-try {
-  setWorkerUrl(workerUrl);
-} catch (_) {}
-
-
-function MapLibreLayer({ styleUrl }) {
-  const map = useMap();
-  useEffect(() => {
-    if (!map || !L.maplibreGL) return;
-    const layer = L.maplibreGL({
-      style: styleUrl,
-      maxZoom: 20,
-      attribution: '&copy; <a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    });
-    layer.addTo(map);
-    return () => {
-      try {
-        map.removeLayer(layer);
-      } catch (_) {}
-    };
-  }, [map, styleUrl]);
-
-  return null;
-}
 
 function CustomMapEvents({ onMapMoveEnd, onMapClick, onBoundsChange }) {
  const map = useMap();
@@ -182,9 +153,6 @@ export default function MapView({ settings,
   
   
   const mapStyle = settings?.mapStyle || 'light';
-  
-  const isDark = settings?.theme === 'dark' || 
-    (settings?.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
 const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
@@ -261,11 +229,6 @@ const handleMapMove = (isUserAction) => {
       maxZoom={20}
       className="satellite-tiles"
       attribution="&copy; Google Maps"
-    />
-  ) : isDark ? (
-    <MapLibreLayer 
-      key="openfreemap-dark" 
-      styleUrl="https://tiles.openfreemap.org/styles/dark" 
     />
   ) : (
     <TileLayer 
