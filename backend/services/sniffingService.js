@@ -409,10 +409,10 @@ async function getSniffingStats() {
       else devices.desktop += cnt;
     });
 
-    // 6. Registro de visitas recientes (Últimas 50)
+    // 6. Registro de visitas recientes (Últimas 100)
     const recentVisits = await db.VisitLog.findAll({
       order: [['createdAt', 'DESC']],
-      limit: 50,
+      limit: 100,
       raw: true
     });
 

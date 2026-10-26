@@ -85,6 +85,8 @@ export default function SniffingPanel() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState('ALL'); // ALL, app, blog
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const fetchStats = useCallback(async (isManual = false) => {
     if (isManual) setRefreshing(true);
@@ -128,6 +130,18 @@ export default function SniffingPanel() {
       return true;
     });
   }, [data, categoryFilter, searchQuery]);
+
+  // Resetear a página 1 al cambiar filtros o búsqueda
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [categoryFilter, searchQuery]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredVisits.length / pageSize));
+  const validCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedVisits = useMemo(() => {
+    const start = (validCurrentPage - 1) * pageSize;
+    return filteredVisits.slice(start, start + pageSize);
+  }, [filteredVisits, validCurrentPage, pageSize]);
 
   if (loading) {
     return (
@@ -682,8 +696,8 @@ export default function SniffingPanel() {
 
         {/* LISTADO RESPONSIVE DE VISITAS */}
         <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto no-scrollbar pr-1">
-          {filteredVisits.length > 0 ? (
-            filteredVisits.map((v) => (
+          {paginatedVisits.length > 0 ? (
+            paginatedVisits.map((v) => (
               <div
                 key={v.id}
                 className="p-3.5 rounded-xl border border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors"
@@ -781,6 +795,61 @@ export default function SniffingPanel() {
             </div>
           )}
         </div>
+
+        {/* CONTROLES DE PAGINACIÓN */}
+        {filteredVisits.length > 0 && (
+          <div className="pt-3 border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+            {/* IZQUIERDA: CONTADOR & TAMAÑO DE PÁGINA */}
+            <div className="flex items-center gap-2.5 flex-wrap justify-center sm:justify-start">
+              <span>
+                Mostrando <strong className="text-slate-800 dark:text-white font-bold">{((validCurrentPage - 1) * pageSize) + 1}</strong> a <strong className="text-slate-800 dark:text-white font-bold">{Math.min(validCurrentPage * pageSize, filteredVisits.length)}</strong> de <strong className="text-slate-800 dark:text-white font-bold">{filteredVisits.length}</strong>
+              </span>
+              <span className="text-slate-300 dark:text-slate-700">•</span>
+              <div className="flex items-center gap-1.5">
+                <span>Por pág:</span>
+                <select
+                  value={pageSize}
+                  onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="bg-slate-100 dark:bg-white/10 border border-slate-200/50 dark:border-white/10 rounded-lg px-2 py-1 text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none cursor-pointer"
+                >
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                  <option value={50}>50</option>
+                </select>
+              </div>
+            </div>
+
+            {/* DERECHA: BOTONES DE NAVEGACIÓN */}
+            <div className="flex items-center gap-1.5 self-center sm:self-auto">
+              <button
+                type="button"
+                disabled={validCurrentPage <= 1}
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-200/50 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                title="Página anterior"
+              >
+                <i className="fa-solid fa-chevron-left text-[11px]"></i>
+              </button>
+
+              <span className="px-3 py-1 rounded-lg bg-slate-100 dark:bg-white/5 font-mono text-xs font-bold text-slate-700 dark:text-slate-300">
+                {validCurrentPage} / {totalPages}
+              </span>
+
+              <button
+                type="button"
+                disabled={validCurrentPage >= totalPages}
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                className="w-8 h-8 rounded-lg flex items-center justify-center border border-slate-200/50 dark:border-white/10 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                title="Página siguiente"
+              >
+                <i className="fa-solid fa-chevron-right text-[11px]"></i>
+              </button>
+            </div>
+          </div>
+        )}
 
       </div>
 
