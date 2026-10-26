@@ -40,18 +40,19 @@ export default function Filters({ filters, setFilters }) {
 
   const { fuelType, province, radius, sortBy, priceCategory, openNow, brand, brands } = filters;
 
-  // Gesto Swipe-Down estilo iOS con física dinámica
+  // Gesto Swipe-Down estilo iOS exclusivo para móvil (< 640px)
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const touchStartY = useRef(0);
   const currentDrag = useRef(0);
   const sheetRef = useRef(null);
 
+  const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 640;
+
   const openModal = () => {
     setIsOpen(true);
     setDragY(0);
     currentDrag.current = 0;
-    // Doble rAF para garantizar el render inicial antes de disparar la transición CSS fluida
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setIsAnimating(true);
@@ -70,16 +71,17 @@ export default function Filters({ filters, setFilters }) {
   };
 
   const handleDragStart = (clientY) => {
+    // En PC no se activa el arrastre para cerrar: la X y el backdrop son suficientes
+    if (!isMobile()) return;
     touchStartY.current = clientY;
     currentDrag.current = 0;
     setIsDragging(true);
   };
 
   const handleDragMove = (clientY) => {
-    if (!isDragging) return;
+    if (!isDragging || !isMobile()) return;
     const delta = clientY - touchStartY.current;
     if (delta > 0) {
-      // Resistencia elástica a medida que se estira hacia abajo
       currentDrag.current = delta;
       setDragY(delta);
     } else {
@@ -89,13 +91,11 @@ export default function Filters({ filters, setFilters }) {
   };
 
   const handleDragEnd = () => {
-    if (!isDragging) return;
+    if (!isDragging || !isMobile()) return;
     setIsDragging(false);
     if (currentDrag.current > 80) {
-      // Deslizado suficiente: animar cierre completo
       closeModal();
     } else {
-      // Rebote elástico a la posición original
       setDragY(0);
       currentDrag.current = 0;
     }
@@ -236,7 +236,7 @@ export default function Filters({ filters, setFilters }) {
     })
   };
 
-  // Bloqueo total e infalible del scroll y rebote del background (iOS/Android/Desktop)
+  // Bloqueo total del scroll de fondo
   useEffect(() => {
     if (isOpen) {
       const scrollY = window.scrollY;
@@ -265,7 +265,7 @@ export default function Filters({ filters, setFilters }) {
     }
   }, [isOpen]);
 
-  // Cálculos dinámicos de opacidad y escala según arrastre
+  // Cálculos dinámicos de opacidad y escala según arrastre (solo móvil)
   const dragProgress = Math.min(1, dragY / 300);
   const dynamicBackdropOpacity = isAnimating ? Math.max(0, 1 - dragProgress * 0.8) : 0;
   const dynamicScale = isAnimating ? Math.max(0.92, 1 - (dragY / 1800)) : 0.95;
@@ -336,10 +336,10 @@ export default function Filters({ filters, setFilters }) {
         </div>
       )}
 
-      {/* MODAL BOTTOM-SHEET ESTILO IPHONE CON ANIMACIONES FLUIDAS */}
+      {/* MODAL RESPONSIVE: BOTTOM-SHEET EN MÓVIL / POPUP ELEGANTE EN PC */}
       {isOpen && createPortal(
         <div 
-          className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center touch-none select-none"
+          className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center select-none"
           style={{ overscrollBehavior: 'none' }}
         >
           {/* BACKDROP FLUIDO CON DESENFOQUE CINEMÁTICO */}
@@ -353,30 +353,25 @@ export default function Filters({ filters, setFilters }) {
             onTouchMove={(e) => e.preventDefault()}
           />
 
-          {/* CONTENEDOR DE LA VENTANA MODAL CON SPRING PHYSICS */}
+          {/* CONTENEDOR DE LA VENTANA MODAL */}
           <div 
             ref={sheetRef}
             style={{
-              transform: `translateY(${isAnimating ? dragY : (window.innerWidth < 640 ? '100%' : '32px')}) scale(${dynamicScale})`,
-              opacity: isAnimating ? (window.innerWidth < 640 ? 1 : Math.max(0, 1 - dragProgress)) : 0,
-              transition: isDragging 
+              transform: isMobile()
+                ? `translateY(${isAnimating ? dragY : '100%'}) scale(${dynamicScale})`
+                : (isAnimating ? 'scale(1)' : 'scale(0.95)'),
+              opacity: isAnimating ? 1 : 0,
+              transition: (isMobile() && isDragging)
                 ? 'none' 
-                : 'transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.28s cubic-bezier(0.32, 0.72, 0, 1)',
-              transformOrigin: 'bottom center',
+                : 'transform 0.3s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
+              transformOrigin: isMobile() ? 'bottom center' : 'center',
               overscrollBehavior: 'contain'
             }}
-            className="relative bg-[#f5f5f7] dark:bg-[#000000] w-full sm:w-[520px] rounded-t-[36px] sm:rounded-[36px] p-5 pt-2.5 shadow-[0_-12px_48px_rgba(0,0,0,0.3)] border-t sm:border border-white/20 dark:border-white/10 flex flex-col max-h-[88vh] overflow-y-auto overscroll-contain"
+            className="relative bg-[#f5f5f7] dark:bg-[#000000] w-full sm:w-[520px] rounded-t-[36px] sm:rounded-[32px] p-5 pt-3 sm:pt-6 shadow-[0_-12px_48px_rgba(0,0,0,0.3)] sm:shadow-[0_20px_60px_rgba(0,0,0,0.4)] border-t sm:border border-white/20 dark:border-white/10 flex flex-col max-h-[88vh] overflow-y-auto overscroll-contain"
           >
-            {/* TIRADOR ESTILO IPHONE CON FÍSICA REACTIVA */}
+            {/* TIRADOR ESTILO IPHONE (SOLO VISIBLE Y DESLIZABLE EN MÓVIL) */}
             <div 
-              className="w-full flex flex-col items-center justify-center py-2 -mt-1 cursor-grab active:cursor-grabbing touch-none select-none group"
-              onPointerDown={(e) => {
-                e.target.setPointerCapture?.(e.pointerId);
-                handleDragStart(e.clientY);
-              }}
-              onPointerMove={(e) => handleDragMove(e.clientY)}
-              onPointerUp={handleDragEnd}
-              onPointerCancel={handleDragEnd}
+              className="w-full flex flex-col items-center justify-center py-2 -mt-1 touch-none select-none group sm:hidden cursor-grab active:cursor-grabbing"
               onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
               onTouchMove={(e) => {
                 if (e.cancelable) e.preventDefault();
@@ -392,32 +387,21 @@ export default function Filters({ filters, setFilters }) {
                 className={`h-1.5 rounded-full transition-all duration-200 ${
                   isDragging 
                     ? 'bg-primary shadow-sm shadow-primary/40' 
-                    : 'w-12 bg-slate-300 dark:bg-zinc-700 group-hover:w-16 group-hover:bg-slate-400 dark:group-hover:bg-zinc-500'
+                    : 'w-12 bg-slate-300 dark:bg-zinc-700'
                 }`}
               ></div>
-              <span className="text-[9px] font-semibold text-slate-400/70 tracking-widest uppercase mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                Deslizar
-              </span>
             </div>
             
             {/* CABECERA DEL MODAL */}
-            <div 
-              className="flex justify-between items-center mb-3 touch-none select-none cursor-grab active:cursor-grabbing"
-              onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
-              onTouchMove={(e) => {
-                if (e.cancelable) e.preventDefault();
-                handleDragMove(e.touches[0].clientY);
-              }}
-              onTouchEnd={handleDragEnd}
-            >
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2 tracking-tight">
                 <i className="fa-solid fa-sliders text-primary text-base"></i>
                 <span>Opciones de Búsqueda</span>
               </h2>
               <button 
                 onClick={closeModal} 
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 active:scale-90 transition-all cursor-pointer" 
-                title="Cerrar"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-200/60 dark:bg-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-white/20 active:scale-95 transition-all cursor-pointer" 
+                title="Cerrar opciones"
               >
                 <i className="fa-solid fa-xmark text-sm"></i>
               </button>
