@@ -173,15 +173,12 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  return [scored[0].id];
  }, [stations]);
 
- if (stations.length === 0) {
- return (
- <div className="mt-8 lg:mt-16 mb-auto flex flex-col items-center justify-center text-center p-8 text-slate-500 dark:text-slate-400">
- <i className="fa-solid fa-gas-pump text-5xl text-slate-300 dark:text-slate-700 mb-4"></i>
- <h3 className="text-xl font-medium text-slate-800 dark:text-slate-200 mb-2">No hay estaciones</h3>
- <p>Prueba a ampliar el radio de búsqueda o cambiar los filtros.</p>
- </div>
- );
- }
+ const sortedStations = React.useMemo(() => {
+    if (!stations || stations.length === 0) return [];
+    const recommended = stations.filter(s => recommendedIds.includes(s.id));
+    const others = stations.filter(s => !recommendedIds.includes(s.id));
+    return [...recommended, ...others];
+ }, [stations, recommendedIds]);
 
  const CustomTooltip = ({ active, payload, label }) => {
  if (active && payload && payload.length) {
@@ -195,12 +192,15 @@ export default function StationList({ stations, totalStations, minPrice, avgPric
  return null;
  };
 
- const sortedStations = React.useMemo(() => {
-    if (!stations || stations.length === 0) return [];
-    const recommended = stations.filter(s => recommendedIds.includes(s.id));
-    const others = stations.filter(s => !recommendedIds.includes(s.id));
-    return [...recommended, ...others];
-  }, [stations, recommendedIds]);
+ if (!stations || stations.length === 0) {
+ return (
+ <div className="mt-8 lg:mt-16 mb-auto flex flex-col items-center justify-center text-center p-8 text-slate-500 dark:text-slate-400">
+ <i className="fa-solid fa-gas-pump text-5xl text-slate-300 dark:text-slate-700 mb-4"></i>
+ <h3 className="text-xl font-medium text-slate-800 dark:text-slate-200 mb-2">No hay estaciones</h3>
+ <p>Prueba a ampliar el radio de búsqueda o cambiar los filtros.</p>
+ </div>
+ );
+ }
 
   return (
     <div className="flex flex-col gap-2.5 pb-4">
