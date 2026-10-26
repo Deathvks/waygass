@@ -155,14 +155,14 @@ export default function SettingsModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4">
       {/* Fondo borroso y oscuro */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={handleClose}></div>
 
       {/* Contenido del modal */}
-      <div className={`relative w-full ${activeTab === 'admin' ? (adminSubTab === 'sniffing' ? 'max-w-4xl' : 'max-w-2xl') : 'max-w-md'} bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar transition-all duration-300`}>
+      <div className={`relative w-full ${activeTab === 'admin' ? (adminSubTab === 'sniffing' ? 'max-w-4xl' : 'max-w-2xl') : 'max-w-md'} bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto overflow-x-hidden max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar transition-all duration-300`}>
         
-        <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-6 pt-[max(env(safe-area-inset-top),1.5rem)] pb-4 border-b border-slate-200/50 dark:border-white/5">
+        <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-4 sm:px-6 pt-[max(env(safe-area-inset-top),1.25rem)] pb-3 sm:pb-4 border-b border-slate-200/50 dark:border-white/5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
@@ -181,7 +181,7 @@ export default function SettingsModal({
           </div>
         </div>
 
-        <div className="p-6 pt-2">
+        <div className="p-3 sm:p-6 pt-2">
           {activeTab === 'settings' && (
             <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
               

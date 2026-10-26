@@ -160,24 +160,26 @@ export default function SniffingPanel() {
   const maxDayVisits = Math.max(...(dailyTrend || []).map(d => d.total || 0), 1);
 
   return (
-    <div className="flex flex-col gap-6 w-full animate-in fade-in duration-200">
+    <div className="flex flex-col gap-5 sm:gap-6 w-full max-w-full overflow-x-hidden animate-in fade-in duration-200">
       
       {/* CABECERA CON ESTADO Y CONTROL */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white dark:bg-black p-4 rounded-2xl border border-slate-200/50 dark:border-white/5 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-primary flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
-            <i className="fa-solid fa-network-wired text-base"></i>
+      <div className="flex items-center justify-between gap-2.5 bg-white dark:bg-black p-3 sm:p-4 rounded-2xl border border-slate-200/50 dark:border-white/5 shadow-sm min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0 flex-1">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-primary flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+            <i className="fa-solid fa-network-wired text-sm sm:text-base"></i>
           </div>
-          <div>
+          <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <h3 className="text-base font-black text-slate-800 dark:text-white tracking-tight">Sniffing & Analítica de Tráfico</h3>
-              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <h3 className="text-xs sm:text-base font-black text-slate-800 dark:text-white tracking-tight truncate">
+                Sniffing & Tráfico
+              </h3>
+              <span className="shrink-0 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
                 En Vivo
               </span>
             </div>
-            <p className="text-xs text-slate-500">
-              {lastUpdated ? `Última sincronización: ${lastUpdated.toLocaleTimeString('es-ES')}` : 'Métricas en tiempo real'}
+            <p className="text-[10px] sm:text-xs text-slate-500 truncate mt-0.5">
+              {lastUpdated ? `Sincronizado: ${lastUpdated.toLocaleTimeString('es-ES')}` : 'Métricas en tiempo real'}
             </p>
           </div>
         </div>
@@ -185,10 +187,11 @@ export default function SniffingPanel() {
         <button
           onClick={() => fetchStats(true)}
           disabled={refreshing}
-          className="self-start sm:self-auto px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-700 dark:text-white text-xs font-bold flex items-center gap-2 transition-all active:scale-95 disabled:opacity-50"
+          className="shrink-0 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-700 dark:text-white text-xs font-bold flex items-center gap-1.5 transition-all active:scale-95 disabled:opacity-50"
+          title="Refrescar datos"
         >
           <i className={`fa-solid fa-arrows-rotate text-xs ${refreshing ? 'fa-spin' : ''}`}></i>
-          <span>{refreshing ? 'Actualizando...' : 'Refrescar'}</span>
+          <span className="hidden sm:inline">{refreshing ? 'Actualizando...' : 'Refrescar'}</span>
         </button>
       </div>
 
@@ -492,7 +495,7 @@ export default function SniffingPanel() {
                       <span className="w-5 text-center shrink-0">
                         {getReferrerIcon(r.name)}
                       </span>
-                      <span className="truncate max-w-[200px]" title={r.name}>{r.name}</span>
+                      <span className="truncate max-w-[130px] sm:max-w-[220px]" title={r.name}>{r.name}</span>
                     </span>
                     <span className="font-bold text-slate-500">
                       {r.count} <span className="text-[10px] font-normal text-slate-400">({r.percentage}%)</span>
@@ -629,7 +632,7 @@ export default function SniffingPanel() {
           </div>
 
           {/* FILTROS DE CATEGORÍA (TODAS / WEB NORMAL / BLOG NOTICIAS) */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/10 p-1 rounded-xl self-start sm:self-auto">
+          <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/10 p-1 rounded-xl flex-wrap self-start sm:self-auto shrink-0">
             <button
               onClick={() => setCategoryFilter('ALL')}
               className={`px-3 py-1 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${
@@ -702,7 +705,7 @@ export default function SniffingPanel() {
                       {v.userName ? (
                         <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20" title={v.userEmail || ''}>
                           <i className="fa-solid fa-user-check text-[9px]"></i>
-                          <span>{v.userName}</span>
+                          <span className="truncate max-w-[80px] sm:max-w-[150px]">{v.userName}</span>
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200/60 dark:bg-white/10 text-slate-600 dark:text-slate-400">
@@ -714,7 +717,7 @@ export default function SniffingPanel() {
                       {/* UBICACIÓN */}
                       <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
                         <i className="fa-solid fa-location-dot text-[10px] text-slate-400"></i>
-                        <span>{v.city ? `${v.city}, ` : ''}{v.country || 'Desconocido'}</span>
+                        <span className="truncate max-w-[100px] sm:max-w-[200px]">{v.city ? `${v.city}, ` : ''}{v.country || 'Desconocido'}</span>
                       </span>
                     </div>
 
@@ -733,7 +736,7 @@ export default function SniffingPanel() {
                         </span>
                       )}
 
-                      <span className="font-mono text-slate-700 dark:text-slate-300 font-medium truncate max-w-[260px] sm:max-w-[340px]" title={v.path}>
+                      <span className="font-mono text-slate-700 dark:text-slate-300 font-medium truncate max-w-[130px] sm:max-w-[300px]" title={v.path}>
                         {v.path}
                       </span>
 
@@ -742,7 +745,7 @@ export default function SniffingPanel() {
                         <span>Desde</span>
                         <span className="inline-flex items-center gap-1 font-bold text-slate-600 dark:text-slate-400">
                           {getReferrerIcon(v.referrer)}
-                          <span>{v.referrer || 'Directo'}</span>
+                          <span className="truncate max-w-[90px] sm:max-w-[180px]">{v.referrer || 'Directo'}</span>
                         </span>
                       </span>
                     </div>
