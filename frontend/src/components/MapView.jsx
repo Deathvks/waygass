@@ -108,6 +108,7 @@ const MemoizedStationMarker = React.memo(({ s, minPrice, isSelected, activeFuelL
  zIndexOffset={isSelected ? 1000 : 0}
  eventHandlers={{
  click: () => {
+ try { if ('vibrate' in navigator) navigator.vibrate(10); } catch (_) {}
  if (onSelectStation) onSelectStation(s.id);
  },
  popupclose: () => {
@@ -271,7 +272,7 @@ const handleMapMove = (isUserAction) => {
  {showSearchBtn && (
  <button 
  onClick={executeSearch}
- className="absolute top-24 lg:top-6 left-1/2 -translate-x-1/2 z-[500] bg-primary/90 text-white shadow-[0_4px_15px_rgba(255,59,48,0.4)] border-none text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg transition hover:bg-primary active:scale-95"
+ className="map-search-btn absolute top-24 lg:top-6 left-1/2 -translate-x-1/2 z-[500] bg-primary/90 text-white shadow-[0_4px_15px_rgba(255,59,48,0.4)] border-none text-sm font-semibold px-5 py-2.5 rounded-full shadow-lg transition hover:bg-primary active:scale-95"
  >
  Buscar en esta zona
  </button>

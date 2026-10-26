@@ -204,6 +204,16 @@ function App({ initialAuth = false }) {
  return () => mediaQuery.removeEventListener('change', listener);
  }
  }, [settings.theme]);
+    useEffect(() => {
+    const isApple = typeof navigator !== 'undefined' && (
+      /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    );
+    if (isApple) {
+      document.documentElement.classList.add('is-apple');
+    }
+  }, []);
+
   useEffect(() => {
     const colors = {
       red: { primary: '#ff3b30', dark: '#c71a10', container: '#ff6961', secondary: '#ff2d55' },
