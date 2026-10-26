@@ -8,6 +8,7 @@ const { OAuth2Client } = require('google-auth-library');
 const db = require('../models');
 const { SecurityLog } = db;
 const User = db.users;
+const { loginRateLimiter, recordFailedLogin, clearLoginAttempts } = require('../middlewares/securityMiddleware');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'waygas_super_secret_key_2026';
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
@@ -231,7 +232,7 @@ router.post('/auth/google', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', loginRateLimiter, async (req, res) => {
   try {
     const { password, rememberMe } = req.body;
       let email = req.body.email;
@@ -249,6 +250,7 @@ router.post('/login', async (req, res) => {
       if (!user) {
         console.log("[LOGIN FAILED] Email no encontrado en DB:", email);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Email no encontrado: " + email }).catch(()=>{});
+      await recordFailedLogin(req.clientIP, req);
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
@@ -263,6 +265,7 @@ router.post('/login', async (req, res) => {
       if (!isMatch) {
         console.log("[LOGIN FAILED] Contrasea incorrecta para:", email);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 401, userAgent: req.headers["user-agent"], eventType: "LOGIN_FAIL", detail: "Contraseña incorrecta: " + email }).catch(()=>{});
+      await recordFailedLogin(req.clientIP, req);
       return res.status(401).json({ error: "El correo o la contraseña son incorrectos." });
     }
 
@@ -271,6 +274,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Registrar login exitoso
+      clearLoginAttempts(req.clientIP);
       SecurityLog.create({ ip: req.clientIP, method: "POST", path: "/api/login", statusCode: 200, userAgent: req.headers["user-agent"], userId: user.id, eventType: "LOGIN_OK", detail: "Login exitoso: " + user.email }).catch(()=>{});
 
       // Auto-upgrade a ADMIN en login (para entorno de producción si la cuenta ya existía)

@@ -157,7 +157,7 @@ const securityMiddleware = async (req, res, next) => {
   next();
 };
 
-// Limpieza peri\u00f3dica del mapa de rate limiting para evitar memory leaks
+// Limpieza periódica del mapa de rate limiting para evitar memory leaks
 setInterval(() => {
   const now = Date.now();
   for (const [ip, tracker] of rateLimitTracker.entries()) {
@@ -165,7 +165,77 @@ setInterval(() => {
       rateLimitTracker.delete(ip);
     }
   }
+  for (const [ip, record] of loginAttemptsTracker.entries()) {
+    if (now > record.resetAt) {
+      loginAttemptsTracker.delete(ip);
+    }
+  }
 }, 60000);
+
+// --- Rate Limiting Específico para Login (Anti Fuerza Bruta) ---
+const loginAttemptsTracker = new Map();
+const LOGIN_MAX_ATTEMPTS = 5;
+const LOGIN_BLOCK_TIME_MS = 5 * 60 * 1000; // 5 minutos de bloqueo
+
+const loginRateLimiter = (req, res, next) => {
+  const forwarded = req.headers["x-forwarded-for"];
+  const realIp = req.headers["x-real-ip"];
+  const ip = (forwarded ? forwarded.split(",")[0] : null) || realIp || req.ip || req.connection?.remoteAddress || "unknown";
+  req.clientIP = ip;
+
+  const now = Date.now();
+  if (loginAttemptsTracker.has(ip)) {
+    const record = loginAttemptsTracker.get(ip);
+    if (record.count >= LOGIN_MAX_ATTEMPTS) {
+      const remainingMs = record.resetAt - now;
+      if (remainingMs > 0) {
+        const remainingMinutes = Math.ceil(remainingMs / 60000);
+        SecurityLog.create({
+          ip,
+          method: req.method,
+          path: req.path,
+          statusCode: 429,
+          userAgent: req.headers['user-agent'] || '',
+          eventType: 'BRUTE_FORCE_BLOCKED',
+          detail: `Login bloqueado: superó ${LOGIN_MAX_ATTEMPTS} intentos fallidos`
+        }).catch(() => {});
+
+        return res.status(429).json({
+          error: `Demasiados intentos fallidos. Por seguridad, el acceso está bloqueado temporalmente. Inténtalo de nuevo en ${remainingMinutes} minuto${remainingMinutes > 1 ? 's' : ''}.`
+        });
+      } else {
+        loginAttemptsTracker.delete(ip);
+      }
+    }
+  }
+  next();
+};
+
+const recordFailedLogin = async (ip, req) => {
+  const now = Date.now();
+  if (!loginAttemptsTracker.has(ip)) {
+    loginAttemptsTracker.set(ip, { count: 1, resetAt: now + LOGIN_BLOCK_TIME_MS });
+  } else {
+    const record = loginAttemptsTracker.get(ip);
+    if (now > record.resetAt) {
+      record.count = 1;
+      record.resetAt = now + LOGIN_BLOCK_TIME_MS;
+    } else {
+      record.count += 1;
+      if (record.count >= LOGIN_MAX_ATTEMPTS) {
+        record.resetAt = now + LOGIN_BLOCK_TIME_MS;
+        try {
+          const alertMessage = `⚠️ <b>INTENTO DE FUERZA BRUTA EN LOGIN</b> ⚠️\n\n<b>IP:</b> <code>${ip}</code>\n<b>Detalle:</b> 5 intentos fallidos consecutivos.\n\n🔒 <i>La IP ha sido bloqueada temporalmente durante 5 minutos para login.</i>`;
+          await sendTelegramAlert(alertMessage);
+        } catch (_) {}
+      }
+    }
+  }
+};
+
+const clearLoginAttempts = (ip) => {
+  loginAttemptsTracker.delete(ip);
+};
 
 const blockIP = (ip) => blockedIPsCache.add(ip);
 const unblockIP = (ip) => blockedIPsCache.delete(ip);
@@ -174,5 +244,8 @@ module.exports = {
   securityMiddleware,
   loadBlockedIPs,
   blockIP,
-  unblockIP
+  unblockIP,
+  loginRateLimiter,
+  recordFailedLogin,
+  clearLoginAttempts
 };
