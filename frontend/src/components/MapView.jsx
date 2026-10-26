@@ -159,25 +159,17 @@ export default function MapView({ settings,
   const getTileConfig = () => {
     if (mapStyle === 'satellite') {
       return {
-        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        maxZoom: 19,
-        subdomains: undefined,
-        attribution: '&copy; Esri, Maxar, Earthstar Geographics'
-      };
-    }
-    if (isDark) {
-      return {
-        url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        url: "https://mt{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
         maxZoom: 20,
-        subdomains: "abcd",
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+        subdomains: ["0", "1", "2", "3"],
+        attribution: '&copy; Google Maps'
       };
     }
     return {
-      url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      url: "https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
       maxZoom: 20,
-      subdomains: "abcd",
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+      subdomains: ["0", "1", "2", "3"],
+      attribution: '&copy; Google Maps'
     };
   };
 
@@ -250,9 +242,9 @@ const handleMapMove = (isUserAction) => {
  <TileLayer 
    key={`${tileConfig.url}-${isDark}`}
    url={tileConfig.url} 
-   subdomains={tileConfig.subdomains || 'abc'}
+   subdomains={tileConfig.subdomains}
    maxZoom={tileConfig.maxZoom} 
-   detectRetina={true}
+   className={mapStyle === 'satellite' ? 'satellite-tiles' : 'roadmap-tiles'}
    attribution={tileConfig.attribution}
  />
  <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />

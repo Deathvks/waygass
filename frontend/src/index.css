@@ -100,7 +100,13 @@ html.dark .liquid-bg {
   font-family: Inter, system-ui, sans-serif !important;
 }
 html.dark .leaflet-container { 
-  background-color: #121214 !important; 
+  background-color: #000000 !important; 
+}
+.roadmap-tiles {
+  transition: filter 0.3s ease;
+}
+html.dark .roadmap-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(82%) contrast(95%);
 }
 .leaflet-top, .leaflet-bottom { z-index: 10 !important; }
 .leaflet-control-zoom { 
