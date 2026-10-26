@@ -21,6 +21,23 @@ export default function Header({ isPro, openSettings, openSub, user, openProfile
 
       {/* Right: Actions */}
       <div className="flex items-center gap-1 sm:gap-2">
+        <a 
+          href="/gasolineras"
+          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold transition"
+          title="Directorio de Gasolineras por Provincia"
+        >
+          <i className="fa-solid fa-map-location-dot text-primary text-xs"></i>
+          <span>Provincias</span>
+        </a>
+        <a 
+          href="/blog"
+          className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 text-xs font-bold transition"
+          title="Blog de Ahorro y Consejos"
+        >
+          <i className="fa-solid fa-newspaper text-xs"></i>
+          <span>Blog</span>
+        </a>
+
         {!isPro && (
           <button 
             onClick={openSub}

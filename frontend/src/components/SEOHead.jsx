@@ -9,7 +9,8 @@ export default function SEOHead({
   publishedTime,
   modifiedTime,
   author = "Equipo Editorial de WayGass",
-  breadcrumbs = []
+  breadcrumbs = [],
+  extraSchemas = []
 }) {
   useEffect(() => {
     if (title) document.title = title;
@@ -101,12 +102,18 @@ export default function SEOHead({
       });
     }
 
+    if (Array.isArray(extraSchemas) && extraSchemas.length > 0) {
+      extraSchemas.forEach(s => {
+        if (s) schemas.push(s);
+      });
+    }
+
     if (schemas.length > 0) {
       scriptEl.textContent = JSON.stringify(schemas.length === 1 ? schemas[0] : schemas);
     }
 
     window.scrollTo(0, 0);
-  }, [title, description, canonical, image, type, publishedTime, modifiedTime, author, breadcrumbs]);
+  }, [title, description, canonical, image, type, publishedTime, modifiedTime, author, breadcrumbs, JSON.stringify(extraSchemas)]);
 
   return null;
 }

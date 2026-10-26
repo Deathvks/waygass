@@ -1,10 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { PROVINCES_DATA } from "../src/data/provincesData.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const distDir = path.resolve(__dirname, "../dist");
+const publicDir = path.resolve(__dirname, "../public");
 
 const templatePath = path.join(distDir, "index.html");
 if (!fs.existsSync(templatePath)) {
@@ -14,7 +16,7 @@ if (!fs.existsSync(templatePath)) {
 
 const template = fs.readFileSync(templatePath, "utf8");
 
-const pages = [
+const staticPages = [
   {
     path: "/blog",
     title: "Blog de Ahorro y Combustible | Guías y Noticias WayGass",
@@ -64,6 +66,15 @@ const pages = [
     dateModified: "2026-10-26T12:00:00+02:00"
   },
   {
+    path: "/gasolineras",
+    title: "Gasolineras Baratas por Provincia en España - Directorio Oficial | WayGass",
+    description: "Directorio de gasolineras más baratas de España por provincias y comunidades autónomas. Compara precios actualizados hoy de Gasolina 95, Diésel y GLP.",
+    canonical: "https://waygass.es/gasolineras",
+    image: "https://waygass.es/logo.png",
+    type: "website",
+    isDirectory: true
+  },
+  {
     path: "/privacidad",
     title: "Política de Privacidad | WayGass",
     description: "Información detallada sobre el tratamiento de datos y privacidad en WayGass.",
@@ -86,7 +97,21 @@ const pages = [
   }
 ];
 
-pages.forEach(p => {
+// Generar las páginas de las 52 provincias para SEO Programático
+const provincePages = PROVINCES_DATA.map(prov => ({
+  path: `/gasolineras/${prov.slug}`,
+  title: `Gasolineras Más Baratas en ${prov.name} Hoy - Precios Diésel y Gasolina 95 | WayGass`,
+  description: `Compara y encuentra las gasolineras más baratas de ${prov.name} en tiempo real. Precios actualizados hoy de Gasolina 95, Diésel y GLP con datos oficiales de MITECO. Ahorra hasta 15€ por depósito.`,
+  canonical: `https://waygass.es/gasolineras/${prov.slug}`,
+  image: "https://waygass.es/logo.png",
+  type: "website",
+  isProvince: true,
+  province: prov
+}));
+
+const allPages = [...staticPages, ...provincePages];
+
+allPages.forEach(p => {
   let html = template;
 
   // Remove homepage schema from subpages
@@ -148,6 +173,97 @@ pages.forEach(p => {
 
     const schemaTag = `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script></head>`;
     html = html.replace("</head>", schemaTag);
+  } else if (p.isProvince) {
+    const prov = p.province;
+    const schemas = [
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://waygass.es/" },
+          { "@type": "ListItem", "position": 2, "name": "Gasolineras", "item": "https://waygass.es/gasolineras" },
+          { "@type": "ListItem", "position": 3, "name": prov.name, "item": p.canonical }
+        ]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": `¿Cuál es la gasolinera más barata hoy en ${prov.name}?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `WayGass recopila en tiempo real las tarifas de todas las estaciones de servicio de ${prov.name} utilizando los datos oficiales del Ministerio para la Transición Ecológica (MITECO). Consulta nuestro ranking interactivo para ver la estación más barata en este momento.`
+            }
+          },
+          {
+            "@type": "Question",
+            "name": `¿Cuánto dinero puedo ahorrar al repostar en ${prov.name}?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `La diferencia de precio entre estaciones tradicionales y redes de bajo coste en ${prov.name} permite un ahorro medio de entre 10€ y 18€ por cada depósito de 50 litros.`
+            }
+          },
+          {
+            "@type": "Question",
+            "name": `¿A qué hora se actualizan los precios de combustible en ${prov.name}?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `Los precios se sincronizan continuamente conforme las estaciones de servicio remiten sus modificaciones legales al Ministerio de Industria y Transición Ecológica.`
+            }
+          }
+        ]
+      }
+    ];
+
+    const schemaTag = `<script type="application/ld+json">${JSON.stringify(schemas)}</script></head>`;
+    html = html.replace("</head>", schemaTag);
+
+    // Reemplazar noscript con contenido SEO específico de la provincia
+    const provinceNoscript = `<noscript>
+      <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1>Gasolineras Más Baratas en ${prov.name} Hoy</h1>
+        <p>Encuentra las estaciones de servicio con el precio más bajo de Gasolina 95, Diésel A, Gasolina 98 y GLP en toda la provincia de <strong>${prov.name}</strong> (${prov.region}). Precios oficiales del Ministerio para la Transición Ecológica (MITECO) actualizados continuamente.</p>
+        
+        <p><a href="/?provincia=${prov.id}" style="font-weight: bold; color: #ff3b30;">Abrir mapa interactivo de ${prov.name} en WayGass &rarr;</a></p>
+
+        <h2>Municipios destacados para repostar barato en ${prov.name}</h2>
+        <ul>
+          ${prov.popularMunicipalities.map(m => `<li>Gasolineras baratas en ${m}</li>`).join("\n          ")}
+        </ul>
+
+        <h2>Preguntas Frecuentes sobre el combustible en ${prov.name}</h2>
+        <h3>¿Cuál es la gasolinera más económica en ${prov.name}?</h3>
+        <p>Los precios oscilan diariamente. Las gasolineras automáticas e independientes suelen ofrecer tarifas entre 10 y 20 céntimos por litro más baratas que las grandes redes tradicionales.</p>
+
+        <h3>¿Cuánto puedo ahorrar por depósito?</h3>
+        <p>En un vehículo estándar con depósito de 50 litros, el ahorro puede superar los 15€ por repostaje en la provincia de ${prov.name}.</p>
+
+        <h2>Gasolineras en Provincias Cercanas</h2>
+        <ul>
+          ${(prov.nearbySlugs || []).map(s => {
+            const nearby = PROVINCES_DATA.find(x => x.slug === s);
+            return `<li><a href="/gasolineras/${s}">Gasolineras más baratas en ${nearby ? nearby.name : s}</a></li>`;
+          }).join("\n          ")}
+        </ul>
+
+        <p><a href="/gasolineras">&larr; Volver al directorio de todas las provincias</a></p>
+      </div>
+    </noscript>`;
+
+    html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, provinceNoscript);
+  } else if (p.isDirectory) {
+    const dirNoscript = `<noscript>
+      <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1>Directorio de Gasolineras Más Baratas de España por Provincia</h1>
+        <p>Selecciona tu provincia para consultar en tiempo real las estaciones de servicio más económicas de Gasolina 95, Diésel y GLP con datos oficiales de MITECO.</p>
+        <ul>
+          ${PROVINCES_DATA.map(prov => `<li><a href="/gasolineras/${prov.slug}">Gasolineras baratas en ${prov.name} (${prov.capital})</a></li>`).join("\n          ")}
+        </ul>
+      </div>
+    </noscript>`;
+    html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, dirNoscript);
   }
 
   // Target directory
@@ -159,7 +275,106 @@ pages.forEach(p => {
 
   const targetFile = path.join(targetDir, "index.html");
   fs.writeFileSync(targetFile, html, "utf8");
-  console.log(`Pre-rendered: ${p.path} -> ${path.relative(distDir, targetFile)}`);
 });
 
-console.log("SSG pre-rendering completed successfully.");
+console.log(`Pre-rendered ${allPages.length} pages successfully.`);
+
+// GENERACIÓN AUTOMÁTICA DEL SITEMAP.XML COMPLETO
+const today = new Date().toISOString().split("T")[0];
+let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://waygass.es/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/gasolineras</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+`;
+
+PROVINCES_DATA.forEach(prov => {
+  sitemapXml += `  <url>
+    <loc>https://waygass.es/gasolineras/${prov.slug}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+`;
+});
+
+sitemapXml += `  <url>
+    <loc>https://waygass.es/blog</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/5-trucos-ahorrar-combustible</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-eco-driving.jpg</image:loc>
+      <image:title>5 Trucos infalibles para ahorrar combustible en cada viaje</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-low-cost.jpg</image:loc>
+      <image:title>Gasolineras Low-Cost: Mito o realidad sobre la calidad</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/mejores-apps-coche-2026</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-apps-car.jpg</image:loc>
+      <image:title>Las 5 mejores apps para conductores en 2026</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/blog/mantenimiento-preventivo-consumo</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://waygass.es/blog-maintenance.jpg</image:loc>
+      <image:title>Mantenimiento preventivo: ¿Afecta al consumo?</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://waygass.es/privacidad</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/legal</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/cookies</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+</urlset>
+`;
+
+fs.writeFileSync(path.join(distDir, "sitemap.xml"), sitemapXml, "utf8");
+fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemapXml, "utf8");
+console.log("Sitemap.xml updated with all 62 URLs.");

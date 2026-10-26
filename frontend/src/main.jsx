@@ -11,6 +11,8 @@ import { PrivacyPage, LegalPage, CookiesPolicyPage } from './components/LegalPag
 import { useState, useEffect } from 'react';
 import CookiesBanner from './components/CookiesBanner.jsx';
 import { BlogIndex, BlogPost1, BlogPost2, BlogPost3, BlogPost4 } from './components/BlogPage.jsx';
+import ProvincePage from './components/ProvincePage.jsx';
+import ProvincesDirectory from './components/ProvincesDirectory.jsx';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios'
@@ -58,7 +60,7 @@ const applyThemeAndColor = () => {
 const WrappedPage = ({ children }) => {
   useEffect(() => {
     applyThemeAndColor();
-    if (!document.querySelector('script[src*="adsbygoogle.js"]') && (window.location.pathname.startsWith('/blog') || window.location.pathname === '/legal' || window.location.pathname === '/privacidad' || window.location.pathname === '/cookies')) {
+    if (!document.querySelector('script[src*="adsbygoogle.js"]') && (window.location.pathname.startsWith('/blog') || window.location.pathname.startsWith('/gasolineras') || window.location.pathname === '/legal' || window.location.pathname === '/privacidad' || window.location.pathname === '/cookies')) {
       const script = document.createElement("script");
       script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3243042902219004";
       script.async = true;
@@ -157,6 +159,11 @@ if (path === '/privacidad') {
     createRoot(rootElement).render(<WrappedPage><BlogPost3 /></WrappedPage>);
   } else if (path === '/blog/mantenimiento-preventivo-consumo') {
     createRoot(rootElement).render(<WrappedPage><BlogPost4 /></WrappedPage>);
+  } else if (path === '/gasolineras' || path === '/gasolineras/') {
+    createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
+  } else if (path.startsWith('/gasolineras/')) {
+    const slug = path.replace(/^\/gasolineras\//, '').replace(/\/$/, '');
+    createRoot(rootElement).render(<WrappedPage><ProvincePage slug={slug} /></WrappedPage>);
   } else if (path === '/login') {
   createRoot(rootElement).render(<WrappedPage><App initialAuth={true} /></WrappedPage>);
 } else {

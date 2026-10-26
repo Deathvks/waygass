@@ -298,6 +298,7 @@ export default function LandingPage({ onEnterApp }) {
       <footer className="py-8 px-6 border-t border-slate-200 dark:border-white/5 text-center text-sm text-slate-500">
         <p className="font-medium">&copy; {new Date().getFullYear()} WayGass. Todos los derechos reservados.</p>
         <div className="flex items-center justify-center gap-3 sm:gap-6 mt-4 text-xs sm:text-sm">
+            <a href="/gasolineras" className="hover:text-primary transition-colors whitespace-nowrap">Provincias</a>
             <a href="/blog" className="hover:text-primary transition-colors whitespace-nowrap">Blog</a>
             <a href="/legal" className="hover:text-primary transition-colors whitespace-nowrap">Aviso Legal</a>
             <a href="/privacidad" className="hover:text-primary transition-colors whitespace-nowrap">Privacidad</a>

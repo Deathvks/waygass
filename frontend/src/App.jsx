@@ -228,38 +228,55 @@ function App({ initialAuth = false }) {
     }
   }, [settings, cookieConsent, authToken]);
 
+ const queryParamProvince = typeof window !== 'undefined'
+   ? (new URLSearchParams(window.location.search).get('provincia') || new URLSearchParams(window.location.search).get('province'))
+   : null;
+
  const defaultFilters = {
- fuelType: 'g95', province: 'auto', radius: 10, sortBy: 'price',
- priceCategory: 'all',
- openNow: false,
- brand: 'all',
- brands: []
+   fuelType: 'g95', 
+   province: queryParamProvince || 'auto', 
+   radius: queryParamProvince ? 0 : 10, 
+   sortBy: 'price',
+   priceCategory: 'all',
+   openNow: false,
+   brand: 'all',
+   brands: []
  };
 
  const [filters, setFilters] = useState(() => {
- try {
- const saved = localStorage.getItem('waygas_filters');
- if (saved) {
- const parsed = JSON.parse(saved);
- // Evitar filtros fantasma: solo guardamos tipo de combustible y radio.
- return { 
- ...defaultFilters, 
- fuelType: parsed.fuelType || defaultFilters.fuelType,
- radius: parsed.radius !== undefined ? parsed.radius : defaultFilters.radius
- };
- }
- return defaultFilters;
- } catch { return defaultFilters; }
+   if (queryParamProvince) {
+     return defaultFilters;
+   }
+   try {
+     const saved = localStorage.getItem('waygas_filters');
+     if (saved) {
+       const parsed = JSON.parse(saved);
+       return { 
+         ...defaultFilters, 
+         fuelType: parsed.fuelType || defaultFilters.fuelType,
+         radius: parsed.radius !== undefined ? parsed.radius : defaultFilters.radius
+       };
+     }
+     return defaultFilters;
+   } catch { return defaultFilters; }
  });
 
- const [currentProvince, setCurrentProvince] = useState(() => localStorage.getItem('waygas_province') || '35');
- const [userLocation, setUserLocation] = useState(() => {
- try {
- const saved = localStorage.getItem('waygas_location');
- return saved ? JSON.parse(saved) : { lat: 40.4168, lng: -3.7038 }; // Default Madrid
- } catch { return { lat: 40.4168, lng: -3.7038 }; }
+ const [currentProvince, setCurrentProvince] = useState(() => {
+   if (queryParamProvince && PROVINCE_CENTERS[queryParamProvince]) return queryParamProvince;
+   return localStorage.getItem('waygas_province') || '35';
  });
-  const [isUsingGps, setIsUsingGps] = useState(true);
+
+ const [userLocation, setUserLocation] = useState(() => {
+   if (queryParamProvince && PROVINCE_CENTERS[queryParamProvince]) {
+     return PROVINCE_CENTERS[queryParamProvince];
+   }
+   try {
+     const saved = localStorage.getItem('waygas_location');
+     return saved ? JSON.parse(saved) : { lat: 40.4168, lng: -3.7038 }; // Default Madrid
+   } catch { return { lat: 40.4168, lng: -3.7038 }; }
+ });
+
+  const [isUsingGps, setIsUsingGps] = useState(!queryParamProvince);
   const [recenterTrigger, setRecenterTrigger] = useState(0);
  const [gpsModal, setGpsModal] = useState(null);
  
@@ -437,7 +454,9 @@ function App({ initialAuth = false }) {
  };
 
  useEffect(() => {
- getUserGPS();
+ if (!queryParamProvince) {
+   getUserGPS();
+ }
  if (authToken) {
  fetchProfile();
  fetchFavorites();
