@@ -35,15 +35,39 @@ export const BRAND_OPTIONS = [
 ];
 
 export default function Filters({ filters, setFilters }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const { fuelType, province, radius, sortBy, priceCategory, openNow, brand, brands } = filters;
 
-  // Gesto Swipe-Down estilo iPhone para cerrar el modal
+  // Gesto Swipe-Down estilo iOS con física dinámica
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const touchStartY = useRef(0);
   const currentDrag = useRef(0);
   const sheetRef = useRef(null);
+
+  const openModal = () => {
+    setIsOpen(true);
+    setDragY(0);
+    currentDrag.current = 0;
+    // Doble rAF para garantizar el render inicial antes de disparar la transición CSS fluida
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsAnimating(true);
+      });
+    });
+  };
+
+  const closeModal = () => {
+    setIsAnimating(false);
+    setTimeout(() => {
+      setIsOpen(false);
+      setDragY(0);
+      currentDrag.current = 0;
+      setIsDragging(false);
+    }, 280);
+  };
 
   const handleDragStart = (clientY) => {
     touchStartY.current = clientY;
@@ -55,6 +79,7 @@ export default function Filters({ filters, setFilters }) {
     if (!isDragging) return;
     const delta = clientY - touchStartY.current;
     if (delta > 0) {
+      // Resistencia elástica a medida que se estira hacia abajo
       currentDrag.current = delta;
       setDragY(delta);
     } else {
@@ -66,25 +91,14 @@ export default function Filters({ filters, setFilters }) {
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
-    if (currentDrag.current > 85) {
-      // Animar salida hacia abajo y cerrar
-      setDragY(window.innerHeight || 600);
-      setTimeout(() => {
-        setIsModalOpen(false);
-        setDragY(0);
-        currentDrag.current = 0;
-      }, 200);
+    if (currentDrag.current > 80) {
+      // Deslizado suficiente: animar cierre completo
+      closeModal();
     } else {
+      // Rebote elástico a la posición original
       setDragY(0);
       currentDrag.current = 0;
     }
-  };
-
-  const closeModal = () => {
-    setDragY(0);
-    currentDrag.current = 0;
-    setIsDragging(false);
-    setIsModalOpen(false);
   };
 
   const handleChange = (key, value) => {
@@ -224,7 +238,7 @@ export default function Filters({ filters, setFilters }) {
 
   // Bloqueo total e infalible del scroll y rebote del background (iOS/Android/Desktop)
   useEffect(() => {
-    if (isModalOpen) {
+    if (isOpen) {
       const scrollY = window.scrollY;
       const originalPosition = document.body.style.position;
       const originalTop = document.body.style.top;
@@ -249,7 +263,12 @@ export default function Filters({ filters, setFilters }) {
         window.scrollTo(0, scrollY);
       };
     }
-  }, [isModalOpen]);
+  }, [isOpen]);
+
+  // Cálculos dinámicos de opacidad y escala según arrastre
+  const dragProgress = Math.min(1, dragY / 300);
+  const dynamicBackdropOpacity = isAnimating ? Math.max(0, 1 - dragProgress * 0.8) : 0;
+  const dynamicScale = isAnimating ? Math.max(0.92, 1 - (dragY / 1800)) : 0.95;
 
   return (
     <div className="flex flex-col gap-3">
@@ -259,10 +278,10 @@ export default function Filters({ filters, setFilters }) {
           <button 
             key={fuel.id}
             onClick={() => handleChange('fuelType', fuel.id)}
-            className={`flex-1 min-w-[100px] text-center px-2 py-2 rounded-xl text-xs sm:text-sm transition ${
+            className={`flex-1 min-w-[100px] text-center px-2 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 cursor-pointer ${
               fuelType === fuel.id 
-              ? 'font-bold bg-primary text-white shadow-md' 
-              : 'font-medium text-slate-500 dark:text-slate-300 hover:bg-black/10 dark:hover:bg-white/10'
+              ? 'font-bold bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]' 
+              : 'font-medium text-slate-500 dark:text-slate-300 hover:bg-black/10 dark:hover:bg-white/10 active:scale-95'
             }`}
           >
             {fuel.label}
@@ -272,13 +291,13 @@ export default function Filters({ filters, setFilters }) {
 
       {/* SOLID FILTROS BUTTON */}
       <button 
-        onClick={() => setIsModalOpen(true)}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-black/5 dark:bg-white/5 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer"
+        onClick={openModal}
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-sm transition-all duration-200 bg-black/5 dark:bg-white/5 text-slate-800 dark:text-white hover:bg-black/10 dark:hover:bg-white/10 active:scale-[0.98] cursor-pointer"
       >
         <i className="fa-solid fa-sliders text-sm text-slate-500 dark:text-slate-400"></i>
         <span>Más Filtros y Opciones</span>
         {selectedBrands.length > 0 && (
-          <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-primary text-white">
+          <span className="ml-1.5 px-2 py-0.5 rounded-full text-[10px] font-black bg-primary text-white shadow-sm shadow-primary/30">
             {selectedBrands.length} {selectedBrands.length === 1 ? 'marca' : 'marcas'}
           </span>
         )}
@@ -286,7 +305,7 @@ export default function Filters({ filters, setFilters }) {
 
       {/* CHIPS DE GASOLINERAS SELECCIONADAS FUERA DEL MODAL */}
       {selectedBrands.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 px-1 py-0.5">
+        <div className="flex flex-wrap items-center gap-1.5 px-1 py-0.5 animate-in fade-in duration-200">
           <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1">
             <i className="fa-solid fa-gas-pump text-[10px] text-primary"></i>
             <span>Marcas:</span>
@@ -294,7 +313,7 @@ export default function Filters({ filters, setFilters }) {
           {selectedBrands.map(bVal => (
             <span
               key={bVal}
-              className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/20"
+              className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-0.5 rounded-full text-[11px] font-bold bg-primary/10 text-primary border border-primary/20 transition-transform hover:scale-105"
             >
               <span>{getBrandLabel(bVal)}</span>
               <button
@@ -310,39 +329,47 @@ export default function Filters({ filters, setFilters }) {
           <button
             type="button"
             onClick={clearAllBrands}
-            className="text-[10px] font-bold text-slate-400 hover:text-rose-500 underline ml-1 cursor-pointer"
+            className="text-[10px] font-bold text-slate-400 hover:text-rose-500 underline ml-1 cursor-pointer transition-colors"
           >
             Limpiar
           </button>
         </div>
       )}
 
-      {/* MODAL BOTTOM-SHEET ESTILO IPHONE CON PULL-TO-DISMISS */}
-      {isModalOpen && createPortal(
+      {/* MODAL BOTTOM-SHEET ESTILO IPHONE CON ANIMACIONES FLUIDAS */}
+      {isOpen && createPortal(
         <div 
           className="fixed inset-0 z-[99999] flex flex-col justify-end sm:justify-center sm:items-center touch-none select-none"
           style={{ overscrollBehavior: 'none' }}
         >
-          {/* BACKDROP CON DESENFOQUE Y BLOQUEO DE EVENTOS DE SCROLL */}
+          {/* BACKDROP FLUIDO CON DESENFOQUE CINEMÁTICO */}
           <div 
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" 
+            className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity duration-300"
+            style={{ 
+              opacity: dynamicBackdropOpacity,
+              transitionTimingFunction: 'cubic-bezier(0.32, 0.72, 0, 1)'
+            }}
             onClick={closeModal}
             onTouchMove={(e) => e.preventDefault()}
           />
 
-          {/* CONTENEDOR DE LA VENTANA MODAL */}
+          {/* CONTENEDOR DE LA VENTANA MODAL CON SPRING PHYSICS */}
           <div 
             ref={sheetRef}
             style={{
-              transform: `translateY(${dragY}px)`,
-              transition: isDragging ? 'none' : 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              transform: `translateY(${isAnimating ? dragY : (window.innerWidth < 640 ? '100%' : '32px')}) scale(${dynamicScale})`,
+              opacity: isAnimating ? (window.innerWidth < 640 ? 1 : Math.max(0, 1 - dragProgress)) : 0,
+              transition: isDragging 
+                ? 'none' 
+                : 'transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.28s cubic-bezier(0.32, 0.72, 0, 1)',
+              transformOrigin: 'bottom center',
               overscrollBehavior: 'contain'
             }}
-            className="relative bg-[#f5f5f7] dark:bg-[#000000] w-full sm:w-[520px] rounded-t-[32px] sm:rounded-[32px] p-5 pt-2 shadow-2xl flex flex-col max-h-[88vh] overflow-y-auto overscroll-contain animate-slide-up sm:animate-fade-in"
+            className="relative bg-[#f5f5f7] dark:bg-[#000000] w-full sm:w-[520px] rounded-t-[36px] sm:rounded-[36px] p-5 pt-2.5 shadow-[0_-12px_48px_rgba(0,0,0,0.3)] border-t sm:border border-white/20 dark:border-white/10 flex flex-col max-h-[88vh] overflow-y-auto overscroll-contain"
           >
-            {/* BARRA GRIS TIPO IPHONE (TIRADOR DESLIZANTE PARA CERRAR) */}
+            {/* TIRADOR ESTILO IPHONE CON FÍSICA REACTIVA */}
             <div 
-              className="w-full flex flex-col items-center justify-center py-2.5 -mt-1 cursor-grab active:cursor-grabbing touch-none select-none group"
+              className="w-full flex flex-col items-center justify-center py-2 -mt-1 cursor-grab active:cursor-grabbing touch-none select-none group"
               onPointerDown={(e) => {
                 e.target.setPointerCapture?.(e.pointerId);
                 handleDragStart(e.clientY);
@@ -358,9 +385,22 @@ export default function Filters({ filters, setFilters }) {
               onTouchEnd={handleDragEnd}
               title="Desliza hacia abajo para cerrar"
             >
-              <div className="w-12 h-1.5 bg-slate-300 dark:bg-zinc-700 rounded-full group-hover:bg-slate-400 dark:group-hover:bg-zinc-600 transition-colors"></div>
+              <div 
+                style={{
+                  width: isDragging ? Math.min(80, 48 + dragY * 0.25) + 'px' : undefined
+                }}
+                className={`h-1.5 rounded-full transition-all duration-200 ${
+                  isDragging 
+                    ? 'bg-primary shadow-sm shadow-primary/40' 
+                    : 'w-12 bg-slate-300 dark:bg-zinc-700 group-hover:w-16 group-hover:bg-slate-400 dark:group-hover:bg-zinc-500'
+                }`}
+              ></div>
+              <span className="text-[9px] font-semibold text-slate-400/70 tracking-widest uppercase mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                Deslizar
+              </span>
             </div>
             
+            {/* CABECERA DEL MODAL */}
             <div 
               className="flex justify-between items-center mb-3 touch-none select-none cursor-grab active:cursor-grabbing"
               onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
@@ -370,13 +410,13 @@ export default function Filters({ filters, setFilters }) {
               }}
               onTouchEnd={handleDragEnd}
             >
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2 tracking-tight">
                 <i className="fa-solid fa-sliders text-primary text-base"></i>
                 <span>Opciones de Búsqueda</span>
               </h2>
               <button 
                 onClick={closeModal} 
-                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 cursor-pointer" 
+                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/5 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:bg-black/10 dark:hover:bg-white/10 active:scale-90 transition-all cursor-pointer" 
                 title="Cerrar"
               >
                 <i className="fa-solid fa-xmark text-sm"></i>
@@ -393,7 +433,7 @@ export default function Filters({ filters, setFilters }) {
                     <span>Gasolineras / Marcas</span>
                   </label>
                   {selectedBrands.length > 0 && (
-                    <span className="text-[11px] font-semibold text-slate-400">
+                    <span className="text-[11px] font-semibold text-slate-400 animate-in fade-in">
                       {selectedBrands.length} {selectedBrands.length === 1 ? 'seleccionada' : 'seleccionadas'}
                     </span>
                   )}
@@ -401,11 +441,11 @@ export default function Filters({ filters, setFilters }) {
 
                 {/* CHIPS ARRIBA CON NOMBRE Y BOTÓN X PARA QUITAR CADA UNA */}
                 {selectedBrands.length > 0 ? (
-                  <div className="flex flex-wrap items-center gap-1.5 mb-2.5 p-2 rounded-xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/50 dark:border-white/10">
+                  <div className="flex flex-wrap items-center gap-1.5 mb-2.5 p-2.5 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/50 dark:border-white/10 animate-in fade-in zoom-in-95 duration-200">
                     {selectedBrands.map(bVal => (
                       <span
                         key={bVal}
-                        className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-full text-xs font-bold bg-primary text-white shadow-sm transition-transform hover:scale-105"
+                        className="inline-flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 rounded-full text-xs font-bold bg-primary text-white shadow-sm shadow-primary/20 transition-all hover:scale-105 active:scale-95 animate-in zoom-in-90 duration-150"
                       >
                         <span>{getBrandLabel(bVal)}</span>
                         <button
@@ -497,22 +537,24 @@ export default function Filters({ filters, setFilters }) {
             </div>
             
             <div className="mt-4 pt-4 border-t border-black/10 dark:border-white/10">
-               <label className="flex items-center justify-between cursor-pointer bg-black/5 dark:bg-white/5 px-4 py-3 rounded-2xl transition">
+               <label className="flex items-center justify-between cursor-pointer bg-black/5 dark:bg-white/5 px-4 py-3 rounded-2xl transition hover:bg-black/10 dark:hover:bg-white/10 active:scale-[0.99]">
                   <div className="flex flex-col">
                      <span className="font-bold text-slate-900 dark:text-white text-sm">Abierto Ahora</span>
+                     <span className="text-xs text-slate-500">Filtrar solo estaciones abiertas en este momento</span>
                   </div>
                   <div className="relative inline-flex items-center">
                     <input type="checkbox" checked={openNow || false} onChange={(e) => handleChange('openNow', e.target.checked)} className="sr-only peer" />
-                    <div className="w-11 h-6 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                    <div className="w-11 h-6 bg-slate-300 dark:bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary shadow-inner"></div>
                   </div>
                </label>
             </div>
 
             <button 
               onClick={closeModal} 
-              className="mt-6 w-full py-4 bg-primary text-white rounded-2xl font-bold shadow-md active:scale-95 transition-transform text-[15px] cursor-pointer"
+              className="mt-6 w-full py-4 bg-primary hover:bg-primary-dark text-white rounded-2xl font-black shadow-lg shadow-primary/30 active:scale-[0.98] transition-all text-[15px] cursor-pointer flex items-center justify-center gap-2 group"
             >
-              Ver Resultados
+              <span>Ver Resultados</span>
+              <i className="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
             </button>
           </div>
         </div>
