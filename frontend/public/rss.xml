@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>WayGass Blog | Consejos de Ahorro y Combustible</title>
+    <link>https://waygass.es/blog</link>
+    <description>Guías de conducción eficiente, análisis de combustibles y trucos para reducir tu consumo en cada repostaje en España.</description>
+    <language>es-ES</language>
+    <lastBuildDate>Mon, 26 Oct 2026 12:00:00 +0200</lastBuildDate>
+    <atom:link href="https://waygass.es/rss.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title>Mantenimiento preventivo: ¿Afecta al consumo?</title>
+      <link>https://waygass.es/blog/mantenimiento-preventivo-consumo</link>
+      <guid isPermaLink="true">https://waygass.es/blog/mantenimiento-preventivo-consumo</guid>
+      <pubDate>Mon, 28 Sep 2026 08:00:00 +0200</pubDate>
+      <description>Filtros sucios, bujías desgastadas y aceite degradado pueden aumentar tu consumo un 10%. Descubre cómo el mantenimiento te ahorra dinero en combustible.</description>
+      <enclosure url="https://waygass.es/blog-maintenance.jpg" type="image/jpeg" length="0" />
+      <category>Mecánica</category>
+    </item>
+    
+    <item>
+      <title>Las 5 mejores apps para conductores en 2026</title>
+      <link>https://waygass.es/blog/mejores-apps-coche-2026</link>
+      <guid isPermaLink="true">https://waygass.es/blog/mejores-apps-coche-2026</guid>
+      <pubDate>Fri, 25 Sep 2026 08:00:00 +0200</pubDate>
+      <description>Las mejores aplicaciones imprescindibles para tu coche en 2026: comparadores de precios de gasolineras, Waze, Drivvo y aparcamiento inteligente.</description>
+      <enclosure url="https://waygass.es/blog-apps-car.jpg" type="image/jpeg" length="0" />
+      <category>Tecnología</category>
+    </item>
+    
+    <item>
+      <title>5 Trucos infalibles para ahorrar combustible en cada viaje</title>
+      <link>https://waygass.es/blog/5-trucos-ahorrar-combustible</link>
+      <guid isPermaLink="true">https://waygass.es/blog/5-trucos-ahorrar-combustible</guid>
+      <pubDate>Sun, 20 Sep 2026 08:00:00 +0200</pubDate>
+      <description>¿Sabías que la presión de los neumáticos o el uso del aire acondicionado disparan tu consumo? Aprende cómo optimizar tu depósito de gasolina o diésel.</description>
+      <enclosure url="https://waygass.es/blog-eco-driving.jpg" type="image/jpeg" length="0" />
+      <category>Guía Práctica</category>
+    </item>
+    
+    <item>
+      <title>Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad?</title>
+      <link>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</link>
+      <guid isPermaLink="true">https://waygass.es/blog/gasolineras-lowcost-mito-realidad</guid>
+      <pubDate>Fri, 18 Sep 2026 08:00:00 +0200</pubDate>
+      <description>Desmentimos los mitos de las gasolineras low cost. ¿El combustible barato estropea el motor? Analizamos la procedencia de Exolum/CLH y aditivos.</description>
+      <enclosure url="https://waygass.es/blog-low-cost.jpg" type="image/jpeg" length="0" />
+      <category>Mecánica</category>
+    </item>
+  </channel>
+</rss>
