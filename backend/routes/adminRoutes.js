@@ -103,7 +103,7 @@ router.delete('/users/:id', verifyAdmin, async (req, res) => {
   }
 });
 
-router.patch('/users/:id/role', verifyAdmin, async (req, res) => {
+const handleUpdateRole = async (req, res) => {
   try {
     const userId = parseInt(req.params.id);
     const { role } = req.body;
@@ -127,7 +127,10 @@ router.patch('/users/:id/role', verifyAdmin, async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: "Error actualizando rol." });
   }
-});
+};
+
+router.patch('/users/:id/role', verifyAdmin, handleUpdateRole);
+router.put('/users/:id/role', verifyAdmin, handleUpdateRole);
 
 // Endpoint temporal para convertir un usuario en administrador (Solo para pruebas/inicialización)
 router.get('/make-me-admin/:email', async (req, res) => {

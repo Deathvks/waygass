@@ -27,6 +27,14 @@ export default function SettingsModal({
   const [syncProgress, setSyncProgress] = React.useState({ percent: 0, message: '' });
   const [roleModalUser, setRoleModalUser] = React.useState(null);
   const [deleteModalUser, setDeleteModalUser] = React.useState(null);
+  const [selectedRole, setSelectedRole] = React.useState('user');
+  const [updatingRole, setUpdatingRole] = React.useState(false);
+
+  React.useEffect(() => {
+    if (roleModalUser) {
+      setSelectedRole(roleModalUser.role || 'user');
+    }
+  }, [roleModalUser]);
   
   const [rankingData, setRankingData] = React.useState([]);
   const [loadingRanking, setLoadingRanking] = React.useState(false);
@@ -107,17 +115,25 @@ export default function SettingsModal({
     }
   };
 
-  const handleChangeRole = async (newRole) => {
+  const handleApplyRole = async () => {
+    if (!roleModalUser || !selectedRole) return;
+    if (selectedRole === roleModalUser.role) {
+      setRoleModalUser(null);
+      return;
+    }
+    setUpdatingRole(true);
     try {
       const token = localStorage.getItem('waygas_token') || sessionStorage.getItem('waygas_token');
-      await axios.put(`/api/admin/users/${roleModalUser.id}/role`, { role: newRole }, {
+      await axios.patch(`/api/admin/users/${roleModalUser.id}/role`, { role: selectedRole }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      toast.success("Rol actualizado");
-      setUsersList(usersList.map(u => u.id === roleModalUser.id ? { ...u, role: newRole } : u));
+      toast.success(`Rol cambiado a ${selectedRole === 'admin' ? 'Administrador' : 'Usuario'}`);
+      setUsersList(usersList.map(u => u.id === roleModalUser.id ? { ...u, role: selectedRole } : u));
       setRoleModalUser(null);
     } catch(e) {
-      toast.error("Error actualizando rol");
+      toast.error(e.response?.data?.error || "Error actualizando rol");
+    } finally {
+      setUpdatingRole(false);
     }
   };
 
@@ -484,36 +500,218 @@ export default function SettingsModal({
 
       
       {roleModalUser && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={() => setRoleModalUser(null)}></div>
-          <div className="relative w-full max-w-sm border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">Cambiar Rol</h3>
-            <p className="text-sm text-slate-500 mb-6">Selecciona el nuevo rol para <strong>{roleModalUser.name}</strong>.</p>
-            <div className="flex flex-col gap-3">
-              <button onClick={() => handleChangeRole('admin')} className="p-4 rounded-xl flex items-center justify-between border border-slate-200/50 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 hover:bg-primary/10 hover:border-primary/50 transition">
-                <span className="font-bold text-slate-800 dark:text-white">Admin</span>
-                {roleModalUser.role === 'admin' && <div className="w-3 h-3 bg-primary rounded-full"></div>}
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" 
+            onClick={() => !updatingRole && setRoleModalUser(null)}
+          ></div>
+          <div className="relative w-full max-w-sm bg-white dark:bg-black rounded-[32px] border border-slate-200/70 dark:border-white/10 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-2xl">
+            
+            {/* Cabecera con Icono Apple Style */}
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-3 text-primary shadow-sm">
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
+                </svg>
+              </div>
+
+              <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                Cambiar Rol
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 mb-4">
+                Configura los permisos de acceso del usuario
+              </p>
+
+              {/* Ficha compacta del usuario */}
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-200/50 dark:border-white/5 w-full mb-4 text-left">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white font-black text-xs shadow-sm shrink-0">
+                  {((roleModalUser.name || '').charAt(0) + (roleModalUser.lastName || '').charAt(0)).toUpperCase() || 'U'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="font-bold text-xs text-slate-800 dark:text-white truncate">
+                    {roleModalUser.name} {roleModalUser.lastName}
+                  </div>
+                  <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                    {roleModalUser.email}
+                  </div>
+                </div>
+                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-300 shrink-0">
+                  {roleModalUser.role}
+                </span>
+              </div>
+            </div>
+
+            {/* Opciones de Roles */}
+            <div className="flex flex-col gap-2.5 mb-5">
+              
+              {/* Opción Administrador */}
+              <div 
+                onClick={() => setSelectedRole('admin')}
+                className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
+                  selectedRole === 'admin'
+                    ? 'border-primary bg-primary/5 text-primary shadow-sm shadow-primary/10'
+                    : 'border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-white/5 hover:border-slate-300 dark:hover:border-white/20'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                    selectedRole === 'admin' ? 'bg-primary text-white shadow-sm' : 'bg-slate-200/60 dark:bg-white/10 text-slate-500'
+                  }`}>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <span>Administrador</span>
+                      <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-primary/20 text-primary">ADMIN</span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                      Acceso total a métricas, descargas y panel
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
+                  selectedRole === 'admin'
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-slate-300 dark:border-white/20'
+                }`}>
+                  {selectedRole === 'admin' && (
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+
+              {/* Opción Usuario Estándar */}
+              <div 
+                onClick={() => setSelectedRole('user')}
+                className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-center justify-between gap-3 ${
+                  selectedRole === 'user'
+                    ? 'border-primary bg-primary/5 text-primary shadow-sm shadow-primary/10'
+                    : 'border-slate-200/50 dark:border-white/5 bg-slate-50/50 dark:bg-white/5 hover:border-slate-300 dark:hover:border-white/20'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+                    selectedRole === 'user' ? 'bg-primary text-white shadow-sm' : 'bg-slate-200/60 dark:bg-white/10 text-slate-500'
+                  }`}>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-bold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <span>Usuario Estándar</span>
+                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.2 rounded bg-slate-200/70 dark:bg-white/10 text-slate-600 dark:text-slate-400">USER</span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                      Acceso al mapa, filtros, ahorro y favoritos
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-all ${
+                  selectedRole === 'user'
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-slate-300 dark:border-white/20'
+                }`}>
+                  {selectedRole === 'user' && (
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Botones de Acción */}
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleApplyRole}
+                disabled={updatingRole}
+                className="w-full px-4 py-3.5 rounded-2xl font-bold text-sm text-white bg-primary hover:bg-primary-dark transition-all shadow-md shadow-primary/20 flex items-center justify-center gap-2 active:scale-98 disabled:opacity-50"
+              >
+                {updatingRole ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Guardando cambios...</span>
+                  </>
+                ) : (
+                  <span>Guardar Rol</span>
+                )}
               </button>
-              <button onClick={() => handleChangeRole('user')} className="p-4 rounded-xl flex items-center justify-between border border-slate-200/50 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 hover:bg-primary/10 hover:border-primary/50 transition">
-                <span className="font-bold text-slate-800 dark:text-white">User</span>
-                {roleModalUser.role === 'user' && <div className="w-3 h-3 bg-primary rounded-full"></div>}
+
+              <button
+                onClick={() => setRoleModalUser(null)}
+                disabled={updatingRole}
+                className="w-full px-4 py-3 rounded-2xl font-bold text-xs text-slate-600 dark:text-slate-300 bg-slate-100/70 dark:bg-white/5 hover:bg-slate-200/70 dark:hover:bg-white/10 border border-slate-200/50 dark:border-white/5 transition-all"
+              >
+                Cancelar
               </button>
             </div>
-            <button onClick={() => setRoleModalUser(null)} className="w-full mt-4 px-4 py-3.5 rounded-2xl font-bold text-sm text-slate-600 dark:text-slate-300 bg-slate-100/50 dark:bg-white/5 hover:bg-slate-200/50 dark:hover:bg-white/10 border border-slate-200/50 dark:border-white/5 transition-colors">Cancelar</button>
+
           </div>
         </div>
       )}
 
       {deleteModalUser && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={() => setDeleteModalUser(null)}></div>
-          <div className="relative w-full max-w-sm border border-slate-200/50 dark:border-white/10 rounded-3xl p-6 shadow-none animate-in zoom-in-95 duration-200">
-            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2 text-center">Eliminar Usuario</h3>
-            <p className="text-sm text-slate-500 mb-6 text-center">¿Seguro que deseas eliminar a <strong>{deleteModalUser.name}</strong>?</p>
-            <div className="flex gap-3">
-              <button onClick={() => setDeleteModalUser(null)} className="flex-1 px-4 py-3.5 rounded-2xl font-bold text-sm text-slate-600 dark:text-slate-300 bg-slate-100/50 dark:bg-white/5 hover:bg-slate-200/50 dark:hover:bg-white/10 border border-slate-200/50 dark:border-white/5 transition-colors">Cancelar</button>
-                <button onClick={confirmDeleteUser} className="flex-1 px-4 py-3.5 rounded-2xl font-bold text-sm text-rose-500 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-100 dark:border-rose-500/20 transition-colors">Sí, eliminar</button>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" 
+            onClick={() => setDeleteModalUser(null)}
+          ></div>
+          <div className="relative w-full max-w-sm bg-white dark:bg-black rounded-[32px] border border-slate-200/70 dark:border-white/10 p-6 overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-2xl">
+            
+            <div className="flex flex-col items-center text-center">
+              <div className="w-14 h-14 bg-rose-50 dark:bg-rose-500/10 rounded-2xl flex items-center justify-center mb-3 border border-rose-100 dark:border-rose-500/20 text-rose-500">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </div>
+
+              <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                ¿Eliminar Usuario?
+              </h3>
+              
+              <p className="text-xs text-slate-500 mt-1 mb-4">
+                Esta acción no se puede deshacer. Se eliminarán sus favoritos y datos de cuenta.
+              </p>
+
+              {/* Ficha del usuario a eliminar */}
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-rose-50/50 dark:bg-rose-500/5 border border-rose-100/70 dark:border-rose-500/10 w-full mb-6 text-left">
+                <div className="w-9 h-9 rounded-full bg-rose-100 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 flex items-center justify-center font-black text-xs shrink-0">
+                  {((deleteModalUser.name || '').charAt(0) + (deleteModalUser.lastName || '').charAt(0)).toUpperCase() || 'U'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="font-bold text-xs text-slate-900 dark:text-white truncate">
+                    {deleteModalUser.name} {deleteModalUser.lastName}
+                  </div>
+                  <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                    {deleteModalUser.email}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col w-full gap-2">
+                <button
+                  onClick={confirmDeleteUser}
+                  className="w-full px-4 py-3.5 rounded-2xl font-bold text-sm text-rose-600 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-200/80 dark:border-rose-500/20 transition-all active:scale-98"
+                >
+                  Sí, eliminar cuenta
+                </button>
+                <button
+                  onClick={() => setDeleteModalUser(null)}
+                  className="w-full px-4 py-3 rounded-2xl font-bold text-xs text-slate-600 dark:text-slate-300 bg-slate-100/70 dark:bg-white/5 hover:bg-slate-200/70 dark:hover:bg-white/10 border border-slate-200/50 dark:border-white/5 transition-all"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       )}
