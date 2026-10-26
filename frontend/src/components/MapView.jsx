@@ -96,9 +96,9 @@ const MemoizedStationMarker = React.memo(({ s, minPrice, isSelected, activeFuelL
 
  const customIcon = L.divIcon({
  className: '',
- html: `<div class="custom-pin ${colorClass}" style="${isSelected ? 'transform: scale(1.35); box-shadow: 0 0 0 4px rgba(0, 219, 233, 0.6), 0 4px 12px rgba(0,0,0,0.15); z-index: 9999;' : ''}">${s.price.toFixed(3)}€</div>`,
- iconSize: isSelected ? [56, 24] : [42, 18],
- iconAnchor: isSelected ? [28, 12] : [21, 9]
+ html: `<div class="custom-pin ${colorClass}" style="${isSelected ? 'transform: scale(1.3); box-shadow: 0 0 0 3px var(--app-primary, #ff3b30), 0 6px 16px rgba(0,0,0,0.35); z-index: 9999;' : ''}"><span>${s.price.toFixed(3)}€</span></div>`,
+ iconSize: isSelected ? [58, 24] : [48, 20],
+ iconAnchor: isSelected ? [29, 12] : [24, 10]
  });
 
  return (
@@ -115,13 +115,13 @@ const MemoizedStationMarker = React.memo(({ s, minPrice, isSelected, activeFuelL
  }
  }}
  >
- <Popup maxWidth={260}>
- <div style={{ fontFamily: 'system-ui, sans-serif', padding: '2px', maxWidth: '250px', wordWrap: 'break-word' }}>
- <strong style={{ fontSize: '13px', color: '#0f172a' }}>{s.brand}</strong><br/>
- <span style={{ fontSize: '11px', color: '#64748b' }}>{s.address}</span>
- <div style={{ marginTop: '4px', fontWeight: 700, color: '#0f172a', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+ <Popup maxWidth={260} className="custom-station-popup">
+ <div className="p-1 max-w-[240px] break-words text-slate-900 dark:text-white">
+ <strong className="text-[13px] font-bold block leading-tight">{s.brand}</strong>
+ <span className="text-[11px] text-slate-500 dark:text-slate-400 block mt-0.5 leading-snug">{s.address}</span>
+ <div className="mt-2 font-black text-[15px] flex items-center gap-1.5 text-primary">
  {s.price.toFixed(3)} €/L
- <span style={{ fontSize: '11px', color: '#64748b', fontWeight: 500 }}>({activeFuelLabel})</span>
+ <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold uppercase">({activeFuelLabel})</span>
  </div>
  </div>
  </Popup>
@@ -153,10 +153,35 @@ export default function MapView({ settings,
   
   const mapStyle = settings?.mapStyle || 'light';
   
-  const getTileUrl = () => {
-    if (mapStyle === 'satellite') return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
-    return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+  const isDark = settings?.theme === 'dark' || 
+    (settings?.theme === 'system' && typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+  const getTileConfig = () => {
+    if (mapStyle === 'satellite') {
+      return {
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        maxZoom: 19,
+        subdomains: undefined,
+        attribution: '&copy; Esri, Maxar, Earthstar Geographics'
+      };
+    }
+    if (isDark) {
+      return {
+        url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        maxZoom: 20,
+        subdomains: "abcd",
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+      };
+    }
+    return {
+      url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      maxZoom: 20,
+      subdomains: "abcd",
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+    };
   };
+
+  const tileConfig = getTileConfig();
 const handleMapMove = (isUserAction) => {
  if (isUserAction) setShowSearchBtn(true);
  };
@@ -208,7 +233,7 @@ const handleMapMove = (isUserAction) => {
  return null;
  }, [stations, userLocation]);
 
- const userIcon = L.divIcon({ className: 'user-marker', iconSize: [14, 14], iconAnchor: [7, 7] });
+ const userIcon = L.divIcon({ className: 'user-marker', iconSize: [16, 16], iconAnchor: [8, 8] });
 
  const selectedStation = stations.find(s => s.id === selectedStationId);
 
@@ -222,7 +247,14 @@ const handleMapMove = (isUserAction) => {
  zoomControl={false}
  >
  <ZoomControl position="bottomright" />
- <TileLayer url={getTileUrl()} maxZoom={19} />
+ <TileLayer 
+   key={`${tileConfig.url}-${isDark}`}
+   url={tileConfig.url} 
+   subdomains={tileConfig.subdomains || 'abc'}
+   maxZoom={tileConfig.maxZoom} 
+   detectRetina={true}
+   attribution={tileConfig.attribution}
+ />
  <CustomMapEvents onMapMoveEnd={handleMapMove} onMapClick={() => onSelectStation && onSelectStation(null)} onBoundsChange={setMapBounds} />
  <FlyToUser center={[userLocation.lat, userLocation.lng]} trigger={recenterTrigger} />
         <MapUpdater center={[userLocation.lat, userLocation.lng]} zoom={13} bounds={bounds} activeTab={activeTab} />
