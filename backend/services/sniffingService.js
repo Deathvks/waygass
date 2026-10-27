@@ -410,10 +410,33 @@ async function getSniffingStats() {
     });
 
     // 6. Registro de visitas recientes (Últimas 100)
-    const recentVisits = await db.VisitLog.findAll({
+    const recentVisitsRaw = await db.VisitLog.findAll({
       order: [['createdAt', 'DESC']],
       limit: 100,
       raw: true
+    });
+
+    const recentVisits = recentVisitsRaw.map(v => {
+      let isoDate = v.createdAt;
+      if (v.createdAt) {
+        try {
+          const d = new Date(v.createdAt);
+          if (!isNaN(d.getTime())) {
+            isoDate = d.toISOString();
+          } else {
+            const parts = String(v.createdAt).trim().split(' ');
+            if (parts.length >= 2) {
+              isoDate = parts[0] + 'T' + parts[1] + (parts[2] ? parts[2] : 'Z');
+            }
+          }
+        } catch (e) {
+          isoDate = v.createdAt;
+        }
+      }
+      return {
+        ...v,
+        createdAt: isoDate
+      };
     });
 
     return {

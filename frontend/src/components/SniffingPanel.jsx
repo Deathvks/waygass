@@ -66,9 +66,29 @@ const getReferrerIcon = (refName) => {
   return <i className="fa-solid fa-arrow-up-right-from-square text-indigo-500"></i>;
 };
 
+const parseSafeDate = (val) => {
+  if (!val) return null;
+  if (val instanceof Date) return isNaN(val.getTime()) ? null : val;
+  if (typeof val === 'number') {
+    const d = new Date(val);
+    return isNaN(d.getTime()) ? null : d;
+  }
+  if (typeof val === 'string') {
+    let d = new Date(val);
+    if (!isNaN(d.getTime())) return d;
+    const parts = val.trim().split(' ');
+    if (parts.length >= 2) {
+      const iso = parts[0] + 'T' + parts[1] + (parts[2] ? parts[2] : 'Z');
+      d = new Date(iso);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+  return null;
+};
+
 const formatTimeAgo = (dateStr) => {
-  if (!dateStr) return '';
-  const date = new Date(dateStr);
+  const date = parseSafeDate(dateStr);
+  if (!date) return 'Reciente';
   const now = new Date();
   const diffSec = Math.floor((now - date) / 1000);
 
