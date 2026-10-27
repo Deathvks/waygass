@@ -654,7 +654,7 @@ export default function SniffingPanel() {
       </div>
 
       {/* FEED EN TIEMPO REAL / REGISTRO DETALLADO DE VISITAS (ÚLTIMAS 50) */}
-      <div className="bg-white dark:bg-black border border-slate-200/50 dark:border-white/5 p-5 rounded-2xl flex flex-col gap-4">
+      <div className="bg-white dark:bg-black border border-slate-200/50 dark:border-white/5 p-3.5 sm:p-5 rounded-2xl flex flex-col gap-4">
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
@@ -720,7 +720,7 @@ export default function SniffingPanel() {
             paginatedVisits.map((v) => (
               <div
                 key={v.id}
-                className="p-3.5 rounded-xl border border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors"
+                className="p-3 sm:p-3.5 rounded-xl border border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10 bg-slate-50/50 dark:bg-white/[0.02] flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors"
               >
                 
                 {/* IZQUIERDA: HORA, UBICACIÓN, IP Y USUARIO */}
@@ -787,17 +787,17 @@ export default function SniffingPanel() {
                 </div>
 
                 {/* DERECHA / ABAJO EN MÓVIL: DISPOSITIVO, NAVEGADOR Y TIEMPO */}
-                <div className="flex items-center justify-between shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200/50 dark:border-white/5 text-xs text-slate-500 gap-2 sm:flex-col sm:items-end sm:justify-center">
-                  <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300 min-w-0 whitespace-nowrap">
-                    <span className="shrink-0 text-slate-500 dark:text-slate-400" title={v.device}>{getDeviceIcon(v.device)}</span>
-                    <span title={v.os} className="flex items-center gap-1 shrink-0">
+                <div className="flex items-center justify-between flex-wrap sm:flex-nowrap sm:flex-col sm:items-end sm:justify-center shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200/50 dark:border-white/5 text-xs text-slate-500 gap-x-2.5 gap-y-1.5">
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-100/80 dark:bg-white/5 text-[11px] font-medium text-slate-700 dark:text-slate-300 shrink-0 whitespace-nowrap">
+                    <span className="shrink-0 text-slate-400" title={v.device}>{getDeviceIcon(v.device)}</span>
+                    <span title={v.os} className="flex items-center gap-1 shrink-0 font-semibold">
                       {getOsIcon(v.os)}
-                      <span className="truncate max-w-[85px] sm:max-w-[120px]">{v.os || 'SO'}</span>
+                      <span>{v.os || 'SO'}</span>
                     </span>
                     <span className="text-slate-300 dark:text-slate-600 shrink-0">•</span>
-                    <span title={v.browser} className="flex items-center gap-1 min-w-0">
+                    <span title={v.browser} className="flex items-center gap-1 shrink-0 font-semibold">
                       {getBrowserIcon(v.browser)}
-                      <span className="truncate max-w-[75px] sm:max-w-[110px]">{v.browser || 'Navegador'}</span>
+                      <span>{v.browser || 'Navegador'}</span>
                     </span>
                   </div>
                   <div className="text-[11px] font-medium text-slate-400 flex items-center gap-1 shrink-0 whitespace-nowrap">
