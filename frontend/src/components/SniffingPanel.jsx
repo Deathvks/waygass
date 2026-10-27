@@ -786,22 +786,22 @@ export default function SniffingPanel() {
                   </div>
                 </div>
 
-                {/* DERECHA: DISPOSITIVO, NAVEGADOR Y TIEMPO */}
-                <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200/50 dark:border-white/5 text-xs text-slate-500 gap-1">
-                  <div className="flex items-center gap-2 font-bold text-slate-700 dark:text-slate-300">
-                    <span title={v.device}>{getDeviceIcon(v.device)}</span>
-                    <span title={v.os} className="flex items-center gap-1">
+                {/* DERECHA / ABAJO EN MÓVIL: DISPOSITIVO, NAVEGADOR Y TIEMPO */}
+                <div className="flex items-center justify-between shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-200/50 dark:border-white/5 text-xs text-slate-500 gap-2 sm:flex-col sm:items-end sm:justify-center">
+                  <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300 min-w-0 whitespace-nowrap">
+                    <span className="shrink-0 text-slate-500 dark:text-slate-400" title={v.device}>{getDeviceIcon(v.device)}</span>
+                    <span title={v.os} className="flex items-center gap-1 shrink-0">
                       {getOsIcon(v.os)}
-                      <span>{v.os || 'SO'}</span>
+                      <span className="truncate max-w-[85px] sm:max-w-[120px]">{v.os || 'SO'}</span>
                     </span>
-                    <span className="text-slate-300 dark:text-slate-600">•</span>
-                    <span title={v.browser} className="flex items-center gap-1">
+                    <span className="text-slate-300 dark:text-slate-600 shrink-0">•</span>
+                    <span title={v.browser} className="flex items-center gap-1 min-w-0">
                       {getBrowserIcon(v.browser)}
-                      <span>{v.browser || 'Navegador'}</span>
+                      <span className="truncate max-w-[75px] sm:max-w-[110px]">{v.browser || 'Navegador'}</span>
                     </span>
                   </div>
-                  <div className="text-[11px] font-medium text-slate-400 flex items-center gap-1">
-                    <i className="fa-regular fa-clock text-[10px]"></i>
+                  <div className="text-[11px] font-medium text-slate-400 flex items-center gap-1 shrink-0 whitespace-nowrap">
+                    <i className="fa-regular fa-clock text-[10px] text-slate-400"></i>
                     <span>{formatTimeAgo(v.createdAt)}</span>
                   </div>
                 </div>
