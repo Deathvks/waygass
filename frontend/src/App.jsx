@@ -710,6 +710,7 @@ function App({ initialAuth = false }) {
  
  return {
  id: s['IDEESS'].toString(), brand: s['Rótulo'] || 'Gasolinera', address: s['Dirección'], town: s['Municipio'],
+ city: s['Municipio'], priceFormatted: price ? price.toFixed(3) : '',
  schedule, lat, lng, price, distance, isOpen: isOpenNow(schedule)
  };
  }).filter(Boolean);
