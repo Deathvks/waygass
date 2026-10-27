@@ -155,15 +155,15 @@ export default function SettingsModal({
 
   return (
     <>
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4">
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 pb-8 sm:pb-6">
       {/* Fondo borroso y oscuro */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity transition-opacity" onClick={handleClose}></div>
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl transition-opacity" onClick={handleClose}></div>
 
       {/* Contenido del modal */}
-      <div className={`relative w-full ${activeTab === 'admin' ? (adminSubTab === 'sniffing' ? 'max-w-4xl' : 'max-w-2xl') : 'max-w-md'} bg-[#f5f5f7] dark:bg-[#000000] rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-none overflow-y-auto overflow-x-hidden max-h-[90vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar transition-all duration-300`}>
+      <div className={`relative w-full ${activeTab === 'admin' ? (adminSubTab === 'sniffing' ? 'max-w-4xl' : 'max-w-2xl') : 'max-w-[390px] sm:max-w-md'} bg-[#f5f5f7] dark:bg-[#000000] rounded-3xl sm:rounded-[32px] border border-slate-200/50 dark:border-white/10 shadow-2xl overflow-y-auto overflow-x-hidden max-h-[78dvh] sm:max-h-[82vh] animate-in fade-in zoom-in-95 duration-200 no-scrollbar transition-all duration-300`}>
         
-        <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-4 sm:px-6 pt-[max(env(safe-area-inset-top),1.25rem)] pb-3 sm:pb-4 border-b border-slate-200/50 dark:border-white/5">
-          <div className="flex items-center justify-between mb-4">
+        <div className="sticky top-0 z-10 bg-[#f5f5f7] dark:bg-[#000000] px-4 sm:px-6 pt-4 sm:pt-5 pb-3 border-b border-slate-200/50 dark:border-white/5">
+          <div className="flex items-center justify-between mb-3">
             <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
               {activeTab === 'settings' ? 'Ajustes' : activeTab === 'ranking' ? 'Comunidad' : 'Administración'}
             </h2>
@@ -181,17 +181,22 @@ export default function SettingsModal({
           </div>
         </div>
 
-        <div className="p-3 sm:p-6 pt-2">
+        <div className="p-3 sm:p-5 pt-2 pb-4">
           {activeTab === 'settings' && (
             <div className="border border-slate-200/50 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col">
               
               {/* Refuel Amount Row */}
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
-                <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
-                  <i className="fa-solid fa-euro-sign text-sm text-primary"></i>
-                  Gasto Habitual (€)
-                </label>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Calcularemos cuántos litros te caben y cuánto más echas en comparación con la media de la zona.</p>
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                    <i className="fa-solid fa-euro-sign text-sm text-primary"></i>
+                    Gasto Habitual (€)
+                  </label>
+                  <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md">
+                    {settings.refuelAmount || 20} €
+                  </span>
+                </div>
+                <p className="text-[11px] leading-tight text-slate-500 dark:text-slate-400">Calcularemos cuántos litros te caben y cuánto más echas en comparación con la media de la zona.</p>
                 <div className="flex items-center gap-3">
                   <input 
                     type="number" 
@@ -199,18 +204,18 @@ export default function SettingsModal({
                     max="500" 
                     value={settings.refuelAmount !== undefined ? settings.refuelAmount : 20} 
                     onChange={(e) => setSettings({ ...settings, refuelAmount: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="w-full bg-slate-100/50 dark:bg-black/30 border border-slate-200/50 dark:border-white/5 rounded-xl px-4 py-2 text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    className="w-full bg-slate-100/50 dark:bg-black/30 border border-slate-200/50 dark:border-white/5 rounded-xl px-3.5 py-1.5 text-sm font-bold text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50"
                   />
                 </div>
               </div>
 
               {/* Color Row */}
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <i className="fa-solid fa-palette text-sm text-primary"></i>
                   Color de Acento
                 </label>
-                <div className="flex justify-between px-4 py-2">
+                <div className="flex justify-between px-2 py-1">
                   {[
                     { id: 'red', color: '#ff3b30' },
                     { id: 'blue', color: '#007aff' },
@@ -221,7 +226,7 @@ export default function SettingsModal({
                     <button 
                       key={c.id} 
                       onClick={() => setSettings({ ...settings, appColor: c.id })}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${(!settings.appColor && c.id === 'red') || settings.appColor === c.id ? 'ring-2 ring-offset-2 dark:ring-offset-black ring-slate-400 dark:ring-slate-500 scale-110' : 'hover:scale-110 opacity-60 hover:opacity-100'}`}
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all ${(!settings.appColor && c.id === 'red') || settings.appColor === c.id ? 'ring-2 ring-offset-2 dark:ring-offset-black ring-slate-400 dark:ring-slate-500 scale-110' : 'hover:scale-110 opacity-60 hover:opacity-100'}`}
                       style={{ backgroundColor: c.color }}
                     >
                       {((!settings.appColor && c.id === 'red') || settings.appColor === c.id) && (
@@ -233,7 +238,7 @@ export default function SettingsModal({
               </div>
 
               {/* GPS App Row */}
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <i className="fa-solid fa-location-arrow text-sm text-primary"></i>
                   Navegador Predeterminado
@@ -246,7 +251,7 @@ export default function SettingsModal({
               </div>
 
               {/* View Mode Row */}
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <i className="fa-solid fa-table-cells-large text-sm text-primary"></i>
                   Vista Inicial
@@ -259,16 +264,16 @@ export default function SettingsModal({
 
               
               {/* Map Style Row */}
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center gap-2">
                   <i className="fa-solid fa-map text-sm text-primary"></i>
                   Estilo de Mapa
                 </label>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => setSettings({ ...settings, mapStyle: 'light' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${(!settings.mapStyle || settings.mapStyle === 'light' || settings.mapStyle === 'auto' || settings.mapStyle === 'dark') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
+                  <button onClick={() => setSettings({ ...settings, mapStyle: 'light' })} className={`py-1.5 sm:py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${(!settings.mapStyle || settings.mapStyle === 'light' || settings.mapStyle === 'auto' || settings.mapStyle === 'dark') ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
                     Normal
                   </button>
-                  <button onClick={() => setSettings({ ...settings, mapStyle: 'satellite' })} className={`py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${settings.mapStyle === 'satellite' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
+                  <button onClick={() => setSettings({ ...settings, mapStyle: 'satellite' })} className={`py-1.5 sm:py-2 text-xs font-bold rounded-lg transition-colors flex flex-col items-center justify-center gap-1 ${settings.mapStyle === 'satellite' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-100/50 dark:bg-black/30 text-slate-500 hover:text-slate-700 dark:text-slate-400 border border-transparent'}`}>
                     Satélite
                   </button>
                 </div>
@@ -276,7 +281,7 @@ export default function SettingsModal({
 
               {/* Tarjetas Row */}
               {user?.role === 'admin' && (
-              <div className="flex flex-col p-4 border-b border-slate-200/50 dark:border-white/5 gap-3">
+              <div className="flex flex-col p-3.5 sm:p-4 border-b border-slate-200/50 dark:border-white/5 gap-2 sm:gap-2.5">
                 <label className="text-sm font-bold text-slate-800 dark:text-white flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <i className="fa-solid fa-id-card text-sm text-primary"></i>
@@ -287,11 +292,11 @@ export default function SettingsModal({
                   )}
                 </label>
                 
-                <div className={`flex flex-col gap-2 mt-1 ${(!user || user.subscription === 'free') ? 'opacity-50 pointer-events-none' : ''}`}>
+                <div className={`flex flex-col gap-2 mt-0.5 ${(!user || user.subscription === 'free') ? 'opacity-50 pointer-events-none' : ''}`}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold ${settings.cardWaylet ? 'bg-[#ff8200] text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-500'}`}>W</div>
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Waylet</span>
+                      <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">Waylet</span>
                     </div>
                     <button onClick={() => setSettings({ ...settings, cardWaylet: !settings.cardWaylet })} className={`w-9 h-5 flex items-center rounded-full p-1 duration-300 ease-in-out ${settings.cardWaylet ? 'bg-primary' : 'bg-slate-200 dark:bg-slate-700'}`}>
                       <div className={`bg-white w-3 h-3 rounded-full shadow-md transform duration-300 ease-in-out ${settings.cardWaylet ? 'translate-x-4' : ''}`} />
@@ -300,7 +305,7 @@ export default function SettingsModal({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold ${settings.cardCepsa ? 'bg-[#e4002b] text-white' : 'bg-slate-200 dark:bg-white/10 text-slate-500'}`}>C</div>
-                      <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">Cepsa Gow</span>
+                      <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">Cepsa Gow</span>
                     </div>
                     <button onClick={() => setSettings({ ...settings, cardCepsa: !settings.cardCepsa })} className={`w-9 h-5 flex items-center rounded-full p-1 duration-300 ease-in-out ${settings.cardCepsa ? 'bg-primary' : 'bg-slate-200 dark:bg-slate-700'}`}>
                       <div className={`bg-white w-3 h-3 rounded-full shadow-md transform duration-300 ease-in-out ${settings.cardCepsa ? 'translate-x-4' : ''}`} />
@@ -311,7 +316,7 @@ export default function SettingsModal({
               )}
 
               {/* Legal Row */}
-              <div className="p-4 flex flex-col items-center justify-center gap-1">
+              <div className="p-3 sm:p-4 flex flex-col items-center justify-center gap-1">
                 <button onClick={() => { handleClose(); if (openCookies) openCookies(); }} className="text-xs font-bold text-primary hover:underline transition-colors">
                   Gestionar Cookies
                 </button>
