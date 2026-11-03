@@ -28,7 +28,8 @@ export default function AboutPage() {
     setOpenFaqId(prev => prev === id ? null : id);
   };
 
-  const canonicalUrl = "https://waygass.es/sobre-nosotros";
+  const isFaqPath = typeof window !== 'undefined' && window.location.pathname.startsWith('/faq');
+  const canonicalUrl = isFaqPath ? "https://waygass.es/faq" : "https://waygass.es/sobre-nosotros";
 
   const jsonLdAbout = {
     "@context": "https://schema.org",

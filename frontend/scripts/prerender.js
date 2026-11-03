@@ -49,7 +49,7 @@ const staticPages = [
     path: "/faq",
     title: "Preguntas Frecuentes sobre Combustibles y Precios | WayGass FAQ",
     description: "Respuestas oficiales a dudas sobre precios de gasolina, diésel, gasolineras low-cost, aditivos de combustible y metodología de datos de MITECO en España.",
-    canonical: "https://waygass.es/sobre-nosotros",
+    canonical: "https://waygass.es/faq",
     image: "https://waygass.es/logo.png",
     type: "website",
     isAboutPage: true
@@ -279,7 +279,7 @@ allPages.forEach(p => {
       "@type": "AboutPage",
       "name": "Sobre Nosotros y Preguntas Frecuentes | WayGass",
       "description": "Información corporativa, metodología de datos oficiales de MITECO e índice exhaustivo de preguntas frecuentes sobre precios de combustible en España.",
-      "url": "https://waygass.es/sobre-nosotros",
+      "url": p.canonical,
       "mainEntity": {
         "@type": "Organization",
         "name": "WayGass",
