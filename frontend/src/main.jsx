@@ -144,33 +144,93 @@ const WrappedPage = ({ children }) => {
   );
 };
 
-if (path === '/privacidad') {
-  createRoot(rootElement).render(<WrappedPage><PrivacyPage /></WrappedPage>);
-} else if (path === '/legal') {
-  createRoot(rootElement).render(<WrappedPage><LegalPage /></WrappedPage>);
-} else if (path === '/cookies') {
-  createRoot(rootElement).render(<WrappedPage><CookiesPolicyPage /></WrappedPage>);
-} else if (path === '/blog') {
-  createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
-} else if (path.startsWith('/blog/')) {
-  const slug = path.replace(/^\/blog\//, '').replace(/\/$/, '');
-  if (!slug) {
-    createRoot(rootElement).render(<WrappedPage><BlogIndex /></WrappedPage>);
-  } else {
-    createRoot(rootElement).render(<WrappedPage><BlogPostPage slug={slug} /></WrappedPage>);
-  }
-} else if (path === '/gasolineras') {
-  createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
-} else if (path.startsWith('/gasolineras/')) {
-  const slug = path.replace(/^\/gasolineras\//, '').replace(/\/$/, '');
-  if (!slug) {
-    createRoot(rootElement).render(<WrappedPage><ProvincesDirectory /></WrappedPage>);
-  } else {
-    createRoot(rootElement).render(<WrappedPage><ProvincePage slug={slug} /></WrappedPage>);
-  }
-} else if (path === '/login') {
-  createRoot(rootElement).render(<WrappedPage><App initialAuth={true} /></WrappedPage>);
-} else {
-  createRoot(rootElement).render(<WrappedPage><App /></WrappedPage>);
+// Navegación SPA instantánea sin recarga de página completa
+export const spaNavigate = (to) => {
+  if (typeof window === 'undefined') return;
+  if (to === window.location.pathname) return;
+  window.history.pushState({}, '', to);
+  window.dispatchEvent(new PopStateEvent('popstate'));
+  window.scrollTo(0, 0);
+};
+
+if (typeof window !== 'undefined') {
+  window.spaNavigate = spaNavigate;
 }
+
+function AppRouter() {
+  const [currentPath, setCurrentPath] = useState(() => {
+    const raw = typeof window !== 'undefined' ? window.location.pathname : '/';
+    return (raw.length > 1 && raw.endsWith('/')) ? raw.slice(0, -1) : raw;
+  });
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      const raw = window.location.pathname;
+      const clean = (raw.length > 1 && raw.endsWith('/')) ? raw.slice(0, -1) : raw;
+      setCurrentPath(clean);
+    };
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  // Interceptar clics en enlaces internos (<a href="/blog/...">) para navegación instantánea sin recarga
+  useEffect(() => {
+    const handleAnchorClick = (e) => {
+      const anchor = e.target.closest('a');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      const targetAttr = anchor.getAttribute('target');
+      if (
+        !href ||
+        href.startsWith('http') ||
+        href.startsWith('//') ||
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        targetAttr === '_blank' ||
+        e.ctrlKey ||
+        e.metaKey ||
+        e.shiftKey
+      ) {
+        return;
+      }
+      if (href.startsWith('/')) {
+        e.preventDefault();
+        spaNavigate(href);
+      }
+    };
+    document.addEventListener('click', handleAnchorClick);
+    return () => document.removeEventListener('click', handleAnchorClick);
+  }, []);
+
+  if (currentPath === '/privacidad') {
+    return <WrappedPage><PrivacyPage /></WrappedPage>;
+  } else if (currentPath === '/legal') {
+    return <WrappedPage><LegalPage /></WrappedPage>;
+  } else if (currentPath === '/cookies') {
+    return <WrappedPage><CookiesPolicyPage /></WrappedPage>;
+  } else if (currentPath === '/blog') {
+    return <WrappedPage><BlogIndex /></WrappedPage>;
+  } else if (currentPath.startsWith('/blog/')) {
+    const slug = currentPath.replace(/^\/blog\//, '').replace(/\/$/, '');
+    if (!slug) {
+      return <WrappedPage><BlogIndex /></WrappedPage>;
+    }
+    return <WrappedPage><BlogPostPage slug={slug} /></WrappedPage>;
+  } else if (currentPath === '/gasolineras') {
+    return <WrappedPage><ProvincesDirectory /></WrappedPage>;
+  } else if (currentPath.startsWith('/gasolineras/')) {
+    const slug = currentPath.replace(/^\/gasolineras\//, '').replace(/\/$/, '');
+    if (!slug) {
+      return <WrappedPage><ProvincesDirectory /></WrappedPage>;
+    }
+    return <WrappedPage><ProvincePage slug={slug} /></WrappedPage>;
+  } else if (currentPath === '/login') {
+    return <WrappedPage><App initialAuth={true} /></WrappedPage>;
+  } else {
+    return <WrappedPage><App /></WrappedPage>;
+  }
+}
+
+createRoot(rootElement).render(<AppRouter />);
 

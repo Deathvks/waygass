@@ -179,7 +179,7 @@ export default function SecurityPanel({ onClose }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden no-scrollbar pb-6 lg:pb-1">
+    <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden no-scrollbar pb-24 lg:pb-3">
       {/* Header con desenfoque de cristal auténtico (sin fondo sólido) */}
       <div 
         className="p-3.5 sm:p-5 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7]/35 dark:bg-black/35 backdrop-blur-2xl z-20"

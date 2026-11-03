@@ -622,7 +622,13 @@ export const BlogIndex = () => {
       {selectedCategory === 'all' && (
         <section className="mb-14">
           <div 
-            onClick={() => window.location.href = `/blog/${featuredPost.slug}`}
+            onClick={() => {
+              if (window.spaNavigate) {
+                window.spaNavigate(`/blog/${featuredPost.slug}`);
+              } else {
+                window.location.href = `/blog/${featuredPost.slug}`;
+              }
+            }}
             className="group block bg-white dark:bg-[#0c1017] rounded-3xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-xl hover:shadow-2xl transition-all cursor-pointer grid lg:grid-cols-12 gap-0"
           >
             <div className="lg:col-span-7 aspect-[16/9] lg:aspect-auto overflow-hidden relative">
@@ -738,7 +744,13 @@ export const BlogIndex = () => {
           <article 
             key={post.slug}
             className="bg-white dark:bg-[#0c1017] rounded-3xl border border-slate-200 dark:border-white/5 overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer flex flex-col group hover:-translate-y-1" 
-            onClick={() => window.location.href = `/blog/${post.slug}`}
+            onClick={() => {
+              if (window.spaNavigate) {
+                window.spaNavigate(`/blog/${post.slug}`);
+              } else {
+                window.location.href = `/blog/${post.slug}`;
+              }
+            }}
           >
             <div className="aspect-[16/9] relative overflow-hidden bg-black">
               <img 

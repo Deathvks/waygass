@@ -273,8 +273,6 @@ export default function EditorialPanel() {
                 </span>
                 <a
                   href={`/blog/${lastRun.article.slug}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="text-xs font-bold text-primary hover:underline flex items-center gap-1 shrink-0"
                 >
                   <span>Ver artículo</span>
@@ -349,8 +347,6 @@ export default function EditorialPanel() {
               <a
                 key={art.slug}
                 href={`/blog/${art.slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="py-2.5 flex items-center gap-3 transition-colors hover:opacity-80 group first:pt-0 last:pb-0"
               >
                 <div className="w-14 h-11 rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-white/5">
