@@ -1,8 +1,9 @@
 // ==============================================================================
 // WAYGASS EDITORIAL - ARTÍCULOS Y REPORTAJES PERIODÍSTICOS
 // ==============================================================================
+import { AI_ARTICLES } from './aiArticles.js';
 
-export const BLOG_POSTS = [
+export const STATIC_BLOG_POSTS = [
   // 1. 5 TRUCOS PARA AHORRAR COMBUSTIBLE
   {
     slug: "5-trucos-ahorrar-combustible",
@@ -1048,6 +1049,8 @@ export const BLOG_POSTS = [
     }
   }
 ];
+
+export const BLOG_POSTS = [...(Array.isArray(AI_ARTICLES) ? AI_ARTICLES : []), ...STATIC_BLOG_POSTS];
 
 // FUNCIÓN AUXILIAR PARA OBTENER UN ARTÍCULO POR SU SLUG
 export const getBlogPostBySlug = (slug) => {

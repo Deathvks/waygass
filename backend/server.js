@@ -11,6 +11,8 @@ const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const stationRoutes = require('./routes/stationRoutes');
 const userRoutes = require('./routes/userRoutes');
+const blogRoutes = require('./routes/blogRoutes');
+const blogAutomationService = require('./services/blogAutomationService');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -76,6 +78,13 @@ db.sequelize.sync().then(async () => {
   } catch(e) {
     console.error("Error al comprobar el histórico en el arranque:", e.message);
   }
+
+  // Sincronizar archivo de artículos editoriales IA
+  try {
+    await blogAutomationService.syncAiArticlesFile();
+  } catch(e) {
+    console.error("Error al sincronizar artículos editoriales:", e.message);
+  }
 }).catch(err => {
   console.error("Error al conectar con la base de datos: ", err.message);
 });
@@ -87,11 +96,18 @@ app.use(securityMiddleware);
 app.use('/api', authRoutes);
 app.use('/api', stationRoutes); // includes /api/gas/FiltroProvincia and /api/history/:id
 app.use('/api', userRoutes);    // includes /api/ranking, /api/validations, /api/favorites, /api/settings
+app.use('/api', blogRoutes);     // includes /api/blog, /api/blog/:slug, /api/admin/blog/*
 app.use('/api/admin', adminRoutes);
 
-// Ejecutar todos los días a las 03:00 AM
+// Ejecutar todos los días a las 03:00 AM (Precios de combustible)
 cron.schedule('0 3 * * *', () => {
   fetchAndStoreDailyPrices();
+});
+
+// Generación editorial automática diaria (Gemini 3.6 Flash) a las 06:00 AM
+cron.schedule('0 6 * * *', () => {
+  console.log("[CRON] Ejecutando generación automática diaria de noticia editorial con IA (Gemini 3.6 Flash)...");
+  blogAutomationService.generateDailyArticle();
 });
 
 app.listen(PORT, () => {

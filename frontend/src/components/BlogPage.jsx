@@ -360,7 +360,35 @@ const RelatedArticles = ({ currentSlug }) => {
 // VISTA DETALLADA DEL ARTÍCULO (ESTILO XATAKA)
 // ==============================================================================
 export const BlogPostPage = ({ slug }) => {
-  const post = getBlogPostBySlug(slug);
+  const localPost = getBlogPostBySlug(slug);
+  const [post, setPost] = useState(localPost);
+  const [loading, setLoading] = useState(!localPost);
+
+  useEffect(() => {
+    if (!localPost) {
+      setLoading(true);
+      fetch(`/api/blog/${encodeURIComponent(slug)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.success && data.article) {
+            setPost(data.article);
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [slug, localPost]);
+
+  if (loading) {
+    return (
+      <BlogLayout>
+        <div className="text-center py-24 space-y-4">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm text-slate-500 font-medium">Cargando reportaje editorial...</p>
+        </div>
+      </BlogLayout>
+    );
+  }
 
   if (!post) {
     return (
@@ -541,7 +569,21 @@ export const BlogPostPage = ({ slug }) => {
 // PORTADA DEL BLOG (ESTILO REVISTA XATAKA)
 // ==============================================================================
 export const BlogIndex = () => {
+  const [posts, setPosts] = useState(BLOG_POSTS);
   const [selectedCategory, setSelectedCategory] = useState('all');
+
+  useEffect(() => {
+    fetch('/api/blog')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success && Array.isArray(data.articles) && data.articles.length > 0) {
+          const apiSlugs = new Set(data.articles.map(a => a.slug));
+          const missingLocals = BLOG_POSTS.filter(p => !apiSlugs.has(p.slug));
+          setPosts([...data.articles, ...missingLocals]);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const categories = [
     'all',
@@ -555,12 +597,12 @@ export const BlogIndex = () => {
   ];
 
   const filteredPosts = selectedCategory === 'all'
-    ? BLOG_POSTS
-    : BLOG_POSTS.filter(p => p.category === selectedCategory);
+    ? posts
+    : posts.filter(p => p.category === selectedCategory);
 
-  // ARTÍCULO DESTACADO DE PORTADA (EL PRIMERO O EL DE DÍA MÁS BARATO)
-  const featuredPost = BLOG_POSTS[4] || BLOG_POSTS[0]; // ¿Qué día es más barata la gasolina?
-  const trendingPosts = BLOG_POSTS.slice(0, 3);
+  // ARTÍCULO DESTACADO DE PORTADA (EL MÁS RECIENTE)
+  const featuredPost = posts[0] || BLOG_POSTS[0];
+  const trendingPosts = posts.slice(0, 3);
 
   return (
     <BlogLayout>
