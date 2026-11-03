@@ -981,8 +981,8 @@ function App({ initialAuth = false }) {
  </div>
 
  {/* MOBILE BOTTOM TAB BAR */}
- <div className="lg:hidden fixed bottom-5 left-0 right-0 z-50 flex justify-center pointer-events-none px-3">
- <div className="pointer-events-auto">
+ <div className="lg:hidden fixed bottom-6 left-0 right-0 z-50 flex justify-center pointer-events-none">
+ <div className="pointer-events-auto w-full flex justify-center">
  <NavigationDock activeTab={activeTab} setActiveTab={setActiveTab} isAdmin={authUser?.role === 'admin'} />
  </div>
  </div>
