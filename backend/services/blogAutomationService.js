@@ -755,30 +755,41 @@ class BlogAutomationService {
       fs.writeFileSync(path.join(articleDir, 'index.html'), html, 'utf8');
       this.addLog(`Pre-render HTML creado en dist/blog/${article.slug}/index.html`, 'success');
 
-      // Actualizar sitemap.xml en dist si existe
-      const sitemapPath = path.join(distDir, 'sitemap.xml');
-      if (fs.existsSync(sitemapPath)) {
-        let sm = fs.readFileSync(sitemapPath, 'utf8');
-        if (!sm.includes(canonical)) {
-          const newEntry = `  <url>\n    <loc>${canonical}</loc>\n    <lastmod>${article.dateISO.split('T')[0]}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n</urlset>`;
-          sm = sm.replace('</urlset>', newEntry);
-          fs.writeFileSync(sitemapPath, sm, 'utf8');
-          this.addLog('sitemap.xml actualizado en dist.', 'success');
+      // Actualizar sitemap.xml en dist y public si existen
+      const sitemapPaths = [
+        path.join(distDir, 'sitemap.xml'),
+        path.resolve(__dirname, '../../frontend/public/sitemap.xml')
+      ];
+      for (const sitemapPath of sitemapPaths) {
+        if (fs.existsSync(sitemapPath)) {
+          let sm = fs.readFileSync(sitemapPath, 'utf8');
+          if (!sm.includes(canonical)) {
+            const newEntry = `  <url>\n    <loc>${canonical}</loc>\n    <lastmod>${article.dateISO.split('T')[0]}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n</urlset>`;
+            sm = sm.replace('</urlset>', newEntry);
+            fs.writeFileSync(sitemapPath, sm, 'utf8');
+          }
         }
       }
+      this.addLog('sitemap.xml actualizado en dist y public.', 'success');
 
-      // Actualizar rss.xml en dist si existe
-      const rssPath = path.join(distDir, 'rss.xml');
-      if (fs.existsSync(rssPath)) {
-        let rss = fs.readFileSync(rssPath, 'utf8');
-        if (!rss.includes(canonical)) {
-          const pubDate = new Date(article.dateISO).toUTCString();
-          const newItem = `    <item>\n      <title>${article.title.replace(/&/g, '&amp;')}</title>\n      <link>${canonical}</link>\n      <guid isPermaLink="true">${canonical}</guid>\n      <pubDate>${pubDate}</pubDate>\n      <description>${article.excerpt.replace(/&/g, '&amp;')}</description>\n      <enclosure url="${article.image}" type="image/jpeg" length="0" />\n      <category>${article.category}</category>\n    </item>\n`;
-          rss = rss.replace('<atom:link href="https://waygass.es/rss.xml" rel="self" type="application/rss+xml"/>\n', `<atom:link href="https://waygass.es/rss.xml" rel="self" type="application/rss+xml"/>\n${newItem}`);
-          fs.writeFileSync(rssPath, rss, 'utf8');
-          this.addLog('rss.xml actualizado en dist.', 'success');
+      // Actualizar rss.xml en dist y public si existen
+      const rssPaths = [
+        path.join(distDir, 'rss.xml'),
+        path.resolve(__dirname, '../../frontend/public/rss.xml')
+      ];
+      for (const rssPath of rssPaths) {
+        if (fs.existsSync(rssPath)) {
+          let rss = fs.readFileSync(rssPath, 'utf8');
+          if (!rss.includes(canonical)) {
+            const pubDate = new Date(article.dateISO).toUTCString();
+            const enclosureUrl = article.image && article.image.startsWith('http') ? article.image : `https://waygass.es${article.image || '/logo.png'}`;
+            const newItem = `    <item>\n      <title>${article.title.replace(/&/g, '&amp;')}</title>\n      <link>${canonical}</link>\n      <guid isPermaLink="true">${canonical}</guid>\n      <pubDate>${pubDate}</pubDate>\n      <description>${article.excerpt.replace(/&/g, '&amp;')}</description>\n      <enclosure url="${enclosureUrl}" type="image/jpeg" length="0" />\n      <category>${article.category}</category>\n    </item>\n`;
+            rss = rss.replace(/(<atom:link [^>]+>\r?\n)/, `$1${newItem}`);
+            fs.writeFileSync(rssPath, rss, 'utf8');
+          }
         }
       }
+      this.addLog('rss.xml actualizado automáticamente en dist y public.', 'success');
     } catch (e) {
       this.addLog(`Error al pre-renderizar en dist: ${e.message}`, 'warn');
     }
