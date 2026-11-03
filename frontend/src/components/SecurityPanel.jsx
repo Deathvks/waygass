@@ -181,7 +181,7 @@ export default function SecurityPanel({ onClose }) {
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden no-scrollbar pb-24">
             {/* Header */}
-      <div className="p-6 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10">
+      <div className="p-3.5 sm:p-5 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
@@ -200,9 +200,9 @@ export default function SecurityPanel({ onClose }) {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 overflow-x-auto no-scrollbar">
+        <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 overflow-x-auto no-scrollbar scroll-smooth">
           {['overview', 'sniffing', 'editorial', 'logs', 'blocked'].map(t => (
-            <button key={t} onClick={() => setTab(t)} className={`flex-1 min-w-[70px] py-2 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
+            <button key={t} onClick={() => setTab(t)} className={`flex-1 px-2 sm:px-2.5 py-1.5 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
               {t === 'overview' ? 'Seguridad' : t === 'sniffing' ? 'Sniffing' : t === 'editorial' ? 'Editorial IA' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
             </button>
           ))}
@@ -318,11 +318,11 @@ export default function SecurityPanel({ onClose }) {
         )}
       </div>
 
-      <div className="p-5 space-y-5 flex-1">
+      <div className="p-3 sm:p-5 space-y-4 sm:space-y-5 flex-1 min-w-0 max-w-full overflow-x-hidden">
 
         {/* TAB: EDITORIAL IA */}
         {tab === 'editorial' && (
-          <div className="pb-6">
+          <div className="pb-4 min-w-0 max-w-full">
             <EditorialPanel />
           </div>
         )}
