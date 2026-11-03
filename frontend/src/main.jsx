@@ -13,6 +13,7 @@ import CookiesBanner from './components/CookiesBanner.jsx';
 import { BlogIndex, BlogPostPage, BlogPost1, BlogPost2, BlogPost3, BlogPost4 } from './components/BlogPage.jsx';
 import ProvincePage from './components/ProvincePage.jsx';
 import ProvincesDirectory from './components/ProvincesDirectory.jsx';
+import AboutPage from './components/AboutPage.jsx';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios'
@@ -61,7 +62,7 @@ const applyThemeAndColor = () => {
 const WrappedPage = ({ children }) => {
   useEffect(() => {
     applyThemeAndColor();
-    if (!document.querySelector('script[src*="adsbygoogle.js"]') && (window.location.pathname.startsWith('/blog') || window.location.pathname.startsWith('/gasolineras') || window.location.pathname === '/legal' || window.location.pathname === '/privacidad' || window.location.pathname === '/cookies')) {
+    if (!document.querySelector('script[src*="adsbygoogle.js"]') && (window.location.pathname.startsWith('/blog') || window.location.pathname.startsWith('/gasolineras') || window.location.pathname === '/legal' || window.location.pathname === '/privacidad' || window.location.pathname === '/cookies' || window.location.pathname === '/sobre-nosotros' || window.location.pathname === '/faq')) {
       const script = document.createElement("script");
       script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3243042902219004";
       script.async = true;
@@ -209,6 +210,8 @@ function AppRouter() {
     return <WrappedPage><LegalPage /></WrappedPage>;
   } else if (currentPath === '/cookies') {
     return <WrappedPage><CookiesPolicyPage /></WrappedPage>;
+  } else if (currentPath === '/sobre-nosotros' || currentPath === '/about' || currentPath === '/faq') {
+    return <WrappedPage><AboutPage /></WrappedPage>;
   } else if (currentPath === '/blog') {
     return <WrappedPage><BlogIndex /></WrappedPage>;
   } else if (currentPath.startsWith('/blog/')) {

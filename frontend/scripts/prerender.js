@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { PROVINCES_DATA } from "../src/data/provincesData.js";
 import { BLOG_POSTS } from "../src/data/blogData.js";
+import { FAQ_DATA } from "../src/data/faqData.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,6 +35,24 @@ const staticPages = [
     image: "https://waygass.es/logo.png",
     type: "website",
     isDirectory: true
+  },
+  {
+    path: "/sobre-nosotros",
+    title: "Sobre Nosotros y Preguntas Frecuentes (FAQ) | WayGass",
+    description: "Conoce WayGass: plataforma independiente de precios de gasolina y diésel en España en tiempo real con datos oficiales de MITECO. Metodología, transparencia y FAQ completa.",
+    canonical: "https://waygass.es/sobre-nosotros",
+    image: "https://waygass.es/logo.png",
+    type: "website",
+    isAboutPage: true
+  },
+  {
+    path: "/faq",
+    title: "Preguntas Frecuentes sobre Combustibles y Precios | WayGass FAQ",
+    description: "Respuestas oficiales a dudas sobre precios de gasolina, diésel, gasolineras low-cost, aditivos de combustible y metodología de datos de MITECO en España.",
+    canonical: "https://waygass.es/sobre-nosotros",
+    image: "https://waygass.es/logo.png",
+    type: "website",
+    isAboutPage: true
   },
   {
     path: "/privacidad",
@@ -254,6 +273,74 @@ allPages.forEach(p => {
       </div>
     </noscript>`;
     html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, dirNoscript);
+  } else if (p.isAboutPage) {
+    const jsonLdAbout = {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "Sobre Nosotros y Preguntas Frecuentes | WayGass",
+      "description": "Información corporativa, metodología de datos oficiales de MITECO e índice exhaustivo de preguntas frecuentes sobre precios de combustible en España.",
+      "url": "https://waygass.es/sobre-nosotros",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "WayGass",
+        "url": "https://waygass.es",
+        "logo": "https://waygass.es/logo.png",
+        "description": "Plataforma independiente de monitorización y comparación en tiempo real de precios de combustible (gasolina, diésel, GLP) en España con datos oficiales del Gobierno.",
+        "foundingDate": "2026",
+        "areaServed": {
+          "@type": "Country",
+          "name": "España"
+        },
+        "knowsAbout": [
+          "Precios de gasolina en España",
+          "Precios de diésel hoy",
+          "Datos oficiales MITECO",
+          "Gasolineras baratas en España",
+          "Ahorro de combustible y conducción eficiente",
+          "GLP Autogás y combustibles alternativos"
+        ]
+      }
+    };
+
+    const jsonLdFaq = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": FAQ_DATA.map(item => ({
+        "@type": "Question",
+        "name": item.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.answerText
+        }
+      }))
+    };
+
+    const schemaTag = `<script type="application/ld+json">${JSON.stringify([jsonLdAbout, jsonLdFaq])}</script></head>`;
+    html = html.replace("</head>", schemaTag);
+
+    const aboutNoscript = `<noscript>
+      <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+        <h1>Sobre Nosotros y Preguntas Frecuentes (FAQ) | WayGass</h1>
+        <p><strong>WayGass</strong> es una plataforma tecnológica e independiente especializada en la monitorización y comparación de precios de carburantes en tiempo real en toda España (Península, Islas Baleares y Canarias).</p>
+        
+        <h2>Metodología de Datos Oficiales y Marco Legal</h2>
+        <p>Todos los precios mostrados en WayGass proceden directamente de la base de datos oficial del <strong>Ministerio para la Transición Ecológica y el Reto Demográfico (MITECO)</strong> del Gobierno de España. De acuerdo con la <strong>Orden ITC/2308/2007</strong>, todas las estaciones de servicio tienen la obligación legal de comunicar telemáticamente sus tarifas en cuanto se produce cualquier modificación.</p>
+        <p>WayGass sincroniza estos datos de forma automatizada cada 30 minutos, aplicando filtros de auditoría para descartar valores anómalos o estaciones inactivas.</p>
+
+        <h2>Preguntas Frecuentes sobre Combustibles y Precios (FAQ)</h2>
+        ${FAQ_DATA.map((item, idx) => `
+        <details open style="margin-bottom: 1.5rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+          <summary style="font-weight: bold; font-size: 1.1rem; cursor: pointer; color: #0f172a;">${idx + 1}. [${item.category}] ${item.question}</summary>
+          <p style="margin-top: 0.5rem; color: #334155; line-height: 1.6;">${item.answerText}</p>
+          ${item.highlight ? `<p style="font-size: 0.9rem; color: #059669; font-weight: 600;">✓ ${item.highlight}</p>` : ''}
+        </details>
+        `).join("")}
+
+        <p><a href="/">&larr; Volver al mapa de precios de gasolineras</a> | <a href="/gasolineras">Ver gasolineras por provincia</a></p>
+      </div>
+    </noscript>`;
+
+    html = html.replace(/<noscript>[\s\S]*?<\/noscript>/i, aboutNoscript);
   } else if (p.path === '/blog') {
     const blogIndexNoscript = `<noscript>
       <div style="padding: 2rem; max-width: 800px; margin: 0 auto; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
@@ -316,6 +403,18 @@ sitemapXml += `  <url>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/sobre-nosotros</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://waygass.es/faq</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 `;
 

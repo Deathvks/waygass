@@ -56,6 +56,7 @@ const BlogLayout = ({ children }) => (
         <nav className="hidden lg:flex items-center gap-5 text-xs font-bold text-slate-600 dark:text-slate-400 border-l border-slate-200 dark:border-white/10 pl-6">
           <a href="/blog" className="text-primary hover:text-primary-dark transition-colors">Actualidad</a>
           <a href="/gasolineras" className="hover:text-primary transition-colors">Gasolineras por Provincia</a>
+          <a href="/sobre-nosotros" className="hover:text-primary transition-colors">Sobre Nosotros & FAQ</a>
         </nav>
       </div>
 
@@ -92,6 +93,7 @@ const BlogLayout = ({ children }) => (
           <a href="/" className="hover:text-primary transition-colors">Mapa en Vivo</a>
           <a href="/gasolineras" className="hover:text-primary transition-colors">Gasolineras por Provincia</a>
           <a href="/blog" className="hover:text-primary transition-colors">Blog y Noticias</a>
+          <a href="/sobre-nosotros" className="hover:text-primary transition-colors">Sobre Nosotros & FAQ</a>
           <a href="/legal" className="hover:text-primary transition-colors">Aviso Legal</a>
           <a href="/privacidad" className="hover:text-primary transition-colors">Privacidad</a>
           <a href="/cookies" className="hover:text-primary transition-colors">Cookies</a>

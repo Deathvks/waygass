@@ -30,6 +30,15 @@ const PageLayout = ({ title, children }) => (
     </main>
     
     <footer className="py-8 px-6 border-t border-slate-200 dark:border-white/5 text-center text-sm text-slate-500 mt-12">
+      <div className="flex flex-wrap items-center justify-center gap-4 mb-3 text-xs">
+        <a href="/" className="hover:text-primary transition-colors">Inicio</a>
+        <a href="/gasolineras" className="hover:text-primary transition-colors">Provincias</a>
+        <a href="/blog" className="hover:text-primary transition-colors">Blog</a>
+        <a href="/sobre-nosotros" className="hover:text-primary transition-colors">Sobre Nosotros & FAQ</a>
+        <a href="/legal" className="hover:text-primary transition-colors">Aviso Legal</a>
+        <a href="/privacidad" className="hover:text-primary transition-colors">Privacidad</a>
+        <a href="/cookies" className="hover:text-primary transition-colors">Cookies</a>
+      </div>
       <p>&copy; {new Date().getFullYear()} WayGass. Todos los derechos reservados.</p>
     </footer>
   </div>

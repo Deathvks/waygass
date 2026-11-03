@@ -298,6 +298,7 @@ export default function LandingPage({ onEnterApp }) {
         <div className="flex items-center justify-center gap-3 sm:gap-6 mt-4 text-xs sm:text-sm">
             <a href="/gasolineras" className="hover:text-primary transition-colors whitespace-nowrap">Provincias</a>
             <a href="/blog" className="hover:text-primary transition-colors whitespace-nowrap">Blog</a>
+            <a href="/sobre-nosotros" className="hover:text-primary transition-colors whitespace-nowrap">Sobre Nosotros & FAQ</a>
             <a href="/legal" className="hover:text-primary transition-colors whitespace-nowrap">Aviso Legal</a>
             <a href="/privacidad" className="hover:text-primary transition-colors whitespace-nowrap">Privacidad</a>
             <a href="/cookies" className="hover:text-primary transition-colors whitespace-nowrap">Cookies</a>

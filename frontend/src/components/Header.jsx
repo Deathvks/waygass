@@ -134,6 +134,20 @@ export default function Header({ isPro, openSettings, openSub, user, openProfile
                 </div>
               </a>
 
+              <a 
+                href="/sobre-nosotros"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-white/5 transition text-xs font-bold text-slate-700 dark:text-slate-200 group"
+              >
+                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <i className="fa-solid fa-circle-info text-xs"></i>
+                </div>
+                <div>
+                  <div className="leading-tight">Sobre Nosotros & FAQ</div>
+                  <div className="text-[10px] text-slate-400 font-normal">Metodología MITECO y dudas</div>
+                </div>
+              </a>
+
               {user?.role === 'admin' && (
                 <button
                   type="button"

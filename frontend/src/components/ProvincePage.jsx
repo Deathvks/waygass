@@ -492,6 +492,7 @@ export default function ProvincePage({ slug }) {
           <a href="/" className="hover:text-primary transition-colors">Inicio</a>
           <a href="/gasolineras" className="hover:text-primary transition-colors">Todas las Provincias</a>
           <a href="/blog" className="hover:text-primary transition-colors">Blog de Ahorro</a>
+          <a href="/sobre-nosotros" className="hover:text-primary transition-colors">Sobre Nosotros & FAQ</a>
           <a href="/legal" className="hover:text-primary transition-colors">Aviso Legal</a>
           <a href="/privacidad" className="hover:text-primary transition-colors">Privacidad</a>
           <a href="/cookies" className="hover:text-primary transition-colors">Cookies</a>
