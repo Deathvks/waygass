@@ -180,7 +180,12 @@ export default function ProvincePage({ slug }) {
       />
 
       {/* HEADER */}
-      <header className="px-6 py-4 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
+      <header 
+        className="px-6 pb-4 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between"
+        style={{
+          paddingTop: 'max(1rem, calc(env(safe-area-inset-top, 0px) + 0.65rem))'
+        }}
+      >
         <a href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
             <i className="fa-solid fa-gas-pump text-white text-sm"></i>

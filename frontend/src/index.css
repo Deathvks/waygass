@@ -574,3 +574,28 @@ input[type="search"],
 textarea {
   cursor: text !important;
 }
+
+/* iOS Notch & Safe Area Utilities */
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+.auth-notch-safe {
+  top: max(2rem, calc(env(safe-area-inset-top, 0px) + 0.85rem));
+}
+@media (min-width: 768px) {
+  .auth-notch-safe {
+    top: auto !important;
+  }
+}
+
+.auth-banner-notch {
+  min-height: calc(210px + env(safe-area-inset-top, 0px));
+}
+@media (min-width: 768px) {
+  .auth-banner-notch {
+    min-height: 100vh;
+  }
+}
+

@@ -16,7 +16,12 @@ export default function LandingPage({ onEnterApp }) {
     <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white flex flex-col font-sans selection:bg-primary selection:text-white">
       
       {/* HEADER NAVBAR */}
-      <header className="px-6 py-5 flex items-center justify-between border-b border-slate-200 dark:border-white/5 sticky top-0 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl z-50">
+      <header 
+        className="px-6 pb-5 flex items-center justify-between border-b border-slate-200 dark:border-white/5 sticky top-0 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl z-50"
+        style={{
+          paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+        }}
+      >
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
             <i className="fa-solid fa-gas-pump text-white text-sm"></i>

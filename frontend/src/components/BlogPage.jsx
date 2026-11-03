@@ -19,7 +19,7 @@ const ReadingProgressBar = () => {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-1 bg-transparent z-[100] pointer-events-none">
+    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-transparent overflow-hidden pointer-events-none">
       <div 
         className="h-full bg-gradient-to-r from-primary via-emerald-400 to-primary-dark transition-all duration-150 ease-out"
         style={{ width: `${progress}%` }}
@@ -31,10 +31,13 @@ const ReadingProgressBar = () => {
 // LAYOUT COMÚN DEL BLOG
 const BlogLayout = ({ children }) => (
   <div className="min-h-screen bg-[#f8fafc] dark:bg-[#07090e] text-slate-900 dark:text-slate-100 font-sans selection:bg-primary selection:text-white">
-    <ReadingProgressBar />
-    
     {/* CABECERA EDITORIAL */}
-    <header className="px-4 sm:px-8 py-4 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#07090e]/80 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
+    <header 
+      className="px-4 sm:px-8 pb-3.5 sm:pb-4 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#07090e]/80 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between relative"
+      style={{
+        paddingTop: 'max(1rem, calc(env(safe-area-inset-top, 0px) + 0.65rem))'
+      }}
+    >
       <div className="flex items-center gap-6">
         <a href="/" className="flex items-center gap-2.5 hover:opacity-85 transition-opacity group">
           <div className="w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center shadow-md shrink-0 group-hover:scale-105 transition-transform">
@@ -65,6 +68,8 @@ const BlogLayout = ({ children }) => (
           <span>Mapa de Precios</span>
         </a>
       </div>
+
+      <ReadingProgressBar />
     </header>
 
     <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">

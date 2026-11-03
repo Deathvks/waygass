@@ -3,7 +3,12 @@ import React from 'react';
 
 const PageLayout = ({ title, children }) => (
   <div className="min-h-screen bg-[#f8fafc] dark:bg-[#000000] text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white">
-    <header className="px-6 py-5 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between">
+    <header 
+      className="px-6 pb-5 border-b border-slate-200 dark:border-white/5 bg-[#f8fafc]/90 dark:bg-[#000000]/90 backdrop-blur-xl sticky top-0 z-50 flex items-center justify-between"
+      style={{
+        paddingTop: 'max(1.25rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+      }}
+    >
       <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-lg shadow-primary/30">
           <i className="fa-solid fa-gas-pump text-white text-sm"></i>

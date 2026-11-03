@@ -189,7 +189,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  return (
  <div className="min-h-[100dvh] bg-slate-50 dark:bg-black flex flex-col md:flex-row relative overflow-hidden">
  {/* Fondo Superior Curvo (Móvil) / Panel Izquierdo (PC) */}
- <div className="relative w-full h-[30vh] sm:h-[35vh] md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-primary flex flex-col justify-center md: md:z-20">
+ <div className="relative w-full h-[32vh] sm:h-[35vh] auth-banner-notch md:h-auto md:min-h-screen md:w-1/2 lg:w-[55%] shrink-0 bg-primary flex flex-col justify-center md:z-20">
  <img src="/auth_bg.jpg" alt="WayGass Map" className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-30 md:opacity-40" />
  <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-primary-dark/90"></div>
  
@@ -201,7 +201,7 @@ export default function AuthScreen({ onLoginSuccess }) {
  </div>
 
  {/* Contenido Izquierdo */}
- <div className="absolute md:relative top-8 md:top-auto left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
+ <div className="absolute md:relative auth-notch-safe left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 flex flex-col items-center md:items-start md:px-16 lg:px-24 z-20 w-full">
  <img src="/logo.png" alt="WayGass" className="w-12 h-12 md:w-20 md:h-20 drop- rounded-2xl" />
  <span className="text-white font-black tracking-widest mt-2 md:mt-4 text-xs md:text-xl">WAYGASS</span>
  

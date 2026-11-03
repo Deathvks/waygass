@@ -137,7 +137,12 @@ export default function GarageView({ settings, setSettings }) {
 
   return (
     <div className="flex flex-col h-full w-full overflow-y-auto no-scrollbar pb-24">
-      <div className="p-6 pb-2 border-b border-slate-200/50 dark:border-white/10 flex items-center justify-between sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10">
+      <div 
+        className="p-6 pb-2 border-b border-slate-200/50 dark:border-white/10 flex items-center justify-between sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10"
+        style={{
+          paddingTop: 'max(1.5rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+        }}
+      >
         <div>
           <h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Mi Garaje</h2>
           <p className="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">

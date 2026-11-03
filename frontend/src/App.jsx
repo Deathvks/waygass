@@ -827,7 +827,10 @@ function App({ initialAuth = false }) {
  <div className="liquid-bg"></div>
 
       {/* MOBILE FLOATING SEARCH BAR (Only on Map) */}
-      <div className={"lg:hidden fixed top-3 left-3 right-3 z-30 transition-opacity duration-300 " + (activeTab === 'map' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}>
+      <div 
+        className={"lg:hidden fixed left-3 right-3 z-30 transition-opacity duration-300 " + (activeTab === 'map' ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none')}
+        style={{ top: 'max(0.75rem, calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
+      >
         <SearchBar onSearch={handleSearch} onGps={() => getUserGPS(true)} loadingSearch={loading} isUsingGps={isUsingGps} />
       </div>
 
@@ -906,7 +909,10 @@ function App({ initialAuth = false }) {
  }
  `}>
  {/* HEADER (Inside List Panel for both Mobile & Desktop) */}
-   <div className="p-4 lg:p-6 pb-4 border-b border-slate-200/50 dark:border-white/5">
+   <div 
+     className="p-4 lg:p-6 pb-4 border-b border-slate-200/50 dark:border-white/5"
+     style={{ paddingTop: 'max(1rem, calc(env(safe-area-inset-top, 0px) + 0.65rem))' }}
+   >
      <Header openSecurity={() => setActiveTab("security")} isPro={authUser?.subscription === 'pro' || authUser?.subscription === 'premium'} 
        openSettings={() => setSettingsOpen(true)} 
        openSub={() => setSubOpen(true)}
