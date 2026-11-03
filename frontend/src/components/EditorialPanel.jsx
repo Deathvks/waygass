@@ -98,7 +98,7 @@ export default function EditorialPanel() {
   const isLastSuccess = lastRun?.status === 'success';
 
   return (
-    <div className="space-y-4 w-full max-w-full overflow-hidden pb-6">
+    <div className="space-y-4 w-full max-w-full overflow-hidden pb-0">
       
       {/* TARJETA PRINCIPAL: CABECERA & CONTADOR */}
       <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">

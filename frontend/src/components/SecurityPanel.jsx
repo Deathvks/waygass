@@ -179,9 +179,9 @@ export default function SecurityPanel({ onClose }) {
   }
 
   return (
-    <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden no-scrollbar pb-24">
-            {/* Header */}
-      <div className="p-3.5 sm:p-5 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7] dark:bg-[#000000] z-10">
+    <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden no-scrollbar pb-20 lg:pb-3">
+      {/* Header con desenfoque translúcido (sin tapar con fondo opaco) */}
+      <div className="p-3.5 sm:p-5 pb-3 border-b border-slate-200/50 dark:border-white/10 sticky top-0 bg-[#f5f5f7]/80 dark:bg-black/80 backdrop-blur-xl z-20">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
@@ -322,14 +322,14 @@ export default function SecurityPanel({ onClose }) {
 
         {/* TAB: EDITORIAL IA */}
         {tab === 'editorial' && (
-          <div className="pb-4 min-w-0 max-w-full">
+          <div className="min-w-0 max-w-full">
             <EditorialPanel />
           </div>
         )}
 
         {/* TAB: SNIFFING */}
         {tab === 'sniffing' && (
-          <div className="pb-6">
+          <div className="min-w-0 max-w-full">
             <SniffingPanel />
           </div>
         )}
