@@ -5,24 +5,105 @@
     <link>https://waygass.es/blog</link>
     <description>Guías de conducción eficiente, análisis de combustibles y trucos probados para reducir tu consumo en cada repostaje en España.</description>
     <language>es-ES</language>
-    <lastBuildDate>Mon, 26 Oct 2026 17:35:15 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 03 Nov 2026 15:31:16 GMT</lastBuildDate>
     <atom:link href="https://waygass.es/rss.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>5 trucos infalibles para ahorrar combustible en cada viaje y estirar el depósito</title>
-      <link>https://waygass.es/blog/5-trucos-ahorrar-combustible</link>
-      <guid isPermaLink="true">https://waygass.es/blog/5-trucos-ahorrar-combustible</guid>
-      <pubDate>Sun, 20 Sep 2026 06:00:00 GMT</pubDate>
-      <description>¿Sabías que la presión de los neumáticos o el arrastre aerodinámico pueden disparar tu gasto hasta un 20%? Descubre cómo exprimir cada euro de tu depósito con técnicas de conducción aplicadas.</description>
-      <enclosure url="https://waygass.es/blog-eco-driving.jpg" type="image/jpeg" length="0" />
+      <title>Gasolineras low-cost: ¿dañan tu motor? El laboratorio responde</title>
+      <link>https://waygass.es/blog/gasolineras-low-cost-analisis-laboratorio-pureza-combustible</link>
+      <guid isPermaLink="true">https://waygass.es/blog/gasolineras-low-cost-analisis-laboratorio-pureza-combustible</guid>
+      <pubDate>Tue, 03 Nov 2026 00:47:31 GMT</pubDate>
+      <description>Analizamos en laboratorio el combustible de las gasolineras low-cost frente al premium. Descubre si de verdad arriesgas la mecánica de tu coche.</description>
+      <enclosure url="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&amp;fit=crop&amp;w=1200&amp;h=675&amp;q=80" type="image/jpeg" length="0" />
+      <category>Ahorro Inteligente</category>
+    </item>
+    <item>
+      <title>Aire acondicionado o ventanillas bajadas: ¿Qué gasta más según la ciencia?</title>
+      <link>https://waygass.es/blog/aire-acondicionado-o-ventanillas-que-gasta-mas</link>
+      <guid isPermaLink="true">https://waygass.es/blog/aire-acondicionado-o-ventanillas-que-gasta-mas</guid>
+      <pubDate>Mon, 26 Oct 2026 16:00:00 GMT</pubDate>
+      <description>La Sociedad de Ingenieros de Automoción (SAE) resolvió el eterno dilema en el túnel de viento. Te mostramos la velocidad exacta a la que el aire acondicionado es más barato que abrir la ventana.</description>
+      <enclosure url="https://waygass.es/blog-ac-vs-windows.jpg" type="image/jpeg" length="0" />
       <category>Guía Práctica</category>
     </item>
     <item>
-      <title>Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad y posibles averías?</title>
-      <link>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</link>
-      <guid isPermaLink="true">https://waygass.es/blog/gasolineras-lowcost-mito-realidad</guid>
-      <pubDate>Fri, 18 Sep 2026 06:00:00 GMT</pubDate>
-      <description>Desmentimos los bulos más extendidos sobre las gasolineras baratas. ¿Venden combustible aguado? ¿Rompieron los inyectores de verdad? Analizamos el papel de Exolum y los aditivos.</description>
-      <enclosure url="https://waygass.es/blog-low-cost.jpg" type="image/jpeg" length="0" />
+      <title>GLP (Autogas) vs Gasolina y Diésel: ¿Compensa convertir tu coche en 2026?</title>
+      <link>https://waygass.es/blog/glp-o-gnc-vs-gasolina-y-diesel</link>
+      <guid isPermaLink="true">https://waygass.es/blog/glp-o-gnc-vs-gasolina-y-diesel</guid>
+      <pubDate>Mon, 26 Oct 2026 15:30:00 GMT</pubDate>
+      <description>El Autogas cuesta casi la mitad que la gasolina y te otorga la codiciada etiqueta ECO de la DGT. Analizamos el coste de la instalación, la amortización y si merece la pena en 2026.</description>
+      <enclosure url="https://waygass.es/blog-lpg-autogas-refuel.jpg" type="image/jpeg" length="0" />
+      <category>Movilidad Ecológica</category>
+    </item>
+    <item>
+      <title>Presión de los neumáticos y consumo: la regla de los bares que te ahorrará 150€ al año</title>
+      <link>https://waygass.es/blog/presion-de-neumaticos-y-consumo-de-gasolina</link>
+      <guid isPermaLink="true">https://waygass.es/blog/presion-de-neumaticos-y-consumo-de-gasolina</guid>
+      <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
+      <description>Más del 60% de los coches en España circulan con ruedas desinfladas. Te explicamos cómo afecta la resistencia a la rodadura a tu depósito y por qué la temperatura ambiental altera los bares.</description>
+      <enclosure url="https://waygass.es/blog-tire-pressure-savings.jpg" type="image/jpeg" length="0" />
+      <category>Mantenimiento</category>
+    </item>
+    <item>
+      <title>Aditivos para gasolina y diésel: ¿Funcionan de verdad o son puro efecto placebo?</title>
+      <link>https://waygass.es/blog/aditivos-para-gasolina-y-diesel-sirven-para-algo</link>
+      <guid isPermaLink="true">https://waygass.es/blog/aditivos-para-gasolina-y-diesel-sirven-para-algo</guid>
+      <pubDate>Mon, 26 Oct 2026 14:30:00 GMT</pubDate>
+      <description>Limpiadores de inyectores, mejoradores de cetano y tratamientos antihumo. Analizamos la química real detrás de los botes de aditivo: cuáles funcionan de verdad y cuáles son puro marketing.</description>
+      <enclosure url="https://waygass.es/blog-fuel-additives.jpg" type="image/jpeg" length="0" />
+      <category>Mecánica</category>
+    </item>
+    <item>
+      <title>Cómo calcular el consumo real de tu coche: la fórmula exacta paso a paso</title>
+      <link>https://waygass.es/blog/como-calcular-el-consumo-real-de-tu-coche</link>
+      <guid isPermaLink="true">https://waygass.es/blog/como-calcular-el-consumo-real-de-tu-coche</guid>
+      <pubDate>Mon, 26 Oct 2026 14:00:00 GMT</pubDate>
+      <description>Los ordenadores de a bordo mienten: suelen registrar entre un 5% y un 12% menos del consumo real. Aprende el método matemático de dos llenados para calcular el gasto exacto por kilómetro.</description>
+      <enclosure url="https://waygass.es/blog-real-fuel-consumption.jpg" type="image/jpeg" length="0" />
+      <category>Guía Práctica</category>
+    </item>
+    <item>
+      <title>Circular en reserva de gasolina: las costosas averías mecánicas que puedes provocar</title>
+      <link>https://waygass.es/blog/circular-en-reserva-averias-costosas</link>
+      <guid isPermaLink="true">https://waygass.es/blog/circular-en-reserva-averias-costosas</guid>
+      <pubDate>Mon, 26 Oct 2026 13:30:00 GMT</pubDate>
+      <description>Apurar el depósito hasta la última gota no te hace ahorrar nada. Descubre por qué la bomba de combustible puede quemarse y cómo los sedimentos del fondo dañan los inyectores.</description>
+      <enclosure url="https://waygass.es/blog-empty-fuel-gauge-warning.jpg" type="image/jpeg" length="0" />
+      <category>Mecánica</category>
+    </item>
+    <item>
+      <title>¿Cuánto tiempo dura la gasolina en el depósito antes de caducar y degradarse?</title>
+      <link>https://waygass.es/blog/cuanto-dura-la-gasolina-en-el-deposito</link>
+      <guid isPermaLink="true">https://waygass.es/blog/cuanto-dura-la-gasolina-en-el-deposito</guid>
+      <pubDate>Mon, 26 Oct 2026 13:00:00 GMT</pubDate>
+      <description>Los hidrocarburos no son eternos. La gasolina y el diésel se degradan por oxidación y humedad. Descubre cuánto tardan en caducar y qué averías provocan si dejas el coche parado.</description>
+      <enclosure url="https://waygass.es/blog-fuel-storage-expiration.jpg" type="image/jpeg" length="0" />
+      <category>Mantenimiento</category>
+    </item>
+    <item>
+      <title>Cómo encontrar gasolineras baratas en ruta y en autopista sin perder tiempo</title>
+      <link>https://waygass.es/blog/como-encontrar-gasolineras-baratas-en-ruta</link>
+      <guid isPermaLink="true">https://waygass.es/blog/como-encontrar-gasolineras-baratas-en-ruta</guid>
+      <pubDate>Mon, 26 Oct 2026 12:30:00 GMT</pubDate>
+      <description>Las áreas de servicio de autopista son hasta 25 céntimos más caras por litro. Te mostramos cómo localizar estaciones económicas a solo 2 minutos de la salida de la autovía.</description>
+      <enclosure url="https://waygass.es/blog-cheap-fuel-route.jpg" type="image/jpeg" length="0" />
+      <category>Consejos de Viaje</category>
+    </item>
+    <item>
+      <title>¿Qué día de la semana y a qué hora es realmente más barata la gasolina?</title>
+      <link>https://waygass.es/blog/que-dia-es-mas-barata-la-gasolina</link>
+      <guid isPermaLink="true">https://waygass.es/blog/que-dia-es-mas-barata-la-gasolina</guid>
+      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
+      <description>Analizamos los patrones algorítmicos de las gasolineras en España. Descubre el 'efecto lunes' y cómo planificar tu repostaje para ahorrar hasta 10 céntimos por litro en cada llenado.</description>
+      <enclosure url="https://waygass.es/blog-fuel-price-timing.jpg" type="image/jpeg" length="0" />
+      <category>Ahorro Inteligente</category>
+    </item>
+    <item>
+      <title>Gasolina 95 o 98: ¿Vale la pena pagar más o estás tirando el dinero?</title>
+      <link>https://waygass.es/blog/gasolina-95-o-98-diferencias-ahorro</link>
+      <guid isPermaLink="true">https://waygass.es/blog/gasolina-95-o-98-diferencias-ahorro</guid>
+      <pubDate>Mon, 26 Oct 2026 11:30:00 GMT</pubDate>
+      <description>El octanaje no mide la potencia, sino la resistencia a la autodetonación. Descubre si tu coche realmente necesita 98 octanos o si estás gastando hasta 200€ de más al año sin beneficio alguno.</description>
+      <enclosure url="https://waygass.es/blog-gasolina-95-98.jpg" type="image/jpeg" length="0" />
       <category>Mecánica</category>
     </item>
     <item>
@@ -44,94 +125,22 @@
       <category>Mantenimiento</category>
     </item>
     <item>
-      <title>¿Qué día de la semana y a qué hora es realmente más barata la gasolina?</title>
-      <link>https://waygass.es/blog/que-dia-es-mas-barata-la-gasolina</link>
-      <guid isPermaLink="true">https://waygass.es/blog/que-dia-es-mas-barata-la-gasolina</guid>
-      <pubDate>Mon, 26 Oct 2026 12:00:00 GMT</pubDate>
-      <description>Analizamos los patrones algorítmicos de las gasolineras en España. Descubre el 'efecto lunes' y cómo planificar tu repostaje para ahorrar hasta 10 céntimos por litro en cada llenado.</description>
-      <enclosure url="https://waygass.es/blog-fuel-price-timing.jpg" type="image/jpeg" length="0" />
-      <category>Ahorro Inteligente</category>
-    </item>
-    <item>
-      <title>Gasolina 95 o 98: ¿Vale la pena pagar más o estás tirando el dinero?</title>
-      <link>https://waygass.es/blog/gasolina-95-o-98-diferencias-ahorro</link>
-      <guid isPermaLink="true">https://waygass.es/blog/gasolina-95-o-98-diferencias-ahorro</guid>
-      <pubDate>Mon, 26 Oct 2026 11:30:00 GMT</pubDate>
-      <description>El octanaje no mide la potencia, sino la resistencia a la autodetonación. Descubre si tu coche realmente necesita 98 octanos o si estás gastando hasta 200€ de más al año sin beneficio alguno.</description>
-      <enclosure url="https://waygass.es/blog-gasolina-95-98.jpg" type="image/jpeg" length="0" />
-      <category>Mecánica</category>
-    </item>
-    <item>
-      <title>Cómo encontrar gasolineras baratas en ruta y en autopista sin perder tiempo</title>
-      <link>https://waygass.es/blog/como-encontrar-gasolineras-baratas-en-ruta</link>
-      <guid isPermaLink="true">https://waygass.es/blog/como-encontrar-gasolineras-baratas-en-ruta</guid>
-      <pubDate>Mon, 26 Oct 2026 12:30:00 GMT</pubDate>
-      <description>Las áreas de servicio de autopista son hasta 25 céntimos más caras por litro. Te mostramos cómo localizar estaciones económicas a solo 2 minutos de la salida de la autovía.</description>
-      <enclosure url="https://waygass.es/blog-cheap-fuel-route.jpg" type="image/jpeg" length="0" />
-      <category>Consejos de Viaje</category>
-    </item>
-    <item>
-      <title>¿Cuánto tiempo dura la gasolina en el depósito antes de caducar y degradarse?</title>
-      <link>https://waygass.es/blog/cuanto-dura-la-gasolina-en-el-deposito</link>
-      <guid isPermaLink="true">https://waygass.es/blog/cuanto-dura-la-gasolina-en-el-deposito</guid>
-      <pubDate>Mon, 26 Oct 2026 13:00:00 GMT</pubDate>
-      <description>Los hidrocarburos no son eternos. La gasolina y el diésel se degradan por oxidación y humedad. Descubre cuánto tardan en caducar y qué averías provocan si dejas el coche parado.</description>
-      <enclosure url="https://waygass.es/blog-fuel-storage-expiration.jpg" type="image/jpeg" length="0" />
-      <category>Mantenimiento</category>
-    </item>
-    <item>
-      <title>Circular en reserva de gasolina: las costosas averías mecánicas que puedes provocar</title>
-      <link>https://waygass.es/blog/circular-en-reserva-averias-costosas</link>
-      <guid isPermaLink="true">https://waygass.es/blog/circular-en-reserva-averias-costosas</guid>
-      <pubDate>Mon, 26 Oct 2026 13:30:00 GMT</pubDate>
-      <description>Apurar el depósito hasta la última gota no te hace ahorrar nada. Descubre por qué la bomba de combustible puede quemarse y cómo los sedimentos del fondo dañan los inyectores.</description>
-      <enclosure url="https://waygass.es/blog-empty-fuel-gauge-warning.jpg" type="image/jpeg" length="0" />
-      <category>Mecánica</category>
-    </item>
-    <item>
-      <title>Cómo calcular el consumo real de tu coche: la fórmula exacta paso a paso</title>
-      <link>https://waygass.es/blog/como-calcular-el-consumo-real-de-tu-coche</link>
-      <guid isPermaLink="true">https://waygass.es/blog/como-calcular-el-consumo-real-de-tu-coche</guid>
-      <pubDate>Mon, 26 Oct 2026 14:00:00 GMT</pubDate>
-      <description>Los ordenadores de a bordo mienten: suelen registrar entre un 5% y un 12% menos del consumo real. Aprende el método matemático de dos llenados para calcular el gasto exacto por kilómetro.</description>
-      <enclosure url="https://waygass.es/blog-real-fuel-consumption.jpg" type="image/jpeg" length="0" />
+      <title>5 trucos infalibles para ahorrar combustible en cada viaje y estirar el depósito</title>
+      <link>https://waygass.es/blog/5-trucos-ahorrar-combustible</link>
+      <guid isPermaLink="true">https://waygass.es/blog/5-trucos-ahorrar-combustible</guid>
+      <pubDate>Sun, 20 Sep 2026 06:00:00 GMT</pubDate>
+      <description>¿Sabías que la presión de los neumáticos o el arrastre aerodinámico pueden disparar tu gasto hasta un 20%? Descubre cómo exprimir cada euro de tu depósito con técnicas de conducción aplicadas.</description>
+      <enclosure url="https://waygass.es/blog-eco-driving.jpg" type="image/jpeg" length="0" />
       <category>Guía Práctica</category>
     </item>
     <item>
-      <title>Aditivos para gasolina y diésel: ¿Funcionan de verdad o son puro efecto placebo?</title>
-      <link>https://waygass.es/blog/aditivos-para-gasolina-y-diesel-sirven-para-algo</link>
-      <guid isPermaLink="true">https://waygass.es/blog/aditivos-para-gasolina-y-diesel-sirven-para-algo</guid>
-      <pubDate>Mon, 26 Oct 2026 14:30:00 GMT</pubDate>
-      <description>Limpiadores de inyectores, mejoradores de cetano y antifricción. Analizamos la evidencia química detrás de los botes de aditivo: cuáles merecen la pena y cuáles son una estafa.</description>
-      <enclosure url="https://waygass.es/blog-fuel-additives.jpg" type="image/jpeg" length="0" />
+      <title>Gasolineras Low-Cost: ¿Mito o realidad sobre la calidad y posibles averías?</title>
+      <link>https://waygass.es/blog/gasolineras-lowcost-mito-realidad</link>
+      <guid isPermaLink="true">https://waygass.es/blog/gasolineras-lowcost-mito-realidad</guid>
+      <pubDate>Fri, 18 Sep 2026 06:00:00 GMT</pubDate>
+      <description>Desmentimos los bulos más extendidos sobre las gasolineras baratas. ¿Venden combustible aguado? ¿Rompieron los inyectores de verdad? Analizamos el papel de Exolum y los aditivos.</description>
+      <enclosure url="https://waygass.es/blog-low-cost.jpg" type="image/jpeg" length="0" />
       <category>Mecánica</category>
-    </item>
-    <item>
-      <title>Presión de los neumáticos y consumo: la regla de los bares que te ahorrará 150€ al año</title>
-      <link>https://waygass.es/blog/presion-de-neumaticos-y-consumo-de-gasolina</link>
-      <guid isPermaLink="true">https://waygass.es/blog/presion-de-neumaticos-y-consumo-de-gasolina</guid>
-      <pubDate>Mon, 26 Oct 2026 15:00:00 GMT</pubDate>
-      <description>Más del 60% de los coches en España circulan con ruedas desinfladas. Te explicamos cómo afecta la resistencia a la rodadura a tu depósito y por qué la temperatura ambiental altera los bares.</description>
-      <enclosure url="https://waygass.es/blog-tire-pressure-savings.jpg" type="image/jpeg" length="0" />
-      <category>Mantenimiento</category>
-    </item>
-    <item>
-      <title>GLP (Autogas) vs Gasolina y Diésel: ¿Compensa convertir tu coche en 2026?</title>
-      <link>https://waygass.es/blog/glp-o-gnc-vs-gasolina-y-diesel</link>
-      <guid isPermaLink="true">https://waygass.es/blog/glp-o-gnc-vs-gasolina-y-diesel</guid>
-      <pubDate>Mon, 26 Oct 2026 15:30:00 GMT</pubDate>
-      <description>El Autogas cuesta casi la mitad que la gasolina y te otorga la codiciada etiqueta ECO de la DGT. Analizamos el coste de la instalación, la amortización y si merece la pena en 2026.</description>
-      <enclosure url="https://waygass.es/blog-lpg-autogas-refuel.jpg" type="image/jpeg" length="0" />
-      <category>Movilidad Ecológica</category>
-    </item>
-    <item>
-      <title>Aire acondicionado o ventanillas bajadas: ¿Qué gasta más según la ciencia?</title>
-      <link>https://waygass.es/blog/aire-acondicionado-o-ventanillas-que-gasta-mas</link>
-      <guid isPermaLink="true">https://waygass.es/blog/aire-acondicionado-o-ventanillas-que-gasta-mas</guid>
-      <pubDate>Mon, 26 Oct 2026 16:00:00 GMT</pubDate>
-      <description>La Sociedad de Ingenieros de Automoción (SAE) resolvió el eterno dilema en el túnel de viento. Te mostramos la velocidad exacta a la que el aire acondicionado es más barato que abrir la ventana.</description>
-      <enclosure url="https://waygass.es/blog-ac-vs-windows.jpg" type="image/jpeg" length="0" />
-      <category>Guía Práctica</category>
     </item>
   </channel>
 </rss>

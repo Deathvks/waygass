@@ -419,14 +419,19 @@ sitemapXml += `  <url>
 `;
 
 BLOG_POSTS.forEach(post => {
+  const rawImg = post.image || '/logo.png';
+  const imgUrl = rawImg.startsWith('http') ? rawImg : `https://waygass.es${rawImg}`;
+  const safeImgLoc = imgUrl.replace(/&/g, '&amp;');
+  const safeTitle = (post.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
   sitemapXml += `  <url>
     <loc>https://waygass.es/blog/${post.slug}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://waygass.es${post.image}</image:loc>
-      <image:title>${post.title.replace(/&/g, '&amp;')}</image:title>
+      <image:loc>${safeImgLoc}</image:loc>
+      <image:title>${safeTitle}</image:title>
     </image:image>
   </url>
 `;
@@ -454,7 +459,10 @@ sitemapXml += `  <url>
 `;
 
 fs.writeFileSync(path.join(distDir, "sitemap.xml"), sitemapXml, "utf8");
-console.log("Sitemap.xml updated with all URLs in dist/.");
+if (fs.existsSync(publicDir)) {
+  fs.writeFileSync(path.join(publicDir, "sitemap.xml"), sitemapXml, "utf8");
+}
+console.log("Sitemap.xml updated with all URLs in dist/ and public/.");
 
 // GENERACIÓN AUTOMÁTICA DEL RSS.XML COMPLETO
 let rssXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -469,15 +477,22 @@ let rssXml = `<?xml version="1.0" encoding="UTF-8"?>
 `;
 
 BLOG_POSTS.forEach(post => {
-  const pubDate = new Date(post.dateISO).toUTCString();
+  const pubDate = new Date(post.dateISO || Date.now()).toUTCString();
+  const rawImg = post.image || '/logo.png';
+  const imgUrl = rawImg.startsWith('http') ? rawImg : `https://waygass.es${rawImg}`;
+  const safeImgLoc = imgUrl.replace(/&/g, '&amp;');
+  const safeTitle = (post.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const safeExcerpt = (post.excerpt || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const safeCat = (post.category || 'Motor').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
   rssXml += `    <item>
-      <title>${post.title.replace(/&/g, '&amp;')}</title>
+      <title>${safeTitle}</title>
       <link>https://waygass.es/blog/${post.slug}</link>
       <guid isPermaLink="true">https://waygass.es/blog/${post.slug}</guid>
       <pubDate>${pubDate}</pubDate>
-      <description>${post.excerpt.replace(/&/g, '&amp;')}</description>
-      <enclosure url="https://waygass.es${post.image}" type="image/jpeg" length="0" />
-      <category>${post.category}</category>
+      <description>${safeExcerpt}</description>
+      <enclosure url="${safeImgLoc}" type="image/jpeg" length="0" />
+      <category>${safeCat}</category>
     </item>
 `;
 });
@@ -487,4 +502,7 @@ rssXml += `  </channel>
 `;
 
 fs.writeFileSync(path.join(distDir, "rss.xml"), rssXml, "utf8");
-console.log(`RSS.xml updated with ${BLOG_POSTS.length} articles in dist/.`);
+if (fs.existsSync(publicDir)) {
+  fs.writeFileSync(path.join(publicDir, "rss.xml"), rssXml, "utf8");
+}
+console.log(`RSS.xml updated with ${BLOG_POSTS.length} articles in dist/ and public/.`);

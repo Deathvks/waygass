@@ -782,8 +782,13 @@ class BlogAutomationService {
           let rss = fs.readFileSync(rssPath, 'utf8');
           if (!rss.includes(canonical)) {
             const pubDate = new Date(article.dateISO).toUTCString();
-            const enclosureUrl = article.image && article.image.startsWith('http') ? article.image : `https://waygass.es${article.image || '/logo.png'}`;
-            const newItem = `    <item>\n      <title>${article.title.replace(/&/g, '&amp;')}</title>\n      <link>${canonical}</link>\n      <guid isPermaLink="true">${canonical}</guid>\n      <pubDate>${pubDate}</pubDate>\n      <description>${article.excerpt.replace(/&/g, '&amp;')}</description>\n      <enclosure url="${enclosureUrl}" type="image/jpeg" length="0" />\n      <category>${article.category}</category>\n    </item>\n`;
+            const rawImg = article.image || '/logo.png';
+            const imgUrl = rawImg.startsWith('http') ? rawImg : `https://waygass.es${rawImg}`;
+            const enclosureUrl = imgUrl.replace(/&/g, '&amp;');
+            const safeTitle = (article.title || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            const safeExcerpt = (article.excerpt || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            const safeCategory = (article.category || 'Motor').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const newItem = `    <item>\n      <title>${safeTitle}</title>\n      <link>${canonical}</link>\n      <guid isPermaLink="true">${canonical}</guid>\n      <pubDate>${pubDate}</pubDate>\n      <description>${safeExcerpt}</description>\n      <enclosure url="${enclosureUrl}" type="image/jpeg" length="0" />\n      <category>${safeCategory}</category>\n    </item>\n`;
             rss = rss.replace(/(<atom:link [^>]+>\r?\n)/, `$1${newItem}`);
             fs.writeFileSync(rssPath, rss, 'utf8');
           }
