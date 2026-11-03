@@ -104,34 +104,31 @@ export default function EditorialPanel() {
       <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
         
         {/* Cabecera */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0">
-              <i className="fa-solid fa-newspaper text-base"></i>
+        <div className="flex items-center justify-between gap-2.5">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-700 dark:text-slate-300 shrink-0">
+              <i className="fa-solid fa-newspaper text-sm sm:text-base"></i>
             </div>
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white tracking-tight truncate">
                   Editorial Automática
                 </h3>
-                <span className="text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-white/5 px-2 py-0.5 rounded-md">
-                  {status?.primaryModel || 'gemini-3.6-flash'}
-                </span>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Publicación programada a las 06:00 AM
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                06:00 AM &bull; {status?.primaryModel || 'gemini-3.6-flash'}
               </p>
             </div>
           </div>
 
-          <div>
+          <div className="shrink-0 flex items-center">
             {status?.publishedToday ? (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shrink-0">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 whitespace-nowrap shrink-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 Publicada hoy
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 whitespace-nowrap shrink-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                 Pendiente hoy
               </span>
@@ -213,10 +210,10 @@ export default function EditorialPanel() {
       {/* ESTADO EN TIEMPO REAL */}
       <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 shadow-sm space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
             Estado del Proceso
           </span>
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${
             isGeneratingActive 
               ? 'bg-primary/10 text-primary' 
               : 'bg-slate-100 dark:bg-white/10 text-slate-500'
@@ -237,10 +234,10 @@ export default function EditorialPanel() {
       {lastRun && (
         <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 shadow-sm space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
               {isLastSuccess ? 'Último Artículo Publicado' : 'Resultado de la Última Ejecución'}
             </span>
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${
               isLastSuccess ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-red-500/10 text-red-600'
             }`}>
               {isLastSuccess ? 'Completado' : 'Fallo'}
@@ -296,12 +293,12 @@ export default function EditorialPanel() {
       {/* REGISTRO DE ACTIVIDAD (LOGS) */}
       <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 shadow-sm space-y-3">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
             Registro de Actividad
           </span>
           <button
             onClick={() => fetchEditorialStatus(true)}
-            className="text-[11px] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center gap-1 font-semibold transition-colors"
+            className="text-[11px] text-slate-500 hover:text-slate-800 dark:hover:text-white flex items-center gap-1 font-semibold transition-colors whitespace-nowrap shrink-0"
           >
             <i className="fa-solid fa-rotate text-[10px]"></i>
             <span>Actualizar</span>
@@ -340,11 +337,11 @@ export default function EditorialPanel() {
       {/* HISTORIAL DE ARTÍCULOS EN BASE DE DATOS */}
       {status?.latestArticles && status.latestArticles.length > 0 && (
         <div className="bg-white dark:bg-[#0c1017] border border-slate-200/70 dark:border-white/10 rounded-2xl p-4 shadow-sm space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
               Historial de Artículos
             </span>
-            <span className="text-[10px] font-bold text-slate-400">{status.latestArticles.length} en base de datos</span>
+            <span className="text-[10px] font-bold text-slate-400 whitespace-nowrap shrink-0">{status.latestArticles.length} en base de datos</span>
           </div>
 
           <div className="divide-y divide-slate-100 dark:divide-white/5">
