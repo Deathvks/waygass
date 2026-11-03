@@ -75,7 +75,7 @@ export const PrivacyPage = () => (
       canonical="https://waygass.es/privacidad"
     />
     <Section num="1" title="Información del Responsable">
-      <p>WayGass actúa como responsable del tratamiento de los datos personales recopilados a través de la plataforma web y la aplicación móvil. Nuestro compromiso es garantizar la estricta seguridad y privacidad de tus datos de acuerdo con el <strong>Reglamento General de Protección de Datos (RGPD)</strong> de la Unión Europea.</p>
+      <p>WayGass actúa como responsable del tratamiento de los datos personales recopilados a través de la plataforma web y la aplicación móvil. Para cualquier duda, consulta o ejercicio de derechos de privacidad, los usuarios pueden comunicarse directamente a través del correo oficial de contacto: <a href="mailto:info@waygass.es" className="font-bold text-primary hover:underline">info@waygass.es</a>. Nuestro compromiso es garantizar la estricta seguridad y privacidad de tus datos de acuerdo con el <strong>Reglamento General de Protección de Datos (RGPD)</strong> de la Unión Europea.</p>
     </Section>
     
     <Section num="2" title="Datos Recopilados">
@@ -101,15 +101,15 @@ export const PrivacyPage = () => (
     </Section>
     
     <Section num="5" title="Tus Derechos">
-      <p>Como usuario, tienes el derecho de ejercer el acceso, rectificación, cancelación y oposición de tus datos. Puedes contactar con nuestro equipo de soporte directamente desde tu panel de usuario o eliminar tu cuenta permanentemente (y todos los datos asociados) con un solo clic en los ajustes de tu perfil.</p>
+      <p>Como usuario, tienes el derecho de ejercer el acceso, rectificación, cancelación y oposición de tus datos (derechos ARCO). Puedes solicitarlo en cualquier momento enviando un correo electrónico a <a href="mailto:info@waygass.es" className="font-bold text-primary hover:underline">info@waygass.es</a>, contactar desde tu panel de usuario o eliminar tu cuenta permanentemente (y todos los datos asociados) con un solo clic en los ajustes de tu perfil.</p>
     </Section>
   </PageLayout>
 );
 
 export const LegalPage = () => (
   <PageLayout title="Aviso Legal">
-    <Section num="1" title="Condiciones Generales">
-      <p>El uso de la plataforma WayGass implica la aceptación plena de estas condiciones. Esta herramienta ha sido diseñada con el objetivo de proporcionar un mapa interactivo inteligente para localizar y comparar precios de estaciones de servicio en todo el territorio español.</p>
+    <Section num="1" title="Condiciones Generales y Titularidad">
+      <p>El uso de la plataforma WayGass implica la aceptación plena de estas condiciones. Esta herramienta ha sido diseñada con el objetivo de proporcionar un mapa interactivo inteligente para localizar y comparar precios de estaciones de servicio en todo el territorio español. Titular y canal de contacto legal: <a href="mailto:info@waygass.es" className="font-bold text-primary hover:underline">info@waygass.es</a>.</p>
     </Section>
     
     <Section num="2" title="Propiedad Intelectual">

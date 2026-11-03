@@ -341,6 +341,65 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* SECCIÓN CONTACTO Y TRANSPARENCIA EDITORIAL (E-E-A-T / ADSENSE) */}
+        <section className="space-y-6" id="contacto">
+          <div className="border-b border-slate-200 dark:border-white/10 pb-4">
+            <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
+              <span className="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center text-sm">
+                <i className="fa-solid fa-envelope-open-text"></i>
+              </span>
+              Contacto, Soporte y Transparencia
+            </h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Canales directos de comunicación con el equipo de WayGass y soporte al usuario.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-base">
+                <i className="fa-solid fa-headset"></i>
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Atención y Soporte</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                ¿Dudas con la app, incidencias en precios o sugerencias de mejora? Escríbenos directamente:
+              </p>
+              <a 
+                href="mailto:info@waygass.es" 
+                className="inline-block text-xs font-bold text-primary hover:underline pt-1"
+              >
+                info@waygass.es
+              </a>
+            </div>
+
+            <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-base">
+                <i className="fa-solid fa-newspaper"></i>
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Equipo Editorial y Prensa</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Para notas de prensa, colaboraciones técnicas sobre el mercado energético o citas en medios:
+              </p>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block pt-1 font-mono">
+                info@waygass.es
+              </span>
+            </div>
+
+            <div className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm space-y-2">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center text-base">
+                <i className="fa-solid fa-clock-rotate-left"></i>
+              </div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">Tiempo de Respuesta</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Nuestro equipo revisa y responde todas las consultas de usuarios en un plazo estimado inferior a 24-48 horas laborables.
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 pt-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Canal activo
+              </span>
+            </div>
+          </div>
+        </section>
+
         {/* CTA FINAL HACIA EL MAPA */}
         <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary via-primary to-primary-dark text-white shadow-2xl relative overflow-hidden text-center space-y-6">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white/20 to-transparent pointer-events-none"></div>
