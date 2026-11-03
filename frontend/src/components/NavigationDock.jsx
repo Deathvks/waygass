@@ -9,15 +9,21 @@ export default function NavigationDock({ activeTab, setActiveTab, isAdmin }) {
   ];
 
   return (
-    <div className="flex justify-around items-center h-14 px-2 w-full max-w-md mx-auto rounded-2xl bg-white/80 dark:bg-[#111]/80 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 shadow-lg">
+    <div 
+      className="flex justify-around items-center h-14 px-2 w-full max-w-md mx-auto rounded-2xl bg-white/20 dark:bg-black/35 border border-white/30 dark:border-white/10 shadow-2xl transition-all"
+      style={{
+        backdropFilter: 'blur(28px) saturate(190%)',
+        WebkitBackdropFilter: 'blur(28px) saturate(190%)'
+      }}
+    >
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => setActiveTab(tab.id)}
           className={`flex items-center justify-center rounded-full px-4 h-10 transition-all duration-300 ${
             activeTab === tab.id 
-              ? 'bg-primary/20 text-primary' 
-              : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-300'
+              ? 'bg-primary/20 text-primary font-bold' 
+              : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
           }`}
         >
           <i className={`${tab.icon} text-base shrink-0`}></i>
