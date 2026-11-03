@@ -1036,7 +1036,12 @@ export const STATIC_BLOG_POSTS = [
   }
 ];
 
-export const BLOG_POSTS = [...(Array.isArray(AI_ARTICLES) ? AI_ARTICLES : []), ...STATIC_BLOG_POSTS];
+export const BLOG_POSTS = [...(Array.isArray(AI_ARTICLES) ? AI_ARTICLES : []), ...STATIC_BLOG_POSTS]
+  .sort((a, b) => {
+    const ta = new Date(a.dateISO || a.createdAt || 0).getTime();
+    const tb = new Date(b.dateISO || b.createdAt || 0).getTime();
+    return tb - ta;
+  });
 
 // FUNCIÓN AUXILIAR PARA OBTENER UN ARTÍCULO POR SU SLUG
 export const getBlogPostBySlug = (slug) => {

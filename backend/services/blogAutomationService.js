@@ -408,9 +408,22 @@ const HIGH_RETENTION_TOPIC_IDEAS = [
 class BlogAutomationService {
   constructor() {
     this.isGenerating = false;
+    this.currentStep = 'En espera (cron programado a las 06:00 AM)';
+    this.lastRun = null;
     this.logs = [];
     this.primaryModel = 'gemini-3.6-flash';
     this.fallbackModels = ['gemini-3.5-flash-lite', 'gemini-2.5-flash'];
+  }
+
+  // Próxima hora de ejecución del cron (06:00 AM)
+  getNextScheduledTime() {
+    const now = new Date();
+    const next = new Date(now);
+    next.setHours(6, 0, 0, 0); // 06:00 AM
+    if (now.getTime() >= next.getTime()) {
+      next.setDate(next.getDate() + 1); // Mañana a las 06:00 AM
+    }
+    return next.toISOString();
   }
 
   addLog(msg, type = 'info') {
@@ -787,6 +800,7 @@ class BlogAutomationService {
     }
 
     this.isGenerating = true;
+    this.currentStep = '1/5. Iniciando motor editorial y seleccionando temática con alto CTR...';
     this.addLog('🚀 Iniciando motor editorial inteligente con Gemini 3.6 Flash...', 'info');
 
     try {
@@ -812,10 +826,13 @@ class BlogAutomationService {
         chosenIdea = pool[Math.floor(Math.random() * pool.length)];
       }
 
+      this.currentStep = `2/5. Tema elegido: "${chosenIdea.topic}". Buscando miniatura 16:9 única...`;
       this.addLog(`Tema seleccionado: "${chosenIdea.topic}" (Categoría: ${chosenIdea.category})`, 'info');
 
       // Seleccionar imagen temática única GARANTIZADA DE NO REPETIRSE NUNCA
       const coverPhoto = await this.pickUniqueImage(chosenIdea.imageKey);
+
+      this.currentStep = `3/5. Redactando reportaje en profundidad con Gemini 3.6 Flash...`;
 
       // Fecha actual en hora española
       const now = new Date();
@@ -902,6 +919,7 @@ Asegúrate de:
       };
 
       // Guardar en la base de datos SQLite
+      this.currentStep = '4/5. Guardando en base de datos SQLite y sincronizando frontend...';
       const createdPost = await db.BlogPost.create(articlePayload);
       const articleJson = createdPost.toArticleJSON();
 
@@ -911,16 +929,32 @@ Asegúrate de:
       await this.syncAiArticlesFile();
 
       // 2. Pre-renderizar estáticamente en dist/ si existe
+      this.currentStep = '5/5. Pre-renderizando HTML y actualizando Sitemap y RSS...';
       await this.prerenderArticleInDist(articleJson);
 
       // 3. Notificar a Telegram si está activo
       await this.notifyTelegram(articleJson);
+
+      this.currentStep = `Completado con éxito: "${articleJson.title}". Próxima generación programada para las 06:00 AM.`;
+      this.lastRun = {
+        status: 'success',
+        timestamp: new Date().toISOString(),
+        article: articleJson,
+        modelUsed: this.primaryModel
+      };
 
       return {
         status: 'success',
         article: articleJson
       };
     } catch (err) {
+      this.currentStep = `Error en última ejecución: ${err.message}`;
+      this.lastRun = {
+        status: 'error',
+        timestamp: new Date().toISOString(),
+        error: err.message,
+        modelUsed: this.primaryModel
+      };
       this.addLog(`Error crítico durante la generación editorial: ${err.message}`, 'error');
       return {
         status: 'error',

@@ -71,15 +71,23 @@ router.get('/admin/blog/status', verifyAdmin, async (req, res) => {
     const totalAiPosts = await db.BlogPost.count({ where: { isAiGenerated: true } });
     const totalViews = await db.BlogPost.sum('views') || 0;
     const hasToday = await blogAutomationService.hasArticleForToday();
+    const latestArticles = await db.BlogPost.findAll({
+      order: [['createdAt', 'DESC']],
+      limit: 6
+    });
 
     res.json({
       success: true,
       primaryModel: blogAutomationService.primaryModel,
       fallbackModels: blogAutomationService.fallbackModels,
       isGenerating: blogAutomationService.isGenerating,
+      currentStep: blogAutomationService.currentStep,
+      lastRun: blogAutomationService.lastRun,
+      nextScheduledTime: blogAutomationService.getNextScheduledTime(),
       publishedToday: hasToday,
       totalAiArticles: totalAiPosts,
       totalViews,
+      latestArticles: latestArticles.map(p => p.toArticleJSON()),
       logs: blogAutomationService.getLogs()
     });
   } catch (err) {

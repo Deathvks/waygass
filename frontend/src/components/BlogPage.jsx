@@ -563,7 +563,15 @@ export const BlogPostPage = ({ slug }) => {
 // PORTADA DEL BLOG (ESTILO REVISTA XATAKA)
 // ==============================================================================
 export const BlogIndex = () => {
-  const [posts, setPosts] = useState(BLOG_POSTS);
+  const sortByRecent = (list) => {
+    return [...list].sort((a, b) => {
+      const ta = new Date(a.dateISO || a.createdAt || 0).getTime();
+      const tb = new Date(b.dateISO || b.createdAt || 0).getTime();
+      return tb - ta;
+    });
+  };
+
+  const [posts, setPosts] = useState(() => sortByRecent(BLOG_POSTS));
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
@@ -573,7 +581,7 @@ export const BlogIndex = () => {
         if (data && data.success && Array.isArray(data.articles) && data.articles.length > 0) {
           const apiSlugs = new Set(data.articles.map(a => a.slug));
           const missingLocals = BLOG_POSTS.filter(p => !apiSlugs.has(p.slug));
-          setPosts([...data.articles, ...missingLocals]);
+          setPosts(sortByRecent([...data.articles, ...missingLocals]));
         }
       })
       .catch(() => {});

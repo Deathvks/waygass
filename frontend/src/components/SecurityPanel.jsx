@@ -3,6 +3,7 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import Select from 'react-select';
 import SniffingPanel from './SniffingPanel';
+import EditorialPanel from './EditorialPanel';
 
 const API = import.meta.env.VITE_API_URL || '';
 
@@ -199,16 +200,17 @@ export default function SecurityPanel({ onClose }) {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1">
-            {['overview', 'sniffing', 'logs', 'blocked'].map(t => (
-              <button key={t} onClick={() => setTab(t)} className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
-                {t === 'overview' ? 'Seguridad' : t === 'sniffing' ? 'Sniffing' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
-              </button>
-            ))}
-          </div>
+        <div className="flex gap-1 bg-slate-100 dark:bg-white/5 rounded-xl p-1 overflow-x-auto no-scrollbar">
+          {['overview', 'sniffing', 'editorial', 'logs', 'blocked'].map(t => (
+            <button key={t} onClick={() => setTab(t)} className={`flex-1 min-w-[70px] py-2 text-xs font-bold rounded-lg transition-all whitespace-nowrap ${tab === t ? 'bg-primary text-white shadow-md' : 'text-slate-500'}`}>
+              {t === 'overview' ? 'Seguridad' : t === 'sniffing' ? 'Sniffing' : t === 'editorial' ? 'Editorial IA' : t === 'logs' ? 'Actividad' : 'Bloqueos'}
+            </button>
+          ))}
+        </div>
 
-          {/* TIME FILTERS */}
-                  <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-black rounded-2xl border-0 overflow-visible relative z-40">
+        {/* TIME FILTERS (Solo para vistas de logs y seguridad) */}
+        {tab !== 'sniffing' && tab !== 'editorial' && (
+          <div className="mt-4 flex flex-col gap-3 p-3 bg-white dark:bg-black rounded-2xl border-0 overflow-visible relative z-40">
           <div className="flex flex-col gap-2 relative z-50">
             <label className="text-[10px] font-bold text-slate-500 uppercase ml-1 flex items-center gap-1"><i className="fa-regular fa-clock text-xs"></i> Filtro de Tiempo</label>
             <Select
@@ -313,9 +315,17 @@ export default function SecurityPanel({ onClose }) {
               </div>
             )}
           </div>
+        )}
       </div>
 
       <div className="p-5 space-y-5 flex-1">
+
+        {/* TAB: EDITORIAL IA */}
+        {tab === 'editorial' && (
+          <div className="pb-6">
+            <EditorialPanel />
+          </div>
+        )}
 
         {/* TAB: SNIFFING */}
         {tab === 'sniffing' && (
