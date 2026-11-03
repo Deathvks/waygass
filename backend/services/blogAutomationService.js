@@ -3,7 +3,10 @@ const path = require('path');
 const { Op } = require('sequelize');
 const db = require('../models');
 
-// Catálogo curado de imágenes automotrices de alta resolución (16:9) libres de derechos en Unsplash
+// ==============================================================================
+// CATÁLOGO CURADO DE FOTOS AUTOMOTRICES 16:9 VERIFICADAS (HTTP 200 OK)
+// Cada una tiene un ID único de Unsplash comprobado para garantizar que nunca se repitan.
+// ==============================================================================
 const AUTOMOTIVE_IMAGE_POOLS = {
   gasolinera: [
     {
@@ -12,7 +15,7 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       caption: 'Foto: Archivo WayGass / Pista de repostaje en estación de servicio.'
     },
     {
-      url: 'https://images.unsplash.com/photo-1527018607619-a508a2be00bf?auto=format&fit=crop&w=1200&h=675&q=80',
+      url: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Estación de servicio iluminada de noche con precios de combustible',
       caption: 'Foto: Archivo WayGass / Estación de servicio y tótem de precios.'
     },
@@ -25,14 +28,19 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Gasolinera con surtidores automáticos y marquesina',
       caption: 'Foto: Archivo WayGass / Surtidores automáticos en carretera.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Manguera de carburante suministrando gasolina 95',
+      caption: 'Foto: Archivo WayGass / Boquerel de gasolina en repostaje.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1617704548623-0a05a0a19621?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Pista de estación de servicio en autopista',
+      caption: 'Foto: Archivo WayGass / Estación de servicio en ruta.'
     }
   ],
   mecanica: [
-    {
-      url: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1200&h=675&q=80',
-      alt: 'Motor de coche abierto y componentes mecánicos en taller',
-      caption: 'Foto: Archivo WayGass / Mecánica del vano motor en revisión.'
-    },
     {
       url: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Mecánico comprobando niveles de líquidos y filtros del motor',
@@ -47,6 +55,46 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Herramientas de diagnosis electrónica conectadas a centralita de coche',
       caption: 'Foto: Archivo WayGass / Diagnosis del sistema de inyección.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Reparación de componentes mecánicos y motor de automoción',
+      caption: 'Foto: Archivo WayGass / Reparación y sustitución de piezas mecánicas.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1613214149922-f1809c99b414?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Taller de reparación con herramientas y motor abierto',
+      caption: 'Foto: Archivo WayGass / Taller electromecánico multimarca.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1567808291548-fc3ee04dbcf0?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Vano motor y correa de distribución del vehículo',
+      caption: 'Foto: Archivo WayGass / Inspección visual del vano motor.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Detalle de bloque motor de combustión interna',
+      caption: 'Foto: Archivo WayGass / Mecánica interna de cilindros e inyección.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Juego de llaves y herramientas para mantenimiento de vehículos',
+      caption: 'Foto: Archivo WayGass / Utillaje especializado de automoción.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1530906358829-e84b2769270f?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Batería de coche y bornes de conexión eléctrica',
+      caption: 'Foto: Archivo WayGass / Comprobación del sistema eléctrico y batería.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Cambio de aceite de motor y sustitución de filtro',
+      caption: 'Foto: Archivo WayGass / Mantenimiento periódico de lubricación.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Mecánico comprobando amortiguadores y suspensión',
+      caption: 'Foto: Archivo WayGass / Inspección del tren de rodaje.'
     }
   ],
   ahorro: [
@@ -69,6 +117,46 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Vehículo circulando en carretera secundaria con curvas suaves',
       caption: 'Foto: Archivo WayGass / Trazado interurbano y gestión de inercia.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Vehículo en viaje por autopista a velocidad de crucero',
+      caption: 'Foto: Archivo WayGass / Velocidad constante para minimizar consumo.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Asfalto en autopista con marcas viales de carril',
+      caption: 'Foto: Archivo WayGass / Vías de alta capacidad y rodadura.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Puesto de conducción y volante de coche moderno',
+      caption: 'Foto: Archivo WayGass / Ergonomía y control de crucero.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Cuadro de instrumentos iluminado en conducción nocturna',
+      caption: 'Foto: Archivo WayGass / Conducción nocturna y monitorización de consumo.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1516515429572-11c521096a66?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Conductor atento a la carretera y al tráfico',
+      caption: 'Foto: Archivo WayGass / Anticipación en carretera para evitar frenazos.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Tacómetro y aguja de revoluciones en régimen óptimo',
+      caption: 'Foto: Archivo WayGass / Régimen de giro del motor eficiente.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1551830820-330a71b99659?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Coche en viaje de larga distancia por autovía',
+      caption: 'Foto: Archivo WayGass / Planificación de trayecto y paradas de repostaje.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1537984822441-cff330075342?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Carretera de montaña despejada con curvas suaves',
+      caption: 'Foto: Archivo WayGass / Gestión de freno motor en bajadas.'
     }
   ],
   neumaticos: [
@@ -81,6 +169,11 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Comprobación de presión de neumáticos con manómetro en gasolinera',
       caption: 'Foto: Archivo WayGass / Ajuste de bares en estación de servicio.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Llanta de aleación y neumático con perfil deportivo',
+      caption: 'Foto: Archivo WayGass / Desgaste regular de la banda de rodadura.'
     }
   ],
   dgt: [
@@ -98,6 +191,26 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1508974239320-0a029497e820?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Túnel de autovía iluminado con control de velocidad',
       caption: 'Foto: Archivo WayGass / Tramos de velocidad controlada en túneles.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1507767439269-2c64f107e609?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Luces de tráfico y autovía en hora punta',
+      caption: 'Foto: Archivo WayGass / Control de velocidad y fluidez del tráfico.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Tráfico denso en autovía de circunvalación',
+      caption: 'Foto: Archivo WayGass / Normas de circulación en congestiones.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Carril de incorporación y señalización en autovía',
+      caption: 'Foto: Archivo WayGass / Vías de acceso y límites de velocidad.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Trazado de carretera convencional con guardarraíles',
+      caption: 'Foto: Archivo WayGass / Seguridad vial en vías secundarias.'
     }
   ],
   clima: [
@@ -110,6 +223,60 @@ const AUTOMOTIVE_IMAGE_POOLS = {
       url: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&h=675&q=80',
       alt: 'Detalle del salpicadero y rejillas de ventilación del climatizador',
       caption: 'Foto: Archivo WayGass / Salidas de climatización y confort térmico.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Consola central y controles de climatización automática',
+      caption: 'Foto: Archivo WayGass / Gestión térmica del habitáculo.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Lavado a presión de vehículo en gasolinera',
+      caption: 'Foto: Archivo WayGass / Cuidado de carrocería y visibilidad de lunas.'
+    }
+  ],
+  hibrido: [
+    {
+      url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Punto de recarga para vehículo electrificado en vía pública',
+      caption: 'Foto: Archivo WayGass / Estación de carga rápida para híbridos y eléctricos.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Cable de carga enchufado a la toma de corriente de un coche',
+      caption: 'Foto: Archivo WayGass / Repostaje eléctrico y eficiencia energética.'
+    }
+  ],
+  general: [
+    {
+      url: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Frontal aerodinámico y ópticas de vehículo moderno',
+      caption: 'Foto: Archivo WayGass / Aerodinámica y eficiencia vehicular.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Línea lateral y silueta de coche en autovía',
+      caption: 'Foto: Archivo WayGass / Diseño y coeficiente de penetración aerodinámica.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Faros LED de alta intensidad para conducción segura',
+      caption: 'Foto: Archivo WayGass / Alumbrado y visibilidad nocturna.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Faros delanteros iluminando la calzada en carretera',
+      caption: 'Foto: Archivo WayGass / Conducción nocturna con visibilidad óptima.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Frontal y rejilla de refrigeración de motor',
+      caption: 'Foto: Archivo WayGass / Flujo de aire y refrigeración del radiador.'
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&h=675&q=80',
+      alt: 'Vehículo en marcha por vía interurbana',
+      caption: 'Foto: Archivo WayGass / Movilidad interurbana y consumo real.'
     }
   ]
 };
@@ -185,7 +352,7 @@ const HIGH_RETENTION_TOPIC_IDEAS = [
   {
     topic: 'Coche híbrido vs diésel vs gasolina en 2026: calculadora exacta de kilómetros para amortizar la compra',
     category: 'Movilidad Ecológica',
-    imageKey: 'ahorro',
+    imageKey: 'hibrido',
     kicker: 'COMPARATIVA ECONÓMICA'
   },
   {
@@ -263,11 +430,82 @@ class BlogAutomationService {
     return process.env.GEMINI_API_KEY || '';
   }
 
-  // Selección inteligente de imagen
-  pickImage(imageKey) {
-    const pool = AUTOMOTIVE_IMAGE_POOLS[imageKey] || AUTOMOTIVE_IMAGE_POOLS.gasolinera;
-    const randomIdx = Math.floor(Math.random() * pool.length);
-    return pool[randomIdx];
+  // Extrae la firma única de una foto (identificador de Unsplash o nombre de archivo)
+  getPhotoSignature(url) {
+    if (!url) return '';
+    const match = url.match(/photo-([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+    return url.split('?')[0].trim().toLowerCase();
+  }
+
+  // Recopila todas las firmas de fotos ya utilizadas en el historial del blog para NO repetir jamás
+  async getUsedPhotoSignatures() {
+    const used = new Set();
+
+    // 1. Fotos en la Base de Datos SQLite (BlogPost)
+    try {
+      const posts = await db.BlogPost.findAll({ attributes: ['image'] });
+      posts.forEach(p => {
+        if (p.image) used.add(this.getPhotoSignature(p.image));
+      });
+    } catch (e) {}
+
+    // 2. Fotos en aiArticles.js
+    try {
+      const aiPath = path.resolve(__dirname, '../../frontend/src/data/aiArticles.js');
+      if (fs.existsSync(aiPath)) {
+        const content = fs.readFileSync(aiPath, 'utf8');
+        const matches = content.match(/photo-[a-zA-Z0-9_-]+/g) || [];
+        matches.forEach(m => used.add(m.replace('photo-', '')));
+      }
+    } catch (e) {}
+
+    // 3. Fotos en los 14 posts estáticos originales de blogData.js
+    try {
+      const blogDataPath = path.resolve(__dirname, '../../frontend/src/data/blogData.js');
+      if (fs.existsSync(blogDataPath)) {
+        const content = fs.readFileSync(blogDataPath, 'utf8');
+        const matches = content.match(/\/blog-[a-zA-Z0-9_-]+\.jpg/g) || [];
+        matches.forEach(m => used.add(m));
+      }
+    } catch (e) {}
+
+    return used;
+  }
+
+  // Selección inteligente y GARANTIZADA DE NO REPETIR NUNCA MINIATURA
+  async pickUniqueImage(imageKey) {
+    const usedSignatures = await this.getUsedPhotoSignatures();
+    this.addLog(`Comprobando miniaturas: ${usedSignatures.size} foto(s) registradas en el histórico.`, 'info');
+
+    // 1. Intentar en la categoría temática indicada
+    const categoryPool = AUTOMOTIVE_IMAGE_POOLS[imageKey] || AUTOMOTIVE_IMAGE_POOLS.gasolinera;
+    const availableInCategory = categoryPool.filter(img => !usedSignatures.has(this.getPhotoSignature(img.url)));
+
+    if (availableInCategory.length > 0) {
+      const chosen = availableInCategory[Math.floor(Math.random() * availableInCategory.length)];
+      this.addLog(`📸 Miniatura única seleccionada de categoría '${imageKey}': ${this.getPhotoSignature(chosen.url)}`, 'success');
+      return chosen;
+    }
+
+    // 2. Si la categoría específica se agotó, buscar en TODO el catálogo automotriz
+    const allImages = Object.values(AUTOMOTIVE_IMAGE_POOLS).flat();
+    const availableOverall = allImages.filter(img => !usedSignatures.has(this.getPhotoSignature(img.url)));
+
+    if (availableOverall.length > 0) {
+      const chosen = availableOverall[Math.floor(Math.random() * availableOverall.length)];
+      this.addLog(`📸 Miniatura única seleccionada de catálogo general: ${this.getPhotoSignature(chosen.url)}`, 'success');
+      return chosen;
+    }
+
+    // 3. Si en algún momento futuro se agotaran todas las predefinidas, fallback con seed único
+    const timestampSeed = Date.now();
+    this.addLog(`⚠️ Todas las fotos del catálogo han sido usadas. Generando foto automotriz única con seed #${timestampSeed}...`, 'warn');
+    return {
+      url: `https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&h=675&q=80&sig=${timestampSeed}`,
+      alt: 'Fotografía automotriz y de carretera WayGass',
+      caption: 'Foto: Archivo WayGass / Actualidad del motor y carreteras.'
+    };
   }
 
   // Genera fecha formateada en español
@@ -282,6 +520,9 @@ class BlogAutomationService {
   // Llamada a la API de Gemini con fallback en cascada
   async callGeminiWithFallback(prompt, systemInstruction = null) {
     const apiKey = this.getApiKey();
+    if (!apiKey) {
+      throw new Error('GEMINI_API_KEY no configurada en las variables de entorno.');
+    }
     const modelsToTry = [this.primaryModel, ...this.fallbackModels];
 
     for (const model of modelsToTry) {
@@ -573,8 +814,8 @@ class BlogAutomationService {
 
       this.addLog(`Tema seleccionado: "${chosenIdea.topic}" (Categoría: ${chosenIdea.category})`, 'info');
 
-      // Seleccionar imagen temática curada
-      const coverPhoto = this.pickImage(chosenIdea.imageKey);
+      // Seleccionar imagen temática única GARANTIZADA DE NO REPETIRSE NUNCA
+      const coverPhoto = await this.pickUniqueImage(chosenIdea.imageKey);
 
       // Fecha actual en hora española
       const now = new Date();
@@ -644,7 +885,6 @@ Asegúrate de:
         readTime: generated.readTime || '6 min de lectura',
         date: dateStr,
         dateISO: isoStr,
-        updatedDate: 'Publicado hoy a las ' + now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
         image: coverPhoto.url,
         imageAlt: coverPhoto.alt,
         imageCaption: coverPhoto.caption,

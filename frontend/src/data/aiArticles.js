@@ -1,6 +1,6 @@
 // ==============================================================================
 // WAYGASS EDITORIAL - ARTÍCULOS AUTOMATIZADOS CON IA (GEMINI 3.6 FLASH)
-// Actualizado automáticamente el 2026-11-03T00:47:55.946Z
+// Actualizado automáticamente el 2026-11-03T00:57:52.464Z
 // ==============================================================================
 
 export const AI_ARTICLES = [
@@ -18,8 +18,7 @@ export const AI_ARTICLES = [
     "readTime": "6 min de lectura",
     "date": "3 Nov, 2026",
     "dateISO": "2026-11-03T00:47:31.131Z",
-    "updatedDate": "Publicado hoy a las 00:47",
-    "image": "https://images.unsplash.com/photo-1527018607619-a508a2be00bf?auto=format&fit=crop&w=1200&h=675&q=80",
+    "image": "https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=1200&h=675&q=80",
     "imageAlt": "Estación de servicio iluminada de noche con precios de combustible",
     "imageCaption": "Foto: Archivo WayGass / Estación de servicio y tótem de precios.",
     "excerpt": "Analizamos en laboratorio el combustible de las gasolineras low-cost frente al premium. Descubre si de verdad arriesgas la mecánica de tu coche.",

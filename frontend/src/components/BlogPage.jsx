@@ -466,12 +466,6 @@ export const BlogPostPage = ({ slug }) => {
             <span><i className="fa-regular fa-calendar mr-1"></i>{post.date}</span>
             <span>&bull;</span>
             <span><i className="fa-regular fa-clock mr-1"></i>{post.readTime}</span>
-            {post.updatedDate && (
-              <>
-                <span className="hidden sm:inline">&bull;</span>
-                <span className="hidden sm:inline text-emerald-600 dark:text-emerald-400 font-bold">{post.updatedDate}</span>
-              </>
-            )}
           </div>
         </div>
 

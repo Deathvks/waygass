@@ -151,7 +151,6 @@ module.exports = (sequelize, DataTypes) => {
       readTime: raw.readTime || '6 min de lectura',
       date: raw.date,
       dateISO: raw.dateISO,
-      updatedDate: raw.updatedDate,
       image: raw.image,
       imageAlt: raw.imageAlt || raw.title,
       imageCaption: raw.imageCaption || `Foto: Archivo WayGass / ${raw.title}`,
